@@ -1,0 +1,59 @@
+name: 🕛 Changelog
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/services/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: changelog
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: 🕛 Log what changed
+    if: github.repository_owner == 'NotAFlightRisk'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      HAS_BOT: ${{ secrets.BOT_PRIVATE_KEY != '' }}
+      FILE: .github/changelog.json
+    steps:
+      - uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
+        id: bot
+        if: env.HAS_BOT == 'true'
+        with:
+          client-id: Iv23liPIG7E12UlaQMaD
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+          permission-contents: write
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - run: npm ci
+      - run: npm run -s changelog >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit it to main
+        env:
+          GH_TOKEN: ${{ steps.bot.outputs.token || github.token }}
+        run: |
+          if [ -z "$(git status --porcelain -- "$FILE")" ]; then
+            echo "Nothing new to log" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          sha=$(git rev-parse -q --verify "HEAD:$FILE" || true)
+          base64 -w0 "$FILE" > "$RUNNER_TEMP/changelog"
+          gh api -X PUT "repos/$GITHUB_REPOSITORY/contents/$FILE" \
+            -f message='docs: update the changelog' -f branch=main ${sha:+-f sha="$sha"} \
+            -F content=@"$RUNNER_TEMP/changelog" \
+            --jq '"✅ Committed [\(.commit.sha[:7])](\(.commit.html_url))"' >> "$GITHUB_STEP_SUMMARY"

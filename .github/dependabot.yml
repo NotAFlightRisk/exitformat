@@ -1,50 +1,69 @@
-# Keeps dependencies patched. Trim the ecosystems to match the project.
+# Keeps dependencies patched, a week after each release so a bad one gets caught first
 # Docs: https://docs.github.com/code-security/dependabot/working-with-dependabot/dependabot-options-reference
 
 version: 2
 
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
+    cooldown:
+      default-days: 7
     labels:
-      - "dependencies"
-      - "ci"
+      - 'dependencies'
+      - 'ci'
     commit-message:
-      prefix: "chore"
-      include: "scope"
+      prefix: 'chore'
+      include: 'scope'
 
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 10
+    ignore:
+      # kit's peer range stops at TypeScript 6 for now
+      - dependency-name: 'typescript'
+        update-types: ['version-update:semver-major']
     labels:
-      - "dependencies"
-      - "javascript"
+      - 'dependencies'
+      - 'javascript'
     commit-message:
-      prefix: "chore"
-      include: "scope"
+      prefix: 'chore'
+      include: 'scope'
     groups:
       # One PR for the routine bumps, rather than fifteen
       minor-and-patch:
         update-types:
-          - "minor"
-          - "patch"
+          - 'minor'
+          - 'patch'
+      # Security fixes land as one PR too
+      security:
+        applies-to: security-updates
+        patterns:
+          - '*'
       svelte:
         patterns:
-          - "svelte"
-          - "@sveltejs/*"
-          - "vite"
+          - 'svelte'
+          - '@sveltejs/*'
+          - 'vite'
+      # The SDK and its build plugin, so a major bump moves them together
+      sentry:
+        patterns:
+          - '@sentry/*'
 
-  - package-ecosystem: "docker"
-    directory: "/"
+  - package-ecosystem: 'docker'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
+    cooldown:
+      default-days: 7
     labels:
-      - "dependencies"
-      - "docker"
+      - 'dependencies'
+      - 'docker'
     commit-message:
-      prefix: "chore"
-      include: "scope"
+      prefix: 'chore'
+      include: 'scope'
