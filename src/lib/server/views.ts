@@ -1,3 +1,4 @@
+import type { Opening } from '#lib/data/compat.ts';
 import {
   changeKinds,
   changeSections,
@@ -21,6 +22,7 @@ import {
   type LogEntry,
   type Migration,
   type MigrationCard,
+  type OpeningView,
   type OptionView,
   type Path,
   type PathView,
@@ -177,6 +179,19 @@ export const busiest = (list: Service[]) => {
   const moves = ({ id }: Service) => migrationsFrom(id).length + migrationsTo(id).length;
   return list.toSorted((a, b) => moves(b) - moves(a));
 };
+
+export const openingView = ({ format, conversion, services, more }: Opening): OpeningView => ({
+  kind: term(pathKinds, conversion ? 'convert' : 'file'),
+  format: formatLink(format),
+  conversion: conversion && {
+    from: formatLink(conversion.from),
+    to: formatLink(conversion.to),
+    tool: conversion.tool,
+    href: href.conversion(conversion.from, conversion.to)
+  },
+  services: services.map(serviceLink),
+  more
+});
 
 export const categoryCard = (found: Category): CategoryCard => ({
   ...categoryLink(found),

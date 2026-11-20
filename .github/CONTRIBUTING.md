@@ -80,11 +80,12 @@ Formats are in `data/formats/`, one per file:
 name: 2FAS backup
 extensions: [.2fas]
 standard: false # true for an open format any app can read, false for one app's own
+owner: 2fas # optional, the service whose own format it is, once we list that service
 based_on: json # optional, the format underneath
 description: The backup file 2FAS Auth writes. It's JSON underneath, and a password encrypts the tokens.
 ```
 
-Use a shared format (`markdown`, `csv`, `json`, `html`, `pdf`, `otpauth-uri`...) when that's really what the file is, and give an app's own format an id like `notion-html` or `joplin-jex`. Formats can have a `spec` link and `conversions` too, which are a tool and 2-4 steps that turn the file into another format. That's how two apps with no format in common still get a migration page, so only add one for a real gap.
+Use a shared format (`markdown`, `csv`, `json`, `html`, `pdf`, `otpauth-uri`...) when that's really what the file is, and give an app's own format an id like `notion-html` or `joplin-jex`. Set `owner` on an app's own format when that app's in `data/services`, since it decides which moves get a step-by-step guide - an importer that reads 2FAS's backup was made for 2FAS. Leave it off when the owner's not listed yet, or when it's an app format other apps write too (Aegis exports Google Authenticator's QR codes, but the importers for them weren't made for Aegis). Moves through those, and through open formats, get listed by format on each app's page instead. Adding a service? Set `owner` on its own formats and `from` on any importer named after it. Formats can have a `spec` link and `conversions` too, which are a tool and 2-4 steps that turn the file into another format. That's how two apps with no format in common still show up as a way to move, so only add one for a real gap.
 
 Categories are in `data/categories/`, and each one's `data` list is the vocabulary every service in it uses, so changing it touches all of them. [Open an issue](https://github.com/NotAFlightRisk/exitformat/issues/new?template=feature_request.yml) before adding a category or reworking its list.
 

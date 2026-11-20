@@ -2,7 +2,7 @@ import { existsSync, readdirSync } from 'node:fs';
 import { relative, resolve } from 'node:path';
 import { changelogFile, readChangelog } from '#lib/data/changes.ts';
 import { check } from '#lib/data/check.ts';
-import { migrations as findMigrations } from '#lib/data/compat.ts';
+import { migrations as findMigrations, openings, paths } from '#lib/data/compat.ts';
 import { loadSources, toDirectory } from '#lib/data/load.ts';
 import type { LogEntry, Service } from '#lib/data/types.ts';
 
@@ -34,6 +34,7 @@ function index() {
   return {
     ...directory,
     migrations,
+    open: openings(directory, migrations),
     category: byId(categories),
     format: byId(formats),
     service: byId(services),
@@ -70,6 +71,10 @@ export const exporters = (format: string) => db().exporters.get(format) ?? [];
 export const importers = (format: string) => db().importers.get(format) ?? [];
 export const migrationsFrom = (service: string) => db().from.get(service) ?? [];
 export const migrationsTo = (service: string) => db().to.get(service) ?? [];
+export const openingsFrom = (found: Service) => db().open(found, 'out');
+export const openingsTo = (found: Service) => db().open(found, 'in');
+export const pathsBetween = (source: Service, destination: Service) =>
+  paths(source, destination, db().format);
 
 /** The local copy npm run icons saved for a service, if it's managed to get one */
 export const icon = (service: string) =>

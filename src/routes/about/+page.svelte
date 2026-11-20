@@ -15,7 +15,7 @@
   const facts = $derived([
     { label: 'Services', value: String(data.counts.services) },
     { label: 'File formats', value: String(data.counts.formats) },
-    { label: 'Ways to move', value: String(data.counts.migrations) },
+    { label: 'Move guides', value: String(data.counts.migrations) },
     { label: 'Last checked', value: formatDate(data.checked) },
     { label: 'Licence', value: 'MIT', href: `${site.repo}/blob/main/LICENSE` }
   ]);
@@ -39,8 +39,9 @@
   ];
 
   const ease: Record<string, string> = {
-    direct: "The app you're moving to has an importer made for the one you're leaving.",
-    file: 'One app exports a file the other can import.',
+    direct:
+      "The app you're moving to has an importer made for the one you're leaving, so the move gets its own guide.",
+    file: 'They share a file format, like Markdown or CSV, so one app exports a file the other can import.',
     convert: "There's no file they both read, but a tool can turn one into the other."
   };
 

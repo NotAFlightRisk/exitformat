@@ -1,6 +1,7 @@
 name: Scribble export
 extensions: [.zip]
 standard: false
+owner: scribble
 description: A zip of everything in a Scribble workspace.
 conversions:
   - to: html

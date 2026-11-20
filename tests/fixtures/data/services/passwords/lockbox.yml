@@ -32,6 +32,14 @@ import:
       - Open Settings, then Import.
       - Pick the file Keyring saved.
     docs: https://example.com/lockbox/keyring
+  - id: pass
+    name: Import a Pass file
+    method: file
+    formats: [pass-export]
+    steps:
+      - Open Settings, then Import.
+      - Pick the Pass file.
+    docs: https://example.com/lockbox/pass
 
 verification:
   status: documented

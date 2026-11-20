@@ -1,0 +1,33 @@
+name: Vaultkeep
+website: https://example.com/vaultkeep
+description: A made-up password manager that writes other apps' formats.
+deployment: cloud
+platforms: [web]
+
+export:
+  - id: pass
+    name: Export a Pass file
+    method: file
+    formats: [pass-export]
+    steps:
+      - Open Settings, then Export.
+      - Pick Pass export.
+    data:
+      included: [logins, codes]
+    docs: https://example.com/vaultkeep/pass
+  - id: tokenbox
+    name: Export for Tokenbox
+    method: file
+    formats: [tokenbox-backup]
+    steps:
+      - Open Settings, then Export.
+      - Pick Tokenbox backup.
+    data:
+      included: [codes]
+    docs: https://example.com/vaultkeep/tokenbox
+
+import: []
+
+verification:
+  status: documented
+  checked_at: 2026-11-14

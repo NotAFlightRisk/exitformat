@@ -6,7 +6,7 @@ export const load = () => {
   return {
     meta: {
       title: 'Move your data from one app to another',
-      description: `${count} ways to move your data between apps, and what survives the trip.`
+      description: `${count} step-by-step guides to moving your data between apps, and what survives the trip.`
     },
     crumbs: crumbs({ name: 'Migrate', href: '/migrate' }),
     groups: categories()

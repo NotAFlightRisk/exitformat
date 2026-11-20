@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { better, carry, migrations, paths } from '#lib/data/compat.ts';
+import { better, carry, guided, migrations, openings, paths } from '#lib/data/compat.ts';
 import { loadSources, toDirectory } from '#lib/data/load.ts';
 import type { Path } from '#lib/data/types.ts';
 
@@ -67,6 +67,38 @@ describe('paths', () => {
 
   it("never passes off a file importer as a sign-in when the source can't make the file", () => {
     expect(routes('keyring', 'lockbox').map((path) => path.import.id)).toEqual(['json']);
+  });
+
+  it('counts an importer named for the source as direct', () => {
+    expect(routes('otpvault', 'keyring').map(({ kind }) => kind)).toEqual(['direct']);
+  });
+
+  it("counts an importer for the source's own format as direct, even with no from", () => {
+    expect(routes('tokenbox', 'keyring')).toEqual([
+      expect.objectContaining({ kind: 'direct', formats: ['tokenbox-backup'] })
+    ]);
+  });
+
+  it("never counts a third app writing someone else's format as direct", () => {
+    expect(
+      routes('vaultkeep', 'lockbox')
+        .filter(({ formats }) => formats.includes('tokenbox-backup'))
+        .map(({ kind }) => kind)
+    ).toEqual(['file']);
+  });
+
+  it('counts an app format nobody we list owns as a file route', () => {
+    expect(
+      routes('vaultkeep', 'lockbox')
+        .filter(({ formats }) => formats.includes('pass-export'))
+        .map(({ kind }) => kind)
+    ).toEqual(['file']);
+  });
+
+  it('keeps a shared open format as a file route', () => {
+    expect(routes('keyring', 'tokenbox').map(({ kind, formats }) => [kind, formats])).toEqual([
+      ['file', ['otpauth-uri']]
+    ]);
   });
 });
 
@@ -139,6 +171,18 @@ describe('carry', () => {
 });
 
 describe('migrations', () => {
+  it('gives a pair a guide only when one of its routes is direct', () => {
+    expect(guided(routes('scribble', 'jotter'))).toBe(true);
+    expect(guided(routes('quill', 'jotter'))).toBe(false);
+    expect(guided(routes('scribble', 'papyrus'))).toBe(false);
+  });
+
+  it('leaves out two apps in one category that only share an open format', () => {
+    expect(routes('keyring', 'tokenbox')).not.toEqual([]);
+    expect(migration('keyring', 'tokenbox')).toBeUndefined();
+    expect(migration('quill', 'jotter')).toBeUndefined();
+  });
+
   it('skips a shared standard format between two categories', () => {
     expect(migration('keyring', 'jotter')).toBeUndefined();
     expect(migration('otpvault', 'lockbox')).toBeUndefined();
@@ -146,7 +190,7 @@ describe('migrations', () => {
 
   it("links two categories through one app's own format", () => {
     expect(migration('tokenbox', 'lockbox')?.paths).toEqual([
-      expect.objectContaining({ kind: 'file', formats: ['tokenbox-backup'] })
+      expect.objectContaining({ kind: 'direct', formats: ['tokenbox-backup'] })
     ]);
   });
 
@@ -154,11 +198,106 @@ describe('migrations', () => {
     expect(migration('otpvault', 'jotter')?.paths.map(({ kind }) => kind)).toEqual(['direct']);
   });
 
-  it('links services in one category through a shared format', () => {
-    expect(migration('keyring', 'tokenbox')?.paths.map(({ kind }) => kind)).toEqual(['file']);
+  it('keeps the file routes alongside the direct one in a category', () => {
+    expect(migration('scribble', 'jotter')?.paths.map(({ kind }) => kind)).toEqual([
+      'direct',
+      'file'
+    ]);
+  });
+
+  it('gives no guide to apps that only share a format someone else owns', () => {
+    expect(migration('vaultkeep', 'lockbox')).toBeUndefined();
+    expect(migration('vaultkeep', 'keyring')).toBeUndefined();
+  });
+
+  it('lists exactly the pairs guided() says get a guide', () => {
+    for (const source of directory.services)
+      for (const destination of directory.services)
+        if (source !== destination)
+          expect([
+            source.id,
+            destination.id,
+            Boolean(migration(source.id, destination.id))
+          ]).toEqual([source.id, destination.id, guided(paths(source, destination, formats))]);
   });
 
   it('never sends a service to itself', () => {
     expect(found.filter(({ source, destination }) => source === destination)).toEqual([]);
+  });
+});
+
+describe('openings', () => {
+  const listed = (id: string, side: 'out' | 'in', from = directory) => {
+    const { rows, reach } = openings(from, migrations(from))(
+      from.services.find((found) => found.id === id)!,
+      side
+    );
+    const shown = rows.map(({ format, conversion, services, more }) => ({
+      format,
+      via: conversion?.from,
+      services: services.map(({ id }) => id),
+      more
+    }));
+    return { shown, reach };
+  };
+  const row = (format: string, services: string[], via?: string, more = 0) => ({
+    format,
+    via,
+    services,
+    more
+  });
+
+  it('groups the apps that only share an open format by that format', () => {
+    expect(listed('quill', 'out')).toEqual({
+      shown: [row('markdown', ['jotter', 'scribble'])],
+      reach: 2
+    });
+  });
+
+  it('leaves out apps with a guide and apps in other categories, but counts them all in reach', () => {
+    expect(listed('jotter', 'in')).toEqual({ shown: [row('markdown', ['quill'])], reach: 3 });
+  });
+
+  it('falls back to a conversion when there is no shared format', () => {
+    expect(listed('scribble', 'out').shown).toEqual([row('html', ['papyrus'], 'scribble-zip')]);
+  });
+
+  it("lists an app format nobody owns, and someone else's, once there's no guide", () => {
+    expect(listed('vaultkeep', 'out').shown).toEqual([
+      row('pass-export', ['lockbox']),
+      row('tokenbox-backup', ['lockbox'])
+    ]);
+  });
+
+  it('shows four apps a row, most guides first, and counts the rest', () => {
+    const clone = (at: number) => ({
+      ...service('scribble'),
+      id: `scribble-${at}`,
+      name: `Zed ${at}`
+    });
+    const crowd = {
+      ...directory,
+      services: [...directory.services, ...Array.from({ length: 6 }, (_, at) => clone(at))]
+    };
+    expect(listed('quill', 'out', crowd).shown).toEqual([
+      row('markdown', ['jotter', 'scribble', 'scribble-0', 'scribble-1'], undefined, 4)
+    ]);
+  });
+
+  it('lists an app under one conversion, however many reach it', () => {
+    const twice = {
+      ...directory,
+      formats: directory.formats.map((format) =>
+        format.id === 'scribble-zip'
+          ? {
+              ...format,
+              conversions: [...format.conversions, { ...format.conversions[0], tool: 'Rezipper' }]
+            }
+          : format
+      )
+    };
+    expect(listed('scribble', 'out', twice).shown).toEqual([
+      row('html', ['papyrus'], 'scribble-zip')
+    ]);
   });
 });

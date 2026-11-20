@@ -79,6 +79,8 @@ export interface Format {
   name: string;
   extensions: string[];
   standard: boolean;
+  /** the service whose own format it is, when we list that service */
+  owner?: string;
   based_on?: string;
   description: string;
   spec?: string;
@@ -272,6 +274,14 @@ export interface MigrationCard {
   carried: number;
   lost: number;
   unknown: number;
+}
+
+export interface OpeningView {
+  kind: Term;
+  format: FormatLink;
+  conversion?: { from: FormatLink; to: FormatLink; tool: string; href: string };
+  services: ServiceLink[];
+  more: number;
 }
 
 export interface CategoryCard extends CategoryLink {

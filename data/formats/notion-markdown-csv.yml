@@ -1,6 +1,7 @@
 name: Notion Markdown & CSV export
 extensions: [.zip]
 standard: false
+owner: notion
 based_on: zip
 description: Notion's default export - a zip with a Markdown file for each page and a CSV for each database, subpages in folders. Every file and folder name ends in Notion's 32-character page ID, and callouts come out as HTML since Markdown has nothing like them.
 conversions:

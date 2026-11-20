@@ -14,7 +14,7 @@
   let { data } = $props();
 
   const titles: Record<SearchResult['kind'], string> = {
-    migration: 'Ways to move',
+    migration: 'Move guides',
     service: 'Services',
     format: 'File formats',
     category: 'Categories'
@@ -148,7 +148,7 @@
 
 <Section id="browse" title="Browse by category">
   {#snippet aside()}
-    Or see every <a href="/formats">file format</a> and <a href="/migrate">way to move</a>
+    Or see every <a href="/formats">file format</a> and <a href="/migrate">move guide</a>
   {/snippet}
   <CategoryList categories={data.categories} />
 </Section>

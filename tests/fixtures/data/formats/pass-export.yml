@@ -1,0 +1,4 @@
+name: Pass export
+standard: false
+based_on: json
+description: An export two made-up password managers share, and neither of them made.

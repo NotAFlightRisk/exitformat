@@ -21,7 +21,7 @@
       { total: formats, label: plural(formats, 'file format'), href: '/formats' },
       {
         total: migrations,
-        label: plural(migrations, 'way to move', 'ways to move'),
+        label: plural(migrations, 'move guide'),
         href: '/migrate'
       }
     ];
@@ -45,7 +45,7 @@
     <h2>Easiest moves</h2>
     <div class="wide"><MigrationList moves={data.featured} key /></div>
     <div class="narrow"><MigrationList moves={data.perCategory} key /></div>
-    <a class="more" href="/migrate">Every way to move</a>
+    <a class="more" href="/migrate">Every move guide</a>
   </div>
 </section>
 

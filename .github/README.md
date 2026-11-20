@@ -40,16 +40,18 @@ It's all built from YAML in [`data/`](../data), one file per entry. Services liv
 
 The same data's served as JSON too, if you want it for your own project:
 
-| URL                                                                      | What's in it                                                                                                                                                                                  |
-| ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`/api/directory.json`](https://exitformat.peng.ly/api/directory.json)   | Every category, format and service in one file, with the migrations worked out                                                                                                                |
-| [`/schema/service.json`](https://exitformat.peng.ly/schema/service.json) | The JSON Schema for a service file, with [`category.json`](https://exitformat.peng.ly/schema/category.json) and [`format.json`](https://exitformat.peng.ly/schema/format.json) for the others |
+| URL                                                                                                | What's in it                                                                                                                                                                                  |
+| -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`/api/directory.json`](https://exitformat.peng.ly/api/directory.json)                             | Every category, format and service in one file. A service's `icon` is our hosted copy (or null), not the link in its YAML                                                                     |
+| [`/api/routes.json`](https://exitformat.peng.ly/api/routes.json)                                   | Every move with a step-by-step guide, its link, and how much of your data makes it across                                                                                                     |
+| [`/api/services/notes/obsidian.json`](https://exitformat.peng.ly/api/services/notes/obsidian.json) | One service at `/api/services/<category>/<id>.json`, with the formats it reads and writes and its guided moves in and out                                                                     |
+| [`/schema/service.json`](https://exitformat.peng.ly/schema/service.json)                           | The JSON Schema for a service file, with [`category.json`](https://exitformat.peng.ly/schema/category.json) and [`format.json`](https://exitformat.peng.ly/schema/format.json) for the others |
 
 ---
 
 ## The site
 
-Search for an app on [exitformat.peng.ly](https://exitformat.peng.ly), or browse the [categories](https://exitformat.peng.ly/categories). Each service has a page (like [/notes/obsidian](https://exitformat.peng.ly/notes/obsidian)), with its exports and imports, where it can move to, and how to close your account if it has one. We've also got guides for transfering between two apps, where possible (like [/migrate/notion/obsidian](https://exitformat.peng.ly/migrate/notion/obsidian)), and a page for each [file format](https://exitformat.peng.ly/formats).
+Search for an app on [exitformat.peng.ly](https://exitformat.peng.ly), or browse the [categories](https://exitformat.peng.ly/categories). Each service has a page (like [/notes/obsidian](https://exitformat.peng.ly/notes/obsidian)), with its exports and imports, where it can move to, and how to close your account if it has one. We've also got guides for transferring between two apps, where one has an importer made for the other (like [/migrate/notion/obsidian](https://exitformat.peng.ly/migrate/notion/obsidian)), and a page for each [file format](https://exitformat.peng.ly/formats) with everything that reads and writes it.
 
 ---
 

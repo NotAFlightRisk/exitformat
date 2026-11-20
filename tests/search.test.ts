@@ -45,26 +45,45 @@ describe('search', () => {
 
   it('turns "X to Y" into the migration when there is one', () => {
     for (const query of [
-      'keyring to tokenbox',
-      'from Keyring to Tokenbox',
-      'move keyring -> tokenbox',
-      'keyring → tok'
+      'tokenbox to keyring',
+      'from Tokenbox to Keyring',
+      'move tokenbox -> keyring',
+      'tokenbox → keyr'
     ])
       expect(top(query)).toEqual({
         kind: 'migration',
-        name: 'Keyring to Tokenbox',
-        href: '/migrate/keyring/tokenbox',
+        name: 'Tokenbox to Keyring',
+        href: '/migrate/tokenbox/keyring',
         detail: '',
         icon: null,
         route: {
-          source: { name: 'Keyring', icon: null },
-          destination: { name: 'Tokenbox', icon: null },
-          kind: { id: 'file', label: 'Same file format' },
+          source: { name: 'Tokenbox', icon: null },
+          destination: { name: 'Keyring', icon: null },
+          kind: { id: 'direct', label: 'Built-in importer' },
           carried: 2,
-          lost: 2,
-          unknown: 0
+          lost: 1,
+          unknown: 1
         }
       });
+  });
+
+  it('points "X to Y" at the format they share when there is no guide', () => {
+    expect(
+      search(index, 'keyring to tokenbox').map(({ kind, name, detail }) => [kind, name, detail])
+    ).toEqual([
+      ['format', 'otpauth links', 'Keyring exports it, Tokenbox imports it'],
+      ['service', 'Keyring', '2FA'],
+      ['service', 'Tokenbox', '2FA']
+    ]);
+  });
+
+  it('only indexes moves that have a guide', () => {
+    const place = (id: string) => index.services.findIndex((service) => service.id === id);
+    expect(index.services[place('keyring')].to).toEqual([]);
+    expect(index.services[place('tokenbox')].to).toEqual([
+      [place('keyring'), 2, 1, 1],
+      [place('lockbox'), 3, 0, 1]
+    ]);
   });
 
   it('shows both ends but no migration when there is no way between them', () => {

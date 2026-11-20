@@ -2,12 +2,10 @@
   import Facts from '#lib/components/Facts.svelte';
   import Icon from '#lib/components/Icon.svelte';
   import PageHead from '#lib/components/PageHead.svelte';
-  import PathBadge from '#lib/components/PathBadge.svelte';
-  import RouteKey from '#lib/components/RouteKey.svelte';
   import Section from '#lib/components/Section.svelte';
   import ServiceLink from '#lib/components/ServiceLink.svelte';
   import Tile from '#lib/components/Tile.svelte';
-  import { pathKinds, type MigrationCard, type ServiceLink as Service } from '#lib/data/types.ts';
+  import type { MigrationCard, ServiceLink as Service } from '#lib/data/types.ts';
   import { count } from '#lib/text.ts';
 
   let { data } = $props();
@@ -16,12 +14,12 @@
   let to = $state('');
 
   const all = $derived(data.groups.flatMap((group) => group.migrations));
+  const apps = (side: 'source' | 'destination') =>
+    String(new Set(all.map((move) => move[side].id)).size);
   const facts = $derived([
-    { label: 'Ways to move', value: String(all.length) },
-    ...Object.entries(pathKinds).map(([id, label]) => ({
-      label,
-      value: String(all.filter(({ kind }) => kind.id === id).length)
-    }))
+    { label: 'Move guides', value: String(all.length) },
+    { label: 'Apps you can leave', value: apps('source') },
+    { label: 'Apps you can move to', value: apps('destination') }
   ]);
 
   const folded = (text: string) => text.toLowerCase().normalize('NFKD').replace(/\p{M}/gu, '');
@@ -68,28 +66,28 @@
   >
 </svelte:head>
 
-<PageHead title={data.meta.title} lede={data.meta.description}>
+<PageHead
+  title={data.meta.title}
+  lede="Each one's a move where the app you're going to has an importer made for the one you're leaving. Apps that just share a file format, like Markdown or CSV, are listed on each app's page instead."
+>
   <Facts items={facts} />
 </PageHead>
 
-<div class="find">
-  <form
-    class="toolbar needs-js"
-    aria-label="Filter the moves"
-    onsubmit={(event) => event.preventDefault()}
-  >
-    <label class="field">
-      <span>From</span>
-      <input type="search" bind:value={from} placeholder="Any app" autocomplete="off" />
-    </label>
-    <label class="field">
-      <span>To</span>
-      <input type="search" bind:value={to} placeholder="Any app" autocomplete="off" />
-    </label>
-    <p class="shown" aria-live="polite">Showing {shown} of {all.length}</p>
-  </form>
-  <RouteKey marks={false} />
-</div>
+<form
+  class="toolbar needs-js"
+  aria-label="Filter the moves"
+  onsubmit={(event) => event.preventDefault()}
+>
+  <label class="field">
+    <span>From</span>
+    <input type="search" bind:value={from} placeholder="Any app" autocomplete="off" />
+  </label>
+  <label class="field">
+    <span>To</span>
+    <input type="search" bind:value={to} placeholder="Any app" autocomplete="off" />
+  </label>
+  <p class="shown" aria-live="polite">Showing {shown} of {all.length}</p>
+</form>
 
 {#each groups as group (group.category)}
   <Section id={group.category.id} title={group.category.name}>
@@ -109,17 +107,14 @@
                 <a href={move.href}>
                   <span class="lead"><Icon name="arrow" /></span>
                   <Tile name={move.destination.name} icon={move.destination.icon} size="sm" />
-                  <span class="text">
-                    <span class="name">
-                      <span class="visually-hidden">Move from {row.source.name} to</span>
-                      {move.destination.name}
-                      {#if move.destination.category.id !== group.category.id}
-                        <span class="category">
-                          {move.destination.category.short ?? move.destination.category.name}
-                        </span>
-                      {/if}
-                    </span>
-                    <PathBadge kind={move.kind} />
+                  <span class="name">
+                    <span class="visually-hidden">Move from {row.source.name} to</span>
+                    {move.destination.name}
+                    {#if move.destination.category.id !== group.category.id}
+                      <span class="category">
+                        {move.destination.category.short ?? move.destination.category.name}
+                      </span>
+                    {/if}
                   </span>
                 </a>
               </li>
@@ -136,11 +131,6 @@
 {/each}
 
 <style>
-  .find {
-    display: grid;
-    gap: var(--space-1);
-  }
-
   .toolbar {
     display: flex;
     flex-wrap: wrap;
@@ -281,12 +271,6 @@
         padding-inline: var(--space-2) var(--space-4);
       }
     }
-  }
-
-  .text {
-    display: grid;
-    gap: var(--space-1);
-    min-inline-size: 0;
   }
 
   .lead {

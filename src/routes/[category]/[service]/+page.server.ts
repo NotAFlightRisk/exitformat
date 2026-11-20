@@ -4,10 +4,19 @@ import {
   changesTo,
   migrationsFrom,
   migrationsTo,
+  openingsFrom,
+  openingsTo,
   service,
   services
 } from '#lib/server/directory.ts';
-import { andList, changeView, crumbs, migrationCard, serviceView } from '#lib/server/views.ts';
+import {
+  andList,
+  changeView,
+  crumbs,
+  migrationCard,
+  openingView,
+  serviceView
+} from '#lib/server/views.ts';
 import { href } from '#lib/site.ts';
 
 export const entries = () => services().map(({ id, category }) => ({ category, service: id }));
@@ -19,6 +28,7 @@ export const load = ({ params }) => {
   const view = serviceView(found);
   const formats = andList(view.exports.map(({ name }) => name));
   const as = formats ? ` as ${formats}` : '';
+  const [out, into] = [openingsFrom(found), openingsTo(found)];
 
   return {
     meta: {
@@ -36,6 +46,9 @@ export const load = ({ params }) => {
     service: view,
     moveTo: migrationsFrom(found.id).map(migrationCard),
     bringFrom: migrationsTo(found.id).map(migrationCard),
+    opensIn: out.rows.map(openingView),
+    takesFrom: into.rows.map(openingView),
+    reach: { out: out.reach, in: into.reach },
     changes: changesTo(found.id).map(changeView)
   };
 };

@@ -4,7 +4,8 @@
   import Tile from '#lib/components/Tile.svelte';
   import type { ServiceLink as Service, Term } from '#lib/data/types.ts';
 
-  type Cell = { href: string; kind: Term } | null;
+  // via is the format a cell links to when there's no guide for the move
+  type Cell = { href: string; kind: Term; via?: string } | null;
 
   let { services, rows }: { services: Service[]; rows: Cell[][] } = $props();
 
@@ -46,7 +47,11 @@
               {#if cell}
                 <a href={cell.href} onfocus={on(rowIndex, col)} onblur={off}>
                   <span class="visually-hidden">
-                    Move from {from.name} to {services[col].name}:
+                    {#if cell.via}
+                      {from.name} to {services[col].name} through {cell.via}:
+                    {:else}
+                      Move from {from.name} to {services[col].name}:
+                    {/if}
                   </span>
                   <PathBadge kind={cell.kind} bare />
                 </a>

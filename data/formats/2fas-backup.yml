@@ -1,5 +1,6 @@
 name: 2FAS backup
 extensions: [.2fas]
 standard: false
+owner: 2fas
 based_on: json
 description: The backup file 2FAS Auth writes on Android and iOS. It's JSON underneath, and a password, if you set one, encrypts the tokens but leaves group names readable.

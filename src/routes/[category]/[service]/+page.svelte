@@ -5,8 +5,10 @@
   import JsonLd from '#lib/components/JsonLd.svelte';
   import MenuText from '#lib/components/MenuText.svelte';
   import MigrationList from '#lib/components/MigrationList.svelte';
+  import Openings from '#lib/components/Openings.svelte';
   import OptionPanel from '#lib/components/OptionPanel.svelte';
   import PageHead from '#lib/components/PageHead.svelte';
+  import RouteKey from '#lib/components/RouteKey.svelte';
   import Section from '#lib/components/Section.svelte';
   import Sources from '#lib/components/Sources.svelte';
   import Steps from '#lib/components/Steps.svelte';
@@ -22,7 +24,7 @@
   const facts = $derived([
     { label: 'Ways out', value: String(service.export.length) },
     { label: 'Formats you get', value: String(service.exports.length) },
-    { label: 'Can move to', value: count(data.moveTo.length, 'app') },
+    { label: 'Can move to', value: count(data.reach.out, 'app') },
     {
       label: 'Checked',
       value: formatDate(checked.checked) + (checked.stale ? ', over a year ago' : '')
@@ -38,11 +40,15 @@
   const contents = $derived([
     { id: 'export', label: 'Export', total: service.export.length },
     { id: 'import', label: 'Import', total: service.import.length },
-    { id: 'move', label: 'Move to', total: data.moveTo.length },
-    { id: 'bring', label: 'Bring in from', total: data.bringFrom.length },
+    { id: 'move', label: 'Move to', total: data.reach.out },
+    { id: 'bring', label: 'Bring in from', total: data.reach.in },
     ...(service.delete ? [{ id: 'delete', label: 'Delete your data' }] : []),
     { id: 'entry', label: 'About this entry' }
   ]);
+
+  // one key a page, under the first list of moves
+  const moving = $derived(data.moveTo.length + data.opensIn.length > 0);
+  const guided = $derived(data.moveTo.length + data.bringFrom.length > 0);
 
   const guides = $derived({
     '@context': 'https://schema.org',
@@ -112,18 +118,22 @@
     </Section>
 
     <Section id="move" title="Move from {service.name} to another app">
-      {#if data.moveTo.length}
-        <MigrationList moves={data.moveTo} show="destination" key />
+      {#if data.moveTo.length}<MigrationList moves={data.moveTo} show="destination" />{/if}
+      {#if data.opensIn.length}<Openings openings={data.opensIn} side="out" />{/if}
+      {#if moving}
+        <RouteKey marks={guided} />
       {:else}
         <p class="empty">Nothing we list can take {service.name}'s exports yet.</p>
       {/if}
     </Section>
 
     <Section id="bring" title="Bring your data into {service.name}">
-      {#if data.bringFrom.length}
-        <MigrationList moves={data.bringFrom} show="source" key={!data.moveTo.length} />
-      {:else}
+      {#if data.bringFrom.length}<MigrationList moves={data.bringFrom} show="source" />{/if}
+      {#if data.takesFrom.length}<Openings openings={data.takesFrom} side="in" />{/if}
+      {#if !data.bringFrom.length && !data.takesFrom.length}
         <p class="empty">Nothing we list can move into {service.name} yet.</p>
+      {:else if !moving}
+        <RouteKey marks={guided} />
       {/if}
     </Section>
 

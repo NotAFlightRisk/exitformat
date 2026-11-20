@@ -2,3 +2,4 @@ name: Markdown
 extensions: [.md]
 standard: true
 description: Plain text with a few symbols for headings, lists and links.
+owner: jotter
