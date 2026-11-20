@@ -17,7 +17,7 @@ Our version history is linear, and we use semantic versioning. Only the latest r
 
 Acceptable channels:
 
-1. **GitHub** (preferred) - open an [advisory](https://github.com/NotAFlightRisk/repo/security/advisories/new) from the Security tab
+1. **GitHub** (preferred) - open an [advisory](https://github.com/NotAFlightRisk/exitformat/security/advisories/new) from the Security tab
 2. **Email** - [security@peng.ly](mailto:security@peng.ly) (PGP: [`A8431F9F332FB0CD`](https://github.com/NotAFlightRisk.gpg))
 
 Include the type of issue, the affected version and file paths, steps to reproduce, a PoC if you've got one, and what an attacker could actually achieve with it.

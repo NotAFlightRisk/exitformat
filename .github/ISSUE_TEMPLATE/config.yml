@@ -1,28 +1,25 @@
 # The chooser shown after "New issue". URLs must be absolute, relative paths won't resolve here.
-# The Discussions link 404s unless Discussions is enabled on the repo.
-# The 📖 Documentation URL is a placeholder - repoint it at real docs or the README.
 # Docs: https://docs.github.com/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository
 
-# Set to true to also allow free-form issues alongside the templates
 blank_issues_enabled: false
 
 contact_links:
-  - name: 🔒 Report a Security Vulnerability
-    url: https://github.com/NotAFlightRisk/repo/security/policy
+  - name: 🔒 Report a security vulnerability
+    url: https://github.com/NotAFlightRisk/exitformat/security/policy
     about: Never report vulnerabilities in a public issue. Read our security policy and disclose privately.
 
-  - name: 📖 Documentation
-    url: https://project.peng.ly/
-    about: Usage, configuration and deployment docs. Worth checking before filing.
+  - name: 🌐 The directory
+    url: https://exitformat.peng.ly/
+    about: Every service, format and migration we've written up so far. Worth a search before asking for one.
 
-  - name: 🙋 Support & Troubleshooting
-    url: https://github.com/NotAFlightRisk/repo/blob/main/.github/SUPPORT.md
+  - name: 🙋 Support
+    url: https://github.com/NotAFlightRisk/exitformat/blob/main/.github/SUPPORT.md
     about: Not sure where something belongs? This explains where to ask what.
 
-  - name: 💬 Questions & Ideas
-    url: https://github.com/NotAFlightRisk/repo/discussions
-    about: Ask a question, share an idea, or show what you've built.
+  - name: 💬 Questions and ideas
+    url: https://github.com/NotAFlightRisk/exitformat/discussions
+    about: Ask a question or share an idea.
 
-  - name: 🛠️ Contributing Guide
-    url: https://github.com/NotAFlightRisk/repo/blob/main/.github/CONTRIBUTING.md
-    about: Want to fix it yourself? Start here for setup and the PR workflow.
+  - name: 🛠️ Contributing guide
+    url: https://github.com/NotAFlightRisk/exitformat/blob/main/.github/CONTRIBUTING.md
+    about: Want to fix it yourself? Most changes are one YAML file.

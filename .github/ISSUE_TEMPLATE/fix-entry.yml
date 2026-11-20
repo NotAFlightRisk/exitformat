@@ -1,0 +1,36 @@
+name: ✏️ Fix an entry
+description: A step, format or limitation that's wrong, missing or out of date
+title: '[Data]: '
+labels: ['data']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for checking our work! If you're happy editing YAML, every service page links to its file on GitHub, which is quicker.
+
+  - type: input
+    id: page
+    attributes:
+      label: Which page?
+      description: The link to the service, migration or format page.
+      placeholder: https://exitformat.peng.ly/notes/notion
+    validations:
+      required: true
+
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What's wrong?
+      description: What it says now, and what it should say instead.
+      placeholder: It says comments are left out of the HTML export, but they've been in it since...
+    validations:
+      required: true
+
+  - type: textarea
+    id: source
+    attributes:
+      label: How do you know?
+      description: A link to the service's own docs or release notes is best. If you tried it yourself, say what you did and what happened.
+      placeholder: https://...
+    validations:
+      required: true

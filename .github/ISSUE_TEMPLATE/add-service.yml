@@ -1,0 +1,53 @@
+name: 🆕 Add a service
+description: Suggest an app or service we should cover
+title: '[Service]: '
+labels: ['new-service']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fancy writing it up yourself? It's one YAML file, and the [contributing guide](https://github.com/NotAFlightRisk/exitformat/blob/main/.github/CONTRIBUTING.md) walks through it.
+
+  - type: input
+    id: name
+    attributes:
+      label: Service
+      placeholder: Logseq
+    validations:
+      required: true
+
+  - type: input
+    id: website
+    attributes:
+      label: Website
+      placeholder: https://logseq.com
+    validations:
+      required: true
+
+  - type: input
+    id: category
+    attributes:
+      label: Category
+      description: One of the [categories](https://exitformat.peng.ly/categories) on the site, or a new one.
+      placeholder: Notes and knowledge
+    validations:
+      required: false
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Anything we should know?
+      description: Links to its export or import docs, what the export leaves out, where people tend to move to.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: contribute
+    attributes:
+      label: Would you be up for writing the entry?
+      options:
+        - "Yes, I'll open a PR"
+        - 'Yes, with some guidance'
+        - 'No, just suggesting'
+    validations:
+      required: true

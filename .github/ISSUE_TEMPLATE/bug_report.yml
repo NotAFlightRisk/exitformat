@@ -1,12 +1,12 @@
-name: 🐛 Bug Report
-description: Something isn't working as expected
-title: "[Bug]: "
-labels: ["bug", "triage"]
+name: 🐛 Bug report
+description: Something on the site isn't working
+title: '[Bug]: '
+labels: ['bug', 'triage']
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to file a bug report!
+        Thanks for taking the time to file a bug report! Wrong info about a service goes in [Fix an entry](https://github.com/NotAFlightRisk/exitformat/issues/new?template=fix-entry.yml) instead.
 
   - type: textarea
     id: what-happened
@@ -23,9 +23,22 @@ body:
       label: Steps to reproduce
       description: The smallest set of steps that reliably triggers it.
       placeholder: |
-        1. Run '...'
-        2. Send a request to '...'
+        1. Open https://exitformat.peng.ly/notes/notion
+        2. Click '...'
         3. See error
+    validations:
+      required: true
+
+  - type: dropdown
+    id: install-method
+    attributes:
+      label: Where are you seeing it?
+      options:
+        - exitformat.peng.ly
+        - Docker
+        - From a release
+        - From source
+        - Other
     validations:
       required: true
 
@@ -33,29 +46,16 @@ body:
     id: version
     attributes:
       label: Version
-      description: Which version are you on? (release tag, commit SHA, or Docker tag)
+      description: Release tag, commit or Docker tag. Leave blank if it's the live site.
       placeholder: 1.2.3
     validations:
-      required: true
-
-  - type: dropdown
-    id: install-method
-    attributes:
-      label: How are you running it?
-      options:
-        - The hosted app
-        - Docker
-        - Self-hosted from source
-        - Vercel or similar
-        - Other
-    validations:
-      required: true
+      required: false
 
   - type: input
     id: environment
     attributes:
       label: Environment
-      description: Browser and OS, plus Node version if you're running it yourself.
+      description: Browser and OS, plus Node version if you're building it yourself.
       placeholder: Firefox 141, Ubuntu 24.04, Node 22
     validations:
       required: false
@@ -64,7 +64,7 @@ body:
     id: logs
     attributes:
       label: Relevant log output
-      description: Anything from the browser console or the server. Formatted as code automatically, so no backticks needed.
+      description: Anything from the browser console or the build. Formatted as code automatically, so no backticks needed.
       render: shell
     validations:
       required: false
@@ -76,7 +76,5 @@ body:
       options:
         - label: I have searched existing issues for duplicates
           required: true
-        - label: I am running the latest version
-          required: true
-        - label: I agree to follow this project's [Code of Conduct](https://github.com/NotAFlightRisk/repo/blob/main/.github/CODE_OF_CONDUCT.md)
+        - label: I agree to follow this project's [Code of Conduct](https://github.com/NotAFlightRisk/exitformat/blob/main/.github/CODE_OF_CONDUCT.md)
           required: true

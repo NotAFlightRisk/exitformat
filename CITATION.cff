@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: If you use this data, please cite it as below.
+type: dataset
+title: Exit Format
+abstract: >-
+  An open, community-maintained directory of how to export your data from
+  online services, what formats you get, what's missing, and where you can
+  move it.
+authors:
+  - name: NotAFlightRisk
+    website: https://github.com/NotAFlightRisk
+url: https://exitformat.peng.ly
+repository-code: https://github.com/NotAFlightRisk/exitformat
+license: MIT
+keywords:
+  - data portability
+  - data export
+  - data migration
+  - file formats
+  - open data
