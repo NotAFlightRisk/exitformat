@@ -1,8 +1,13 @@
 <script lang="ts">
-  let { steps }: { steps: string[] } = $props();
+  let { steps, start = 1 }: { steps: string[]; start?: number } = $props();
 </script>
 
-<ol class="steps" role="list">
+<ol
+  class="steps"
+  role="list"
+  start={start > 1 ? start : undefined}
+  style:counter-reset={start > 1 ? `step ${start - 1}` : undefined}
+>
   {#each steps as step, index (index)}
     <li>{step}</li>
   {/each}

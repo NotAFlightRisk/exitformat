@@ -8,6 +8,15 @@ const day = new Intl.DateTimeFormat('en-GB', {
 /** 2026-11-20 -> 20 Nov 2026 */
 export const formatDate = (iso: string) => day.format(new Date(iso));
 
+const month = new Intl.DateTimeFormat('en-GB', {
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC'
+});
+
+/** 2026-11 or 2026-11-20 -> November 2026 */
+export const formatMonth = (iso: string) => month.format(new Date(`${iso.slice(0, 7)}-01`));
+
 /** service or services, depending on the total */
 export const plural = (total: number, one: string, many = `${one}s`) => (total === 1 ? one : many);
 

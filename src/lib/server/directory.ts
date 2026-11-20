@@ -71,10 +71,6 @@ export const importers = (format: string) => db().importers.get(format) ?? [];
 export const migrationsFrom = (service: string) => db().from.get(service) ?? [];
 export const migrationsTo = (service: string) => db().to.get(service) ?? [];
 
-export const dataLabel = (category: string, id: string) =>
-  db().category.get(category)?.data[id] ?? id;
-export const formatName = (id: string) => db().format.get(id)?.name ?? id;
-
 /** The local copy npm run icons saved for a service, if it's managed to get one */
 export const icon = (service: string) =>
   db().icons.has(`${service}.png`) ? `/icons/${service}.png` : null;

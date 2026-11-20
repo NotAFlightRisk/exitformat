@@ -39,6 +39,7 @@ import {
   icon,
   importers,
   migrationsFrom,
+  migrationsTo,
   service,
   servicesIn
 } from '#lib/server/directory.ts';
@@ -171,11 +172,18 @@ export const migrationCard = ({
   unknown: best.unknown.length
 });
 
+/** Services with the most ways in and out first, until there's traffic to rank them by */
+export const busiest = (list: Service[]) => {
+  const moves = ({ id }: Service) => migrationsFrom(id).length + migrationsTo(id).length;
+  return list.toSorted((a, b) => moves(b) - moves(a));
+};
+
 export const categoryCard = (found: Category): CategoryCard => ({
   ...categoryLink(found),
   description: found.description,
   services: servicesIn(found.id).length,
-  migrations: servicesIn(found.id).reduce((total, { id }) => total + migrationsFrom(id).length, 0)
+  migrations: servicesIn(found.id).reduce((total, { id }) => total + migrationsFrom(id).length, 0),
+  examples: busiest(servicesIn(found.id)).slice(0, 4).map(serviceLink)
 });
 
 export const formatCard = ({ id, extensions, description }: Format): FormatCard => ({

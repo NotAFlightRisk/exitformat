@@ -2,16 +2,25 @@
   import JsonLd from '#lib/components/JsonLd.svelte';
   import type { Crumb } from '#lib/data/types.ts';
   import { websiteId } from '#lib/schema.ts';
-  import { absolute, site } from '#lib/site.ts';
+  import { absolute, defaultCard, ogSize, site } from '#lib/site.ts';
 
   let {
     title,
     description,
     path,
-    crumbs = []
-  }: { title: string; description: string; path: string; crumbs?: Crumb[] } = $props();
+    crumbs = [],
+    card
+  }: {
+    title: string;
+    description: string;
+    path: string;
+    crumbs?: Crumb[];
+    card: string;
+  } = $props();
 
   const url = $derived(absolute(path));
+  // a page's own card leads with its title, and the default with the tagline
+  const alt = $derived(card === defaultCard ? `${site.name}. ${site.tagline}` : title);
   const trail = $derived(crumbs.length > 1 ? `${url}#breadcrumb` : undefined);
 
   const graph = $derived({
@@ -64,7 +73,11 @@
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={url} />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image" content={absolute(card)} />
+  <meta property="og:image:width" content={String(ogSize.width)} />
+  <meta property="og:image:height" content={String(ogSize.height)} />
+  <meta property="og:image:alt" content={alt} />
+  <meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
 <JsonLd data={graph} />

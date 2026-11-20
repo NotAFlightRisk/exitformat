@@ -5,7 +5,7 @@
   import Logo from '#lib/components/Logo.svelte';
   import SearchBox from '#lib/components/SearchBox.svelte';
   import Seo from '#lib/components/Seo.svelte';
-  import { site } from '#lib/site.ts';
+  import { ogCard, site } from '#lib/site.ts';
 
   let { children } = $props();
 
@@ -22,9 +22,10 @@
     { href: site.repo, label: 'GitHub' }
   ];
 
+  const oops = $derived(page.status === 404 ? 'Page not found' : 'Something broke');
   const meta = $derived(
     page.data.meta ?? {
-      title: page.error ? 'Page not found' : site.name,
+      title: page.error ? oops : site.name,
       description: site.description
     }
   );
@@ -34,7 +35,12 @@
     page.url.pathname === href ? 'page' : section === href ? 'true' : undefined;
 </script>
 
-<Seo {...meta} path={page.url.pathname} crumbs={page.data.crumbs} />
+<Seo
+  {...meta}
+  path={page.url.pathname}
+  crumbs={page.data.crumbs}
+  card={ogCard(page.error ? null : page.route.id, page.url.pathname)}
+/>
 
 <a class="skip" href="#main">Skip to content</a>
 

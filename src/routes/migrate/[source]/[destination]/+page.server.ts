@@ -1,13 +1,42 @@
 import { error } from '@sveltejs/kit';
+import { better } from '#lib/data/compat.ts';
+import type { Migration, PathView, Service } from '#lib/data/types.ts';
 import { migration, migrations, migrationsFrom, migrationsTo } from '#lib/server/directory.ts';
-import { andList, crumbs, migrationCard, pathView, serviceLink } from '#lib/server/views.ts';
+import {
+  andList,
+  crumbs,
+  migrationCard,
+  pathView,
+  serviceCard,
+  serviceLink
+} from '#lib/server/views.ts';
 import { href } from '#lib/site.ts';
+
+// the full lists live on the service pages, so every move page doesn't carry them all
+const few = 6;
 
 export const entries = () =>
   migrations().map(({ source, destination }) => ({
     source: source.id,
     destination: destination.id
   }));
+
+/** One line on what the best route means, for under the heading */
+function meaning(path: PathView, { name: from }: Service, { name: to }: Service) {
+  if (path.kind.id === 'direct') {
+    if (path.export)
+      return `${to} has an importer made just for ${from}, so it understands what ${from} hands over.`;
+    return path.import.method.id === 'connect'
+      ? `${to} has an importer made just for ${from}. It signs in and pulls your data across, so there's nothing to export first.`
+      : `${to} has an importer made just for ${from}, which gets at the data itself.`;
+  }
+  if (path.conversion) {
+    const { from: was, to: becomes, tool } = path.conversion;
+    return `${from} and ${to} don't share a format, so you'll convert the ${was.name} into ${becomes.name} with ${tool} on the way.`;
+  }
+  const formats = andList(path.formats.map(({ name }) => name));
+  return `${from} and ${to} both understand ${formats}, so you export a file from one and import it into the other.`;
+}
 
 export const load = ({ params }) => {
   const found = migration(params.source, params.destination);
@@ -16,6 +45,16 @@ export const load = ({ params }) => {
   const reverse = migration(destination.id, source.id);
   const paths = found.paths.map((path) => pathView(path, source, destination));
   const carried = andList(paths[0].carried.map(({ label }) => label.toLowerCase()));
+  // a route's only as fresh as the older of its two entries
+  const older = [source, destination].reduce((a, b) =>
+    b.verification.checked_at < a.verification.checked_at ? b : a
+  );
+  const others = (list: Migration[]) =>
+    list.filter((other) => other !== found).toSorted((a, b) => better(a.paths[0], b.paths[0]));
+  const [moreFrom, moreTo] = [
+    others(migrationsFrom(source.id)),
+    others(migrationsTo(destination.id))
+  ];
 
   return {
     meta: {
@@ -33,15 +72,14 @@ export const load = ({ params }) => {
         href: href.migration(source.id, destination.id)
       }
     ),
+    lede: meaning(paths[0], source, destination),
     source: serviceLink(source),
     destination: serviceLink(destination),
     paths,
+    checked: serviceCard(older).verification,
     reverse: reverse ? migrationCard(reverse) : null,
-    moreFrom: migrationsFrom(source.id)
-      .filter((other) => other !== found)
-      .map(migrationCard),
-    moreTo: migrationsTo(destination.id)
-      .filter((other) => other !== found)
-      .map(migrationCard)
+    moreFrom: moreFrom.slice(0, few).map(migrationCard),
+    moreTo: moreTo.slice(0, few).map(migrationCard),
+    totals: { from: moreFrom.length, to: moreTo.length }
   };
 };
