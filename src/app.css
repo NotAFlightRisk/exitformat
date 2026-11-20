@@ -1,0 +1,179 @@
+@import '@fontsource-variable/atkinson-hyperlegible-next';
+@import '@fontsource-variable/atkinson-hyperlegible-mono';
+
+:root {
+  color-scheme: light dark;
+
+  --surface: light-dark(#f4f4f0, #111212);
+  --surface-raised: light-dark(#fdfdfb, #18191a);
+  --surface-sunken: light-dark(#ebebe5, #0c0d0d);
+  --surface-hover: light-dark(#e6efe9, #1b2620);
+  --text: light-dark(#1c1d1f, #ebebe7);
+  --text-muted: light-dark(#56585b, #a4a6a8);
+  --rule: light-dark(#d0d0c9, #303232);
+  --rule-strong: light-dark(#1c1d1f, #d9d9d5);
+  --control-edge: light-dark(#7a7c7f, #84868a);
+  --accent: light-dark(#237f52, #4cc38a);
+  --on-accent: light-dark(#ffffff, #0b1610);
+  --accent-tint: light-dark(#d9ebe0, #173022);
+
+  --font-text: 'Atkinson Hyperlegible Next Variable', system-ui, sans-serif;
+  --font-data: 'Atkinson Hyperlegible Mono Variable', ui-monospace, monospace;
+
+  --size-xs: 0.75rem;
+  --size-sm: 0.875rem;
+  --size-base: 1rem;
+  --size-md: 1.1875rem;
+  --size-lg: 1.5rem;
+  --size-xl: clamp(1.875rem, 1.3rem + 2.2vw, 2.75rem);
+  --size-display: clamp(2.5rem, 1.2rem + 5.2vw, 5.5rem);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+
+  --page: 84rem;
+  --gutter: clamp(1rem, 3vw, 2rem);
+  --measure: 68ch;
+  --hairline: 1px;
+  --rule-heavy: 3px;
+  --tile: 2.25rem;
+  --quick: 120ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+
+  accent-color: var(--accent);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scrollbar-color: var(--control-edge) var(--surface);
+  scroll-padding-block-start: var(--space-5);
+}
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-text);
+  font-size: var(--size-base);
+  line-height: 1.55;
+  caret-color: var(--accent);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 760;
+  line-height: 1.15;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+
+p,
+ul,
+ol,
+dl,
+dd,
+figure {
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: var(--hairline);
+  text-underline-offset: 0.22em;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  transition: text-decoration-color var(--quick) var(--ease);
+
+  &:hover {
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+  }
+}
+
+img {
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+input,
+button,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+time,
+data {
+  font-variant-numeric: tabular-nums;
+}
+
+/* the hairlines between cells are the grid showing through the gaps */
+.chart {
+  display: grid;
+  gap: var(--hairline);
+  background: var(--rule);
+  border: var(--hairline) solid var(--rule);
+
+  > * {
+    background: var(--surface-raised);
+  }
+}
+
+.wrap {
+  inline-size: 100%;
+  max-inline-size: var(--page);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
