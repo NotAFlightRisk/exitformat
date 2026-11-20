@@ -1,5 +1,7 @@
 <h1 align="center">Exit Format</h1>
 <p align="center">
+<img src="https://raw.githubusercontent.com/NotAFlightRisk/exitformat/refs/heads/main/static/favicon.svg" width="32" />
+<br />
 <i>How to get your data out of online services, what formats you get, what's missing, and where you can take it</i>
 <br />
 <b>🌐 <a href="https://exitformat.peng.ly/">exitformat.peng.ly</a></b><br />
@@ -9,9 +11,9 @@
   <summary>Contents</summary>
 
 - [About](#about)
-- [Using the site](#using-the-site)
-- [The data](#the-data)
 - [Contributing](#contributing)
+- [The data](#the-data)
+- [The site](#the-site)
 - [Deployment](#deployment)
 - [Development](#development)
 - [Credits](#credits)
@@ -20,17 +22,15 @@
 
 ## About
 
-Exit Format is an open directory of how to get your data out of apps and online services. For each one, it lists every way to export, the files you'll get, what's in them and what gets left behind, with short steps and a link to the official docs.
-
-It then matches exports up against other apps' imports, so you can see where your data can actually go and how much of it makes it across. Plus how to delete your account once you're out.
-
-Every entry is written from the service's own docs or source code, and says when it was last checked.
+Exit Format is an open directory of how to get your data out of apps and online services. It lists every way to export, the files you'll get, what's in them and what gets left behind. As well as compatibility and import options, to make migrating to a different app/service easier. We also have how-to steps, links to the docs, test scripts and account deletion instructions.
 
 ---
 
-## Using the site
+## Contributing
 
-Search for an app on [exitformat.peng.ly](https://exitformat.peng.ly), or browse the [categories](https://exitformat.peng.ly/categories). Each service has a page, like [/notes/obsidian](https://exitformat.peng.ly/notes/obsidian), with its exports and imports, where it can move to, and how to close your account if it has one. A move between two apps gets its own page whenever there's a way across, like [/migrate/notion/obsidian](https://exitformat.peng.ly/migrate/notion/obsidian), and so does every [file format](https://exitformat.peng.ly/formats).
+Most changes are a few lines of YAML. Every service page links to its file on GitHub, so a fix can start right there. The CI checks on your pull request point out anything wrong, down to the line. The [contributing guide](./CONTRIBUTING.md) explains every field.
+
+Not keen on YAML? Just [suggest a service](https://github.com/NotAFlightRisk/exitformat/issues/new?template=add-service.yml) or [report a mistake](https://github.com/NotAFlightRisk/exitformat/issues/new?template=fix-entry.yml) instead.
 
 ---
 
@@ -45,54 +45,23 @@ The same data's served as JSON too, if you want it for your own project:
 | [`/api/directory.json`](https://exitformat.peng.ly/api/directory.json)   | Every category, format and service in one file, with the migrations worked out                                                                                                                |
 | [`/schema/service.json`](https://exitformat.peng.ly/schema/service.json) | The JSON Schema for a service file, with [`category.json`](https://exitformat.peng.ly/schema/category.json) and [`format.json`](https://exitformat.peng.ly/schema/format.json) for the others |
 
-It's under the same [MIT licence](../LICENSE) as the code.
-
 ---
 
-## Contributing
+## The site
 
-Most changes are a few lines of YAML. Every service page links to its file on GitHub, so a fix can start right there, and the checks on your pull request point out anything wrong, down to the line. The [contributing guide](./CONTRIBUTING.md) explains every field.
-
-Not keen on YAML? Just [suggest a service](https://github.com/NotAFlightRisk/exitformat/issues/new?template=add-service.yml) or [report a mistake](https://github.com/NotAFlightRisk/exitformat/issues/new?template=fix-entry.yml) instead.
+Search for an app on [exitformat.peng.ly](https://exitformat.peng.ly), or browse the [categories](https://exitformat.peng.ly/categories). Each service has a page (like [/notes/obsidian](https://exitformat.peng.ly/notes/obsidian)), with its exports and imports, where it can move to, and how to close your account if it has one. We've also got guides for transfering between two apps, where possible (like [/migrate/notion/obsidian](https://exitformat.peng.ly/migrate/notion/obsidian)), and a page for each [file format](https://exitformat.peng.ly/formats).
 
 ---
 
 ## Deployment
 
-It's a fully static site, so it'll run anywhere that serves files.
+It's a fully static site, so it'll run anywhere that serves files. For example:
 
-### Option 1: Cloudflare
-
-The live site is a Cloudflare Worker serving the built files, deployed by [`deploy.yml`](./workflows/deploy.yml) on every push to `main`. In a fork, add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets, then change the owner check and the domain in that file.
-
-### Option 2: Vercel, or any static host
-
-Fork the repo and import it into Vercel, which needs no config at all, or just use the button below 👇<br>
-Anywhere else, set the build command to `npm run build` and the output folder to `build`.
-
-[![1-Click Deploy to Vercel](https://img.shields.io/badge/Deploy-Vercel-ffffff?style=for-the-badge&logo=vercel&labelColor=1b2744&link=https%3A%2F%2Fexitformat.peng.ly)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FNotAFlightRisk%2Fexitformat&demo-title=Exit%20Format&demo-url=https%3A%2F%2Fexitformat.peng.ly)
-
-### Option 3: Docker
-
-There's a multi-arch image on DockerHub ([`notaflightrisk/exitformat`](https://hub.docker.com/r/notaflightrisk/exitformat)) and GHCR ([`ghcr.io/notaflightrisk/exitformat`](https://github.com/NotAFlightRisk/exitformat/pkgs/container/exitformat)). With Docker installed, just run:
-
-```shell
-docker run -p 8080:8080 notaflightrisk/exitformat
-```
-
-It's then up on [localhost:8080](http://localhost:8080).
-
-### Option 4: From a release
-
-Each [release](https://github.com/NotAFlightRisk/exitformat/releases) has the built site attached as `site.zip`, which any static file server will serve:
-
-```shell
-unzip site.zip -d site && npx serve site
-```
-
-### Option 5: Build from source
-
-Follow the [Development](#development) steps, then run `npm run build`. The site lands in `build/`.
+- **Cloudflare**: Fork the repo, add your `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets, then trigger the [`deploy.yml`](./workflows/deploy.yml) workflow
+- **Vercel (or any static host)**: Just fork the repo, and import it. Or use the 1-click button below
+- **Docker**: Run `docker run -p 8080:8080 notaflightrisk/exitformat` (availible from [DockerHub](https://hub.docker.com/r/notaflightrisk/exitformat) and [GHCR](https://github.com/NotAFlightRisk/exitformat/pkgs/container/exitformat))
+- **From release**: Each [release](https://github.com/NotAFlightRisk/exitformat/releases) has the pre-built `site.zip`, ready to be served up (like `unzip site.zip -d site && npx serve site`)
+- **Build from source**: Follow the [Development](#development) steps, then run `npm run build`. The site lands in `build/`
 
 ---
 
