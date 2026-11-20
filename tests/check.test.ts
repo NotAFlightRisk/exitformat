@@ -35,6 +35,13 @@ describe('cross-references', () => {
       /included/
     ],
     [
+      'data both excluded and unknown',
+      'notes/jotter.yml',
+      'import[1].data.unknown[0]',
+      48,
+      /tags is in excluded as well/
+    ],
+    [
       'a reused option id',
       'notes/jotter.yml',
       'export[1].id',
@@ -60,6 +67,10 @@ describe('cross-references', () => {
   ])('flags %s on its line', (_, file, path, line, message) => {
     expect(said(broken, file, path)).toEqual(one(line, message));
   });
+
+  it("doesn't blame a file for pointing at one that won't parse", () => {
+    expect(said(broken, 'notes/jotter.yml', 'import[0].from[1]')).toEqual([]);
+  });
 });
 
 describe('schema', () => {
@@ -77,7 +88,8 @@ describe('schema', () => {
     ['a file import with no formats', 'import[0]', 24, 'needs formats'],
     ['a step over 140 characters', 'import[0].steps[1]', 29, 'should be 140 characters or fewer'],
     ['a date that never happened', 'verification.checked_at', 34, 'should be a real date'],
-    ['a step with an unquoted colon', 'delete.steps[0]', 38, /wrap it in quotes/]
+    ['a step with an unquoted colon', 'delete.steps[0]', 38, /wrap it in quotes/],
+    ['an alias listed twice', 'aliases[2]', 44, 'is already in the list']
   ])('explains %s on its line', (_, path, line, message) => {
     expect(said(broken, 'notes/shabby.yml', path)).toEqual(one(line, message));
   });
@@ -94,6 +106,12 @@ describe('warnings', () => {
 
   it('only warns about missing docs when there are sources instead', () => {
     expect(said(good, '2fa/tokenbox.yml', 'import[0]')).toEqual(one(21, /no official docs/, true));
+  });
+
+  it('warns when an importer names a service that never makes the file it reads', () => {
+    expect(said(good, 'passwords/lockbox.yml', 'import[2].from[0]')).toEqual(
+      one(30, /keyring doesn't export any of these formats/, true)
+    );
   });
 
   it('warns once a check is over a year old', () => {

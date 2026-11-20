@@ -23,6 +23,15 @@ import:
       - Open Settings, then Import.
       - Pick the JSON file.
     docs: https://example.com/lockbox/json
+  - id: keyring
+    name: Import from Keyring
+    method: file
+    formats: [tokenbox-backup]
+    from: [keyring]
+    steps:
+      - Open Settings, then Import.
+      - Pick the file Keyring saved.
+    docs: https://example.com/lockbox/keyring
 
 verification:
   status: documented
