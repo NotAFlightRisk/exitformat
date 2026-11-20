@@ -1,14 +1,9 @@
 <script lang="ts">
+  import CategoryList from '#lib/components/CategoryList.svelte';
+  import PageHead from '#lib/components/PageHead.svelte';
+
   let { data } = $props();
 </script>
 
-<h1>Every category</h1>
-<ul>
-  {#each data.categories as category (category.id)}
-    <li>
-      <a href={category.href}>{category.name}</a>
-      <p>{category.description}</p>
-      <p>{category.services} services, {category.migrations} ways to move</p>
-    </li>
-  {/each}
-</ul>
+<PageHead title={data.meta.title} lede={data.meta.description} />
+<CategoryList categories={data.categories} level={2} />
