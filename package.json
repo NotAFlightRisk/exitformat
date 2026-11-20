@@ -41,7 +41,7 @@
     "@types/node": "^26.6.6",
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1",
-    "prettier": "^3.10.0",
+    "prettier": "^3.10.1",
     "prettier-plugin-svelte": "^4.1.1",
     "satori": "^0.63.2",
     "svelte": "^5.57.3",
