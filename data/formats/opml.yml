@@ -1,0 +1,5 @@
+name: OPML
+extensions: [.opml]
+standard: true
+description: An outline saved as XML - nested items, each one a line of text. Outliners use it to swap outlines with each other, and RSS readers use it for lists of feeds.
+spec: https://opml.org/spec2.opml

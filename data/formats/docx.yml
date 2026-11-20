@@ -1,0 +1,6 @@
+name: Word document
+extensions: [.docx]
+standard: true
+based_on: zip
+description: Microsoft Word's format, published as an open standard (Office Open XML). Most writing apps open it, though complicated layouts can come out a bit mangled.
+spec: https://ecma-international.org/publications-and-standards/standards/ecma-376/

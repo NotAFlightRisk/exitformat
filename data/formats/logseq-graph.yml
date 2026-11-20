@@ -1,0 +1,4 @@
+name: Logseq graph folder
+standard: false
+based_on: markdown
+description: A file-based Logseq graph - a folder of Markdown pages and journals written as outlines, plus an assets folder. Logseq's newer database graphs are a different thing.

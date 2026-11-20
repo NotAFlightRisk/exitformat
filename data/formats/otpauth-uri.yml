@@ -1,0 +1,6 @@
+name: otpauth:// links
+extensions: [.txt]
+standard: true
+based_on: txt
+description: A plain text list of otpauth:// links, one per account, each holding the secret and settings for its codes. Google wrote the format down for Google Authenticator and it's now the de facto standard, since it's the same link a site's 2FA setup QR code holds. It isn't encrypted, so treat the file like a password.
+spec: https://github.com/google/google-authenticator/wiki/Key-Uri-Format

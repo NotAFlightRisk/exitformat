@@ -1,0 +1,4 @@
+name: Joplin Export Directory (RAW)
+standard: false
+description: The same data as a JEX file, saved as a folder instead of an archive - one file per note, notebook and tag, named by ID, plus a resources folder for attachments.
+spec: https://joplinapp.org/help/apps/import_export

@@ -1,0 +1,5 @@
+name: TSV
+extensions: [.tsv]
+standard: true
+description: Like CSV, but with a tab between the columns instead of a comma, so commas in the data don't need quoting. Spreadsheet apps open it just as happily.
+spec: https://www.iana.org/assignments/media-types/text/tab-separated-values

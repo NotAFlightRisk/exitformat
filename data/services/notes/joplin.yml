@@ -1,0 +1,228 @@
+name: Joplin
+website: https://joplinapp.org/
+description: Free, open source notes and to-dos in Markdown, kept on your devices and synced through Joplin Cloud or a cloud of your choice.
+deployment: local
+platforms: [windows, macos, linux, android, ios]
+source: https://github.com/laurent22/joplin
+
+export:
+  - id: backup
+    name: Export a JEX file or RAW folder
+    method: file
+    formats: [joplin-jex, joplin-raw]
+    steps:
+      - On desktop, go to File --> Export all and pick JEX - Joplin Export File or RAW - Joplin Export Directory.
+      - To save just one notebook or note, right-click it and choose Export instead.
+      - On a phone, go to Configuration --> Import and Export and select Export all notes as JEX.
+    data:
+      included: [text, formatting, attachments, structure, links, tags, properties, dates, todos]
+      excluded: [history, plugins, settings]
+    limitations:
+      - The export isn't encrypted, even if your sync is.
+      - Notes this device hasn't decrypted yet get left out, with a warning.
+    docs: https://joplinapp.org/help/apps/import_export
+    sources:
+      - https://github.com/laurent22/joplin/blob/v3.7.24/packages/lib/services/interop/InteropService.ts
+      - https://github.com/laurent22/joplin/blob/v3.7.24/packages/app-mobile/components/screens/ConfigScreen/NoteExportSection/NoteExportButton.tsx
+
+  - id: markdown
+    name: Export as Markdown
+    method: file
+    formats: [markdown]
+    requirements: [Desktop or terminal app]
+    steps:
+      - Go to File --> Export all --> MD - Markdown, or right-click a notebook or note and choose Export.
+      - Choose the folder to save it in.
+    data:
+      included: [text, formatting, attachments, structure, links]
+      excluded: [tags, properties, dates, todos, history]
+    limitations:
+      - Notebooks become folders, and every attachment goes in one _resources folder.
+      - Notes written in HTML are saved as .html files.
+      - Tags, dates and to-do details are left out. Use Markdown + Front Matter to keep them.
+    docs: https://joplinapp.org/help/apps/import_export
+    sources:
+      - https://github.com/laurent22/joplin/blob/v3.7.24/packages/lib/services/interop/InteropService_Exporter_Md.ts
+
+  - id: markdown-frontmatter
+    name: Export as Markdown with front matter
+    method: file
+    formats: [markdown-frontmatter]
+    requirements: [Desktop or terminal app]
+    steps:
+      - Go to File --> Export all --> MD - Markdown + Front Matter, or right-click a notebook or note and choose Export.
+      - Choose the folder to save it in.
+    data:
+      included: [text, formatting, attachments, structure, links, tags, properties, dates, todos]
+      excluded: [history]
+    limitations:
+      - The title, dates, tags, author, source URL, location and to-do details go in a YAML block at the top of each note.
+      - Notebooks become folders, and every attachment goes in one _resources folder.
+    docs: https://joplinapp.org/help/dev/spec/interop_with_frontmatter
+    sources:
+      - https://github.com/laurent22/joplin/blob/v3.7.24/packages/lib/services/interop/InteropService_Exporter_Md_frontmatter.ts
+
+  - id: html
+    name: Export as HTML
+    method: file
+    formats: [html]
+    requirements: [Desktop or terminal app]
+    steps:
+      - Go to File --> Export all --> HTML - HTML Directory, or right-click a notebook or note and choose Export.
+      - Choose the folder to save it in.
+    data:
+      included: [text, formatting, attachments, structure]
+      excluded: [links, tags, properties, dates, todos, history]
+    limitations:
+      - Links between notes aren't rewritten, so they don't open the other exported pages.
+    docs: https://joplinapp.org/help/apps/import_export
+    sources:
+      - https://github.com/laurent22/joplin/blob/v3.7.24/packages/lib/services/interop/InteropService_Exporter_Html.ts
+
+  - id: pdf
+    name: Export notes as PDF
+    method: file
+    formats: [pdf]
+    requirements: [Desktop app]
+    steps:
+      - Select the notes you want, then go to File --> Export all --> PDF - PDF File.
+      - Pick a file name, or a folder if you selected more than one note.
+    data:
+      included: [text, formatting]
+      unknown: [attachments]
+    limitations:
+      - Despite sitting under Export all, it only exports the notes you've selected, one PDF each.
+    docs: https://joplinapp.org/help/apps/import_export
+    sources:
+      - https://github.com/laurent22/joplin/blob/v3.7.24/packages/app-desktop/gui/WindowCommandsAndDialogs/commands/exportPdf.ts
+
+import:
+  - id: backup
+    name: Import a JEX file or RAW folder
+    method: file
+    formats: [joplin-jex, joplin-raw]
+    steps:
+      - On desktop, go to File --> Import and pick JEX - Joplin Export File or RAW - Joplin Export Directory.
+      - On a phone, go to Configuration --> Import and Export and select Import from JEX.
+      - Choose the file or folder.
+    limitations:
+      - Everything comes in as new copies, so importing the same file twice gives you duplicates.
+    docs: https://joplinapp.org/help/apps/import_export
+    sources:
+      - https://github.com/laurent22/joplin/blob/v3.7.24/packages/lib/services/interop/InteropService_Importer_Raw.ts
+
+  - id: obsidian
+    name: Import an Obsidian vault
+    method: folder
+    formats: [markdown, markdown-frontmatter]
+    from: [obsidian]
+    requirements: [Joplin 3.7.16 or later, Desktop or terminal app]
+    steps:
+      - Go to File --> Import --> OBSIDIAN - Obsidian Vault.
+      - Choose the top folder of your vault.
+    data:
+      included: [text, formatting, attachments, structure, links, tags, dates]
+      excluded: [properties, embeds, canvases, databases, plugins, settings]
+    limitations:
+      - Wikilinks become Joplin links when they match exactly one note. Links to a block (#^) stay as they are.
+      - "Inline #tags and the tags property both become Joplin tags."
+      - Front matter is dropped, apart from cssclasses and the fields Joplin uses itself, like the title, dates and tags.
+      - Embedded notes turn into plain links, and canvases and bases don't come across.
+    sources:
+      - https://github.com/laurent22/joplin/blob/v3.7.24/packages/lib/services/interop/InteropService_Importer_Obsidian.ts
+      - https://github.com/laurent22/joplin/blob/v3.7.24/packages/lib/services/interop/InteropService.ts
+      - https://github.com/laurent22/joplin/blob/dev/readme/about/changelog/desktop.md
+
+  - id: markdown
+    name: Import Markdown or text files
+    method: file
+    formats: [markdown, txt]
+    steps:
+      - On desktop, go to File --> Import and pick MD - Markdown or TXT - Text document, as a file or a directory.
+      - On a phone, go to Configuration --> Import and Export and select Import from text file.
+      - Choose the file or folder. Folders become notebooks.
+    data:
+      included: [text, formatting, attachments, structure, links]
+      excluded: [tags, properties, databases]
+    limitations:
+      - Each note's title is its file name, and its dates come from the file.
+      - Only relative Markdown links become note links. Wikilinks stay as text.
+      - Front matter isn't read, it stays in the note as text. Use Markdown + Front Matter for that.
+      - The phone app takes one file at a time.
+    docs: https://joplinapp.org/help/apps/import_export
+    sources:
+      - https://github.com/laurent22/joplin/blob/v3.7.24/packages/lib/services/interop/InteropService_Importer_Md.ts
+
+  - id: markdown-frontmatter
+    name: Import Markdown with front matter
+    method: file
+    formats: [markdown-frontmatter]
+    requirements: [Desktop or terminal app]
+    steps:
+      - Go to File --> Import and pick MD - Markdown + Front Matter, as a file or a directory.
+      - Choose the file or folder. Folders become notebooks.
+    data:
+      included: [text, formatting, attachments, structure, links, tags, dates, todos]
+    limitations:
+      - It reads the title, dates, tags, author, source URL, location and to-do fields. Anything else in the front matter is dropped.
+    docs: https://joplinapp.org/help/dev/spec/interop_with_frontmatter
+    sources:
+      - https://github.com/laurent22/joplin/blob/v3.7.24/packages/lib/utils/frontMatter.ts
+
+  - id: html
+    name: Import HTML files
+    method: file
+    formats: [html]
+    requirements: [Desktop or terminal app]
+    steps:
+      - Go to File --> Import and pick HTML - HTML document, as a file or a directory.
+      - Choose the file or folder. Folders become notebooks.
+    limitations:
+      - Notes stay as HTML rather than being turned into Markdown.
+    docs: https://joplinapp.org/help/apps/import_export
+    sources:
+      - https://github.com/laurent22/joplin/blob/v3.7.24/packages/lib/services/interop/InteropService_Importer_Md.ts
+
+  - id: evernote
+    name: Import from Evernote
+    method: file
+    formats: [enex]
+    requirements: [Desktop or terminal app]
+    steps:
+      - In Evernote, export your notebooks as ENEX files.
+      - In Joplin, go to File --> Import and pick ENEX - Evernote Export File, as Markdown or as HTML.
+      - Choose one .enex file, or a folder of them to get a notebook per file.
+    limitations:
+      - As Markdown, colours, fonts and font sizes are dropped. Import as HTML to keep them.
+      - Links between notes are matched by title, so a few may still point at Evernote.
+      - Evernote's recognised text in images isn't kept, though Joplin's own OCR can redo it.
+    docs: https://joplinapp.org/help/apps/import_export
+
+  - id: onenote
+    name: Import from OneNote
+    method: file
+    formats: [onenote]
+    requirements: [Desktop app]
+    steps:
+      - Export a section or notebook from OneNote for Windows, or download the notebook's folder from OneDrive as a zip.
+      - In Joplin, go to File --> Import --> ONE - OneNote Notebook and choose the file.
+    limitations:
+      - .onepkg files only import when Joplin's running on Windows.
+      - OneDrive may not hand over notebooks bigger than 2-4 GB in one go.
+    docs: https://joplinapp.org/help/apps/import_export
+    sources:
+      - https://github.com/laurent22/joplin/blob/v3.7.24/packages/lib/services/interop/InteropService.ts
+
+delete:
+  steps:
+    - To clear Joplin Cloud now, delete your notes and notebooks in the app, then sync.
+    - Open your Joplin Cloud profile, scroll down and select Manage subscription to cancel it.
+    - Leave it there - Joplin Cloud deletes a cancelled account by itself, 99 days after it's disabled.
+  docs: https://joplincloud.com/help
+  notes:
+    - Only matters if you sync with Joplin Cloud. Notes on your own devices, or on another sync target, are yours to clear.
+    - Joplin Cloud's help says it won't delete data on request, though its privacy policy says to email support@joplincloud.com. Deleting and syncing is quicker either way.
+
+verification:
+  status: documented
+  checked_at: 2026-11-20

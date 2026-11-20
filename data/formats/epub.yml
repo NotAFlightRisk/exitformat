@@ -1,0 +1,6 @@
+name: EPUB
+extensions: [.epub]
+standard: true
+based_on: zip
+description: The open standard for ebooks - web pages, pictures and a table of contents packed into one file. Most ebook apps open it.
+spec: https://www.w3.org/TR/epub-33/

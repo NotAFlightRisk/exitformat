@@ -1,0 +1,5 @@
+name: Markdown with front matter
+extensions: [.md]
+standard: true
+based_on: markdown
+description: Markdown files that start with a block of YAML between --- lines, holding things like the title, dates and tags. It's a common convention rather than a formal standard, and every app has its own field names, so past the title and tags not much is guaranteed to carry across.

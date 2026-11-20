@@ -1,0 +1,17 @@
+name: Notion Markdown & CSV export
+extensions: [.zip]
+standard: false
+based_on: zip
+description: Notion's default export - a zip with a Markdown file for each page and a CSV for each database, subpages in folders. Every file and folder name ends in Notion's 32-character page ID, and callouts come out as HTML since Markdown has nothing like them.
+conversions:
+  - to: markdown
+    tool: notion-to-joplin
+    url: https://github.com/tanrax/notion-to-joplin
+    steps:
+      - Download notion-to-joplin.py from the project's GitHub page. It needs Python 3.6 or later.
+      - Run python3 notion-to-joplin.py -f with the path to your Notion zip.
+      - Import the "import to joplin" folder it makes as a folder of Markdown files.
+    limitations:
+      - It's a small community script that hasn't changed since 2023, so give the result a once-over.
+      - It renames each page after its first heading and strips the IDs from folder names. Without it, a Markdown import keeps the IDs in every note and folder name.
+      - Database CSV files are left as they are, so databases don't come across.

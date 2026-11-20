@@ -1,0 +1,6 @@
+name: Excel workbook
+extensions: [.xlsx]
+standard: true
+based_on: zip
+description: Excel's spreadsheet format, published as an open standard (Office Open XML) like Word's .docx. Every spreadsheet app opens it, though complicated formulas and charts can come out a bit different.
+spec: https://ecma-international.org/publications-and-standards/standards/ecma-376/

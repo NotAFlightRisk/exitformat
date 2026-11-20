@@ -1,0 +1,5 @@
+name: JSON
+extensions: [.json]
+standard: true
+description: Structured data as plain text, which pretty much every programming language can read. Handy for moving data between apps, less fun to read yourself.
+spec: https://www.rfc-editor.org/rfc/rfc8259

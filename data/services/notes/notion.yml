@@ -1,0 +1,366 @@
+name: Notion
+website: https://www.notion.com/
+description: An all-in-one workspace for notes, docs, wikis and databases, kept in Notion's cloud.
+deployment: cloud
+platforms: [web, windows, macos, android, ios]
+aliases: [notion.so]
+
+export:
+  - id: page
+    name: Export a page or database
+    method: file
+    formats: [notion-html, notion-markdown-csv]
+    steps:
+      - Open the page, select the three-dot menu at the top right, then More --> Export.
+      - Pick HTML or Markdown & CSV, and switch on Include subpages to take everything under it.
+      - Select Export and save the file. Big exports turn up as a download link by email instead.
+    data:
+      included: [text, formatting, attachments, structure, links, properties, databases]
+      unknown: [comments, dates, embeds, history, sharing]
+    limitations:
+      - A database only exports one view, either the current one or the default.
+      - HTML can include comments, but Notion doesn't say the same for Markdown & CSV.
+      - Form views can't be exported at all.
+    docs: https://www.notion.com/help/export-your-content
+    sources:
+      - https://web.archive.org/web/20261119164905/https://www.notion.com/help/export-your-content
+
+  - id: pdf
+    name: Export a page or database as a PDF
+    method: file
+    formats: [pdf]
+    steps:
+      - Open the page, select the three-dot menu at the top right, then More --> Export.
+      - Pick PDF, choose whether Include content keeps files and images, and pick a Page format.
+      - Select Export and save the PDF.
+    data:
+      included: [text, formatting, attachments]
+      excluded: [databases]
+      unknown: [structure, links, properties, comments]
+    limitations:
+      - A database comes out as a printout of one view, not as data another app can import.
+      - Include subpages, for a zip with a PDF of every page underneath, needs a Business or Enterprise plan.
+      - Custom emojis don't show up, and if the PDF fails, Notion gives you an HTML export instead.
+    docs: https://www.notion.com/help/export-your-content#export-as-pdf
+    sources:
+      - https://web.archive.org/web/20261119164905/https://www.notion.com/help/export-your-content
+
+  - id: workspace
+    name: Export the whole workspace
+    method: file
+    formats: [notion-html, notion-markdown-csv]
+    requirements: [Workspace owner, Desktop or web app]
+    steps:
+      - Go to Settings in the sidebar, then General under Workspace.
+      - Select Export all workspace content and pick HTML or Markdown & CSV.
+      - Download the zip from the email Notion sends. The link lasts 7 days.
+    data:
+      included: [text, formatting, attachments, structure, links, properties, databases]
+      unknown: [comments, dates, embeds, history, sharing]
+    limitations:
+      - Other people's private pages aren't included.
+      - A big workspace can take up to 30 hours to export.
+      - Notion said it'd drop whole-workspace PDF exports by 31 August 2026, so do PDFs a page at a time.
+      - You can't rebuild a workspace by importing the zip back into Notion.
+      - Windows Explorer can't open zips with very long file paths, which this one often has. 7-Zip copes fine.
+      - On Enterprise plans an owner can switch exporting off for everyone.
+    docs: https://www.notion.com/help/export-your-content
+    sources:
+      - https://web.archive.org/web/20261119164905/https://www.notion.com/help/export-your-content
+      - https://web.archive.org/web/20261113025133/https://www.notion.com/help/back-up-your-data
+      - https://web.archive.org/web/20261118084001/https://www.notion.com/help/workspace-settings
+
+  - id: api
+    name: Read it through the Notion API
+    method: api
+    formats: [json]
+    requirements: [A Notion connection token]
+    steps:
+      - Create a connection with an access token in Notion's developer dashboard.
+      - Give the connection access to the pages and databases you want out.
+      - Fetch them with the API yourself, or hand the token to a tool that does it for you.
+    data:
+      included: [text, formatting, attachments, structure, links, properties, databases, dates, comments, embeds]
+      excluded: [history]
+      unknown: [sharing]
+    limitations:
+      - It's the developer route, so you'll need some code or a tool built on it.
+      - Linked databases aren't available, so share the original database with the connection.
+      - Blocks the API doesn't support yet, like buttons and forms, come back with nothing in them.
+      - Requests are rate limited, so a big workspace takes a while.
+    docs: https://developers.notion.com/reference/intro
+    sources:
+      - https://web.archive.org/web/20261116010557/https://developers.notion.com/reference/intro
+      - https://developers.notion.com/reference/block
+      - https://developers.notion.com/guides/data-apis/working-with-databases
+      - https://developers.notion.com/reference/request-limits
+
+import:
+  - id: markdown
+    name: Import text and Markdown files
+    method: file
+    formats: [markdown, txt]
+    requirements: [Desktop or web app]
+    steps:
+      - Go to Settings in the sidebar --> Import --> Text & Markdown.
+      - Upload your .md or .txt files. You can pick several at once.
+    data:
+      included: [text, formatting]
+      unknown: [attachments, links, properties]
+    limitations:
+      - App-specific Markdown, like wikilinks or callouts, won't come across cleanly.
+      - Links to headings inside a page don't carry over.
+      - Loose files lose their folders. Zip the folder and use the zip import to keep them.
+      - Files can be 5 MB each on the Free plan, 50 MB on paid ones.
+    docs: https://www.notion.com/help/import-data-into-notion
+    sources:
+      - https://web.archive.org/web/20261110172520/https://www.notion.com/help/import-data-into-notion
+
+  - id: zip
+    name: Import a zip of documents
+    method: file
+    formats: [markdown, txt, html, docx, epub, opml]
+    requirements: [Desktop or web app]
+    steps:
+      - Zip up the folder you want to bring in, so its folder structure comes along too.
+      - Go to Settings in the sidebar --> Import, or type /zip on a page.
+      - Upload the zip to Convert Zip to pages.
+    data:
+      included: [text, formatting, structure]
+      unknown: [attachments, links]
+    limitations:
+      - Each Markdown, text, HTML, Word, EPUB or OPML file becomes a page. Spreadsheets in the same zip become databases.
+      - PDFs inside the zip are skipped.
+      - Up to 5 GB a zip, though 10,000 files or more will probably fail.
+      - Hidden files like .DS_Store can break it, so clear them out first.
+    docs: https://www.notion.com/help/import-data-into-notion
+    sources:
+      - https://web.archive.org/web/20261110172520/https://www.notion.com/help/import-data-into-notion
+
+  - id: zip-spreadsheets
+    name: Import a zip of spreadsheets
+    method: file
+    formats: [csv, tsv, xlsx, ods]
+    requirements: [Desktop or web app]
+    steps:
+      - Zip up the spreadsheet files you want to bring in.
+      - Go to Settings in the sidebar --> Import, or type /zip on a page.
+      - Upload the zip to Convert Zip to pages. Each spreadsheet becomes a database.
+    data:
+      included: [databases, properties]
+      unknown: [structure]
+    limitations:
+      - It's the same importer as the zip of documents, so one zip can hold both.
+      - Up to 5 GB a zip, though 10,000 files or more will probably fail.
+      - Hidden files like .DS_Store can break it, so clear them out first.
+    docs: https://www.notion.com/help/import-data-into-notion
+    sources:
+      - https://web.archive.org/web/20261110172520/https://www.notion.com/help/import-data-into-notion
+
+  - id: html
+    name: Import HTML files
+    method: file
+    formats: [html]
+    requirements: [Desktop or web app]
+    steps:
+      - Go to Settings in the sidebar --> Import --> HTML.
+      - Upload your HTML files, with any images they use in the same folder.
+    data:
+      included: [text, formatting, attachments]
+      excluded: [comments, embeds, history]
+      unknown: [links]
+    limitations:
+      - Images only come across if they're in the same folder or zip as the page.
+      - Complex styling, layouts and scripts get flattened or dropped.
+      - Headings below H3 turn into H3s.
+      - Roughly 120 files per 12 hours, at 5 MB each on Free or 50 MB on paid plans.
+    docs: https://www.notion.com/help/import-data-into-notion
+    sources:
+      - https://web.archive.org/web/20261110172520/https://www.notion.com/help/import-data-into-notion
+
+  - id: word
+    name: Import Word documents
+    method: file
+    formats: [docx]
+    requirements: [Desktop or web app]
+    steps:
+      - Go to Settings in the sidebar --> Import --> Word.
+      - Upload one or more .docx files.
+    data:
+      included: [text, formatting, attachments]
+      excluded: [comments]
+    limitations:
+      - Tracked changes, text boxes, SmartArt and WordArt don't come across.
+      - Tables with merged cells may come out wrong.
+      - Files can be 5 MB each on the Free plan, 50 MB on paid ones.
+    docs: https://www.notion.com/help/import-data-into-notion
+    sources:
+      - https://web.archive.org/web/20261110172520/https://www.notion.com/help/import-data-into-notion
+
+  - id: pdf
+    name: Import a PDF
+    method: file
+    formats: [pdf]
+    requirements: [Desktop or web app]
+    steps:
+      - Go to Settings in the sidebar --> Import --> PDF, or type /pdf on a page and pick import.
+      - Upload one or more PDFs and Notion turns each into a page.
+    data:
+      included: [text]
+    limitations:
+      - Headings, quotes and tables often need tidying afterwards, and colours are lost.
+      - Scanned PDFs won't be searchable unless they've been through OCR first.
+      - PDFs can be 5 MB on the Free plan, 20 MB on paid ones.
+    docs: https://www.notion.com/help/import-data-into-notion
+    sources:
+      - https://web.archive.org/web/20261110172520/https://www.notion.com/help/import-data-into-notion
+
+  - id: csv
+    name: Import a CSV as a database
+    method: file
+    formats: [csv]
+    requirements: [Desktop or web app]
+    steps:
+      - Go to Settings in the sidebar --> Import --> CSV, or type /csv on a page.
+      - Upload the file and choose a new database or an existing one.
+      - Match each column to a property, then import.
+    data:
+      included: [databases, properties]
+    limitations:
+      - Formulas, rollups and new relations have to be rebuilt by hand.
+      - It only adds rows, so importing twice gives you duplicates.
+      - Save the CSV as UTF-8 if the characters come out garbled.
+    docs: https://www.notion.com/help/import-data-into-notion
+    sources:
+      - https://web.archive.org/web/20261110172520/https://www.notion.com/help/import-data-into-notion
+
+  - id: confluence-zip
+    name: Import a Confluence space export
+    method: file
+    formats: [confluence-html]
+    requirements: [Desktop or web app]
+    steps:
+      - In Confluence, export the space as HTML with Custom Export, and leave comments out.
+      - In Notion, go to Settings --> Import --> Third party imports --> Confluence and upload the zip.
+    limitations:
+      - Up to 5 GB, or 15 GB if you ask Notion nicely.
+      - Permissions, page history, charts and most macros don't come across.
+    docs: https://www.notion.com/help/import-from-confluence
+    sources:
+      - https://web.archive.org/web/20261113004048/https://www.notion.com/help/import-from-confluence
+
+  - id: confluence
+    name: Import from Confluence
+    method: connect
+    requirements: [Desktop or web app]
+    steps:
+      - Go to Settings in the sidebar --> Import --> Confluence and choose Import via API.
+      - Sign in with your Confluence email, site and an API token, then pick what to import.
+    limitations:
+      - It takes whole spaces up to about 50,000 pages or 30 GB, or single pages by link.
+      - Comments come across, but permissions and page history don't.
+    docs: https://www.notion.com/help/import-from-confluence
+    sources:
+      - https://web.archive.org/web/20261113004048/https://www.notion.com/help/import-from-confluence
+
+  - id: evernote
+    name: Import from Evernote
+    method: connect
+    requirements: [Desktop or web app]
+    steps:
+      - Go to Settings in the sidebar --> Import --> Third party imports --> Evernote.
+      - Sign in to Evernote and let it connect to Notion.
+      - Tick the notebooks you want and choose where each one goes.
+    limitations:
+      - Notebooks become pages, with their notes as items in a database.
+      - It's reliable up to about 5,000 notes, and Evernote Teams can't be imported.
+      - Created and updated dates may come out wrong.
+    docs: https://www.notion.com/help/import-data-into-notion
+    sources:
+      - https://web.archive.org/web/20261110172520/https://www.notion.com/help/import-data-into-notion
+
+  - id: trello
+    name: Import from Trello
+    method: connect
+    requirements: [Desktop or web app]
+    steps:
+      - Go to Settings in the sidebar --> Import --> Third party imports --> Trello.
+      - Log in to Trello and let Notion in.
+      - Pick up to 10 boards and choose where they go.
+    limitations:
+      - Each board becomes a database, with cards as items and lists as groups.
+      - Power-Ups, automations and permissions have to be rebuilt.
+    docs: https://www.notion.com/help/import-data-into-notion
+    sources:
+      - https://web.archive.org/web/20261110172520/https://www.notion.com/help/import-data-into-notion
+
+  - id: asana
+    name: Import from Asana
+    method: connect
+    requirements: [Desktop or web app]
+    steps:
+      - Go to Settings in the sidebar --> Import --> Third party imports --> Asana.
+      - Sign in to Asana, grant access and pick the projects to bring over.
+    limitations:
+      - Up to about 14,000 tasks per import.
+      - It's a one-off copy, so later changes in Asana won't follow.
+    docs: https://www.notion.com/help/asana
+    sources:
+      - https://web.archive.org/web/20261113004048/https://www.notion.com/help/asana
+
+  - id: monday
+    name: Import from Monday.com
+    method: connect
+    requirements: [Desktop or web app]
+    steps:
+      - Go to Settings in the sidebar --> Import --> Third party imports --> Monday.com.
+      - Enter your Monday.com email and API token, then select Authenticate.
+      - Pick a workspace and the boards you want.
+    limitations:
+      - One Monday.com workspace per import.
+    docs: https://www.notion.com/help/monday
+    sources:
+      - https://web.archive.org/web/20261113004048/https://www.notion.com/help/monday
+
+  - id: google-docs
+    name: Import a Google Doc
+    method: connect
+    requirements: [Desktop or web app]
+    steps:
+      - Go to Settings in the sidebar --> Import --> Google Docs, or paste a Google Doc link into a page.
+      - Connect your Google account and select the doc.
+    limitations:
+      - One doc at a time.
+      - Suggestions, colours, dividers, headers and footers don't come across, and checklists become bullets.
+    docs: https://www.notion.com/help/import-data-into-notion
+    sources:
+      - https://web.archive.org/web/20261110172520/https://www.notion.com/help/import-data-into-notion
+
+  - id: granola
+    name: Import from Granola
+    method: connect
+    requirements: [Desktop or web app, Paid Granola plan]
+    steps:
+      - Go to Settings in the sidebar --> Import --> Granola.
+      - Paste your personal Granola API key and select Import.
+    limitations:
+      - Notes in shared Granola spaces don't come across this way. A workspace owner can bring those in with the Granola spaces option.
+      - Guests in a workspace can't use it.
+    docs: https://www.notion.com/help/import-meeting-notes-from-granola
+    sources:
+      - https://web.archive.org/web/20261030163822/https://www.notion.com/help/import-meeting-notes-from-granola
+
+delete:
+  steps:
+    - To delete one workspace, go to Settings --> General and select Delete entire workspace under Danger zone.
+    - To delete your whole account, go to Settings --> your name and select Delete my account.
+    - Type your email to confirm, then select Permanently delete account.
+  docs: https://www.notion.com/help/delete-your-account
+  notes:
+    - It's permanent, so export anything you want to keep first.
+    - Workspaces where you're the only member or the only admin get deleted with your account, for everyone in them.
+    - Notion support may be able to restore things for up to 30 days afterwards.
+
+verification:
+  status: documented
+  checked_at: 2026-11-20

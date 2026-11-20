@@ -1,0 +1,5 @@
+name: Zip archive
+extensions: [.zip]
+standard: true
+description: One compressed file holding other files and folders. Lots of exports come as one, and what's inside varies a lot.
+spec: https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT

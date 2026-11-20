@@ -1,0 +1,5 @@
+name: Markdown
+extensions: [.md, .markdown]
+standard: true
+description: Plain text with a few symbols for headings, lists and links, so it reads fine in any text editor. Most apps add their own extras on top, and those don't always travel.
+spec: https://commonmark.org/

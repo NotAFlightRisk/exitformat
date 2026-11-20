@@ -1,0 +1,5 @@
+name: Bear backup
+extensions: [.bear2bk]
+standard: false
+based_on: zip
+description: The backup file Bear makes on a Mac with File --> Backup notes. On iPhone and iPad, Share Application Data gives you an ApplicationData.zip instead.

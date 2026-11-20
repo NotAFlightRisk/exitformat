@@ -1,0 +1,5 @@
+name: Apple Journal export
+extensions: [.html]
+standard: false
+based_on: html
+description: Apple's Journal app exports your entries as an AppleJournalEntries folder, with an HTML file for each one.

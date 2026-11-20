@@ -1,0 +1,5 @@
+name: Confluence HTML space export
+extensions: [.zip]
+standard: false
+based_on: zip
+description: A zip of HTML pages exported from a Confluence space. Notion's Confluence importer takes it as it is, without unzipping.

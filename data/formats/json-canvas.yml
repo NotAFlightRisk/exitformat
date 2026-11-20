@@ -1,0 +1,6 @@
+name: JSON Canvas
+extensions: [.canvas]
+standard: true
+based_on: json
+description: An open format for infinite canvases - text cards, files, links and groups laid out on a board and joined up with lines, saved as JSON. Obsidian made it for its Canvas feature, and anyone's free to use it.
+spec: https://jsoncanvas.org/spec/1.0/

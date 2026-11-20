@@ -1,0 +1,4 @@
+name: Plain text
+extensions: [.txt]
+standard: true
+description: Just the words, with no formatting at all. Every device and app can open it.

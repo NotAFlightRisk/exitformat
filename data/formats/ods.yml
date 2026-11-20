@@ -1,0 +1,6 @@
+name: OpenDocument spreadsheet
+extensions: [.ods]
+standard: true
+based_on: zip
+description: The open standard spreadsheet format (OpenDocument) that LibreOffice saves in by default. Excel and Google Sheets open it too.
+spec: https://docs.oasis-open.org/office/OpenDocument/v1.3/os/part1-introduction/OpenDocument-v1.3-os-part1-introduction.html

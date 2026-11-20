@@ -1,0 +1,20 @@
+name: Notes and knowledge
+short: Notes
+description: Notes apps, wikis and docs - anywhere you write things down so you can find them again.
+data:
+  text: Note text
+  formatting: Formatting
+  attachments: Attachments and images
+  structure: Page and folder structure
+  links: Links between notes
+  tags: Tags
+  properties: Properties and metadata
+  databases: Databases and views
+  dates: Created and updated dates
+  todos: To-dos and reminders
+  comments: Comments
+  history: Version history
+  embeds: Embeds
+  canvases: Canvases and whiteboards
+  sharing: Sharing and permissions
+  plugins: Plugins and their data

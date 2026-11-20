@@ -1,0 +1,4 @@
+name: OneNote notebook files
+extensions: [.one, .onepkg]
+standard: false
+description: OneNote's own files - .one for a single section and .onepkg for a whole notebook. Only OneNote for Windows exports them, and downloading a notebook's folder from OneDrive gets you a zip of .one files.

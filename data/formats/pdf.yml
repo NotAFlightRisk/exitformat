@@ -1,0 +1,4 @@
+name: PDF
+extensions: [.pdf]
+standard: true
+description: A fixed-layout document that looks the same everywhere. Good for keeping or printing, but getting the text and structure back out of one is a faff.

@@ -1,0 +1,5 @@
+name: CSV
+extensions: [.csv]
+standard: true
+description: A table saved as plain text, one row per line with commas between the columns. Every spreadsheet opens it, but there's nowhere to put formatting or attachments.
+spec: https://www.rfc-editor.org/rfc/rfc4180

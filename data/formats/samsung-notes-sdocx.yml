@@ -1,0 +1,4 @@
+name: Samsung Notes file
+extensions: [.sdocx]
+standard: false
+description: Samsung Notes' own file format, one note per file, with any handwriting and drawings inside.

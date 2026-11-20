@@ -1,0 +1,319 @@
+name: Obsidian
+website: https://obsidian.md/
+description: A notes app that keeps everything as Markdown files in a folder on your own device, with paid Sync and Publish if you want them.
+deployment: local
+platforms: [windows, macos, linux, android, ios]
+
+export:
+  - id: vault
+    name: Copy your vault folder
+    method: folder
+    formats: [markdown, markdown-frontmatter, json-canvas]
+    steps:
+      - Right-click a note and choose Reveal in Finder on a Mac, or Show in system explorer elsewhere.
+      - Go up to the top folder of your vault and copy the whole thing somewhere safe.
+      - Skip the hidden .obsidian folder inside it unless you want your settings and plugins too.
+    data:
+      included: [text, formatting, attachments, structure, links, tags, properties, databases, embeds, canvases, plugins, settings]
+      excluded: [history]
+      unknown: [dates]
+    limitations:
+      - Wikilinks, embeds, highlights and %%comments%% are Obsidian's own syntax, so other apps may show them as plain text.
+      - Bases (.base files) only work in Obsidian, and canvases need an app that reads JSON Canvas.
+      - Plugins only run in Obsidian, so anything they add to a note is just raw text anywhere else.
+      - Sync's version history and File recovery snapshots aren't in the folder.
+    docs: https://help.obsidian.md/data-storage
+    sources:
+      - https://help.obsidian.md/obsidian-flavored-markdown
+      - https://help.obsidian.md/backup
+      - https://github.com/obsidianmd/obsidian-help/blob/ced32050c0d9d1e1f8d3faa19a8ba8474d75a32d/en/Files%20and%20folders/How%20Obsidian%20stores%20data.md
+
+  - id: pdf
+    name: Export a note to PDF
+    method: file
+    formats: [pdf]
+    steps:
+      - Open the note, then pick Export to PDF... from the command palette or the More options menu.
+      - Choose the page size and margins, and whether to put the file name at the top as a title.
+      - Select Export to PDF and choose where to save it.
+    data:
+      included: [text, formatting]
+      unknown: [attachments, links, properties]
+    limitations:
+      - It works one note at a time.
+      - Exports always use light styling, even if your theme is dark.
+      - Phones and tablets got PDF export in v1.15, and some of the settings differ there.
+    docs: https://help.obsidian.md/pdf
+
+import:
+  - id: folder
+    name: Open or copy in a folder of Markdown files
+    method: folder
+    formats: [markdown, markdown-frontmatter]
+    steps:
+      - Select the vault profile at the bottom left --> Manage Vaults...
+      - Next to Open folder as vault, select Open and pick the folder.
+      - To add the notes to a vault you already use, drag them into the file explorer instead.
+    data:
+      excluded: [databases]
+    limitations:
+      - Files stay exactly as they are, so another app's own syntax won't be converted.
+      - Other apps' databases, like Notion's CSV files, sit there as plain files rather than bases.
+    docs: https://help.obsidian.md/import/markdown
+    sources:
+      - https://help.obsidian.md/manage-vaults
+
+  - id: markdown
+    name: Import Markdown files with Importer
+    method: file
+    formats: [markdown, txt]
+    steps:
+      - Install and enable the Importer plugin, then open it and pick Markdown (.md, .txt, .zip).
+      - Choose files, folders or a zip, set the options, then select Import.
+    data:
+      excluded: [databases]
+    limitations:
+      - A plain copy does the same job, unless you want a zip unpacked or inline tags turned into properties.
+    docs: https://help.obsidian.md/import/markdown
+    sources:
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/i18n/en.ts
+
+  - id: notion-api
+    name: Import from Notion with an API token
+    method: connect
+    from: [notion]
+    steps:
+      - In Notion, create a connection with an access token and give it access to your pages.
+      - In Obsidian, install the Importer plugin, open it and pick Notion --> Notion account (recommended).
+      - Add the token, select Load, tick your pages and databases, then select Import.
+    data:
+      included: [text, formatting, attachments, structure, links, properties, databases, dates]
+      excluded: [comments, history, sharing]
+    limitations:
+      - Databases become bases with a table view, plus a Kanban view for each board. Other views don't come across.
+      - Boards lose their filters, sorts and sub-groups.
+      - Linked databases get skipped, so give the connection the original database.
+      - A few formula functions, like name(), email() and style(), don't convert.
+      - Big workspaces take a while, thanks to Notion's rate limits.
+    docs: https://help.obsidian.md/import/notion
+    sources:
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/notion-api.ts
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/i18n/en.ts
+
+  - id: notion-zip
+    name: Import a Notion HTML export
+    method: file
+    formats: [notion-html]
+    steps:
+      - In Notion, export the whole workspace as HTML, with Include everything and Create folders for subpages on.
+      - In Obsidian, install the Importer plugin, open it and pick Notion --> File import.
+      - Choose the zip, turn on Save parent pages in subfolders, then select Import.
+    data:
+      included: [text, formatting, attachments, structure, links, properties]
+      excluded: [databases, comments]
+    limitations:
+      - It won't take a Markdown & CSV export. It has to be HTML.
+      - Databases come in as plain tables and notes rather than bases.
+      - Import the whole workspace in one go, so links between pages can be matched up.
+      - A really big export can have zips inside the zip. Unzip it and import each part.
+    docs: https://help.obsidian.md/import/notion
+    sources:
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/notion.ts
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/notion/convert-to-md.ts
+
+  - id: evernote
+    name: Import from Evernote
+    method: file
+    formats: [enex]
+    steps:
+      - In Evernote, export each notebook as an ENEX file.
+      - In Obsidian, install the Importer plugin, open it and pick Evernote (.enex).
+      - Choose your .enex files and select Import.
+    limitations:
+      - Evernote's export drops the tag hierarchy, so rename child tags to Parent/Child first if you want to keep it.
+      - Links between notes are matched by title, so a note renamed since the link was made won't resolve.
+    docs: https://help.obsidian.md/import/evernote
+
+  - id: apple-notes
+    name: Import from Apple Notes
+    method: folder
+    formats: [apple-notes-database]
+    requirements: [A Mac]
+    steps:
+      - On a Mac, install the Importer plugin, open it and pick Apple Notes.
+      - Under Apple Notes data folder, choose Select folder and pick group.com.apple.notes.
+      - Tick the folders you want, then select Import.
+    limitations:
+      - It only works on a Mac, not on an iPhone or iPad.
+      - Password-protected notes get skipped.
+      - Attachments that haven't downloaded from iCloud get skipped, so open those notes in Apple Notes first.
+    docs: https://help.obsidian.md/import/apple-notes
+
+  - id: apple-journal
+    name: Import from Apple Journal
+    method: file
+    formats: [apple-journal-html]
+    steps:
+      - Export your entries from Journal, with File --> Export on a Mac or Export in the iPhone app.
+      - In Obsidian, install the Importer plugin, open it and pick Apple Journal.
+      - Choose the AppleJournalEntries folder and select Import.
+    docs: https://help.obsidian.md/import/apple-journal
+
+  - id: bear
+    name: Import from Bear
+    method: file
+    formats: [bear-backup]
+    steps:
+      - In Bear on a Mac, use File --> Backup notes. On iPhone or iPad, use Settings --> Advanced --> Share Application Data.
+      - In Obsidian, install the Importer plugin, open it and pick Bear (.bear2bk, .zip).
+      - Choose the backup file and select Import.
+    limitations:
+      - Encrypted notes get skipped.
+    docs: https://help.obsidian.md/import/bear
+
+  - id: google-keep
+    name: Import from Google Keep
+    method: file
+    formats: [google-keep-takeout]
+    steps:
+      - Export Keep from Google Takeout and download the zip.
+      - In Obsidian, install the Importer plugin, open it and pick Google Keep (.zip, .json).
+      - Choose the zip and select Import.
+    limitations:
+      - Checklists all come in as top-level items, since Keep doesn't export indents.
+      - Reminders and assigned people aren't imported.
+    docs: https://help.obsidian.md/import/google-keep
+
+  - id: onenote
+    name: Import from OneNote with a Microsoft account
+    method: connect
+    steps:
+      - In Obsidian, install the Importer plugin, open it and pick Microsoft OneNote --> Microsoft account.
+      - Sign in, choose the notebooks or sections, then select Import.
+    limitations:
+      - Only notebooks you own that sync to OneDrive. Ones other people shared with you won't work.
+      - A work or school account may need your organisation to approve access.
+      - Locked sections stay hidden until you take the lock off.
+    docs: https://help.obsidian.md/import/onenote
+
+  - id: onenote-file
+    name: Import OneNote export files
+    method: file
+    formats: [onenote]
+    steps:
+      - In OneNote for Windows, export a notebook as a OneNote Package (.onepkg), or a single section as .one.
+      - In Obsidian, install the Importer plugin, open it and pick Microsoft OneNote --> File import.
+      - Choose the file, pick the sections and select Import.
+    limitations:
+      - Only OneNote for Windows can export these files, not the Mac app or OneNote for Windows 10.
+      - Rights-protected files can't be read.
+    docs: https://help.obsidian.md/import/onenote
+
+  - id: roam
+    name: Import from Roam Research
+    method: file
+    formats: [roam-json]
+    steps:
+      - In Roam, select More actions --> Export All and pick JSON.
+      - In Obsidian, install the Importer plugin, open it and pick Roam Research (.json).
+      - Choose the .json file and select Import.
+    docs: https://help.obsidian.md/import/roam
+
+  - id: logseq
+    name: Import a Logseq graph
+    method: folder
+    formats: [logseq-graph]
+    steps:
+      - Find your Logseq graph's top folder, the one with pages and journals inside.
+      - In Obsidian, install the Importer plugin, open it and pick Logseq (.md).
+      - Choose that folder and select Import.
+    limitations:
+      - File-based graphs only. Logseq's database graphs aren't supported yet.
+      - Queries come in as code blocks, and whiteboards don't come across.
+    docs: https://help.obsidian.md/import/logseq
+
+  - id: samsung-notes
+    name: Import from Samsung Notes
+    method: file
+    formats: [samsung-notes-sdocx]
+    steps:
+      - In Samsung Notes, select your notes and save them as Samsung Notes files (.sdocx).
+      - Move the files to the device you use Obsidian on, then install Importer and pick Samsung Notes (.sdocx).
+      - Choose the files, or a zip of them, and select Import.
+    limitations:
+      - Handwriting comes in as an SVG image at the end of the note.
+      - Text boxes, images and PDFs placed on a page aren't imported yet.
+      - Take the lock off any locked notes before you export them.
+    docs: https://help.obsidian.md/import/samsung-notes
+
+  - id: textbundle
+    name: Import Textbundle files
+    method: file
+    formats: [textbundle]
+    steps:
+      - Export your notes as Textbundle or Textpack from the app they're in.
+      - In Obsidian, install the Importer plugin, open it and pick Textbundle (.textbundle, .textpack).
+      - Choose the files, or a zip of them, and select Import.
+    limitations:
+      - Loose .textbundle files only import on a Mac. Anywhere else, zip them up first.
+    docs: https://help.obsidian.md/import/textbundle
+
+  - id: tomboy
+    name: Import from Tomboy or Gnote
+    method: file
+    formats: [tomboy-note]
+    steps:
+      - Find your notes folder, usually ~/.local/share/tomboy or ~/.local/share/gnote on Linux.
+      - In Obsidian, install the Importer plugin, open it and pick Tomboy/Gnote (.note).
+      - Choose the .note files or their folder and select Import.
+    docs: https://help.obsidian.md/import/tomboy
+
+  - id: html
+    name: Import HTML files
+    method: file
+    formats: [html]
+    steps:
+      - Install and enable the Importer plugin, then open it and pick HTML (.html, .zip).
+      - Choose HTML files, folders or zips and select Import.
+    limitations:
+      - If the app your pages came from has its own importer, use that instead. It keeps more.
+    docs: https://help.obsidian.md/import/html
+
+  - id: csv
+    name: Import a CSV as notes
+    method: file
+    formats: [csv]
+    steps:
+      - Install and enable the Importer plugin, then open it and pick CSV (.csv).
+      - Choose the file, set how the columns become properties, then select Import.
+    limitations:
+      - Each row becomes a note, and a base shows them all as a table.
+      - One CSV at a time.
+    docs: https://help.obsidian.md/import/csv
+
+  - id: airtable
+    name: Import from Airtable
+    method: connect
+    steps:
+      - Create a personal access token in your Airtable account settings.
+      - In Obsidian, install the Importer plugin, open it and pick Airtable.
+      - Add the token, load your bases, tick the tables you want and select Import.
+    limitations:
+      - Each table becomes a folder of notes, plus a base that recreates its views.
+      - Airtable doesn't say when a record changed, so importing again overwrites notes you've edited.
+    docs: https://help.obsidian.md/import/airtable
+
+delete:
+  steps:
+    - Delete each Sync remote vault in Settings --> Sync --> Manage, with the trash can icon next to it.
+    - "Delete any Publish site by running Publish: Publish changes..., then Switch site --> Delete site."
+    - Delete your Obsidian account from the account dashboard at obsidian.md/account.
+  docs: https://obsidian.md/privacy
+  notes:
+    - None of this touches the vaults on your devices. Delete those folders yourself.
+    - Cancelling Sync or Publish yourself deletes that data straight away. If it just lapses, it's kept for a month first.
+    - Deleting the account also removes your licences and subscriptions.
+
+verification:
+  status: documented
+  checked_at: 2026-11-20

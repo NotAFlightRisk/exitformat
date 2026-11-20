@@ -1,0 +1,5 @@
+name: Textbundle
+extensions: [.textbundle, .textpack]
+standard: true
+description: An open format that packs a Markdown file and its images into one bundle, or into a zipped .textpack. Agenda, Craft, Taio, Ulysses and Zettlr can all write it.
+spec: https://textbundle.org/spec/

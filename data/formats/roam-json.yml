@@ -1,0 +1,5 @@
+name: Roam Research JSON export
+extensions: [.json]
+standard: false
+based_on: json
+description: Roam's Export All, in its JSON flavour. Every page and block in your graph is in there, block references included.

@@ -1,0 +1,5 @@
+name: HTML
+extensions: [.html, .htm]
+standard: true
+description: The language web pages are written in. Any browser opens it and it keeps formatting better than Markdown does, but it's a lot fiddlier to edit by hand.
+spec: https://html.spec.whatwg.org/

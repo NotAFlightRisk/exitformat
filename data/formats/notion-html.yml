@@ -1,0 +1,5 @@
+name: Notion HTML export
+extensions: [.zip]
+standard: false
+based_on: zip
+description: What you get when you export from Notion as HTML - a zip with an HTML file for every page, subpages in folders, uploaded files alongside and an index.html to find your way round. File and folder names end in Notion's 32-character page ID. It's the export Obsidian's Importer wants.
