@@ -1,0 +1,7 @@
+build
+.svelte-kit
+package-lock.json
+/data
+.github/changelog.json
+iains-notes
+tests/fixtures
