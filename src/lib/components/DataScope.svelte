@@ -2,20 +2,26 @@
   import StateMark, { type State } from '#lib/components/StateMark.svelte';
   import type { ScopeView, Term } from '#lib/data/types.ts';
 
-  let { data, kind }: { data: ScopeView; kind: 'export' | 'import' } = $props();
+  let { data, kind }: { data: ScopeView; kind: 'export' | 'import' | 'move' } = $props();
 
   type Group = { state: State; title: string; items?: Term[]; empty: string };
+
+  const titles = {
+    export: ['Comes with it', 'Left behind'],
+    import: ['Keeps', 'Drops'],
+    move: ['Carries over', 'Lost']
+  };
 
   const groups: Group[] = $derived([
     {
       state: 'included',
-      title: kind === 'export' ? 'Comes with it' : 'Keeps',
+      title: titles[kind][0],
       items: data.included,
       empty: data.included ? 'Nothing' : "Whatever's in the file"
     },
     {
       state: 'excluded',
-      title: kind === 'export' ? 'Left behind' : 'Drops',
+      title: titles[kind][1],
       items: data.excluded,
       empty: 'Nothing we know of'
     },

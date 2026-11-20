@@ -278,6 +278,7 @@ export interface CategoryCard extends CategoryLink {
   description: string;
   services: number;
   migrations: number;
+  examples: ServiceLink[];
 }
 
 export interface FormatCard extends FormatLink {

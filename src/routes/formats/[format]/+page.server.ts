@@ -8,11 +8,13 @@ export const entries = () => formats().map(({ id }) => ({ format: id }));
 export const load = ({ params }) => {
   const found = format(params.format);
   if (!found) error(404, 'No format by that name');
-  const extensions = found.extensions.length ? ` (${found.extensions.join(', ')})` : '';
+  // "Joplin Export File (JEX)" already says what it ends in
+  const named = !found.extensions.length || found.name.endsWith(')');
+  const heading = named ? found.name : `${found.name} (${found.extensions.join(', ')})`;
 
   return {
     meta: {
-      title: `${found.name}${extensions}: what it is and what opens it`,
+      title: `${heading}: what it is and what opens it`,
       description: [
         found.description,
         `Which apps export ${found.name}, which import it, and how to convert it.`
@@ -22,6 +24,7 @@ export const load = ({ params }) => {
       { name: 'Formats', href: '/formats' },
       { name: found.name, href: href.format(found.id) }
     ),
+    heading,
     format: {
       ...formatCard(found),
       spec: found.spec,

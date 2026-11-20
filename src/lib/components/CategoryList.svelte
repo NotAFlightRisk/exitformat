@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ServiceLink from '#lib/components/ServiceLink.svelte';
   import type { CategoryCard } from '#lib/data/types.ts';
   import { count, initials } from '#lib/text.ts';
 
@@ -17,6 +18,13 @@
           <a href={category.href}>{category.name}</a>
         </svelte:element>
         <p class="description">{category.description}</p>
+        {#if category.examples.length}
+          <ul class="examples" aria-label="Some of its services">
+            {#each category.examples as service (service)}
+              <li><ServiceLink {service} /></li>
+            {/each}
+          </ul>
+        {/if}
         <p class="counts">
           {count(category.services, 'service')} and
           {count(category.migrations, 'way to move', 'ways to move')}
@@ -36,7 +44,7 @@
     list-style: none;
   }
 
-  li {
+  .categories > li {
     position: relative;
     display: grid;
     flex: 1 1 24rem;
@@ -113,6 +121,15 @@
   li:hover a {
     text-decoration: underline var(--accent) 2px;
     text-underline-offset: 0.22em;
+  }
+
+  .examples {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    padding-block: var(--space-1);
+    list-style: none;
   }
 
   .description {

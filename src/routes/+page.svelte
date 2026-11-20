@@ -43,7 +43,8 @@
   </div>
   <div class="featured">
     <h2>Easiest moves</h2>
-    <MigrationList moves={data.featured} key />
+    <div class="wide"><MigrationList moves={data.featured} key /></div>
+    <div class="narrow"><MigrationList moves={data.perCategory} key /></div>
     <a class="more" href="/migrate">Every way to move</a>
   </div>
 </section>
@@ -145,10 +146,20 @@
 
     @media (width < 40rem) {
       padding-inline: var(--space-4);
+    }
+  }
 
-      :global(.moves > li:nth-child(n + 4)) {
-        display: none;
-      }
+  .narrow {
+    display: none;
+  }
+
+  @media (width < 40rem) {
+    .wide {
+      display: none;
+    }
+
+    .narrow {
+      display: block;
     }
   }
 

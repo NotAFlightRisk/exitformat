@@ -10,7 +10,7 @@
   import Sources from '#lib/components/Sources.svelte';
   import Steps from '#lib/components/Steps.svelte';
   import { howTo } from '#lib/schema.ts';
-  import { absolute } from '#lib/site.ts';
+  import { absolute, fixUrl } from '#lib/site.ts';
   import { count, formatDate, source, symbol } from '#lib/text.ts';
 
   let { data } = $props();
@@ -60,7 +60,7 @@
 <PageHead title={data.meta.title} lede={service.description}>
   {#snippet figure()}
     <div class="element" aria-hidden="true">
-      <span class="ways">{count(service.export.length, 'way out', 'ways out')}</span>
+      <span class="ways">{service.export.length}</span>
       {#if service.icon}<img src={service.icon} alt="" width="64" height="64" />{/if}
       <span class="symbol">{symbol(service.name)}</span>
       <span class="label">
@@ -146,7 +146,8 @@
       <div class="signoff">
         <Checked verification={service.verification} long />
         <p class="actions">
-          <a href={service.edit} rel="external">Suggest an edit on GitHub</a>
+          <a href={fixUrl(service.name, service.href)} rel="external">Suggest an edit</a>
+          <a href={service.edit} rel="external">Edit the file on GitHub</a>
           <a href={service.history} rel="external">Every change to this file</a>
         </p>
         {#if data.changes.length}
@@ -174,10 +175,11 @@
     }
 
     @media (width < 40rem) {
-      grid-template-areas: 'glyph label icon' 'glyph ways icon';
+      grid-template-areas: 'glyph label icon';
       grid-template-columns: auto minmax(0, 1fr) auto;
-      grid-template-rows: auto auto;
+      grid-template-rows: auto;
       column-gap: var(--space-4);
+      align-items: center;
       min-block-size: 0;
       padding-block: var(--space-2);
 
@@ -185,15 +187,14 @@
         font-size: 2.25rem;
       }
 
-      .label {
-        align-self: end;
+      .ways {
+        display: none;
       }
     }
   }
 
   .ways {
     grid-area: ways;
-    color: var(--text-muted);
     font-size: var(--size-sm);
   }
 
