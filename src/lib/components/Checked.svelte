@@ -17,8 +17,8 @@
   {/if}
   <span>
     {long ? how[verification.status.id] : 'Checked'}
-    <time datetime={verification.checked}>{formatDate(verification.checked)}</time>{#if verification.stale}<strong
-        >, over a year ago, so it may be out of date</strong
+    <time datetime={verification.checked}>{formatDate(verification.checked)}</time
+    >{#if verification.stale}<strong>, over a year ago, so it may be out of date</strong
       >{/if}{#if long}.{/if}
   </span>
 </p>

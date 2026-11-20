@@ -9,8 +9,7 @@ const day = new Intl.DateTimeFormat('en-GB', {
 export const formatDate = (iso: string) => day.format(new Date(iso));
 
 /** service or services, depending on the total */
-export const plural = (total: number, one: string, many = `${one}s`) =>
-  total === 1 ? one : many;
+export const plural = (total: number, one: string, many = `${one}s`) => (total === 1 ? one : many);
 
 /** 1 service, 3 services */
 export const count = (total: number, one: string, many?: string) =>

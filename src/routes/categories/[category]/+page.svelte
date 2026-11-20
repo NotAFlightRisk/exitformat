@@ -51,7 +51,13 @@
 </script>
 
 <svelte:head>
-  <noscript><style>.needs-js{display:none!important}</style></noscript>
+  <noscript
+    ><style>
+      .needs-js {
+        display: none !important;
+      }
+    </style></noscript
+  >
 </svelte:head>
 
 <PageHead title={category.name} lede={category.description}>
@@ -66,10 +72,15 @@
 
 <Section id="services" title="{category.name} apps">
   {#snippet aside()}
-    <span class="needs-js" aria-live="polite">Showing {shown.length} of {data.services.length}</span>
+    <span class="needs-js" aria-live="polite">Showing {shown.length} of {data.services.length}</span
+    >
   {/snippet}
 
-  <form class="toolbar needs-js" aria-label="Filter and sort" onsubmit={(event) => event.preventDefault()}>
+  <form
+    class="toolbar needs-js"
+    aria-label="Filter and sort"
+    onsubmit={(event) => event.preventDefault()}
+  >
     <label class="field">
       <span>Name</span>
       <input type="search" bind:value={query} placeholder="Filter by name" autocomplete="off" />
@@ -146,7 +157,10 @@
   </Section>
 
   <Section id="tracked" title="What we look for">
-    <p>Every export and import here says which of these it keeps, which it drops, and which nobody's sure about.</p>
+    <p>
+      Every export and import here says which of these it keeps, which it drops, and which nobody's
+      sure about.
+    </p>
     <ul class="tracked">
       {#each category.data as item (item)}<li>{item.label}</li>{/each}
     </ul>

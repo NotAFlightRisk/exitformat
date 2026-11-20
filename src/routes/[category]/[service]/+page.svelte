@@ -92,7 +92,9 @@
       {#each service.export as option (option)}
         <OptionPanel {option} kind="export" />
       {:else}
-        <p class="empty">There's no official way to get your data out of {service.name} that we know of.</p>
+        <p class="empty">
+          There's no official way to get your data out of {service.name} that we know of.
+        </p>
       {/each}
     </Section>
 

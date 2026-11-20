@@ -80,8 +80,8 @@
         </ul>
       </nav>
       <p class="licence">
-        The code and the data are <a href="{site.repo}/blob/main/LICENSE">MIT licensed</a>, so
-        take them wherever you like.
+        The code and the data are <a href="{site.repo}/blob/main/LICENSE">MIT licensed</a>, so take
+        them wherever you like.
       </p>
     </div>
   </div>

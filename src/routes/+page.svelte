@@ -13,9 +13,17 @@
     const { services, categories, formats, migrations } = data.counts;
     return [
       { total: services, label: plural(services, 'service'), href: '/categories' },
-      { total: categories, label: plural(categories, 'category', 'categories'), href: '/categories' },
+      {
+        total: categories,
+        label: plural(categories, 'category', 'categories'),
+        href: '/categories'
+      },
       { total: formats, label: plural(formats, 'file format'), href: '/formats' },
-      { total: migrations, label: plural(migrations, 'way to move', 'ways to move'), href: '/migrate' }
+      {
+        total: migrations,
+        label: plural(migrations, 'way to move', 'ways to move'),
+        href: '/migrate'
+      }
     ];
   });
 </script>

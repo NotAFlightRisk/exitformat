@@ -10,8 +10,7 @@
     moves,
     show = 'both',
     key = false
-  }: { moves: MigrationCard[]; show?: 'source' | 'destination' | 'both'; key?: boolean } =
-    $props();
+  }: { moves: MigrationCard[]; show?: 'source' | 'destination' | 'both'; key?: boolean } = $props();
 </script>
 
 <div class="frame">

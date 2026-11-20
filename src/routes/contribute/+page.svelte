@@ -7,6 +7,5 @@
 
 <PageHead title={data.meta.title} lede={data.meta.description} />
 <p>
-  The <a href="{site.repo}/blob/main/.github/CONTRIBUTING.md">contributing guide</a> has the
-  details.
+  The <a href="{site.repo}/blob/main/.github/CONTRIBUTING.md">contributing guide</a> has the details.
 </p>

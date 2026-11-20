@@ -36,30 +36,30 @@
         <dt>How</dt>
         <dd>{option.method.label}</dd>
       </div>
-    {#if option.formats.length}
-      <div>
-        <dt>Formats</dt>
-        <dd><FormatChips formats={option.formats} /></dd>
-      </div>
-    {/if}
-    {#if option.from.length}
-      <div>
-        <dt>Built for</dt>
-        <dd class="from">
-          {#each option.from as service (service)}<ServiceLink {service} />{/each}
-        </dd>
-      </div>
-    {/if}
-    {#if option.requirements.length}
-      <div>
-        <dt>Needs</dt>
-        <dd>
-          <ul class="needs">
-            {#each option.requirements as need, index (index)}<li>{need}</li>{/each}
-          </ul>
-        </dd>
-      </div>
-    {/if}
+      {#if option.formats.length}
+        <div>
+          <dt>Formats</dt>
+          <dd><FormatChips formats={option.formats} /></dd>
+        </div>
+      {/if}
+      {#if option.from.length}
+        <div>
+          <dt>Built for</dt>
+          <dd class="from">
+            {#each option.from as service (service)}<ServiceLink {service} />{/each}
+          </dd>
+        </div>
+      {/if}
+      {#if option.requirements.length}
+        <div>
+          <dt>Needs</dt>
+          <dd>
+            <ul class="needs">
+              {#each option.requirements as need, index (index)}<li>{need}</li>{/each}
+            </ul>
+          </dd>
+        </div>
+      {/if}
     </dl>
   </div>
 

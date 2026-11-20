@@ -51,7 +51,9 @@
                   <PathBadge kind={cell.kind} bare />
                 </a>
               {:else if rowIndex !== col}
-                <span class="visually-hidden">No way to move from {from.name} to {services[col].name} yet</span>
+                <span class="visually-hidden"
+                  >No way to move from {from.name} to {services[col].name} yet</span
+                >
               {/if}
             </td>
           {/each}
