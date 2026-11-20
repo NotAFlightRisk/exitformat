@@ -7,6 +7,7 @@
   import MigrationList from '#lib/components/MigrationList.svelte';
   import PageHead from '#lib/components/PageHead.svelte';
   import PathBadge from '#lib/components/PathBadge.svelte';
+  import RouteKey from '#lib/components/RouteKey.svelte';
   import RouteSides from '#lib/components/RouteSides.svelte';
   import Section from '#lib/components/Section.svelte';
   import StateMark from '#lib/components/StateMark.svelte';
@@ -21,8 +22,8 @@
   const destination = $derived(data.destination);
   const best = $derived(data.paths[0]);
   const others = $derived(data.paths.slice(1));
-  // only the first list of moves on the page gets the key
-  const keyed = $derived(data.reverse ? 'back' : data.moreFrom.length ? 'from' : 'to');
+  // one key a page, under the other routes if there are any, never under the way back
+  const keyed = $derived(others.length ? 'others' : data.moreFrom.length ? 'from' : 'to');
   const conversion = $derived(best.conversion ? [best.conversion.from, best.conversion.to] : []);
   const open = $derived([...best.formats, ...conversion].some(({ standard }) => standard));
 
@@ -109,33 +110,36 @@
 {#if others.length}
   <Section id="other-ways" title="Other ways to move from {source.name} to {destination.name}">
     {#snippet aside()}{count(others.length, 'more route', 'more routes')}{/snippet}
-    <div class="chart routes">
-      {#each others as path (path)}
-        <details>
-          <summary>
-            <span class="chevron"><Icon name="chevron" /></span>
-            {@render via(path)}
-            <span class="summary">
-              <PathBadge kind={path.kind} />
-              <span><StateMark state="included" /> {path.carried.length} carry over</span>
-              <span><StateMark state="excluded" /> {path.lost.length} lost</span>
-              <span><StateMark state="unknown" /> {path.unknown.length} not sure</span>
-            </span>
-          </summary>
-          <div class="body">
-            <div class="scope"><DataScope data={scope(path)} kind="move" /></div>
-            <Journey {path} {source} {destination} headings={false} />
-            <RouteSides {path} {source} {destination} headings={false} />
-          </div>
-        </details>
-      {/each}
+    <div>
+      <div class="chart routes">
+        {#each others as path (path)}
+          <details>
+            <summary>
+              <span class="chevron"><Icon name="chevron" /></span>
+              {@render via(path)}
+              <span class="summary">
+                <PathBadge kind={path.kind} />
+                <span><StateMark state="included" /> {path.carried.length} carry over</span>
+                <span><StateMark state="excluded" /> {path.lost.length} lost</span>
+                <span><StateMark state="unknown" /> {path.unknown.length} not sure</span>
+              </span>
+            </summary>
+            <div class="body">
+              <div class="scope"><DataScope data={scope(path)} kind="move" /></div>
+              <Journey {path} {source} {destination} headings={false} />
+              <RouteSides {path} {source} {destination} headings={false} />
+            </div>
+          </details>
+        {/each}
+      </div>
+      <RouteKey />
     </div>
   </Section>
 {/if}
 
 <Section id="back" title="Move from {destination.name} back to {source.name}">
   {#if data.reverse}
-    <MigrationList moves={[data.reverse]} key={keyed === 'back'} />
+    <MigrationList moves={[data.reverse]} />
   {:else}
     <p class="empty">
       There's no way back from {destination.name} to {source.name} that we know of, so hang on to your

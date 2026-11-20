@@ -1,5 +1,6 @@
 <script lang="ts">
   import Facts from '#lib/components/Facts.svelte';
+  import Icon from '#lib/components/Icon.svelte';
   import PageHead from '#lib/components/PageHead.svelte';
   import PathBadge from '#lib/components/PathBadge.svelte';
   import RouteKey from '#lib/components/RouteKey.svelte';
@@ -106,6 +107,7 @@
             {#each row.moves as move (move)}
               <li>
                 <a href={move.href}>
+                  <span class="lead"><Icon name="arrow" /></span>
                   <Tile name={move.destination.name} icon={move.destination.icon} size="sm" />
                   <span class="text">
                     <span class="name">
@@ -199,6 +201,10 @@
     grid-column: 1 / -1;
     grid-template-columns: subgrid;
     gap: var(--hairline);
+
+    @media (width < 48rem) {
+      gap: 0;
+    }
   }
 
   .from {
@@ -215,6 +221,10 @@
     p {
       color: var(--text-muted);
       font-size: var(--size-sm);
+    }
+
+    @media (width < 48rem) {
+      padding-block-end: var(--space-2);
     }
   }
 
@@ -256,12 +266,36 @@
         outline-offset: -2px;
       }
     }
+
+    @media (width < 48rem) {
+      display: grid;
+      gap: 0;
+      padding: 0 0 var(--space-2) var(--space-4);
+      background: var(--surface-raised);
+
+      li + li {
+        border-block-start: var(--hairline) solid var(--rule);
+      }
+
+      a {
+        padding-inline: var(--space-2) var(--space-4);
+      }
+    }
   }
 
   .text {
     display: grid;
     gap: var(--space-1);
     min-inline-size: 0;
+  }
+
+  .lead {
+    display: none;
+    color: var(--text-muted);
+
+    @media (width < 48rem) {
+      display: inline-flex;
+    }
   }
 
   .name {

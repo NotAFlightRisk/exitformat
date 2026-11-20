@@ -3,6 +3,7 @@
   import Checked from '#lib/components/Checked.svelte';
   import Facts from '#lib/components/Facts.svelte';
   import JsonLd from '#lib/components/JsonLd.svelte';
+  import MenuText from '#lib/components/MenuText.svelte';
   import MigrationList from '#lib/components/MigrationList.svelte';
   import OptionPanel from '#lib/components/OptionPanel.svelte';
   import PageHead from '#lib/components/PageHead.svelte';
@@ -132,7 +133,9 @@
           <div class="cell"><Steps steps={service.delete.steps} /></div>
           {#if service.delete.notes.length}
             <ul class="cell notes">
-              {#each service.delete.notes as note, index (index)}<li>{note}</li>{/each}
+              {#each service.delete.notes as note, index (index)}
+                <li><MenuText text={note} /></li>
+              {/each}
             </ul>
           {/if}
           {#if service.delete.docs}

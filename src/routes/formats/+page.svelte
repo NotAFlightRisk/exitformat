@@ -1,6 +1,7 @@
 <script lang="ts">
   import Facts from '#lib/components/Facts.svelte';
   import FormatChip from '#lib/components/FormatChip.svelte';
+  import MenuText from '#lib/components/MenuText.svelte';
   import PageHead from '#lib/components/PageHead.svelte';
   import Section from '#lib/components/Section.svelte';
   import type { FormatCard } from '#lib/data/types.ts';
@@ -25,7 +26,7 @@
         <li>
           <div class="what">
             <h3><FormatChip {format} /></h3>
-            <p>{format.description}</p>
+            <p><MenuText text={format.description} /></p>
           </div>
           <p class="extensions">
             <span class="label">Extensions</span>

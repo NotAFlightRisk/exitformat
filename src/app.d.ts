@@ -5,6 +5,7 @@ declare global {
     interface PageData {
       meta?: Meta;
       crumbs?: Crumb[];
+      status?: number;
     }
   }
 }

@@ -1,5 +1,8 @@
 <script lang="ts">
-  let { steps, start = 1 }: { steps: string[]; start?: number } = $props();
+  import type { Snippet } from 'svelte';
+  import MenuText from '#lib/components/MenuText.svelte';
+
+  let { steps, start = 1 }: { steps: (string | Snippet)[]; start?: number } = $props();
 </script>
 
 <ol
@@ -9,7 +12,11 @@
   style:counter-reset={start > 1 ? `step ${start - 1}` : undefined}
 >
   {#each steps as step, index (index)}
-    <li>{step}</li>
+    <li>
+      <span
+        >{#if typeof step === 'string'}<MenuText text={step} />{:else}{@render step()}{/if}</span
+      >
+    </li>
   {/each}
 </ol>
 
