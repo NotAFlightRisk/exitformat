@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { carry, migrations, paths } from '#lib/data/compat.ts';
+import { better, carry, migrations, paths } from '#lib/data/compat.ts';
 import { loadSources, toDirectory } from '#lib/data/load.ts';
+import type { Path } from '#lib/data/types.ts';
 
 const directory = toDirectory(loadSources('tests/fixtures/data'), new Date('2026-11-20'));
 const formats = new Map(directory.formats.map((format) => [format.id, format]));
@@ -12,13 +13,14 @@ const migration = (from: string, to: string) =>
 
 describe('paths', () => {
   it('ranks importer over shared format over conversion, whatever they carry', () => {
-    expect(routes('scribble', 'jotter').map(({ kind, carried }) => [kind, carried.length])).toEqual(
-      [
-        ['direct', 2],
-        ['file', 1],
-        ['convert', 3]
-      ]
-    );
+    const path = (kind: Path['kind'], carried: number) =>
+      ({ kind, carried: Array(carried).fill('pages') }) as Path;
+    const ranked = [path('convert', 3), path('file', 2), path('direct', 1)].sort(better);
+    expect(ranked.map(({ kind }) => kind)).toEqual(['direct', 'file', 'convert']);
+  });
+
+  it('leaves conversions out when there is already a real way across', () => {
+    expect(routes('scribble', 'jotter').map(({ kind }) => kind)).toEqual(['direct', 'file']);
   });
 
   it('ranks paths of the same kind by how much makes it across', () => {
@@ -37,12 +39,15 @@ describe('paths', () => {
     ]);
   });
 
-  it('converts through a format the import takes', () => {
-    expect(routes('scribble', 'jotter')[2].conversion).toMatchObject({
-      from: 'scribble-zip',
-      to: 'html',
-      tool: 'Unzipper'
-    });
+  it('converts through a format the import takes when nothing else fits', () => {
+    expect(routes('scribble', 'papyrus')).toEqual([
+      expect.objectContaining({
+        kind: 'convert',
+        conversion: expect.objectContaining({ from: 'scribble-zip', to: 'html', tool: 'Unzipper' }),
+        carried: ['pages', 'attachments'],
+        unknown: ['tags', 'history']
+      })
+    ]);
   });
 
   it('lets a sign-in importer through with no export at all', () => {
@@ -79,12 +84,45 @@ describe('carry', () => {
     });
   });
 
-  it('counts each unknown once, and never one already carried or lost', () => {
+  it('counts each unknown once, and never one already lost', () => {
     const exported = { included: ['a', 'b'], excluded: [], unknown: ['c', 'd'] };
-    expect(carry(exported, { excluded: ['b'], unknown: ['a', 'b', 'c'] }).unknown).toEqual([
-      'c',
-      'd'
-    ]);
+    expect(carry(exported, { excluded: ['b'], unknown: ['a', 'b', 'c'] })).toEqual({
+      carried: [],
+      lost: ['b'],
+      unknown: ['a', 'c', 'd']
+    });
+  });
+
+  it("keeps an import's unknown as unknown, even when it lists what it keeps", () => {
+    const exported = { included: ['a', 'b'], excluded: [], unknown: [] };
+    expect(carry(exported, { included: ['a'], unknown: ['b'] })).toEqual({
+      carried: ['a'],
+      lost: [],
+      unknown: ['b']
+    });
+  });
+
+  it("doubts what the export has when the import isn't sure it keeps it", () => {
+    const exported = { included: ['a', 'b'], excluded: [], unknown: [] };
+    expect(carry(exported, { unknown: ['b'] })).toEqual({
+      carried: ['a'],
+      lost: [],
+      unknown: ['b']
+    });
+  });
+
+  it("loses whatever the import drops, even if the export wasn't sure it had it", () => {
+    const exported = { included: ['a'], excluded: [], unknown: ['b'] };
+    expect(carry(exported, { included: ['a', 'b'], excluded: ['b'] })).toEqual({
+      carried: ['a'],
+      lost: ['b'],
+      unknown: []
+    });
+  });
+
+  it("never counts the export's unknowns as carried, whatever the import keeps", () => {
+    const exported = { included: ['a'], excluded: [], unknown: ['b'] };
+    expect(carry(exported, { included: ['a', 'b'] }).unknown).toEqual(['b']);
   });
 
   it("goes by the import's own lists when there's no export", () => {
@@ -97,8 +135,15 @@ describe('carry', () => {
 });
 
 describe('migrations', () => {
-  it('skips a shared format between two categories', () => {
+  it('skips a shared standard format between two categories', () => {
     expect(migration('keyring', 'jotter')).toBeUndefined();
+    expect(migration('otpvault', 'lockbox')).toBeUndefined();
+  });
+
+  it("links two categories through one app's own format", () => {
+    expect(migration('tokenbox', 'lockbox')?.paths).toEqual([
+      expect.objectContaining({ kind: 'file', formats: ['tokenbox-backup'] })
+    ]);
   });
 
   it('keeps only the built-in importer between two categories', () => {

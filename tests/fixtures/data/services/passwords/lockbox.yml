@@ -1,0 +1,29 @@
+name: Lockbox
+website: https://example.com/lockbox
+description: A made-up password manager that can take in a Tokenbox backup.
+deployment: cloud
+platforms: [web]
+
+export: []
+
+import:
+  - id: tokenbox
+    name: Import a Tokenbox backup
+    method: file
+    formats: [tokenbox-backup]
+    steps:
+      - Open Settings, then Import.
+      - Pick the Tokenbox backup.
+    docs: https://example.com/lockbox/tokenbox
+  - id: json
+    name: Import JSON
+    method: file
+    formats: [json]
+    steps:
+      - Open Settings, then Import.
+      - Pick the JSON file.
+    docs: https://example.com/lockbox/json
+
+verification:
+  status: documented
+  checked_at: 2026-11-14

@@ -1,4 +1,6 @@
 import {
+  changeKinds,
+  changeSections,
   deployments,
   methods,
   pathKinds,
@@ -7,6 +9,7 @@ import {
   type Category,
   type CategoryCard,
   type CategoryLink,
+  type ChangeView,
   type Conversion,
   type ConversionView,
   type Crumb,
@@ -15,6 +18,7 @@ import {
   type FormatCard,
   type FormatLink,
   type ImportOption,
+  type LogEntry,
   type Migration,
   type MigrationCard,
   type OptionView,
@@ -32,12 +36,13 @@ import {
   category,
   exporters,
   format,
+  icon,
   importers,
   migrationsFrom,
   service,
   servicesIn
 } from '#lib/server/directory.ts';
-import { editUrl, historyUrl, href } from '#lib/site.ts';
+import { commitUrl, editUrl, historyUrl, href, pullUrl } from '#lib/site.ts';
 
 type Labeller = (id: string) => Term;
 
@@ -63,11 +68,11 @@ export function formatLink(id: string): FormatLink {
   return { id, name, standard, href: href.format(id) };
 }
 
-export const serviceLink = ({ id, name, icon, category: home }: Service): ServiceLink => ({
+export const serviceLink = ({ id, name, category: home }: Service): ServiceLink => ({
   id,
   name,
   href: href.service(home, id),
-  icon,
+  icon: icon(id),
   category: categoryLink(category(home)!)
 });
 
@@ -180,3 +185,16 @@ export const formatCard = ({ id, extensions, description }: Format): FormatCard 
   exporters: exporters(id).length,
   importers: importers(id).length
 });
+
+export function changeView(entry: LogEntry): ChangeView {
+  const { date, commit, pr, id, name, kind, sections = [] } = entry;
+  const current = service(id);
+  return {
+    date,
+    kind: term(changeKinds, kind),
+    sections: sections.map((section) => term(changeSections, section)),
+    name,
+    service: current ? serviceLink(current) : null,
+    source: pr ? { href: pullUrl(pr), label: `#${pr}` } : { href: commitUrl(commit), label: commit }
+  };
+}

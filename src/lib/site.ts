@@ -22,3 +22,5 @@ export const editUrl = (category: string, id: string) =>
   `${site.repo}/edit/main/${file(category, id)}`;
 export const historyUrl = (category: string, id: string) =>
   `${site.repo}/commits/main/${file(category, id)}`;
+export const pullUrl = (pr: number) => `${site.repo}/pull/${pr}`;
+export const commitUrl = (commit: string) => `${site.repo}/commit/${commit}`;

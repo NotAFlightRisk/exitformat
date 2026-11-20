@@ -1,12 +1,13 @@
 import { error } from '@sveltejs/kit';
 import {
   category,
+  changesTo,
   migrationsFrom,
   migrationsTo,
   service,
   services
 } from '#lib/server/directory.ts';
-import { andList, crumbs, migrationCard, serviceView } from '#lib/server/views.ts';
+import { andList, changeView, crumbs, migrationCard, serviceView } from '#lib/server/views.ts';
 import { href } from '#lib/site.ts';
 
 export const entries = () => services().map(({ id, category }) => ({ category, service: id }));
@@ -34,6 +35,7 @@ export const load = ({ params }) => {
     ),
     service: view,
     moveTo: migrationsFrom(found.id).map(migrationCard),
-    bringFrom: migrationsTo(found.id).map(migrationCard)
+    bringFrom: migrationsTo(found.id).map(migrationCard),
+    changes: changesTo(found.id).map(changeView)
   };
 };

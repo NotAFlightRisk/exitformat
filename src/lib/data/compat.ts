@@ -20,22 +20,24 @@ const byName = (a: Service, b: Service) => a.name.localeCompare(b.name);
 export const better = (a: Path, b: Path) =>
   rank[a.kind] - rank[b.kind] || b.carried.length - a.carried.length;
 
-/** What makes it across: an export's data, less whatever the import drops or doesn't keep */
+/** What happens to each thing in an export: carried, lost, or nobody's sure */
 export function carry(exported: Scope | undefined, imported: Partial<Scope> = {}): Carry {
   const { included: kept, excluded: dropped = [], unknown: unsure = [] } = imported;
   // with no export to go on, the importer's own lists are the whole story
-  const offered = exported?.included ?? [...(kept ?? []), ...dropped];
-  const carried = unique(
-    offered.filter((id) => !dropped.includes(id) && (!kept || kept.includes(id)))
-  );
-  const lost = unique([
-    ...(exported?.excluded ?? []),
-    ...offered.filter((id) => !carried.includes(id))
-  ]);
-  const unknown = unique([...(exported?.unknown ?? []), ...unsure]).filter(
-    (id) => !carried.includes(id) && !lost.includes(id)
-  );
-  return { carried, lost, unknown };
+  const { included, excluded, unknown } = exported ?? {
+    included: [...(kept ?? []), ...dropped, ...unsure],
+    excluded: [],
+    unknown: []
+  };
+  const fate = (id: string): keyof Carry => {
+    if (excluded.includes(id) || dropped.includes(id)) return 'lost';
+    if (kept?.includes(id) && !unknown.includes(id)) return 'carried';
+    if (unknown.includes(id) || unsure.includes(id)) return 'unknown';
+    return kept ? 'lost' : 'carried';
+  };
+  const sorted: Carry = { carried: [], lost: [], unknown: [] };
+  for (const id of unique([...excluded, ...included, ...unknown])) sorted[fate(id)].push(id);
+  return sorted;
 }
 
 /** Every way from one service's exports into another's imports, best first */
@@ -77,12 +79,18 @@ export function paths(source: Service, destination: Service, formats: Map<string
             add('convert', into, out, [conversion.to], { from, ...conversion });
     }
   }
-  return found.sort(better);
+  // a conversion fills a gap, it doesn't pad out a pair that already has a real way across
+  const straight = found.filter((path) => path.kind !== 'convert');
+  return (straight.length ? straight : found).sort(better);
 }
 
-/** Every pair with a way across, as long as they share a category or one's built for the other */
+/** Every pair with a way across, as long as they share a category or the route's made for it */
 export function migrations({ services, formats }: Directory): Migration[] {
   const byId = new Map(formats.map((format) => [format.id, format]));
+  // between categories, only a built-in importer or one app's own format counts
+  const crosses = (path: Path) =>
+    path.kind === 'direct' ||
+    (path.kind === 'file' && path.formats.some((id) => !byId.get(id)!.standard));
   const byFormat = new Map<string, Set<Service>>();
   const bySource = new Map<string, Set<Service>>();
   const file = (map: Map<string, Set<Service>>, key: string, service: Service) =>
@@ -103,9 +111,7 @@ export function migrations({ services, formats }: Directory): Migration[] {
 
     return [...candidates].sort(byName).flatMap((destination) => {
       const same = destination.category === source.category;
-      const found = paths(source, destination, byId).filter(
-        (path) => same || path.kind === 'direct'
-      );
+      const found = paths(source, destination, byId).filter((path) => same || crosses(path));
       return found.length ? [{ source, destination, paths: found }] : [];
     });
   });

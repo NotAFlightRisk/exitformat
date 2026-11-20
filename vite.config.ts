@@ -28,7 +28,19 @@ export default defineConfig({
       // the 404 page is served at any depth, so assets need absolute paths
       paths: { relative: false },
       prerender: {
-        entries: ['*']
+        entries: [
+          '*',
+          '/api/directory.json',
+          '/api/search.json',
+          '/schema/category.json',
+          '/schema/format.json',
+          '/schema/service.json',
+          '/sitemap.xml',
+          '/robots.txt',
+          '/llms.txt',
+          '/feed.xml',
+          '/_redirects'
+        ]
       },
       csp: {
         mode: 'hash',
@@ -40,7 +52,7 @@ export default defineConfig({
           'style-src': ['self', 'unsafe-inline'],
           'font-src': ['self'],
           'base-uri': ['none'],
-          'form-action': ['none'],
+          'form-action': ['self'],
           'frame-ancestors': ['none']
         }
       }

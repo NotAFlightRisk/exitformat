@@ -39,11 +39,24 @@ export const sharedData = { settings: 'App settings' } as const;
 
 export const staleAfterDays = 365;
 
+export const changeKinds = { added: 'Added', updated: 'Updated', removed: 'Removed' } as const;
+
+// the bits of a service file an update can touch, everything else counts as details
+export const changeSections = {
+  details: 'Details',
+  export: 'Exports',
+  import: 'Imports',
+  delete: 'Deleting your data',
+  verification: 'Verification'
+} as const;
+
 export type Method = keyof typeof methods;
 export type Deployment = keyof typeof deployments;
 export type Platform = keyof typeof platforms;
 export type Status = keyof typeof statuses;
 export type PathKind = keyof typeof pathKinds;
+export type ChangeKind = keyof typeof changeKinds;
+export type ChangeSection = keyof typeof changeSections;
 
 export interface Category {
   id: string;
@@ -142,6 +155,23 @@ export interface Migration {
   paths: Path[];
 }
 
+/** One service's change in one commit, as .github/changelog.json keeps it */
+export interface LogEntry {
+  date: string;
+  commit: string;
+  pr?: number;
+  id: string;
+  category: string;
+  name: string;
+  kind: ChangeKind;
+  sections?: ChangeSection[];
+}
+
+export interface Changelog {
+  commit: string;
+  entries: LogEntry[];
+}
+
 // what the pages get, with every id swapped for a name and a link
 
 export interface Term {
@@ -164,7 +194,7 @@ export interface FormatLink extends Link {
 }
 
 export interface ServiceLink extends Link {
-  icon?: string;
+  icon: string | null;
   category: CategoryLink;
 }
 
@@ -255,6 +285,15 @@ export interface FormatCard extends FormatLink {
   description: string;
   exporters: number;
   importers: number;
+}
+
+export interface ChangeView {
+  date: string;
+  kind: Term;
+  sections: Term[];
+  name: string;
+  service: ServiceLink | null;
+  source: { href: string; label: string };
 }
 
 export interface Meta {

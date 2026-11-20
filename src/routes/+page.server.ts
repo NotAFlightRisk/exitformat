@@ -1,6 +1,6 @@
 import { better } from '#lib/data/compat.ts';
-import { categories, formats, migrations, services } from '#lib/server/directory.ts';
-import { categoryCard, migrationCard, serviceCard } from '#lib/server/views.ts';
+import { categories, changelog, formats, migrations, services } from '#lib/server/directory.ts';
+import { categoryCard, changeView, migrationCard, serviceCard } from '#lib/server/views.ts';
 import { site } from '#lib/site.ts';
 
 const few = 6;
@@ -21,5 +21,6 @@ export const load = () => ({
   recent: services()
     .toSorted((a, b) => b.verification.checked_at.localeCompare(a.verification.checked_at))
     .slice(0, few)
-    .map(serviceCard)
+    .map(serviceCard),
+  changes: changelog().slice(0, few).map(changeView)
 });

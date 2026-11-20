@@ -1,0 +1,24 @@
+name: Papyrus
+website: https://example.com/papyrus
+description: A made-up notes app that only reads web pages.
+deployment: cloud
+platforms: [web]
+
+export: []
+
+import:
+  - id: html
+    name: Import web pages
+    method: file
+    formats: [html]
+    steps:
+      - Open Settings, then Import.
+      - Pick the HTML files.
+    data:
+      included: [pages, attachments]
+      unknown: [tags]
+    docs: https://example.com/papyrus/import
+
+verification:
+  status: documented
+  checked_at: 2026-11-12
