@@ -1,0 +1,148 @@
+name: 2FAS Auth
+website: https://2fas.com/auth/
+description: Free, open source 2FA app for Android and iOS that can sync your codes through your own Google Drive or iCloud.
+deployment: hybrid
+platforms: [android, ios]
+source: https://github.com/twofas/2fas-android
+aliases: [2fas authenticator, twofas]
+
+export:
+  - id: backup
+    name: Export a backup file
+    method: file
+    formats: [2fas-backup]
+    steps:
+      - Open Settings --> 2FAS Backup and tap Export.
+      - Set a password for the file when it asks - skip it and every secret is readable.
+      - Save the .2fas file somewhere off the phone, or share it.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam, icons, groups, sort-order]
+      excluded: [settings]
+    limitations:
+      - The password only covers the tokens, so group names stay readable.
+      - Aegis reads it with or without a password, but Bitwarden Authenticator needs one without.
+      - Icons are saved as picks from 2FAS's own icon set, so they mean nothing to other apps.
+    docs: https://2fas.com/support/2fas-auth-mobile-app/i-want-to-move-copy-transfer-tokens-codes-between-ios-and-android/
+    sources:
+      - https://github.com/twofas/2fas-android/blob/6.1.0/data/services/src/main/java/com/twofasapp/data/services/BackupRepositoryImpl.kt
+      - https://github.com/twofas/2fas-android/blob/6.1.0/data/services/src/main/java/com/twofasapp/data/services/domain/BackupService.kt
+      - https://github.com/twofas/2fas-ios/blob/vv6.0.3/TwoFAS/Data/MainRepository/MainRepositoryImpl+Export.swift
+
+  - id: otpauth-file
+    name: Export tokens to a text file
+    method: file
+    formats: [otpauth-uri]
+    requirements: [iOS only, A PIN set in 2FAS]
+    steps:
+      - Open Settings --> Transfer tokens --> Export Tokens to file.
+      - Tick I understand the risk and confirm with your PIN.
+      - Save or share the .txt file it makes.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam]
+      excluded: [icons, groups]
+    limitations:
+      - The file isn't encrypted, so every secret is in plain text.
+    sources:
+      - https://github.com/twofas/2fas-ios/blob/vv6.0.3/TwoFAS/TwoFAS/Root/Modules/Settings/Transfer/TransferModuleInteractor.swift
+      - https://github.com/twofas/2fas-ios/blob/vv6.0.3/TwoFAS/TwoFAS/Root/Modules/Settings/Transfer/TransferPresenter.swift
+      - https://github.com/twofas/2fas-ios/blob/vv6.0.3/TwoFAS/Data/Interactors/ServiceDefinitionInteractor.swift
+
+  - id: qr-codes
+    name: Export tokens as QR codes
+    method: file
+    formats: [2fas-qr-codes]
+    requirements: [iOS only, A PIN set in 2FAS]
+    steps:
+      - Open Settings --> Transfer tokens --> Export Tokens as QR codes.
+      - Tick I understand the risk and confirm with your PIN.
+      - Save or share the zip of QR codes it makes.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam]
+      excluded: [icons, groups]
+    limitations:
+      - The zip isn't encrypted, and anyone holding it can add your accounts to their own phone.
+      - The images are named with a hash, so you have to scan one to see which account it is.
+      - Aegis, 2FAS and Bitwarden Authenticator can't import the zip in one go, so it's one scan per code.
+    sources:
+      - https://github.com/twofas/2fas-ios/blob/vv6.0.3/TwoFAS/TwoFAS/Root/Modules/Settings/Transfer/TransferModuleInteractor.swift
+      - https://github.com/twofas/2fas-ios/blob/vv6.0.3/TwoFAS/TwoFAS/Root/Modules/Settings/Transfer/TransferPresenter.swift
+
+import:
+  - id: backup
+    name: Import a 2FAS backup
+    method: file
+    formats: [2fas-backup]
+    steps:
+      - Open Settings --> 2FAS Backup and tap Import.
+      - Choose the .2fas file and type its password if it has one.
+      - Tap Import to merge it with the tokens you already have.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam, icons, groups, sort-order]
+    limitations:
+      - Tokens with a secret you've already got are skipped.
+    docs: https://2fas.com/support/2fas-auth-mobile-app/i-want-to-move-copy-transfer-tokens-codes-between-ios-and-android/
+    sources:
+      - https://github.com/twofas/2fas-android/blob/6.1.0/data/services/src/main/java/com/twofasapp/data/services/BackupRepositoryImpl.kt
+
+  - id: other-apps
+    name: Import another app's export file
+    method: file
+    formats:
+      - aegis-vault
+      - andotp-backup
+      - bitwarden-json
+      - bitwarden-csv
+      - lastpass-authenticator-json
+      - 1password-csv
+      - proton-authenticator-export
+      - raivo-json
+      - otpauth-uri
+    steps:
+      - On Android, open Settings --> Import Tokens. On iOS, it's Settings --> Transfer tokens.
+      - Pick the app you're leaving, or General OTPAuth file for a list of otpauth links.
+      - Tap Choose JSON file (or text or CSV, depending on the app) and pick the export.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam]
+      excluded: [icons, groups, notes, favourites, motp-yandex]
+    limitations:
+      - Password-protected exports don't work, so export without a password first.
+      - 2FAS only takes 10, 30, 60 or 90-second periods and 5 to 8 digits, and skips anything else.
+      - Raivo's JSON has to come out of its zip first.
+    docs: https://2fas.com/support/2fas-auth-mobile-app/which-imports-are-supported-in-the-2fas-app/
+    sources:
+      - https://github.com/twofas/2fas-android/blob/6.1.0/feature/externalimport/src/main/java/com/twofasapp/feature/externalimport/domain/ImportType.kt
+      - https://github.com/twofas/2fas-android/blob/6.1.0/feature/externalimport/src/main/java/com/twofasapp/feature/externalimport/domain/AegisImporter.kt
+      - https://github.com/twofas/2fas-android/blob/6.1.0/feature/externalimport/src/main/java/com/twofasapp/feature/externalimport/domain/BitwardenImporter.kt
+      - https://github.com/twofas/2fas-android/blob/6.1.0/data/services/src/main/java/com/twofasapp/data/services/ServicesRepositoryImpl.kt
+      - https://github.com/twofas/2fas-ios/blob/vv6.0.3/TwoFAS/Data/Interactors/ImportFromFileInteractor.swift
+
+  - id: google-authenticator
+    name: Scan Google Authenticator's export QR codes
+    method: qr
+    formats: [otpauth-migration]
+    steps:
+      - In Google Authenticator, go to Transfer accounts --> Export accounts.
+      - In 2FAS, open Import Tokens (Transfer tokens on iOS) and pick Google Authenticator.
+      - Tap Scan QR code, or Choose QR code for a screenshot, and repeat for each code.
+    data:
+      included: [secrets, issuers, token-settings, hotp]
+    limitations:
+      - Android won't let you screenshot Google Authenticator, so take a photo of its QR codes with another device.
+    docs: https://2fas.com/support/2fas-auth-mobile-app/how-to-move-transfer-tokens-codes-from-google-authenticator-to-2fas/
+    sources:
+      - https://github.com/twofas/2fas-android/blob/6.1.0/feature/externalimport/src/main/java/com/twofasapp/feature/externalimport/domain/GoogleAuthenticatorImporter.kt
+
+delete:
+  steps:
+    - On Android, open Settings --> 2FAS Backup --> Synchronization settings and tap Delete backup file from Google Drive.
+    - On iOS, open Settings --> 2FAS Backup --> Advanced and tap Delete 2FAS Backup.
+    - Uninstall the app to wipe the tokens on the phone itself.
+  docs: https://2fas.com/support/2fas-auth-mobile-app/how-to-wipe-remove-a-google-drive-backup-file/
+  notes:
+    - On iOS this also wipes the tokens on every other device synced to it, so turn sync off on those first.
+    - On Android the tokens stay on each phone, they just stop syncing.
+    - You can also clear it from Google Drive's Settings --> Manage apps --> 2FAS --> Disconnect from Drive, ticking the box to delete its data.
+
+verification:
+  status: documented
+  checked_at: 2026-11-20

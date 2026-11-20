@@ -1,0 +1,5 @@
+name: Proton Authenticator export
+extensions: [.json]
+standard: false
+based_on: json
+description: The JSON export from Proton Authenticator, which can be encrypted with a password.

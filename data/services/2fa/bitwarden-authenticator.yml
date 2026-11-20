@@ -1,0 +1,75 @@
+name: Bitwarden Authenticator
+website: https://bitwarden.com/products/authenticator/
+description: Bitwarden's free, open source 2FA app for Android and iOS, which works without an account and can show codes from the password manager too.
+deployment: local
+platforms: [android, ios]
+source: https://github.com/bitwarden/android
+
+export:
+  - id: file
+    name: Export to a file
+    method: file
+    formats: [bitwarden-json, bitwarden-csv]
+    steps:
+      - Open Settings and tap Export.
+      - Pick .json or .csv under File format.
+      - Tap Export, confirm, and save the file somewhere safe.
+    data:
+      included: [secrets, issuers, token-settings, steam, favourites]
+      excluded: [settings]
+    limitations:
+      - Exports are never encrypted, so every secret is in plain text.
+      - Codes synced from the Bitwarden password manager aren't included - export those from the password manager.
+      - The Android app drops favourites from its exports.
+    docs: https://bitwarden.com/help/authenticator-import-export/#export-data
+    sources:
+      - https://github.com/bitwarden/android/blob/v2026.11.0-bwa/authenticator/src/main/kotlin/com/bitwarden/authenticator/data/authenticator/repository/AuthenticatorRepositoryImpl.kt
+      - https://github.com/bitwarden/ios/blob/v2026.11.0-bwa/AuthenticatorShared/Core/Vault/Services/ExportItemsService.swift
+
+import:
+  - id: file
+    name: Import from a file
+    method: file
+    formats: [bitwarden-json, 2fas-backup, lastpass-authenticator-json, aegis-vault, raivo-json]
+    steps:
+      - Open Settings and tap Import.
+      - Pick where the file came from under File format.
+      - Tap Import (Import items on iOS) and choose the file.
+    data:
+      included: [secrets, issuers, token-settings, steam, favourites]
+      excluded: [hotp, icons, groups, notes, sort-order]
+    limitations:
+      - Aegis files only work on Android, and Raivo files only on iOS.
+      - Encrypted or password-protected files don't work, so export without a password first.
+      - On Android, a single HOTP code in a 2FAS or Aegis file stops the whole import.
+      - It can't read Bitwarden CSV files, even though it writes them - use JSON.
+    docs: https://bitwarden.com/help/authenticator-import-export/#import-data
+    sources:
+      - https://github.com/bitwarden/android/blob/v2026.11.0-bwa/authenticator/src/main/kotlin/com/bitwarden/authenticator/data/platform/manager/imports/model/ImportFileFormat.kt
+      - https://github.com/bitwarden/android/blob/v2026.11.0-bwa/authenticator/src/main/kotlin/com/bitwarden/authenticator/data/platform/manager/imports/parsers/TwoFasExportParser.kt
+      - https://github.com/bitwarden/android/blob/v2026.11.0-bwa/authenticator/src/main/kotlin/com/bitwarden/authenticator/data/platform/manager/imports/parsers/AegisExportParser.kt
+      - https://github.com/bitwarden/ios/blob/v2026.11.0-bwa/AuthenticatorShared/Core/Vault/Models/Enum/ImportFormatType.swift
+      - https://github.com/bitwarden/ios/blob/v2026.11.0-bwa/AuthenticatorShared/Core/Vault/Services/Importers/TwoFasImporter.swift
+
+  - id: google-authenticator
+    name: Scan Google Authenticator's export QR codes
+    method: qr
+    formats: [otpauth-migration]
+    steps:
+      - In Google Authenticator, go to Transfer accounts --> Export accounts.
+      - On Android, tap + and scan it. On iOS, go to Settings --> Import and pick Google Authenticator (QR code).
+      - Scan each QR code in turn if there's more than one.
+    data:
+      included: [secrets, issuers]
+      excluded: [hotp, token-settings]
+    limitations:
+      - Every code comes in as 6 digits, SHA1 and a 30-second timer, whatever it was set to before.
+    docs: https://bitwarden.com/help/authenticator-import-export/#import-data
+    sources:
+      - https://github.com/bitwarden/android/blob/v2026.11.0-bwa/authenticator/src/main/kotlin/com/bitwarden/authenticator/ui/authenticator/feature/itemlisting/ItemListingViewModel.kt
+      - https://github.com/bitwarden/android/blob/v2026.11.0-bwa/authenticator/src/main/proto/google_authenticator.proto
+      - https://github.com/bitwarden/ios/blob/v2026.11.0-bwa/AuthenticatorShared/Core/Vault/Services/Importers/GoogleImporter.swift
+
+verification:
+  status: documented
+  checked_at: 2026-11-20

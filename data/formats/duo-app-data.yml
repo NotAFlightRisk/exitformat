@@ -1,0 +1,5 @@
+name: Duo Mobile app data
+extensions: [.json]
+standard: false
+based_on: json
+description: The accounts.json file in Duo Mobile's private storage on Android. Getting at it needs root.

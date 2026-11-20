@@ -1,0 +1,172 @@
+name: Aegis Authenticator
+website: https://getaegis.app/
+description: Free, open source 2FA app for Android that keeps your codes in an encrypted vault and never goes online.
+deployment: local
+platforms: [android]
+source: https://github.com/beemdevelopment/Aegis
+
+export:
+  - id: vault
+    name: Export the vault
+    method: file
+    formats: [aegis-vault]
+    steps:
+      - Open Settings --> Import & Export --> Export.
+      - Pick Aegis (.JSON) and leave Encrypt the vault ticked, unless the app you're moving to needs a plain file.
+      - Tap OK to save the file, or Share to send it somewhere.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam, motp-yandex, icons, groups, notes, favourites, sort-order]
+      excluded: [settings]
+    limitations:
+      - An unencrypted export holds every secret in plain text, so delete it once you're done.
+      - 2FAS and Bitwarden Authenticator can only read an unencrypted one.
+      - Automatic backups (Settings --> Backups) write the same file, but always encrypted.
+    docs: https://github.com/beemdevelopment/Aegis/blob/v3.4.3/FAQ.md#what-is-the-difference-between-exporting-and-backing-up
+    sources:
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/ui/fragments/preferences/ImportExportPreferencesFragment.java
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/vault/VaultEntry.java
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/res/values/strings.xml
+
+  - id: plain-text
+    name: Export as plain text
+    method: file
+    formats: [otpauth-uri]
+    steps:
+      - Open Settings --> Import & Export --> Export.
+      - Pick Text file (.TXT) and tick I understand the risk.
+      - Tap OK to save the file, or Share to send it somewhere.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam, motp-yandex]
+      excluded: [icons, groups, notes, favourites]
+    limitations:
+      - There's no option to encrypt it, so every secret is in plain text.
+    sources:
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/vault/VaultRepository.java
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/otp/GoogleAuthInfo.java
+
+  - id: web-page
+    name: Export as a web page
+    method: file
+    formats: [html]
+    steps:
+      - Open Settings --> Import & Export --> Export.
+      - Pick Web page (.HTML) and tick I understand the risk.
+      - Tap OK to save the file, or Share to send it somewhere.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam, motp-yandex, notes, favourites]
+      excluded: [icons, groups]
+    limitations:
+      - There's no option to encrypt it, so every secret is in plain text.
+      - It's a table with a QR code for each entry - handy as a printed backup, but it's not made for importing.
+    sources:
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/vault/VaultHtmlExporter.java
+
+  - id: google-authenticator
+    name: Export for Google Authenticator
+    method: qr
+    formats: [otpauth-migration]
+    steps:
+      - Open Settings --> Import & Export --> Export for Google Authenticator.
+      - Scan the QR code with the other app, then tap Next and repeat until you get to Done.
+    data:
+      included: [secrets, issuers, hotp]
+      excluded: [token-settings, steam, motp-yandex, icons, groups, notes, favourites]
+    limitations:
+      - Only TOTP and HOTP codes with 6 digits and SHA1 go in, and the rest are skipped.
+      - The QR codes can't hold a period, so any code that isn't on a 30-second timer comes out wrong.
+    sources:
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/ui/fragments/preferences/ImportExportPreferencesFragment.java
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/proto/google_auth.proto
+
+import:
+  - id: vault
+    name: Import an Aegis vault
+    method: file
+    formats: [aegis-vault]
+    steps:
+      - Open Settings --> Import & Export --> Import from file and pick Aegis.
+      - Choose the vault file and enter its password if it's encrypted.
+      - Pick the entries to bring in and confirm.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam, motp-yandex, icons, groups, notes, favourites, sort-order]
+    sources:
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/AegisImporter.java
+
+  - id: other-apps
+    name: Import another app's export file
+    method: file
+    formats:
+      - 2fas-backup
+      - andotp-backup
+      - authenticator-plus-export
+      - bitwarden-json
+      - bitwarden-csv
+      - freeotp-backup
+      - freeotp-plus-json
+      - otpauth-uri
+      - proton-authenticator-export
+      - stratum-backup
+      - totp-authenticator-backup
+    steps:
+      - Open Settings --> Import & Export --> Import from file.
+      - Pick the app the file came from (Plain text for a list of otpauth links), then choose the file.
+      - Enter the file's password if it asks, then pick the entries to bring in.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam, motp-yandex]
+      excluded: [icons, groups, notes, favourites]
+    limitations:
+      - Bitwarden and Ente Auth files have to be unencrypted.
+      - FreeOTP 2 backups can be corrupt, in which case Aegis saves what it can.
+      - Your old icons don't come across, though if you've got an icon pack installed Aegis offers to fill them in.
+    docs: https://github.com/beemdevelopment/Aegis/blob/v3.4.3/README.md#features
+    sources:
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/DatabaseImporter.java
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/TwoFASImporter.java
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/BitwardenImporter.java
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/res/values/strings.xml
+
+  - id: root
+    name: Import from another app with root
+    method: file
+    formats:
+      - authy-app-data
+      - battle-net-app-data
+      - duo-app-data
+      - freeotp-app-data
+      - google-authenticator-app-data
+      - microsoft-authenticator-app-data
+      - steam-app-data
+    requirements: [Root access, The other app installed on the same phone]
+    steps:
+      - Open Settings --> Import & Export --> Import from app.
+      - Pick the app and let Aegis have root access when it asks.
+      - Pick the entries to bring in and confirm.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam]
+      excluded: [icons, groups, notes, favourites]
+    limitations:
+      - Google Authenticator only works up to version 5.10, and Steam only before version 3.0.
+      - If your Authy tokens are encrypted, Aegis asks for your Authy backup password.
+      - FreeOTP+, Stratum and TOTP Authenticator can be read this way too, though they have normal exports.
+    docs: https://github.com/beemdevelopment/Aegis/blob/v3.4.3/README.md#features
+    sources:
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/DatabaseImporter.java
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/res/values/strings.xml
+
+  - id: google-authenticator
+    name: Scan Google Authenticator's export QR codes
+    method: qr
+    formats: [otpauth-migration]
+    steps:
+      - In Google Authenticator, go to Transfer accounts --> Export accounts.
+      - In Aegis, tap + then Scan QR code, or Scan image for a screenshot or photo.
+      - Scan every QR code in order - Aegis counts them off as it goes.
+    data:
+      included: [secrets, issuers, token-settings, hotp]
+    sources:
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/ui/ScannerActivity.java
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/otp/GoogleAuthInfo.java
+
+verification:
+  status: documented
+  checked_at: 2026-11-20

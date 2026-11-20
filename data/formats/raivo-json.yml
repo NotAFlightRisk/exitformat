@@ -1,0 +1,5 @@
+name: Raivo OTP export
+extensions: [.json]
+standard: false
+based_on: json
+description: The raivo-otp-export.json file from inside the password-protected zip that Raivo OTP exports on iOS. Importers want the JSON, so unzip it first.

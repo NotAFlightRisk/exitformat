@@ -1,0 +1,6 @@
+name: Aegis vault
+extensions: [.json]
+standard: false
+based_on: json
+description: Aegis's own export and backup file. It's JSON, either plain or encrypted with a password, and it holds everything - icons, groups and notes included.
+spec: https://github.com/beemdevelopment/Aegis/blob/v3.4.3/docs/vault.md

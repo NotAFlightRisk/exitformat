@@ -1,0 +1,5 @@
+name: FreeOTP+ export
+extensions: [.json]
+standard: false
+based_on: json
+description: The JSON export from FreeOTP+, a fork of FreeOTP for Android.

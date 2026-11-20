@@ -1,0 +1,5 @@
+name: andOTP backup
+extensions: [.json, .json.aes]
+standard: false
+based_on: json
+description: The backup from andOTP, an Android app that's no longer maintained. It's plain JSON, or encrypted with a password if it ends in .json.aes.

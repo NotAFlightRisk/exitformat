@@ -1,0 +1,15 @@
+name: Two-factor authentication
+short: 2FA
+description: Authenticator apps - the ones that make the codes you type in after your password.
+data:
+  secrets: Secret keys
+  issuers: Issuers and account names
+  token-settings: Digits, period and algorithm
+  hotp: Counter-based (HOTP) codes
+  steam: Steam Guard codes
+  motp-yandex: mOTP and Yandex codes
+  icons: Icons
+  groups: Groups
+  notes: Notes
+  favourites: Favourites
+  sort-order: Custom order

@@ -1,0 +1,5 @@
+name: Stratum backup
+standard: false
+based_on: json
+description: The backup file from Stratum, the Android app that used to be called Authenticator Pro. It's plain JSON, or encrypted with a password.
+spec: https://github.com/stratumauth/app/blob/86c4e7c520ce30a21fa2887f1ae484442f06225d/doc/BACKUP_FORMAT.md

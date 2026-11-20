@@ -1,0 +1,3 @@
+name: Battle.net Authenticator app data
+standard: false
+description: The settings file holding the Battle.net app's authenticator secret, in its private storage on Android. Getting at it needs root.

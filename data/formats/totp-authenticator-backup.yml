@@ -1,0 +1,3 @@
+name: TOTP Authenticator backup
+standard: false
+description: The backup file from the TOTP Authenticator app, encrypted with a password.

@@ -1,0 +1,4 @@
+name: FreeOTP backup
+extensions: [.xml]
+standard: false
+description: The externalBackup.xml file that FreeOTP 2 saves, with the tokens encrypted by your backup password.

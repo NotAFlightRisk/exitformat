@@ -1,0 +1,5 @@
+name: Authenticator Plus export
+extensions: [.zip]
+standard: false
+based_on: zip
+description: The password-protected zip that Authenticator Plus makes with Export as Text and HTML. Inside is an Accounts.txt with an otpauth link per account.

@@ -1,0 +1,4 @@
+name: FreeOTP app data
+extensions: [.xml]
+standard: false
+description: The tokens.xml file in the private storage of FreeOTP 1.x on Android, which FreeOTP+ uses too. Getting at it needs root.

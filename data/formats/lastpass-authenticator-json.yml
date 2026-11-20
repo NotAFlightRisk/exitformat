@@ -1,0 +1,5 @@
+name: LastPass Authenticator export
+extensions: [.json]
+standard: false
+based_on: json
+description: The JSON file of accounts and folders that LastPass Authenticator exports.
