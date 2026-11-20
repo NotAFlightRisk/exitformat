@@ -31,6 +31,7 @@ export default defineConfig({
         entries: [
           '*',
           '/api/directory.json',
+          '/api/routes.json',
           '/api/search.json',
           '/schema/category.json',
           '/schema/format.json',

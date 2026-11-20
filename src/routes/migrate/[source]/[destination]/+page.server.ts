@@ -1,7 +1,15 @@
 import { error } from '@sveltejs/kit';
 import { better } from '#lib/data/compat.ts';
 import type { Migration, PathView, Service } from '#lib/data/types.ts';
-import { migration, migrations, migrationsFrom, migrationsTo } from '#lib/server/directory.ts';
+import {
+  migration,
+  migrations,
+  migrationsFrom,
+  migrationsTo,
+  openingsFrom,
+  openingsTo,
+  pathsBetween
+} from '#lib/server/directory.ts';
 import {
   andList,
   crumbs,
@@ -78,8 +86,13 @@ export const load = ({ params }) => {
     paths,
     checked: serviceCard(older).verification,
     reverse: reverse ? migrationCard(reverse) : null,
+    // no guide back, but the destination's files still open in the source
+    wayBack:
+      !reverse &&
+      destination.category === source.category &&
+      pathsBetween(destination, source).length > 0,
     moreFrom: moreFrom.slice(0, few).map(migrationCard),
     moreTo: moreTo.slice(0, few).map(migrationCard),
-    totals: { from: moreFrom.length, to: moreTo.length }
+    totals: { from: openingsFrom(source).reach - 1, to: openingsTo(destination).reach - 1 }
   };
 };

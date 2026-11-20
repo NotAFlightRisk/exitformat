@@ -1,5 +1,6 @@
 name: 2FAS QR code export
 extensions: [.zip]
 standard: false
+owner: 2fas
 based_on: zip
 description: A zip of PNG images that 2FAS Auth makes on iOS, one otpauth QR code per token. The images are named with a hash rather than the account, and nothing's encrypted.

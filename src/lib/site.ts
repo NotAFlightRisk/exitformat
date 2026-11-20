@@ -14,7 +14,8 @@ export const href = {
   category: (id: string) => `/categories/${id}`,
   service: (category: string, id: string) => `/${category}/${id}`,
   migration: (source: string, destination: string) => `/migrate/${source}/${destination}`,
-  format: (id: string) => `/formats/${id}`
+  format: (id: string) => `/formats/${id}`,
+  conversion: (from: string, to: string) => `/formats/${from}#to-${to}`
 };
 
 export const ogSize = { width: 1200, height: 630 };

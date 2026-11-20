@@ -21,6 +21,7 @@ import {
   migration,
   migrations,
   migrationsFrom,
+  openingsFrom,
   service,
   services,
   servicesIn
@@ -278,7 +279,7 @@ const tallies = () =>
     ['Services', String(services().length)],
     ['Categories', String(categories().length)],
     ['File formats', String(formats().length)],
-    ['Ways to move', String(migrations().length)]
+    ['Move guides', String(migrations().length)]
   ]);
 
 const pitch = (size: number) =>
@@ -322,7 +323,7 @@ function serviceImage(found: Service) {
     facts([
       ['Ways out', String(found.export.length)],
       ['Formats you get', String(formatIds.length)],
-      ['Can move to', count(migrationsFrom(found.id).length, 'app')],
+      ['Can move to', count(openingsFrom(found).reach, 'app')],
       ['Checked', formatDate(found.verification.checked_at)]
     ])
   );
@@ -372,7 +373,7 @@ function categoryImage(found: Category) {
         lede(found.description),
         div(
           { fontWeight: 700 },
-          `${count(members.length, 'service')} and ${count(moves, 'way to move', 'ways to move')}`
+          `${count(members.length, 'service')} and ${count(moves, 'move guide')}`
         )
       )
     ),

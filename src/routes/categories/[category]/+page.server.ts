@@ -1,8 +1,10 @@
 import { error } from '@sveltejs/kit';
+import { guided } from '#lib/data/compat.ts';
 import { deployments, pathKinds, platforms, type Service } from '#lib/data/types.ts';
-import { categories, category, migration, servicesIn } from '#lib/server/directory.ts';
+import { categories, category, pathsBetween, servicesIn } from '#lib/server/directory.ts';
 import {
   andList,
+  categoryCard,
   categoryLink,
   crumbs,
   formatLink,
@@ -34,18 +36,24 @@ function formatsInUse(members: Service[]) {
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
+/** A guide when there is one, otherwise the format page that explains the way across */
+function cell(source: Service, destination: Service) {
+  const found = source === destination ? [] : pathsBetween(source, destination);
+  if (!found.length) return null;
+  const [{ kind, formats, conversion }] = found;
+  if (guided(found))
+    return { href: href.migration(source.id, destination.id), kind: term(pathKinds, kind) };
+  const via = formatLink(conversion?.from ?? formats[0]);
+  return {
+    href: conversion ? href.conversion(conversion.from, conversion.to) : via.href,
+    kind: term(pathKinds, kind),
+    via: via.name
+  };
+}
+
 const matrixOf = (members: Service[]) => ({
   services: members.map(serviceLink),
-  rows: members.map((source) =>
-    members.map((destination) => {
-      const move = migration(source.id, destination.id);
-      if (!move) return null;
-      return {
-        href: href.migration(source.id, destination.id),
-        kind: term(pathKinds, move.paths[0].kind)
-      };
-    })
-  )
+  rows: members.map((source) => members.map((destination) => cell(source, destination)))
 });
 
 export const entries = () => categories().map(({ id }) => ({ category: id }));
@@ -71,6 +79,7 @@ export const load = ({ params }) => {
       description: found.description,
       data: Object.entries(found.data).map(([id, label]) => ({ id, label }))
     },
+    guides: categoryCard(found).migrations,
     services: cards,
     filters: {
       platforms: present(

@@ -2,6 +2,7 @@
   import { afterNavigate } from '$app/navigation';
   import { page } from '$app/state';
   import CategoryList from '#lib/components/CategoryList.svelte';
+  import NoGuide from '#lib/components/NoGuide.svelte';
   import PageHead from '#lib/components/PageHead.svelte';
   import SearchBox from '#lib/components/SearchBox.svelte';
   import Section from '#lib/components/Section.svelte';
@@ -46,13 +47,15 @@
     {#if missing}
       <p>
         Or head for the <a href="/categories">categories</a>, the <a href="/formats">formats</a> or
-        <a href="/migrate">every way to move</a>.
+        <a href="/migrate">every move guide</a>.
       </p>
     {:else}
       <p><a href={bug} rel="external">Tell us on GitHub</a>, and say what you were doing.</p>
     {/if}
   </div>
 </PageHead>
+
+{#if missing}<NoGuide />{/if}
 
 {#if missing && categories.length}
   <Section id="browse" title="Browse by category">

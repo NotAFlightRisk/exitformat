@@ -58,6 +58,8 @@ describe('cross-references', () => {
     ['an option with no docs or sources', 'notes/jotter.yml', 'import[1]', 39, /needs docs/],
     ['an unknown based_on', 'formats/zine.yml', 'based_on', 3, /"paper" isn't a format/],
     ['an unknown conversion target', 'formats/zine.yml', 'conversions[0].to', 6, /"pamphlet"/],
+    ['an owner we have no file for', 'formats/zine.yml', 'owner', 12, /"nobody" isn't in/],
+    ['an owner on an open format', 'formats/markdown.yml', 'owner', 5, /open format/],
     ['a service id in two categories', 'notes/jotter.yml', '', 1, /also in services\/2fa/],
     ['the other half of that pair', '2fa/jotter.yml', '', 1, /also in services\/notes/],
     ['a category named after one of our pages', 'categories/migrate.yml', '', 1, /our own pages/],

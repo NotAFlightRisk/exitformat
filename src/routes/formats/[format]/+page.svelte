@@ -52,8 +52,8 @@
   {/if}
 {/snippet}
 
-{#snippet conversion(item: ConversionView, title: string)}
-  <article class="chart conversion">
+{#snippet conversion(item: ConversionView, title: string, id?: string)}
+  <article class="chart conversion" {id}>
     <div class="cell head">
       <h3>{title}</h3>
       <a href={item.url} rel="external">With {item.tool}</a>
@@ -112,7 +112,7 @@
   <Section id="convert-to" title="Convert it to another format">
     {#snippet aside()}{@render key()}{/snippet}
     {#each format.conversions as item (item)}
-      {@render conversion(item, `To ${item.to.name}`)}
+      {@render conversion(item, `To ${item.to.name}`, `to-${item.to.id}`)}
     {/each}
   </Section>
 {/if}

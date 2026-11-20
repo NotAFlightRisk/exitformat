@@ -11,7 +11,6 @@
   let { data } = $props();
 
   const category = $derived(data.category);
-  const moves = $derived(data.matrix?.rows.flat().filter(Boolean).length);
 
   const sorts = {
     name: { label: 'Name', compare: () => 0 },
@@ -65,7 +64,7 @@
     items={[
       { label: 'Services', value: String(data.services.length) },
       { label: 'Formats in use', value: String(data.formats.length) },
-      ...(moves === undefined ? [] : [{ label: 'Ways to move', value: String(moves) }])
+      { label: 'Move guides', value: String(data.guides) }
     ]}
   />
 </PageHead>

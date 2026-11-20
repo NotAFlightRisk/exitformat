@@ -85,6 +85,7 @@ const format = {
     name: text,
     extensions: list({ type: 'string', pattern: extension }, { minItems: 1 }),
     standard: { type: 'boolean' },
+    owner: id,
     based_on: id,
     description: text,
     spec: url,

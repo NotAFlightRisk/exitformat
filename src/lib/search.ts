@@ -1,19 +1,13 @@
-import {
-  pathKinds,
-  type Directory,
-  type Migration,
-  type PathKind,
-  type Term
-} from '#lib/data/types.ts';
+import { pathKinds, type Directory, type Migration, type Term } from '#lib/data/types.ts';
 import { href } from '#lib/site.ts';
 
-// a way out: the destination's place in the list, the best route and its carry counts
-type Way = [to: number, kind: PathKind, carried: number, lost: number, unknown: number];
+// a guided move out: the destination's place in the list and its best route's carry counts
+type Way = [to: number, carried: number, lost: number, unknown: number];
 
 /** What /api/search.json holds. Services point at formats and each other by place in the list */
 export interface SearchIndex {
   categories: { id: string; name: string; short?: string }[];
-  formats: { id: string; name: string; extensions: string[] }[];
+  formats: { id: string; name: string; extensions: string[]; standard: boolean }[];
   services: {
     id: string;
     name: string;
@@ -32,7 +26,7 @@ export interface SearchResult {
   href: string;
   detail: string;
   icon: string | null;
-  /** a migration's two ends, its best route and that route's carry counts */
+  /** a guide's two ends, its best route and that route's carry counts */
   route?: {
     source: End;
     destination: End;
@@ -50,6 +44,12 @@ interface End {
 
 type Entry = SearchIndex['services'][number];
 
+/** Formats one app exports and another in its category imports, for a move with no guide */
+export const sharedFormats = (index: SearchIndex, source: Entry, destination: Entry) =>
+  source.category === destination.category
+    ? source.exports.filter((at) => destination.imports.includes(at)).map((at) => index.formats[at])
+    : [];
+
 export function buildIndex(
   { categories, formats, services }: Directory,
   migrations: Migration[],
@@ -63,7 +63,12 @@ export function buildIndex(
 
   return {
     categories: categories.map(({ id, name, short }) => ({ id, name, short })),
-    formats: formats.map(({ id, name, extensions }) => ({ id, name, extensions })),
+    formats: formats.map(({ id, name, extensions, standard }) => ({
+      id,
+      name,
+      extensions,
+      standard
+    })),
     services: services.map(({ id, name, category, aliases, ...found }) => ({
       id,
       name,
@@ -73,7 +78,6 @@ export function buildIndex(
       imports: formatsOf(found.import),
       to: (moves.get(id) ?? []).map(({ destination, paths: [best] }): Way => [
         service.get(destination.id)!,
-        best.kind,
         best.carried.length,
         best.lost.length,
         best.unknown.length
@@ -281,8 +285,18 @@ export function search(index: SearchIndex, query: string): SearchResult[] {
     add(1, serviceResult(source));
     add(1, serviceResult(destination));
     const way = source.to.find(([to]) => to === index.services.indexOf(destination));
-    if (!way) continue;
-    const [, kind, carried, lost, unknown] = way;
+    if (!way) {
+      for (const { id, name } of sharedFormats(index, source, destination))
+        add(1.5, {
+          kind: 'format',
+          name,
+          href: href.format(id),
+          detail: `${source.name} exports it, ${destination.name} imports it`,
+          icon: null
+        });
+      continue;
+    }
+    const [, carried, lost, unknown] = way;
     add(2, {
       kind: 'migration',
       name: `${source.name} to ${destination.name}`,
@@ -292,7 +306,7 @@ export function search(index: SearchIndex, query: string): SearchResult[] {
       route: {
         source: end(source),
         destination: end(destination),
-        kind: { id: kind, label: pathKinds[kind] },
+        kind: { id: 'direct', label: pathKinds.direct },
         carried,
         lost,
         unknown

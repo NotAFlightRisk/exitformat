@@ -140,6 +140,11 @@
 <Section id="back" title="Move from {destination.name} back to {source.name}">
   {#if data.reverse}
     <MigrationList moves={[data.reverse]} />
+  {:else if data.wayBack}
+    <p class="empty">
+      There's no guide for the way back, but {destination.name}'s exports still open in {source.name}.
+      <a href="{destination.href}#move">See where {destination.name} can go</a>.
+    </p>
   {:else}
     <p class="empty">
       There's no way back from {destination.name} to {source.name} that we know of, so hang on to your
@@ -151,12 +156,17 @@
 <div class="pair">
   <Section id="more-from" title="Other places {source.name} can go">
     {#snippet aside()}
-      {#if data.totals.from > data.moreFrom.length}
+      {#if data.moreFrom.length && data.totals.from > data.moreFrom.length}
         <a href="{source.href}#move">Every place {source.name} can go</a>
       {/if}
     {/snippet}
     {#if data.moreFrom.length}
       <MigrationList moves={data.moreFrom} show="destination" key={keyed === 'from'} />
+    {:else if data.totals.from}
+      <p class="empty">
+        There's no other guide out of {source.name}, but
+        <a href="{source.href}#move">{count(data.totals.from, 'more app')}</a> can take its exports.
+      </p>
     {:else}
       <p class="empty">Nothing else we list can take {source.name}'s exports yet.</p>
     {/if}
@@ -164,12 +174,17 @@
 
   <Section id="more-to" title="Other ways into {destination.name}">
     {#snippet aside()}
-      {#if data.totals.to > data.moreTo.length}
+      {#if data.moreTo.length && data.totals.to > data.moreTo.length}
         <a href="{destination.href}#bring">Every way into {destination.name}</a>
       {/if}
     {/snippet}
     {#if data.moreTo.length}
       <MigrationList moves={data.moreTo} show="source" key={keyed === 'to'} />
+    {:else if data.totals.to}
+      <p class="empty">
+        There's no other guide into {destination.name}, but it can import from
+        <a href="{destination.href}#bring">{count(data.totals.to, 'more app')}</a>.
+      </p>
     {:else}
       <p class="empty">Nothing else we list can move into {destination.name} yet.</p>
     {/if}

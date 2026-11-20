@@ -1,5 +1,6 @@
 name: Joplin Export File (JEX)
 extensions: [.jex]
 standard: false
+owner: joplin
 description: Joplin's own backup format - a tar archive holding every note, notebook, tag and attachment, with all their metadata. It's made for backups and for moving between Joplin installs, and as far as we know only Joplin reads it.
 spec: https://joplinapp.org/help/apps/import_export

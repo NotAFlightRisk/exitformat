@@ -27,7 +27,7 @@
         {/if}
         <p class="counts">
           {count(category.services, 'service')} and
-          {count(category.migrations, 'way to move', 'ways to move')}
+          {count(category.migrations, 'move guide')}
         </p>
       </div>
     </li>

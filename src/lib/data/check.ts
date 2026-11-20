@@ -143,9 +143,12 @@ function checkCategory(source: Source, flag: Flag, { passed }: Known) {
     flag(['data', 'settings'], 'settings is in every category already, so it can go');
 }
 
-function checkFormat(source: Source, flag: Flag, { formats, passed }: Known) {
+function checkFormat(source: Source, flag: Flag, { formats, services, passed }: Known) {
   if (!passed.has(source)) return;
-  const { based_on, conversions = [] } = source.raw as Format;
+  const { standard, owner, based_on, conversions = [] } = source.raw as Format;
+  if (owner && standard) flag(['owner'], "an open format isn't anyone's own, so owner can go");
+  else if (owner && !services.has(owner))
+    flag(['owner'], `"${owner}" isn't in data/services yet - leave owner off until it is`);
   if (based_on === source.id) flag(['based_on'], "can't be based on itself");
   else if (based_on && !formats.has(based_on)) flag(['based_on'], unknownFormat(based_on));
   conversions.forEach(({ to }, index) => {
