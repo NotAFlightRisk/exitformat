@@ -63,6 +63,8 @@ It's a fully static site, so it'll run anywhere that serves files. For example:
 - **From release**: Each [release](https://github.com/NotAFlightRisk/exitformat/releases) has the pre-built `site.zip`, ready to be served up (like `unzip site.zip -d site && npx serve site`)
 - **Build from source**: Follow the [Development](#development) steps, then run `npm run build`. The site lands in `build/`
 
+[![1-Click Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FNotAFlightRisk%2Fexitformat&demo-title=Exit%20Format&demo-url=https%3A%2F%2Fexitformat.peng.ly)
+
 ---
 
 ## Development
