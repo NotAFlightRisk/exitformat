@@ -1,0 +1,12 @@
+name: Odd Name
+website: https://example.com/odd
+description: Fine inside, badly named outside.
+deployment: cloud
+platforms: [web]
+
+export: []
+import: []
+
+verification:
+  status: documented
+  checked_at: 2026-11-01

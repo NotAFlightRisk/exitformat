@@ -1,0 +1,5 @@
+name: Keyring vault
+extensions: [.keyring]
+standard: false
+based_on: json
+description: The backup file Keyring writes.

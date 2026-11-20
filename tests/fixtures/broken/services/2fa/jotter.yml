@@ -1,0 +1,12 @@
+name: Jotter Codes
+website: https://example.com/jotter-codes
+description: Shares its id with the notes app.
+deployment: local
+platforms: [android]
+
+export: []
+import: []
+
+verification:
+  status: documented
+  checked_at: 2026-11-01

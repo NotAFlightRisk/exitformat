@@ -1,0 +1,39 @@
+name: Shabby
+website: http://example.com/shabby
+description: Gets the shape wrong all over.
+deployment: everywhere
+platforms: [linux]
+colour: beige
+
+export:
+  - id: dump
+    name: Dump everything
+    method: teleport
+    formats: [markdown]
+    steps:
+      - One.
+      - Two.
+      - Three.
+      - Four.
+      - Five.
+    data:
+      included: [pages]
+    docs: https://example.com/shabby/dump
+
+import:
+  - id: files
+    name: Import files
+    method: file
+    steps:
+      - Pick the files.
+      - Then wait while it reads every single one of them, which on a big notebook can take a good long while, so maybe go and put the kettle on first.
+    docs: https://example.com/shabby/files
+
+verification:
+  status: documented
+  checked_at: 2026-02-30
+
+delete:
+  steps:
+    - Open Settings: then Account.
+    - Delete it.

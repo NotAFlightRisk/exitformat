@@ -1,0 +1,69 @@
+name: Jotter
+website: https://example.com/jotter
+description: A made-up notes app that stores pages as files on your device.
+deployment: local
+platforms: [windows, macos, linux]
+source: https://example.com/jotter/source
+aliases: [jotter notes]
+
+export:
+  - id: folder
+    name: Copy the vault folder
+    method: folder
+    formats: [markdown]
+    steps:
+      - Find the vault folder on your device.
+      - Copy it somewhere else.
+    data:
+      included: [pages, attachments, tags]
+    docs: https://example.com/jotter/vault
+
+import:
+  - id: scribble
+    name: Import from Scribble
+    method: file
+    formats: [scribble-zip]
+    from: [scribble]
+    steps:
+      - Open the Importer plugin.
+      - Choose Scribble, then pick the zip.
+    data:
+      excluded: [tags]
+    docs: https://example.com/jotter/scribble
+  - id: markdown
+    name: Open Markdown files
+    method: folder
+    formats: [markdown]
+    steps:
+      - Copy the files into your vault folder.
+      - Reopen Jotter.
+    docs: https://example.com/jotter/markdown
+  - id: html
+    name: Import HTML
+    method: file
+    formats: [html]
+    steps:
+      - Open the Importer plugin.
+      - Choose HTML, then pick the files.
+    docs: https://example.com/jotter/html
+  - id: json
+    name: Import JSON notes
+    method: file
+    formats: [json]
+    steps:
+      - Open the Importer plugin.
+      - Choose JSON, then pick the file.
+    docs: https://example.com/jotter/json
+  - id: otpvault
+    name: Import from Otpvault
+    method: file
+    formats: [json]
+    from: [otpvault]
+    steps:
+      - Open the Importer plugin.
+      - Choose Otpvault, then pick the file.
+    docs: https://example.com/jotter/otpvault
+
+verification:
+  status: tested
+  checked_at: 2026-11-15

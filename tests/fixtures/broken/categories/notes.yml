@@ -1,0 +1,5 @@
+name: Notes
+description: Apps for writing things down.
+data:
+  pages: Pages
+  tags: Tags

@@ -1,0 +1,4 @@
+name: Migrate
+description: A category that would trample the migrate pages.
+data:
+  things: Things

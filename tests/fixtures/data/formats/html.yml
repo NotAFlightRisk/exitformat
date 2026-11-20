@@ -1,0 +1,4 @@
+name: HTML
+extensions: [.html]
+standard: true
+description: Web pages, readable in any browser.

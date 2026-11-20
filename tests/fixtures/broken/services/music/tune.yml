@@ -1,0 +1,12 @@
+name: Tune
+website: https://example.com/tune
+description: Sits in a category nobody's written yet.
+deployment: cloud
+platforms: [web]
+
+export: []
+import: []
+
+verification:
+  status: documented
+  checked_at: 2027-01-01

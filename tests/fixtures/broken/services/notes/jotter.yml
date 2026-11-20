@@ -1,0 +1,49 @@
+name: Jotter
+website: https://example.com/jotter
+description: Every kind of cross-reference slip in one file.
+deployment: local
+platforms: [linux]
+
+export:
+  - id: folder
+    name: Copy the folder
+    method: folder
+    formats: [markdown, scroll]
+    steps:
+      - Find the folder.
+      - Copy it.
+    data:
+      included: [pages, vibes]
+      excluded: [pages]
+    docs: https://example.com/jotter/folder
+  - id: folder
+    name: Copy the folder again
+    method: folder
+    formats: [markdown]
+    steps:
+      - Find the folder.
+      - Copy it again.
+    data:
+      included: [pages]
+    docs: https://example.com/jotter/again
+
+import:
+  - id: nobody
+    name: Import from Nobody
+    method: connect
+    from: [nobody]
+    steps:
+      - Sign in to Nobody.
+      - Pull it across.
+    docs: https://example.com/jotter/nobody
+  - id: retype
+    name: Type it all in
+    method: copy
+    formats: [markdown]
+    steps:
+      - Open a new page.
+      - Type it all in again.
+
+verification:
+  status: documented
+  checked_at: 2026-11-01

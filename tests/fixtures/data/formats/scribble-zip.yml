@@ -1,0 +1,13 @@
+name: Scribble export
+extensions: [.zip]
+standard: false
+description: A zip of everything in a Scribble workspace.
+conversions:
+  - to: html
+    tool: Unzipper
+    url: https://example.com/unzipper
+    steps:
+      - Open the zip in Unzipper.
+      - Save it as a folder of HTML pages.
+    limitations:
+      - Comments don't survive the trip.

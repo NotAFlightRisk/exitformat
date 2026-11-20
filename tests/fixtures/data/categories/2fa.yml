@@ -1,0 +1,8 @@
+name: Two-factor authentication
+short: 2FA
+description: Apps that make the one-time codes you type in after your password.
+data:
+  secrets: Secret keys
+  issuers: Issuers and account names
+  icons: Icons
+  groups: Groups

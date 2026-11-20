@@ -1,0 +1,8 @@
+name: Notes
+description: Apps for writing things down and finding them again.
+data:
+  pages: Pages
+  attachments: Attachments
+  tags: Tags
+  comments: Comments
+  history: Page history

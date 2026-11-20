@@ -1,0 +1,47 @@
+name: Quill
+website: https://example.com/quill
+description: A made-up notes app that can pull your pages straight out of Scribble.
+deployment: cloud
+platforms: [web, ios]
+
+export:
+  - id: page
+    name: Export a page
+    method: file
+    formats: [markdown]
+    steps:
+      - Open the page.
+      - Choose Share, then Markdown.
+    data:
+      included: [pages]
+      excluded: [attachments]
+    docs: https://example.com/quill/page
+  - id: everything
+    name: Export everything
+    method: account
+    formats: [markdown]
+    steps:
+      - Open Settings, then Privacy.
+      - Ask for a copy of your data.
+      - Download the zip when the email turns up.
+    data:
+      included: [pages, attachments, tags]
+      unknown: [history]
+    docs: https://example.com/quill/everything
+
+import:
+  - id: scribble
+    name: Pull it across from Scribble
+    method: connect
+    from: [scribble]
+    steps:
+      - Open Settings, then Import.
+      - Sign in to Scribble and allow access.
+    data:
+      included: [pages, comments]
+      excluded: [attachments]
+    docs: https://example.com/quill/scribble
+
+verification:
+  status: documented
+  checked_at: 2026-11-18

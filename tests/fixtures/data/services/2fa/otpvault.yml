@@ -1,0 +1,24 @@
+name: Otpvault
+website: https://example.com/otpvault
+description: A made-up 2FA app that lets you out but never back in.
+deployment: cloud
+platforms: [web]
+
+export:
+  - id: json
+    name: Download your codes
+    method: file
+    formats: [json]
+    steps:
+      - Sign in on the website.
+      - Open Account, then Download.
+    data:
+      included: [secrets, issuers]
+      unknown: [groups]
+    docs: https://example.com/otpvault/download
+
+import: []
+
+verification:
+  status: documented
+  checked_at: 2026-10-01

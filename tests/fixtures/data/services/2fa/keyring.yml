@@ -1,0 +1,61 @@
+name: Keyring
+website: https://example.com/keyring
+description: A made-up 2FA app that keeps its codes in an encrypted vault.
+deployment: local
+platforms: [android]
+
+export:
+  - id: vault
+    name: Export the vault
+    method: file
+    formats: [keyring-vault]
+    steps:
+      - Open Settings, then Backups.
+      - Tap Export vault.
+    data:
+      included: [secrets, issuers, icons, groups]
+    docs: https://example.com/keyring/export
+  - id: plain
+    name: Export as plain text
+    method: file
+    formats: [json, otpauth-uri]
+    steps:
+      - Open Settings, then Backups.
+      - Tap Export as plain text.
+    data:
+      included: [secrets, issuers]
+      excluded: [icons, groups]
+    docs: https://example.com/keyring/plain
+
+import:
+  - id: vault
+    name: Restore a vault
+    method: file
+    formats: [keyring-vault]
+    steps:
+      - Open Settings, then Backups.
+      - Tap Import vault.
+    docs: https://example.com/keyring/import
+  - id: tokenbox
+    name: Import from Tokenbox
+    method: file
+    formats: [tokenbox-backup]
+    steps:
+      - Open Settings, then Import.
+      - Choose the Tokenbox backup.
+    data:
+      excluded: [icons]
+    docs: https://example.com/keyring/import
+  - id: otpvault
+    name: Import from Otpvault
+    method: file
+    formats: [json]
+    from: [otpvault]
+    steps:
+      - Open Settings, then Import.
+      - Choose the Otpvault file.
+    docs: https://example.com/keyring/import
+
+verification:
+  status: documented
+  checked_at: 2026-11-01

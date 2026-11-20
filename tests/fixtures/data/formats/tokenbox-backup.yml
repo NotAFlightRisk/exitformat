@@ -1,0 +1,4 @@
+name: Tokenbox backup
+standard: false
+based_on: json
+description: The backup file Tokenbox writes.

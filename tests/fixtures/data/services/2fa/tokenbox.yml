@@ -1,0 +1,32 @@
+name: Tokenbox
+website: https://example.com/tokenbox
+description: A made-up 2FA app with password-protected backups.
+deployment: hybrid
+platforms: [android, ios]
+
+export:
+  - id: backup
+    name: Export a backup
+    method: file
+    formats: [tokenbox-backup]
+    steps:
+      - Open the menu, then Backup.
+      - Tap Export.
+    data:
+      included: [secrets, issuers, icons]
+      unknown: [groups]
+    docs: https://example.com/tokenbox/backup
+
+import:
+  - id: links
+    name: Import otpauth links
+    method: file
+    formats: [otpauth-uri]
+    steps:
+      - Open the menu, then Import.
+      - Pick the text file.
+    sources: [https://example.com/tokenbox/source]
+
+verification:
+  status: tested
+  checked_at: 2025-06-01

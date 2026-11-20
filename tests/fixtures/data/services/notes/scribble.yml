@@ -1,0 +1,56 @@
+name: Scribble
+website: https://example.com/scribble
+description: A made-up notes app that keeps everything in its cloud.
+deployment: cloud
+platforms: [web, windows, macos]
+
+export:
+  - id: workspace
+    name: Export the workspace
+    method: file
+    formats: [scribble-zip]
+    requirements: [Paid plan]
+    steps:
+      - Open Settings, then Workspace.
+      - Choose Export everything.
+      - Download the zip from the email.
+    data:
+      included: [pages, attachments, tags]
+      excluded: [comments]
+      unknown: [history]
+    limitations:
+      - Big workspaces come in several zips.
+    docs: https://example.com/scribble/export
+  - id: markdown
+    name: Export a page as Markdown
+    method: file
+    formats: [markdown]
+    steps:
+      - Open the page.
+      - Choose Export, then Markdown.
+    data:
+      included: [pages]
+      excluded: [attachments, tags, comments]
+    docs: https://example.com/scribble/markdown
+
+import:
+  - id: markdown
+    name: Import Markdown
+    method: file
+    formats: [markdown]
+    steps:
+      - Open Settings, then Import.
+      - Pick the Markdown files.
+    docs: https://example.com/scribble/import
+
+delete:
+  steps:
+    - Open Settings, then Account.
+    - Choose Delete account.
+  docs: https://example.com/scribble/delete
+  notes:
+    - Takes up to 30 days.
+
+verification:
+  status: documented
+  checked_at: 2026-11-10

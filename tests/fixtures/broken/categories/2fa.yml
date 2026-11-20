@@ -1,0 +1,4 @@
+name: Two-factor authentication
+description: Apps that make one-time codes.
+data:
+  secrets: Secret keys

@@ -1,0 +1,4 @@
+name: otpauth links
+extensions: [.txt]
+standard: true
+description: A text file of otpauth:// links, one account per line.

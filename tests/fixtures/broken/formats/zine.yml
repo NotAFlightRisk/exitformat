@@ -1,0 +1,11 @@
+name: Zine
+standard: false
+based_on: paper
+description: A format pointing at things that aren't there.
+conversions:
+  - to: pamphlet
+    tool: Stapler
+    url: https://example.com/stapler
+    steps:
+      - Fold it.
+      - Staple it.
