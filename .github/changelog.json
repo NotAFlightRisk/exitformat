@@ -1,0 +1,11 @@
+{
+  "commit": "e77f3f2cd5e36c0f90a124198937c32b63bd2479",
+  "entries": [
+    {"date":"2026-11-20","commit":"d2c3be9","id":"2fas","category":"2fa","name":"2FAS Auth","kind":"added"},
+    {"date":"2026-11-20","commit":"d2c3be9","id":"aegis","category":"2fa","name":"Aegis Authenticator","kind":"added"},
+    {"date":"2026-11-20","commit":"d2c3be9","id":"bitwarden-authenticator","category":"2fa","name":"Bitwarden Authenticator","kind":"added"},
+    {"date":"2026-11-20","commit":"f24f9b4","id":"joplin","category":"notes","name":"Joplin","kind":"added"},
+    {"date":"2026-11-20","commit":"f24f9b4","id":"notion","category":"notes","name":"Notion","kind":"added"},
+    {"date":"2026-11-20","commit":"f24f9b4","id":"obsidian","category":"notes","name":"Obsidian","kind":"added"}
+  ]
+}
