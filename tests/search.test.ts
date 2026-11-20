@@ -66,6 +66,19 @@ describe('search', () => {
     ]);
   });
 
+  it('waits for an end that a crowd still fits before reading it as a service', () => {
+    const tally = (at: number) => ({
+      ...index.services[0],
+      id: `tally-${at}`,
+      name: `Tally ${at}`
+    });
+    const busy = {
+      ...index,
+      services: [...index.services, ...Array.from({ length: 11 }, (_, at) => tally(at))]
+    };
+    expect(search(busy, 'keyring to t').filter(({ name }) => name.startsWith('Tally'))).toEqual([]);
+  });
+
   it('finds nothing for nothing, or for words that match nothing', () => {
     expect(search(index, '  ')).toEqual([]);
     expect(search(index, 'xyzzy')).toEqual([]);

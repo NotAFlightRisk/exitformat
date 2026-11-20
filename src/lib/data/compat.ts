@@ -63,7 +63,7 @@ export function paths(source: Service, destination: Service, formats: Map<string
     if (into.from.length) {
       if (!into.from.includes(source.id)) continue;
       const matching = source.export.filter((out) => shared(out.formats, into.formats).length);
-      if (!matching.length) add('direct', into, undefined, []);
+      if (!matching.length && into.method === 'connect') add('direct', into, undefined, []);
       for (const out of matching) add('direct', into, out, shared(out.formats, into.formats));
       continue;
     }

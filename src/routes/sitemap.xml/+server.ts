@@ -15,7 +15,8 @@ export const prerender = true;
 
 // the pages without a parameter, read off the routes so a new one can't be left out
 const fixed = Object.keys(import.meta.glob('/src/routes/**/+page.svelte'))
-  .map((file) => file.slice('/src/routes'.length, -'/+page.svelte'.length) || '/')
+  .map((file) => file.slice('/src/routes'.length, -'/+page.svelte'.length))
+  .map((path) => path.replace(/\/\(.+?\)/g, '') || '/')
   .filter((path) => !path.includes('[') && path !== '/404');
 
 // lastmod only where there's a real date behind it

@@ -64,6 +64,10 @@ describe('paths', () => {
   it('ignores an importer built for some other service', () => {
     expect(routes('keyring', 'jotter').map((path) => path.import.id)).toEqual(['json']);
   });
+
+  it("never passes off a file importer as a sign-in when the source can't make the file", () => {
+    expect(routes('keyring', 'lockbox').map((path) => path.import.id)).toEqual(['json']);
+  });
 });
 
 describe('carry', () => {

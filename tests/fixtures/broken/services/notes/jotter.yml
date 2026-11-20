@@ -31,7 +31,7 @@ import:
   - id: nobody
     name: Import from Nobody
     method: connect
-    from: [nobody]
+    from: [nobody, garbled]
     steps:
       - Sign in to Nobody.
       - Pull it across.
@@ -43,6 +43,9 @@ import:
     steps:
       - Open a new page.
       - Type it all in again.
+    data:
+      excluded: [tags]
+      unknown: [tags]
 
 verification:
   status: documented

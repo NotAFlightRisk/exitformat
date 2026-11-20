@@ -170,11 +170,14 @@ const between = /\s*(?:->|→|=>|>)\s*|\s+(?:to|into)\s+/gi;
 
 /** The best-fitting services either side of "X to Y", however the query splits that way */
 function ends(index: SearchIndex, keys: Prepared, query: string) {
+  // an end that a crowd fits equally well is still being typed
+  const crowd = 10;
   const candidates = (text: string) => {
     const end = readings(text);
     const fits = keys.services.map((list) => score(end, list));
     const top = Math.max(...fits);
-    return top ? index.services.filter((_, at) => fits[at] === top) : [];
+    const best = top ? index.services.filter((_, at) => fits[at] === top) : [];
+    return best.length > crowd ? [] : best;
   };
   const asked = query.replace(lead, '');
   return [...asked.matchAll(between)].flatMap((split) => {

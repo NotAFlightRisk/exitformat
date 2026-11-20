@@ -9,7 +9,7 @@ import {
 } from '#lib/data/types.ts';
 
 export type Git = (...args: string[]) => string;
-type Version = Record<string, unknown> & { name: string; category: string };
+type Version = Record<string, unknown> & { category: string };
 
 export const changelogFile = '.github/changelog.json';
 const servicePath = /^data\/services\/([^/]+)\/([^/]+)\.yml$/;
@@ -74,8 +74,9 @@ export function buildChangelog(git: Git, saved: Changelog) {
     Boolean(saved.commit) && succeeds('merge-base', '--is-ancestor', saved.commit, 'HEAD');
   const head = git('rev-parse', 'HEAD');
   const emptyTree = git('hash-object', '-t', 'tree', '/dev/null');
+  // history can't be mended, so a file that was once broken gets read as best it can
   const versionAt = (rev: string, file: string, category: string): Version => ({
-    ...parse(git('show', `${rev}:${file}`)),
+    ...parse(git('show', `${rev}:${file}`), { logLevel: 'silent' }),
     category
   });
 
@@ -123,7 +124,8 @@ export function buildChangelog(git: Git, saved: Changelog) {
           if (!change) return [];
           const { name, category } = (after ?? before)!;
           const link = { commit: sha.slice(0, 7), ...(pr ? { pr: Number(pr) } : {}) };
-          return [{ date, ...link, id, category, name, ...change }];
+          const named = typeof name === 'string' ? name : id;
+          return [{ date, ...link, id, category, name: named, ...change }];
         })
         .sort((a, b) => a.name.localeCompare(b.name));
     });

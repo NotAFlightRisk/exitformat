@@ -88,16 +88,15 @@ const format = {
     based_on: id,
     description: text,
     spec: url,
-    conversions: {
-      type: 'array',
-      items: strict(['to', 'tool', 'url', 'steps'], {
+    conversions: list(
+      strict(['to', 'tool', 'url', 'steps'], {
         to: id,
         tool: text,
         url,
         steps,
         limitations: list(text)
       })
-    }
+    )
   })
 };
 

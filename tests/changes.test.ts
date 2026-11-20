@@ -153,6 +153,24 @@ describe('changelog', () => {
     expect(() => buildChangelog(gitIn(shallow), empty)).toThrow(/fetch all of it/);
   });
 
+  it('keeps going past a service file that was once broken or blank on main', () => {
+    const mended = join(scratch, 'mended');
+    execFileSync('git', ['clone', '-q', repo, mended], { env });
+    const save = (text: string, subject: string) => {
+      writeFileSync(join(mended, 'data/services/docs/quill.yml'), text);
+      execFileSync('git', ['commit', '-qam', subject], { cwd: mended, env });
+    };
+    save('name: [Quill\n', 'fix(data): break Quill');
+    save('', 'fix(data): blank Quill');
+    save(fixture('quill.yml'), 'fix(data): mend Quill (#7)');
+    const { log } = buildChangelog(gitIn(mended), empty);
+    expect(log.entries.slice(0, 3).map(({ name, kind }) => `${name} ${kind}`)).toEqual([
+      'Quill updated',
+      'quill updated',
+      'quill updated'
+    ]);
+  });
+
   it('reads a missing or blank file as an empty log', () => {
     const blank = join(scratch, 'blank.json');
     writeFileSync(blank, '\n');

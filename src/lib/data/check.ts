@@ -18,6 +18,7 @@ type Flag = (path: Step[], message: string, warning?: boolean) => void;
 
 interface RawOption {
   id: string;
+  method: string;
   formats?: string[];
   from?: string[];
   data?: Partial<Scope>;
@@ -120,7 +121,7 @@ function explain({ keyword, instancePath, params, parentSchema, data, message }:
         params.format === 'date' ? 'should be a real date, like 2026-11-20' : hints[https]
       );
     case 'uniqueItems':
-      return say('lists something twice');
+      return say('is already in the list', [...at, Math.max(params.i, params.j)]);
     default:
       return say(message ?? 'is the wrong shape');
   }
@@ -164,12 +165,24 @@ function checkOption(
   option.formats?.forEach((id, slot) => {
     if (!known.formats.has(id)) flag(at('formats', slot), unknownFormat(id));
   });
+  const makes = (source: Source) =>
+    !known.passed.has(source) ||
+    (source.raw as RawService).export.some((out) =>
+      out.formats!.some((id) => option.formats!.includes(id))
+    );
   option.from?.forEach((id, slot) => {
-    if (!known.services.has(id))
-      flag(at('from', slot), `"${id}" isn't in data/services yet - just name it instead`);
+    const named = known.services.get(id);
+    if (!named) flag(at('from', slot), `"${id}" isn't in data/services yet - just name it instead`);
+    else if (option.method !== 'connect' && !named.some(makes))
+      flag(
+        at('from', slot),
+        `${id} doesn't export any of these formats, so there's no route`,
+        true
+      );
   });
 
   const { included = [], excluded = [], unknown = [] } = option.data ?? {};
+  const seen = new Map<string, string>();
   for (const [key, ids] of Object.entries({ included, excluded, unknown }))
     ids.forEach((id, slot) => {
       if (vocabulary && !vocabulary.includes(id))
@@ -177,8 +190,9 @@ function checkOption(
           at('data', key, slot),
           `"${id}" isn't in this category's data list - use one of ${vocabulary.join(', ')}`
         );
-      if (key === 'excluded' && included.includes(id))
-        flag(at('data', key, slot), `${id} is in included as well`);
+      const first = seen.get(id);
+      if (first) flag(at('data', key, slot), `${id} is in ${first} as well`);
+      else seen.set(id, key);
     });
 
   if (!option.docs && !option.sources?.length)
@@ -188,7 +202,7 @@ function checkOption(
 
 function checkService(source: Source, flag: Flag, known: Known) {
   const home = known.categories.get(source.category);
-  if (source.category === '.')
+  if (source.category === '.' || /[\\/]/.test(source.category))
     flag([], 'should be in a category folder, like services/notes/obsidian.yml');
   else if (!home)
     flag([], `is in services/${source.category}, but there's no categories/${source.category}.yml`);
@@ -265,7 +279,8 @@ export function check(sources: Source[], { today = new Date() } = {}): Problem[]
     }
   }
 
-  const of = (kind: Source['kind']) => parsed.filter((source) => source.kind === kind);
+  // a file that won't parse still exists, so pointing at it isn't a second mistake
+  const of = (kind: Source['kind']) => sources.filter((source) => source.kind === kind);
   const known: Known = {
     categories: new Map(of('category').map((source) => [source.id, source])),
     formats: new Set(of('format').map((source) => source.id)),

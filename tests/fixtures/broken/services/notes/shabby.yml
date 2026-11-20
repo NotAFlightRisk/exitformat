@@ -37,3 +37,8 @@ delete:
   steps:
     - Open Settings: then Account.
     - Delete it.
+
+aliases:
+  - shabby
+  - shabby notes
+  - shabby
