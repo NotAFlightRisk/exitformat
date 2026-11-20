@@ -9,13 +9,6 @@
   const guide = `${site.repo}/blob/main/.github/CONTRIBUTING.md`;
   const form = (template: string) => `${site.repo}/issues/new?template=${template}`;
 
-  const steps = [
-    "Copy a service from the same category as yours in data/services. Notion and Aegis are the fullest, so they're the best to start from.",
-    "Name the file after the service, lowercase with dashes. It's the id and the address, so notes/obsidian.yml is /notes/obsidian.",
-    "Fill it in from the service's own docs, then run npm run validate, which points at any line that's wrong.",
-    'Open a pull request titled like feat(data): add Logseq, or fix(data): refresh Notion for a re-check.'
-  ];
-
   const example = `name: Obsidian
 website: https://obsidian.md/
 # 160 characters at most
@@ -68,8 +61,28 @@ verification:
   </div>
 </Section>
 
+{#snippet copy()}
+  Copy a service from the same category as yours in <code>data/services</code>. Notion and Aegis are
+  the fullest, so they're the best to start from.
+{/snippet}
+
+{#snippet name()}
+  Name the file after the service, lowercase with dashes. It's the id and the address, so
+  <code>notes/obsidian.yml</code> is <code>/notes/obsidian</code>.
+{/snippet}
+
+{#snippet fill()}
+  Fill it in from the service's own docs, then run <code>npm run validate</code>, which points at
+  any line that's wrong.
+{/snippet}
+
+{#snippet open()}
+  Open a pull request titled like <code>feat(data): add Logseq</code>, or
+  <code>fix(data): refresh Notion</code> for a re-check.
+{/snippet}
+
 <Section id="add" title="Add a service yourself">
-  <Steps {steps} />
+  <div class="add"><Steps steps={[copy, name, fill, open]} /></div>
 </Section>
 
 <Section id="file" title="What goes in a service file">
@@ -159,13 +172,16 @@ verification:
     font-family: var(--font-data);
   }
 
+  .prose,
+  .add {
+    code {
+      font-size: 0.875em;
+    }
+  }
+
   .prose {
     display: grid;
     gap: var(--space-3);
     max-inline-size: var(--measure);
-
-    code {
-      font-size: 0.875em;
-    }
   }
 </style>

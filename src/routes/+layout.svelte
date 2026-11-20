@@ -29,6 +29,10 @@
       description: site.description
     }
   );
+  // home, search and the error pages bring their own big search box
+  const ownSearch = $derived(
+    ['/', '/search'].includes(page.url.pathname) || (page.data.status ?? page.status) >= 400
+  );
   // a service page's crumbs run through Categories, so that's the tab it lights up
   const section = $derived(page.data.crumbs?.[1]?.href);
   const current = (href: string) =>
@@ -54,7 +58,7 @@
         {/each}
       </ul>
     </nav>
-    {#if !['/', '/search'].includes(page.url.pathname)}
+    {#if !ownSearch}
       <div class="find"><SearchBox /></div>
     {/if}
   </div>

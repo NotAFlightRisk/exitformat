@@ -42,8 +42,8 @@
     </div>
   {/snippet}
   <div class="next">
+    <SearchBox size="large" />
     {#if missing}
-      <SearchBox size="large" label="Find what you were after" />
       <p>
         Or head for the <a href="/categories">categories</a>, the <a href="/formats">formats</a> or
         <a href="/migrate">every way to move</a>.

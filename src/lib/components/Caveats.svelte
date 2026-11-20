@@ -1,4 +1,5 @@
 <script lang="ts">
+  import MenuText from '#lib/components/MenuText.svelte';
   import StateMark from '#lib/components/StateMark.svelte';
 
   let { items }: { items: string[] } = $props();
@@ -7,10 +8,10 @@
 {#if items.length}
   {@const [first, ...rest] = items}
   <div class="caveats">
-    <p class="first"><StateMark state="warning" /> <span>{first}</span></p>
+    <p class="first"><StateMark state="warning" /> <span><MenuText text={first} /></span></p>
     {#if rest.length}
       <ul>
-        {#each rest as item, index (index)}<li>{item}</li>{/each}
+        {#each rest as item, index (index)}<li><MenuText text={item} /></li>{/each}
       </ul>
     {/if}
   </div>

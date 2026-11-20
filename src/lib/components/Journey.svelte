@@ -1,6 +1,7 @@
 <script lang="ts">
   import FormatChips from '#lib/components/FormatChips.svelte';
   import Icon from '#lib/components/Icon.svelte';
+  import MenuText from '#lib/components/MenuText.svelte';
   import ServiceLink from '#lib/components/ServiceLink.svelte';
   import Steps from '#lib/components/Steps.svelte';
   import Tile from '#lib/components/Tile.svelte';
@@ -50,7 +51,9 @@
         <dt>Needs</dt>
         <dd>
           <ul class="needs">
-            {#each option.requirements as need, index (index)}<li>{need}</li>{/each}
+            {#each option.requirements as need, index (index)}
+              <li><MenuText text={need} /></li>
+            {/each}
           </ul>
         </dd>
       </div>

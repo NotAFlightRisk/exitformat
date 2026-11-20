@@ -10,14 +10,11 @@
   let {
     size = 'compact',
     placeholder = 'Search services and formats',
-    label,
     value = $bindable(''),
     live = false
   }: {
     size?: 'compact' | 'large';
     placeholder?: string;
-    /** names the search landmark, for a page with two of them */
-    label?: string;
     value?: string;
     /** the page shows the results itself, so no suggestions underneath */
     live?: boolean;
@@ -113,7 +110,6 @@
   action="/search"
   method="get"
   role="search"
-  aria-label={label}
   data-sveltekit-reset={live ? 'false' : undefined}
   data-sveltekit-replacestate={live ? '' : undefined}
 >

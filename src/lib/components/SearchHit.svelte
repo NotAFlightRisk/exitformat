@@ -1,4 +1,7 @@
 <script lang="ts">
+  import Icon from '#lib/components/Icon.svelte';
+  import PathBadge from '#lib/components/PathBadge.svelte';
+  import StateMark from '#lib/components/StateMark.svelte';
   import Tile from '#lib/components/Tile.svelte';
   import type { SearchResult } from '#lib/search.ts';
   import { initials, symbol } from '#lib/text.ts';
@@ -14,19 +17,37 @@
   );
 </script>
 
-{#if result.kind === 'service' || result.kind === 'migration'}
-  <Tile name={result.name} icon={result.icon} size="sm" />
+{#if result.route}
+  {@const { source, destination, kind, carried, lost, unknown } = result.route}
+  <span class="ends">
+    <Tile name={source.name} icon={source.icon} size="sm" />
+    <Icon name="arrow" />
+    <Tile name={destination.name} icon={destination.icon} size="sm" />
+  </span>
+  <span class="text">
+    <span class="name">Move from {result.name}</span>
+    <span class="carry">
+      <PathBadge {kind} />
+      <span><StateMark state="included" /> {carried} carry over</span>
+      <span><StateMark state="excluded" /> {lost} lost</span>
+      <span><StateMark state="unknown" /> {unknown} not sure</span>
+    </span>
+  </span>
 {:else}
-  <span class="mark" class:extension={short} style:--length={plate.length} aria-hidden="true">
-    {plate}
+  {#if result.kind === 'service'}
+    <Tile name={result.name} icon={result.icon} size="sm" />
+  {:else}
+    <span class="mark" class:extension={short} style:--length={plate.length} aria-hidden="true">
+      {plate}
+    </span>
+  {/if}
+  <span class="text">
+    <span class="name">{result.name}</span>
+    {#if result.detail}
+      <span class="detail {result.kind}">{result.detail}</span>
+    {/if}
   </span>
 {/if}
-<span class="text">
-  <span class="name">{result.kind === 'migration' ? `Move from ${result.name}` : result.name}</span>
-  {#if result.detail}
-    <span class="detail {result.kind}">{result.detail}</span>
-  {/if}
-</span>
 {#if tag}<span class="tag">{kinds[result.kind]}</span>{/if}
 
 <style>
@@ -42,7 +63,6 @@
     font-weight: 800;
     line-height: 1;
     letter-spacing: -0.02em;
-    transition: border-color var(--quick) var(--ease);
 
     &.extension {
       font-family: var(--font-data);
@@ -52,8 +72,17 @@
     }
   }
 
+  .ends {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: var(--space-1);
+    color: var(--text-muted);
+  }
+
   .text {
     display: grid;
+    gap: var(--space-1);
     min-inline-size: 0;
   }
 
@@ -68,6 +97,21 @@
     &.format {
       font-family: var(--font-data);
       letter-spacing: -0.04em;
+    }
+  }
+
+  .carry {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1) var(--space-3);
+    font-size: var(--size-sm);
+
+    > span {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      white-space: nowrap;
     }
   }
 

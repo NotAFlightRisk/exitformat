@@ -55,7 +55,15 @@ describe('search', () => {
         name: 'Keyring to Tokenbox',
         href: '/migrate/keyring/tokenbox',
         detail: '',
-        icon: null
+        icon: null,
+        route: {
+          source: { name: 'Keyring', icon: null },
+          destination: { name: 'Tokenbox', icon: null },
+          kind: { id: 'file', label: 'Same file format' },
+          carried: 2,
+          lost: 2,
+          unknown: 0
+        }
       });
   });
 

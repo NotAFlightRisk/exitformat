@@ -1,5 +1,14 @@
-import type { Directory, Migration } from '#lib/data/types.ts';
+import {
+  pathKinds,
+  type Directory,
+  type Migration,
+  type PathKind,
+  type Term
+} from '#lib/data/types.ts';
 import { href } from '#lib/site.ts';
+
+// a way out: the destination's place in the list, the best route and its carry counts
+type Way = [to: number, kind: PathKind, carried: number, lost: number, unknown: number];
 
 /** What /api/search.json holds. Services point at formats and each other by place in the list */
 export interface SearchIndex {
@@ -12,7 +21,7 @@ export interface SearchIndex {
     aliases: string[];
     exports: number[];
     imports: number[];
-    to: number[];
+    to: Way[];
     icon: boolean;
   }[];
 }
@@ -22,6 +31,20 @@ export interface SearchResult {
   name: string;
   href: string;
   detail: string;
+  icon: string | null;
+  /** a migration's two ends, its best route and that route's carry counts */
+  route?: {
+    source: End;
+    destination: End;
+    kind: Term;
+    carried: number;
+    lost: number;
+    unknown: number;
+  };
+}
+
+interface End {
+  name: string;
   icon: string | null;
 }
 
@@ -48,7 +71,13 @@ export function buildIndex(
       aliases,
       exports: formatsOf(found.export),
       imports: formatsOf(found.import),
-      to: (moves.get(id) ?? []).map(({ destination }) => service.get(destination.id)!),
+      to: (moves.get(id) ?? []).map(({ destination, paths: [best] }): Way => [
+        service.get(destination.id)!,
+        best.kind,
+        best.carried.length,
+        best.lost.length,
+        best.unknown.length
+      ]),
       icon: hasIcon(id)
     }))
   };
@@ -247,17 +276,28 @@ export function search(index: SearchIndex, query: string): SearchResult[] {
       })
     );
 
+  const end = (service: Entry): End => ({ name: service.name, icon: iconOf(service) });
   for (const [source, destination] of named ? ends(index, keys, query) : []) {
     add(1, serviceResult(source));
     add(1, serviceResult(destination));
-    if (source.to.includes(index.services.indexOf(destination)))
-      add(2, {
-        kind: 'migration',
-        name: `${source.name} to ${destination.name}`,
-        href: href.migration(source.id, destination.id),
-        detail: '',
-        icon: iconOf(source)
-      });
+    const way = source.to.find(([to]) => to === index.services.indexOf(destination));
+    if (!way) continue;
+    const [, kind, carried, lost, unknown] = way;
+    add(2, {
+      kind: 'migration',
+      name: `${source.name} to ${destination.name}`,
+      href: href.migration(source.id, destination.id),
+      detail: '',
+      icon: iconOf(source),
+      route: {
+        source: end(source),
+        destination: end(destination),
+        kind: { id: kind, label: pathKinds[kind] },
+        carried,
+        lost,
+        unknown
+      }
+    });
   }
 
   return [...found.values()]

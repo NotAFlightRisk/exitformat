@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+  import MenuText from '#lib/components/MenuText.svelte';
 
   let {
     title,
@@ -13,7 +14,7 @@
   {#if figure}<div class="figure">{@render figure()}</div>{/if}
   <div class="title">
     <h1>{title}</h1>
-    {#if lede}<p class="lede">{lede}</p>{/if}
+    {#if lede}<p class="lede"><MenuText text={lede} /></p>{/if}
   </div>
   {#if children}<div class="extra">{@render children()}</div>{/if}
 </header>

@@ -2,6 +2,7 @@
   import DataScope from '#lib/components/DataScope.svelte';
   import FormatChips from '#lib/components/FormatChips.svelte';
   import Icon from '#lib/components/Icon.svelte';
+  import MenuText from '#lib/components/MenuText.svelte';
   import ServiceLink from '#lib/components/ServiceLink.svelte';
   import Sources from '#lib/components/Sources.svelte';
   import StateMark from '#lib/components/StateMark.svelte';
@@ -55,7 +56,9 @@
           <dt>Needs</dt>
           <dd>
             <ul class="needs">
-              {#each option.requirements as need, index (index)}<li>{need}</li>{/each}
+              {#each option.requirements as need, index (index)}
+                <li><MenuText text={need} /></li>
+              {/each}
             </ul>
           </dd>
         </div>
@@ -72,10 +75,10 @@
     {@const [first, ...rest] = option.limitations}
     <div class="cell caveats">
       <svelte:element this={title} class="cell-title">Watch out for</svelte:element>
-      <p class="first"><StateMark state="warning" /> <span>{first}</span></p>
+      <p class="first"><StateMark state="warning" /> <span><MenuText text={first} /></span></p>
       {#if rest.length}
         <ul>
-          {#each rest as limitation, index (index)}<li>{limitation}</li>{/each}
+          {#each rest as limitation, index (index)}<li><MenuText text={limitation} /></li>{/each}
         </ul>
       {/if}
     </div>
