@@ -14,9 +14,9 @@ export:
     formats: [freeotp-plus-json]
     steps:
       - Open the menu (the three dots) and tap Export --> Export JSON format.
-      - Choose where to save the file, on the phone or in Google Drive.
+      - Choose where to save the file, on the phone or with a provider like Google Drive.
     data:
-      included: [secrets, issuers, token-settings, hotp, groups, sort-order]
+      included: [secrets, issuers, token-settings, hotp, steam, groups, sort-order]
       excluded: [icons, settings]
     limitations:
       - There's no password on it, so every secret is in plain text.
@@ -37,10 +37,11 @@ export:
       - Choose where to save the file.
     data:
       included: [secrets, issuers, token-settings, hotp]
-      excluded: [icons, groups, settings]
+      excluded: [steam, icons, groups, settings]
       unknown: [sort-order]
     limitations:
       - There's no password on it, so every secret is in plain text.
+      - Steam codes go out as TOTP links with Steam as the issuer, which Stratum reads as Steam but most apps don't, so they make the wrong codes.
     sources:
       - https://github.com/helloworld1/FreeOTPPlus/blob/RELEASE-3.5/token-data/src/main/java/org/fedorahosted/freeotp/data/OtpTokenFactory.kt
 
@@ -51,12 +52,12 @@ import:
     formats: [freeotp-plus-json]
     steps:
       - Open the menu (the three dots) and tap Import --> Import JSON format.
-      - Choose the file, then tap OK on the warning.
+      - Choose the file, then tap Ok on the warning.
     data:
-      included: [secrets, issuers, token-settings, hotp, groups, sort-order]
+      included: [secrets, issuers, token-settings, hotp, steam, groups, sort-order]
     limitations:
-      - The app warns that all your current tokens get cleared and overwritten, so only use it on a fresh install.
-      - Tokens missing from the file's tokenOrder list are skipped without a word.
+      - It writes over tokens already in the app rather than adding to them, so import it into a fresh install.
+      - Tokens missing from the file's tokenOrder list, or with no label, are skipped without a word.
     docs: https://github.com/helloworld1/FreeOTPPlus/blob/RELEASE-3.5/README.md#import-notes
     sources:
       - https://github.com/helloworld1/FreeOTPPlus/blob/RELEASE-3.5/token-data/src/main/java/org/fedorahosted/freeotp/data/MigrationUtil.kt
@@ -70,10 +71,11 @@ import:
       - Open the menu (the three dots) and tap Import --> Import key URI format.
       - Choose a text file with one otpauth:// link per line.
     data:
-      included: [secrets, issuers, token-settings, hotp]
-      excluded: [steam, motp-yandex, icons, groups, notes, favourites, sort-order]
+      included: [secrets, issuers, token-settings, hotp, icons]
+      excluded: [steam, motp-yandex, groups, notes, favourites, sort-order]
     limitations:
-      - One line it can't read, like a Steam, mOTP or Yandex link, stops the whole file from importing.
+      - One line it can't read stops the whole file, and that includes the otpauth://steam/ links Aegis and Ente write, and mOTP links.
+      - Steam only comes across as a TOTP link with Steam as the issuer.
     sources:
       - https://github.com/helloworld1/FreeOTPPlus/blob/RELEASE-3.5/token-data/src/main/java/org/fedorahosted/freeotp/data/legacy/ImportExportUtil.kt
       - https://github.com/helloworld1/FreeOTPPlus/blob/RELEASE-3.5/token-data/src/main/java/org/fedorahosted/freeotp/data/OtpTokenFactory.kt
