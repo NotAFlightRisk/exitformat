@@ -1,4 +1,5 @@
 name: Apple Notes database
 extensions: [.sqlite]
 standard: false
+owner: apple-notes
 description: Where Apple Notes keeps your notes on a Mac - a NoteStore.sqlite file in the group.com.apple.notes folder. It isn't an export, it's the app's own database, and Obsidian's Importer reads it directly.

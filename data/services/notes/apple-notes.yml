@@ -1,0 +1,112 @@
+name: Apple Notes
+website: https://www.icloud.com/notes
+description: Apple's notes app for iPhone, iPad and Mac, which keeps your notes on the device and syncs them through iCloud.
+deployment: hybrid
+platforms: [ios, macos, web]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/e8/53/65/e853659a-0888-7264-743e-0e3875d1505f/notesCalistoga-0-0-1x_U007epad-0-1-85-220.png/128x128bb.png
+aliases: [notes, icloud notes]
+
+export:
+  - id: library
+    name: Let another app read the Notes library on a Mac
+    method: folder
+    formats: [apple-notes-database]
+    requirements: [A Mac]
+    steps:
+      - Open Notes on a Mac signed in to your iCloud account and let it finish syncing.
+      - Open any notes whose attachments you need, so they download from iCloud.
+      - Point the app you're moving to at group.com.apple.notes, in the Group Containers folder of your Library.
+    data:
+      included: [text, formatting, attachments, structure, links, dates, todos]
+      excluded: [settings]
+      unknown: [tags, sharing]
+    limitations:
+      - It's the only way to take everything at once, folders and all.
+      - Locked notes can't be read this way, so remove their locks first if you want them.
+      - Attachments that are still only in iCloud get missed.
+    sources:
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/apple-notes.ts
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/apple-notes/convert-note.ts
+      - https://help.obsidian.md/import/apple-notes
+
+  - id: markdown
+    name: Export a note as Markdown
+    method: file
+    formats: [markdown]
+    requirements: [iOS 26 or macOS 26 or later]
+    steps:
+      - On iPhone, open the note and tap Share --> Export as Markdown. It's under View More if you can't see it.
+      - On a Mac, select the note, choose File --> Export To and pick Markdown, then select Save.
+    data:
+      included: [text, formatting]
+      excluded: [structure]
+      unknown: [attachments, links, tags, dates, todos]
+    limitations:
+      - It's one note at a time, so a big library takes a while.
+      - You can ask Apple for a copy of your iCloud notes at privacy.apple.com instead, but it doesn't say what format they come in.
+    docs: https://support.apple.com/guide/iphone/export-or-print-notes-iphdf551cfa2/ios
+    sources:
+      - https://support.apple.com/guide/notes/import-export-and-print-notes-not201900c07/mac
+      - https://support.apple.com/en-us/102208
+
+  - id: pdf
+    name: Export a note as a PDF
+    method: file
+    formats: [pdf]
+    steps:
+      - On iPhone, open the note and tap Share --> Markup, then tap Done to save the PDF.
+      - On a Mac, select the note, choose File --> Export To and pick PDF, then select Save.
+    data:
+      included: [text, formatting]
+      excluded: [structure]
+      unknown: [attachments]
+    limitations:
+      - It's one note at a time.
+      - A PDF or scan inside the note comes out as just its first page.
+    docs: https://support.apple.com/guide/iphone/export-or-print-notes-iphdf551cfa2/ios
+    sources:
+      - https://support.apple.com/guide/notes/import-export-and-print-notes-not201900c07/mac
+
+import:
+  - id: files
+    name: Import text files
+    method: file
+    formats: [txt, html, markdown]
+    requirements: [A Mac]
+    steps:
+      - In the sidebar, select a folder in your iCloud or On My Mac account.
+      - Choose File --> Import to Notes and pick some files, or a folder of them.
+      - Tick Preserve folder structure on import to keep subfolders, then select Import.
+    limitations:
+      - Markdown needs macOS 26 or later.
+      - It only works with upgraded iCloud notes or notes stored on the Mac.
+      - Everything lands in an Imported Notes folder, so move it where you want it afterwards.
+    docs: https://support.apple.com/guide/notes/import-export-and-print-notes-not201900c07/mac
+
+  - id: evernote
+    name: Import Evernote files
+    method: file
+    formats: [enex]
+    requirements: [A Mac]
+    steps:
+      - In the sidebar, select a folder in your iCloud or On My Mac account.
+      - Choose File --> Import to Notes, pick your .enex files and select Import.
+    data:
+      unknown: [formatting, attachments, links, properties, dates, todos]
+    limitations:
+      - Tags come across on macOS 13 or later.
+      - It only works with upgraded iCloud notes or notes stored on the Mac.
+    docs: https://support.apple.com/guide/notes/import-export-and-print-notes-not201900c07/mac
+
+delete:
+  steps:
+    - Delete the notes, then open Recently Deleted and delete them from there too.
+    - To get rid of one straight away, delete everything in it first, so the empty note syncs everywhere.
+  docs: https://support.apple.com/guide/notes/delete-a-note-not5585d71a8/mac
+  notes:
+    - Deleted iCloud notes leave your devices after 30 days, and iCloud after 40.
+    - Notes in other accounts, like Google or Yahoo, go for good as soon as you delete them.
+
+verification:
+  status: documented
+  checked_at: 2026-11-21
