@@ -194,14 +194,24 @@ import:
   - id: onenote
     name: Import from OneNote with a Microsoft account
     method: connect
+    from: [onenote]
     steps:
       - In Obsidian, install the Importer plugin, open it and pick Microsoft OneNote --> Microsoft account.
       - Sign in, choose the notebooks or sections, then select Import.
+    data:
+      included: [text, formatting, attachments, structure, links, tags, dates, todos, embeds]
+      excluded: [history, sharing]
     limitations:
       - Only notebooks you own that sync to OneDrive. Ones other people shared with you won't work.
-      - A work or school account may need your organisation to approve access.
-      - Locked sections stay hidden until you take the lock off.
+      - A work or school account may need your organisation to approve access, and locked sections stay hidden until you take the lock off.
+      - Bold, italic, underline, strikethrough and highlights come across, but fonts and colours don't.
+      - Files that aren't images, audio, video or PDFs are skipped unless you switch on Import incompatible attachments.
+      - Embedded videos only stay embedded if they're from YouTube. Others become plain links.
+      - Handwriting comes in as one SVG image at the end of each page.
     docs: https://help.obsidian.md/import/onenote
+    sources:
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/onenote.ts
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/onenote/convert.ts
 
   - id: onenote-file
     name: Import OneNote export files
@@ -210,11 +220,20 @@ import:
     steps:
       - In OneNote for Windows, export a notebook as a OneNote Package (.onepkg), or a single section as .one.
       - In Obsidian, install the Importer plugin, open it and pick Microsoft OneNote --> File import.
-      - Choose the file, pick the sections and select Import.
+      - Choose the files, or a folder of them, untick any sections you don't want and select Import.
+    data:
+      included: [text, formatting, attachments, structure, links, dates, todos]
+      excluded: [tags, history, embeds]
     limitations:
-      - Only OneNote for Windows can export these files, not the Mac app or OneNote for Windows 10.
-      - Rights-protected files can't be read.
+      - It can't read a notebook downloaded from OneNote for the web or OneDrive, since those .one files are packed differently.
+      - To Do tags become checkboxes, and a few others like Important and Question become callouts. The rest are dropped.
+      - Handwriting comes in as an SVG image at the end of each page, plus any text OneNote recognised in it.
+      - Password-protected sections and rights-protected files get skipped.
     docs: https://help.obsidian.md/import/onenote
+    sources:
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/onenote-file.ts
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/onenote-file/convert.ts
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/onenote-file/onestore/revision-store.ts
 
   - id: roam
     name: Import from Roam Research

@@ -1,4 +1,6 @@
 name: OneNote notebook files
 extensions: [.one, .onepkg]
 standard: false
-description: OneNote's own files - .one for a single section and .onepkg for a whole notebook. Only OneNote for Windows exports them, and downloading a notebook's folder from OneDrive gets you a zip of .one files.
+owner: onenote
+description: The files OneNote for Windows saves, exports and backs up - .one for a single section, and .onepkg for a whole notebook, which is its .one files packed into one. Password-protected sections stay encrypted inside. A notebook downloaded from OneNote for the web or OneDrive packs its .one files differently, so not every app that reads these reads that.
+spec: https://learn.microsoft.com/en-us/openspecs/office_file_formats/ms-onestore/ae670cd2-4b38-4b24-82d1-87cfb2cc3725
