@@ -1,0 +1,119 @@
+name: Simplenote
+website: https://simplenote.com/
+description: Automattic's free plain text notes app, synced to your Simplenote account. It still works but is no longer in active development.
+deployment: cloud
+platforms: [web, windows, macos, linux, android, ios]
+source: https://github.com/Automattic/simplenote-electron
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/70/45/67/7045673b-5e74-76ae-a026-af4b96071bed/AppIcon-0-0-1x_U007epad-0-1-0-85-220.png/128x128bb.png
+aliases: [simple note]
+
+export:
+  - id: text-files
+    name: Export notes as text files
+    method: file
+    formats: [txt]
+    requirements: [Web or desktop app]
+    steps:
+      - On the web, open the menu at the top left, then Settings, the Tools tab and Export Notes.
+      - In the desktop app, it's File --> Export Notes...
+      - You get notes.zip, with a .txt file for each note named after its first line.
+    data:
+      included: [text, formatting, dates, todos]
+      excluded: [links, tags, properties, sharing, history, settings]
+    limitations:
+      - Each file ends with a Tags list as plain text, which normally comes in as part of the note when you import it elsewhere.
+      - A file's date is when its note last changed. The created date is only in the JSON.
+      - Trashed notes are in a trash folder inside the zip.
+      - On a Mac, it's only in the Electron version of the app, not the Mac App Store one.
+    docs: https://simplenote.com/help/
+    sources:
+      - https://github.com/Automattic/simplenote-electron/blob/v2.27.1/lib/utils/export/to-zip.ts
+
+  - id: json
+    name: Export notes as Simplenote JSON
+    method: file
+    formats: [simplenote-json]
+    steps:
+      - On Android, open Settings from the navigation drawer and tap Export data under Account. It saves simplenote.json.
+      - On the web or desktop, export notes as text files and the JSON is in the zip as source/notes.json.
+    data:
+      included: [text, formatting, links, tags, properties, dates, todos, sharing]
+      excluded: [history, settings]
+    limitations:
+      - Logging out deletes notes that haven't synced yet, so check they're on the web app first.
+      - Android's export leaves out who each note's shared with. The web and desktop one keeps their email addresses.
+      - The iPhone and iPad app has no export, only sharing one note at a time as plain text.
+      - Links between notes point at each note's ID, which changes when you import it anywhere, Simplenote included.
+    docs: https://simplenote.com/help/
+    sources:
+      - https://github.com/Automattic/simplenote-electron/blob/v2.27.1/lib/utils/export/export-notes.ts
+      - https://github.com/Automattic/simplenote-android/blob/2.40/Simplenote/src/main/java/com/automattic/simplenote/PreferencesFragment.java
+
+import:
+  - id: json
+    name: Import a Simplenote export
+    method: file
+    formats: [simplenote-json]
+    steps:
+      - On the web or desktop, go to Import Notes (next to Export Notes) and pick the .json file or the export's zip.
+      - On Android, open Settings and tap Import data under Account.
+    data:
+      included: [text, formatting, tags, properties, dates, todos]
+      excluded: [links, sharing]
+    limitations:
+      - Everything comes in as new notes, so importing twice gives you duplicates.
+      - Shared and published notes come back as ordinary notes, and links between notes stop working.
+      - The web and desktop importer takes files up to 5 MB.
+    docs: https://simplenote.com/help/
+    sources:
+      - https://github.com/Automattic/simplenote-electron/blob/v2.27.1/lib/utils/import/simplenote/index.ts
+
+  - id: text-files
+    name: Import text or Markdown files
+    method: file
+    formats: [txt, markdown]
+    steps:
+      - On the web or desktop, go to Import Notes and pick the files. Tick Enable Markdown on all notes to keep Markdown as Markdown.
+      - On Android, open Settings and tap Import data under Account, one file at a time.
+    data:
+      included: [text, formatting, dates, todos]
+      excluded: [attachments, structure, tags, properties]
+      unknown: [links]
+    limitations:
+      - On the web or desktop, a note's dates are its file's modified time, and its file name goes on as the first line unless the note already starts with it. On Android, the dates are when you import it.
+      - The web and desktop importer skips files over 1 MB without saying.
+    docs: https://simplenote.com/help/
+    sources:
+      - https://github.com/Automattic/simplenote-electron/blob/v2.27.1/lib/utils/import/text-files/index.ts
+
+  - id: evernote
+    name: Import from Evernote
+    method: file
+    formats: [enex]
+    requirements: [Desktop app]
+    steps:
+      - Export your notebooks from Evernote as .enex files.
+      - In the Simplenote desktop app, go to File --> Import Notes and pick the .enex file.
+    data:
+      included: [text, formatting, tags, dates, todos]
+      excluded: [attachments, links, properties]
+    limitations:
+      - Notes are turned into Markdown, and images and attachments become a placeholder like (image/png).
+    docs: https://simplenote.com/help/
+    sources:
+      - https://github.com/Automattic/simplenote-electron/blob/v2.27.1/desktop/evernote-import/index.js
+      - https://github.com/Automattic/simplenote-electron/blob/v2.27.1/desktop/evernote-import/enml-to-markdown.js
+
+delete:
+  steps:
+    - Sign in to the web app at app.simplenote.com on a computer, not a phone, and go to your account settings.
+    - Choose to delete your account there.
+    - Or use Delete account on Android, or Delete Account then Request Account Deletion on iOS, and confirm from the email they send.
+  docs: https://simplenote.com/help/
+  notes:
+    - Every note is deleted for good and your email address is purged, so export first.
+    - If it says We could not delete your account, reset your password and try again from a desktop browser.
+
+verification:
+  status: documented
+  checked_at: 2026-11-21
