@@ -1,0 +1,35 @@
+name: Yubico Authenticator
+website: https://www.yubico.com/products/yubico-authenticator/
+description: Yubico's free, open source 2FA app that keeps your codes on a YubiKey, which never gives the secrets back, so leaving means setting each one up again.
+deployment: local
+platforms: [android, ios, windows, macos, linux]
+source: https://github.com/Yubico/yubioath-flutter
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/8d/5c/cc/8d5cccde-7212-8bbc-3800-b7b5071f3ff8/AppIcon-0-0-1x_U007emarketing-0-0-0-8-0-0-sRGB-85-220.png/128x128bb.png
+aliases: [yubikey authenticator, yubico]
+
+export: []
+
+import:
+  - id: google-authenticator
+    name: Scan Google Authenticator's export QR codes
+    method: qr
+    formats: [otpauth-migration]
+    requirements: [A YubiKey, A computer or Android phone]
+    steps:
+      - In Google Authenticator, tap Menu --> Transfer codes --> Export codes on Android, or Menu --> Transfer accounts --> Export accounts on iOS.
+      - Connect your YubiKey and select Add account, under Setup on a computer or Android.
+      - Select Scan QR code (or drop a picture of it in on a computer, or Read from file on Android), pick the accounts and Save.
+    data:
+      included: [secrets, issuers, token-settings, hotp]
+    limitations:
+      - Yubico's guide says the iOS app can't read these QR codes, though the codes work on any device once they're on the key.
+      - The secrets can't be copied off the key, so a spare YubiKey needs every account adding to it from the same QR codes.
+      - A YubiKey holds 32 accounts, or 64 from firmware 5.7, and Save won't go through until the ones you've picked fit.
+    docs: https://docs.yubico.com/software/yubikey/tools/authenticator/auth-guide/oath.html
+    sources:
+      - https://github.com/Yubico/yubioath-flutter/blob/7.5.0/lib/oath/models.dart
+      - https://github.com/Yubico/yubioath-flutter/blob/7.5.0/lib/l10n/app_en.arb
+
+verification:
+  status: documented
+  checked_at: 2026-11-21
