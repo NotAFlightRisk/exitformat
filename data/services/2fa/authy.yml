@@ -1,6 +1,6 @@
 name: Twilio Authy
 website: https://www.authy.com/
-description: Twilio's 2FA app for Android and iOS, tied to your phone number. It has no export at all, so leaving means root or setting every code up again.
+description: Twilio's 2FA app for Android and iOS, tied to your phone number. It has no export of its own, so leaving means root or setting every code up again.
 deployment: local
 platforms: [android, ios]
 icon: https://play-lh.googleusercontent.com/zSwzBRRZ2ZRStFCCeDUnlcvdy8lhzwp6268PPQ1pgzEDDs70rzs7QjPBP7qnkD3X9s4IJMIA6nEZOHcd7PI-zg=s128
@@ -13,31 +13,33 @@ export:
     formats: [authy-app-data]
     requirements: [Root access, Android only]
     steps:
-      - If the phone isn't rooted yet, tap Menu --> Settings and switch on Backups on the Accounts tab first, since rooting wipes it.
-      - Once it's rooted, reinstall Authy, sign in and restore your codes with your backups password.
-      - Leave Authy installed and signed in, so the app you're moving to can read its data off the phone.
+      - Before rooting, open Settings in Authy and switch on Backups (Accounts tab) and Allow Multi-device (Devices tab).
+      - Root the phone, then reinstall Authy, register with your phone number and restore your codes with your backups password.
+      - Leave Authy installed, so the app you're moving to can read its data off the phone.
     data:
       included: [secrets, issuers]
       excluded: [settings]
       unknown: [token-settings, icons]
     limitations:
-      - Without root, Twilio's only advice is to turn 2FA off and on again at every site, scanning the new QR code with your new app.
-      - The old routes through Authy's desktop apps and third-party export tools stopped working in 2024.
+      - Unlocking the bootloader to root a phone wipes it, which is why Backups and Multi-device have to be on first.
+      - Twilio never sees your backups password and can't reset it, so without it your backed-up codes are gone.
+      - Without root, Twilio's advice is to turn 2FA off and on again at every site, scanning the new QR code with your new app.
+      - Older guides that pull codes out of Authy's desktop apps are out of date, as those shut down on 19 March 2024.
     sources:
       - https://help.twilio.com/articles/19753420684059-Export-or-Import-Tokens-in-the-Authy-app-Not-Supported
       - https://help.twilio.com/articles/19753577267355-Enable-or-Disable-Backups-and-Sync-in-Authy
+      - https://help.twilio.com/articles/19752864972955-Reinstalling-Authy-or-Moving-to-a-New-Device
       - https://source.android.com/docs/core/architecture/bootloader/locking_unlocking
       - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/AuthyImporter.java
       - https://help.twilio.com/articles/22771146070299-User-guide-End-of-Life-EOL-for-Twilio-Authy-Desktop-app
-      - https://github.com/alexzorin/authy
 
 import: []
 
 delete:
   steps:
-    - Turn off 2FA on every site that uses Authy, or move it to your new app, before you delete anything.
+    - Check every site works with your new app, or turn its 2FA off, before you delete anything.
     - Go to authy.com/account/delete and work through the checks it asks for.
-    - Confirm from the emails Authy sends, then uninstall the app.
+    - Confirm from the emails Authy sends, and uninstall the app once it's done.
   docs: https://help.twilio.com/articles/19753637053595-How-to-Delete-an-Authy-Account
   notes:
     - It takes 30 days, and the emails let you call it off until then.
