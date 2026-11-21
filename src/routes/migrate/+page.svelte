@@ -95,6 +95,7 @@
       <a href={group.category.href}>{group.category.name} apps</a>
     {/snippet}
     <div class="board">
+      <p class="heads" aria-hidden="true"><span>Move from</span><span>Move to</span></p>
       {#each group.rows as row (row.source)}
         <div class="row">
           <div class="from">
@@ -183,6 +184,24 @@
 
     @media (width >= 48rem) {
       grid-template-columns: 15rem minmax(0, 1fr);
+    }
+  }
+
+  .heads {
+    display: none;
+
+    @media (width >= 48rem) {
+      display: grid;
+      grid-column: 1 / -1;
+      grid-template-columns: subgrid;
+      gap: var(--hairline);
+    }
+
+    span {
+      padding: var(--space-2) var(--space-4);
+      background: var(--surface-sunken);
+      color: var(--text-muted);
+      font-size: var(--size-xs);
     }
   }
 

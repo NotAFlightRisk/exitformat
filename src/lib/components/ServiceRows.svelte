@@ -1,5 +1,4 @@
 <script lang="ts">
-  import Checked from '#lib/components/Checked.svelte';
   import FormatChips from '#lib/components/FormatChips.svelte';
   import ServiceLink from '#lib/components/ServiceLink.svelte';
   import type { ServiceCard } from '#lib/data/types.ts';
@@ -13,7 +12,6 @@
       <span>Service</span>
       <span>Exports as</span>
       <span>Runs on</span>
-      <span>Checked</span>
     </li>
     {#each services as service (service)}
       <li>
@@ -32,7 +30,6 @@
           {service.deployment.label}
           <span>{service.platforms.map(({ label }) => label).join(', ')}</span>
         </p>
-        <div class="checked"><Checked verification={service.verification} /></div>
       </li>
     {/each}
   </ul>
@@ -93,7 +90,7 @@
 
   @container (width >= 56rem) {
     .rows {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) minmax(0, 2fr) auto;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) minmax(0, 2fr);
       column-gap: var(--space-5);
     }
 

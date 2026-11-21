@@ -8,7 +8,10 @@
 {#if items.length}
   {@const [first, ...rest] = items}
   <div class="caveats">
-    <p class="first"><StateMark state="warning" /> <span><MenuText text={first} /></span></p>
+    <p class="first">
+      <span class="lead"><StateMark state="warning" /></span>
+      <span><MenuText text={first} /></span>
+    </p>
     {#if rest.length}
       <ul>
         {#each rest as item, index (index)}<li><MenuText text={item} /></li>{/each}
@@ -30,6 +33,12 @@
     display: flex;
     gap: var(--space-2);
     font-weight: 650;
+  }
+
+  .lead {
+    display: flex;
+    align-items: center;
+    block-size: 1lh;
   }
 
   ul {
