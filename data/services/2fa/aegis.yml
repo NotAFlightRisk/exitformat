@@ -115,7 +115,7 @@ import:
       included: [secrets, issuers, token-settings, hotp, steam, motp-yandex]
       excluded: [icons, groups, notes, favourites]
     limitations:
-      - Bitwarden and Ente Auth files have to be unencrypted.
+      - Bitwarden files have to be unencrypted.
       - FreeOTP 2 backups can be corrupt, in which case Aegis saves what it can.
       - Your old icons don't come across, though if you've got an icon pack installed Aegis offers to fill them in.
     docs: https://github.com/beemdevelopment/Aegis/blob/v3.4.3/README.md#features
@@ -123,6 +123,24 @@ import:
       - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/DatabaseImporter.java
       - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/TwoFASImporter.java
       - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/BitwardenImporter.java
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/res/values/strings.xml
+
+  - id: ente-auth
+    name: Import from Ente Auth
+    method: file
+    formats: [otpauth-uri]
+    from: [ente-auth]
+    steps:
+      - In Ente Auth, open Settings --> Data --> Export codes and pick Plain text.
+      - In Aegis, open Settings --> Import & Export --> Import from file and pick Ente Auth.
+      - Choose the file, then pick the entries to bring in.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam]
+      excluded: [icons, groups, notes, favourites]
+    limitations:
+      - It has to be the plain text export, since Aegis can't open Ente's encrypted one.
+    sources:
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/EnteAuthImporter.java
       - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/res/values/strings.xml
 
   - id: root
