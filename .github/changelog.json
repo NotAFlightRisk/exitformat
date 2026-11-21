@@ -1,6 +1,7 @@
 {
-  "commit": "41b0713f5b0b20253533aaaa898f3b45d46ee152",
+  "commit": "02ea7d3dc85e702722aeed1c4a941f655bf3aa3b",
   "entries": [
+    {"date":"2026-11-21","commit":"02ea7d3","pr":15,"id":"proton-authenticator","category":"2fa","name":"Proton Authenticator","kind":"added"},
     {"date":"2026-11-21","commit":"41b0713","pr":14,"id":"aegis","category":"2fa","name":"Aegis Authenticator","kind":"updated","sections":["import"]},
     {"date":"2026-11-21","commit":"41b0713","pr":14,"id":"ente-auth","category":"2fa","name":"Ente Auth","kind":"added"},
     {"date":"2026-11-21","commit":"8eba83f","pr":13,"id":"google-keep","category":"notes","name":"Google Keep","kind":"added"},
