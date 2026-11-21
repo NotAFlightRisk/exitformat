@@ -342,10 +342,15 @@ import:
   - id: google-docs
     name: Import a Google Doc
     method: connect
+    from: [google-docs]
     requirements: [Desktop or web app]
     steps:
       - Go to Settings in the sidebar --> Import --> Google Docs, or paste a Google Doc link into a page.
       - Connect your Google account and select the doc.
+    data:
+      included: [text]
+      excluded: [todos]
+      unknown: [formatting, attachments, links, comments, embeds]
     limitations:
       - One doc at a time.
       - Suggestions, colours, dividers, headers and footers don't come across, and checklists become bullets.
