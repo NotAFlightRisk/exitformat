@@ -105,7 +105,6 @@ import:
       - freeotp-plus-json
       - otpauth-uri
       - proton-authenticator-export
-      - stratum-backup
       - totp-authenticator-backup
     steps:
       - Open Settings --> Import & Export --> Import from file.
@@ -124,6 +123,23 @@ import:
       - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/TwoFASImporter.java
       - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/BitwardenImporter.java
       - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/res/values/strings.xml
+
+  - id: stratum
+    name: Import a Stratum backup
+    method: file
+    formats: [stratum-backup]
+    steps:
+      - Open Settings --> Import & Export --> Import from file and pick Stratum (Authenticator Pro).
+      - Choose the backup file and enter its password if it's encrypted.
+      - Pick the entries to bring in and confirm.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam]
+      excluded: [motp-yandex, icons, groups, sort-order]
+    limitations:
+      - mOTP and Yandex codes are skipped.
+    sources:
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/StratumImporter.java
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/DatabaseImporter.java
 
   - id: ente-auth
     name: Import from Ente Auth

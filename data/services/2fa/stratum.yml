@@ -1,0 +1,219 @@
+name: Stratum
+website: https://stratumauth.com/
+description: Free, open source 2FA app for Android and Wear OS, once called Authenticator Pro, that keeps your codes on the phone and never goes online.
+deployment: local
+platforms: [android]
+source: https://github.com/stratumauth/app
+aliases: [authenticator pro, stratum authenticator]
+
+export:
+  - id: backup
+    name: Back up to a file
+    method: file
+    formats: [stratum-backup]
+    steps:
+      - Open the main menu, tap Back up, then Back up to encrypted file (recommended).
+      - Pick a file name and a password, or leave the password empty for an unencrypted file.
+      - Save the .stratum file somewhere off the phone.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam, motp-yandex, icons, groups, sort-order]
+      excluded: [settings]
+    limitations:
+      - Without a password, every secret in it is in plain text.
+      - Aegis reads it with or without a password, but drops categories, icons and mOTP or Yandex codes.
+      - Settings can also back up to a folder automatically whenever something changes.
+    docs: https://github.com/stratumauth/app/blob/v1.7.0/doc/BACKUP_FORMAT.md
+    sources:
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Backup/Backup.cs
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Service/Impl/BackupService.cs
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Droid/Resources/values/strings.xml
+
+  - id: uri-list
+    name: Back up to a URI list
+    method: file
+    formats: [otpauth-uri]
+    steps:
+      - Open the main menu, tap Back up, then Back up to URI list file.
+      - Tap OK past the warning and choose where to save the .txt file.
+    data:
+      included: [secrets, issuers, token-settings, hotp]
+      excluded: [steam, icons, groups, sort-order, settings]
+      unknown: [motp-yandex]
+    limitations:
+      - There's no password on it, so every secret is in plain text.
+      - Steam codes go out as ordinary TOTP links that only Stratum recognises, so other apps make the wrong codes for them.
+      - mOTP and Yandex codes go out without their PIN, so you'll need to type it in again.
+    sources:
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Backup/UriListBackup.cs
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Entity/Authenticator.cs
+
+  - id: html
+    name: Back up to an HTML file
+    method: file
+    formats: [html]
+    steps:
+      - Open the main menu, tap Back up, then Back up to HTML file.
+      - Tap OK past the warning and choose where to save it.
+    data:
+      included: [secrets, issuers, token-settings, hotp]
+      excluded: [steam, icons, groups, sort-order, settings]
+      unknown: [motp-yandex]
+    limitations:
+      - There's no password on it, so every secret is in plain text.
+      - It's a page with a QR code for each account, made for printing rather than importing.
+    sources:
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Backup/HtmlBackup.cs
+
+import:
+  - id: backup
+    name: Restore a Stratum backup
+    method: file
+    formats: [stratum-backup]
+    steps:
+      - Tap + and pick Restore a backup.
+      - Choose the backup file and enter its password if it has one.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam, motp-yandex, icons, groups, sort-order]
+    docs: https://github.com/stratumauth/app/wiki/Frequently-Asked-Questions#how-do-i-restore-a-backup
+    sources:
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Service/Impl/ImportService.cs
+
+  - id: aegis
+    name: Import an Aegis vault
+    method: file
+    formats: [aegis-vault]
+    steps:
+      - Tap + then Import from other apps, and pick Aegis.
+      - Choose the aegis-export.json file and enter its password if it's encrypted.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam, motp-yandex, icons]
+      excluded: [groups, notes, favourites, sort-order]
+    limitations:
+      - Groups from a current Aegis vault don't come across, since it only reads the single group older versions wrote.
+    sources:
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Converter/AegisBackupConverter.cs
+
+  - id: groups
+    name: Import from 2FAS, andOTP or Bitwarden
+    method: file
+    formats: [2fas-backup, andotp-backup, bitwarden-json]
+    steps:
+      - Tap + then Import from other apps, and pick 2FAS, andOTP or Bitwarden.
+      - Choose the export file and enter its password if it has one.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam, groups]
+      excluded: [motp-yandex, icons, notes, favourites, sort-order]
+    limitations:
+      - Groups, andOTP tags and Bitwarden folders all become categories.
+      - Bitwarden has to be the .json export. A password-protected one works, but an account-restricted one doesn't.
+    sources:
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Converter/TwoFasBackupConverter.cs
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Converter/AndOtpBackupConverter.cs
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Converter/BitwardenBackupConverter.cs
+
+  - id: lastpass
+    name: Import a LastPass Authenticator export
+    method: file
+    formats: [lastpass-authenticator-json]
+    steps:
+      - Tap + then Import from other apps, and pick LastPass Authenticator.
+      - Choose the LastPassAuthenticator.json file.
+    data:
+      included: [secrets, issuers, token-settings, groups, sort-order]
+      excluded: [hotp, steam]
+    sources:
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Converter/LastPassBackupConverter.cs
+
+  - id: freeotp
+    name: Import from FreeOTP or FreeOTP+
+    method: file
+    formats: [freeotp-backup, freeotp-plus-json]
+    steps:
+      - Tap + then Import from other apps, and pick FreeOTP or FreeOTP+.
+      - Choose FreeOTP's externalBackup.xml (and enter its password) or FreeOTP+'s freeotp-backup.json.
+    data:
+      included: [secrets, issuers, token-settings, hotp]
+      excluded: [icons]
+    sources:
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Converter/FreeOtpBackupConverter.cs
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Converter/FreeOtpPlusBackupConverter.cs
+
+  - id: totp-authenticator
+    name: Import a TOTP Authenticator backup
+    method: file
+    formats: [totp-authenticator-backup]
+    steps:
+      - Tap + then Import from other apps, and pick TOTP Authenticator.
+      - Choose the TOTP_Backup.encrypt file and enter its password.
+    data:
+      included: [secrets, issuers, token-settings]
+    sources:
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Converter/TotpAuthenticatorBackupConverter.cs
+
+  - id: proton
+    name: Import a Proton Authenticator export
+    method: file
+    formats: [proton-authenticator-export]
+    steps:
+      - Tap + then Import from other apps, and pick Proton Authenticator.
+      - Choose the export file. It has to be one without a password.
+    data:
+      included: [secrets, issuers, token-settings, steam]
+      excluded: [notes]
+    sources:
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Converter/ProtonAuthenticatorBackupConverter.cs
+
+  - id: ente-auth
+    name: Import from Ente Auth
+    method: file
+    formats: [otpauth-uri, ente-auth-encrypted]
+    from: [ente-auth]
+    steps:
+      - Tap + then Import from other apps, and pick Ente Auth.
+      - Choose Ente's plain text or encrypted export, and enter the password for an encrypted one.
+    data:
+      included: [secrets, issuers, token-settings, hotp]
+      excluded: [steam, icons, groups, notes, favourites, sort-order]
+    limitations:
+      - Ente's Steam codes are skipped, since Stratum doesn't read the way Ente writes them.
+    sources:
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Converter/EnteAuthBackupConverter.cs
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/UriParser.cs
+
+  - id: uri-list
+    name: Import a list of otpauth links
+    method: file
+    formats: [otpauth-uri]
+    steps:
+      - Tap + then Import from other apps, and pick URI list (or WinAuth for its export).
+      - Choose the text file of otpauth:// links.
+    data:
+      included: [secrets, issuers, token-settings, hotp]
+      excluded: [motp-yandex, icons, groups, notes, favourites, sort-order]
+      unknown: [steam]
+    limitations:
+      - A line that isn't an otpauth or motp link stops the whole file. Links it can't read are skipped.
+      - Steam codes only come across when the link is a TOTP one marked as Steam, which isn't how Aegis or Ente write them.
+    sources:
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Converter/UriListBackupConverter.cs
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/UriParser.cs
+
+  - id: google-authenticator
+    name: Scan Google Authenticator's export QR codes
+    method: qr
+    formats: [otpauth-migration]
+    steps:
+      - In Google Authenticator, tap Menu --> Transfer codes --> Export codes on Android, or Menu --> Transfer accounts --> Export accounts on iOS.
+      - In Stratum, tap + then Scan a QR code, or Scan from gallery for a screenshot.
+      - Scan each QR code in turn.
+    data:
+      included: [secrets, issuers, token-settings, hotp]
+    limitations:
+      - Stratum's guide suggests moving 3 or 4 accounts at a time, since big QR codes are hard to scan.
+    docs: https://github.com/stratumauth/app/wiki/Importing-from-Google-Authenticator
+    sources:
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Converter/GoogleAuthenticatorBackupConverter.cs
+
+verification:
+  status: documented
+  checked_at: 2026-11-21
