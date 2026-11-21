@@ -21,7 +21,7 @@ export:
       unknown: [formatting, attachments, links, comments, todos, embeds]
     limitations:
       - It's one document at a time. Select several in Drive and choose Download to get them all in one go.
-      - Google Takeout can take all your docs at once, with comments, suggestions and any versions you've named, but Google doesn't say which file type it uses, and a work or school admin can switch it off.
+      - Google Takeout can take your docs in one go, with comments, suggestions and any versions you've named, but Google doesn't say which file type it uses. On a work or school account it may be switched off or leave things out.
       - The owner of a shared doc can stop people with comment or view access from downloading it.
     docs: https://support.google.com/docs/answer/49114
     sources:
@@ -35,9 +35,9 @@ import:
     method: file
     formats: [docx, html, txt, markdown, pdf]
     steps:
-      - Upload the file to Google Drive and open it with Google Docs, then select File --> Save as Google Docs.
+      - Upload the file to Google Drive. For a Word file, open it with Google Docs, then select File --> Save as Google Docs.
       - For a Markdown file, you can also use File --> Open --> Upload in Docs.
-      - To convert every upload from now on, tick Convert uploads to Google Docs editor format in Drive's settings.
+      - To convert supported files as you upload them, tick Convert uploads to Google Docs editor format in Drive's settings.
     data:
       included: [text]
       excluded: [settings]
