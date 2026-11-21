@@ -1,3 +1,4 @@
 name: Google Authenticator database
 standard: false
+owner: google-authenticator
 description: The SQLite database in Google Authenticator's private storage on Android. Getting at it needs root, and it's only readable up to version 5.10 - newer versions want the transfer QR codes instead.
