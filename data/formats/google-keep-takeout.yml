@@ -1,5 +1,6 @@
 name: Google Keep Takeout export
 extensions: [.zip]
 standard: false
+owner: google-keep
 based_on: zip
 description: Your Keep notes from Google Takeout - a zip with a JSON file and an HTML copy of each note, plus any attachments.

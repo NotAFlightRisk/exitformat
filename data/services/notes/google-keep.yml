@@ -1,0 +1,43 @@
+name: Google Keep
+website: https://workspace.google.com/products/keep/
+description: Google's notes and lists app for the web, Android and iOS, with everything kept in your Google Account.
+deployment: cloud
+platforms: [web, android, ios]
+icon: https://play-lh.googleusercontent.com/0AM0MfDO-MWUAKwg8vpbftm7GqvEW1JfLGHCgwsgIemF6hMW61XOVnnNDHCGeRMiYZtVaxV2M-AYoP_zMoJt6w=s128
+aliases: [keep notes]
+
+export:
+  - id: takeout
+    name: Download your notes with Google Takeout
+    method: account
+    formats: [google-keep-takeout]
+    steps:
+      - Go to Google Takeout, untick every product except Keep, then select Next step.
+      - Pick a delivery method, like Send download link via email, then select Create export.
+      - When the email arrives, select Download archive and save the zip.
+    data:
+      included: [text, formatting, attachments, tags, properties, dates, todos, sharing]
+      excluded: [history, settings]
+    limitations:
+      - Reminders aren't in it, just the notes and lists themselves.
+      - On a work or school account, some of it might not be available.
+    docs: https://support.google.com/keep/answer/10017039
+    sources:
+      - https://support.google.com/accounts/answer/3024190
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/keep/models.ts
+
+import: []
+
+delete:
+  steps:
+    - On keep.google.com, tick the notes you want gone, then select More --> Delete notes.
+    - Open Menu --> Trash and select Empty Trash to delete them for good.
+  docs: https://support.google.com/keep/answer/6262765
+  notes:
+    - Deleting a note deletes it for anyone you've shared it with too.
+    - Notes left in the trash go by themselves after seven days.
+    - Google's general policy is that deleting data takes around two months, and copies can sit in its encrypted backups for up to six months.
+
+verification:
+  status: documented
+  checked_at: 2026-11-21
