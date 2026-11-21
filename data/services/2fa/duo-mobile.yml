@@ -1,6 +1,6 @@
 name: Duo Mobile
 website: https://duo.com/product/multi-factor-authentication-mfa/duo-mobile-app
-description: Cisco Duo's 2FA app for Android and iOS, mostly for work logins, which can hold codes for your own accounts too but has no way to export them.
+description: Cisco Duo's 2FA app for Android and iOS, for work logins and your own accounts' codes, with no way to export the codes for your own accounts.
 deployment: local
 platforms: [android, ios]
 icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/d3/7f/a8/d37fa8bb-e2ae-a160-3a98-4dd084d0e24c/AppIconGlass-0-0-1x_U007epad-0-0-0-1-0-0-85-220.png/128x128bb.png
@@ -13,19 +13,20 @@ export:
     formats: [duo-app-data]
     requirements: [Root access, Android only]
     steps:
-      - Before rooting, turn on Google backup with app data, which needs a screen lock on the phone.
       - In Duo Mobile, go to Settings --> Duo Instant Restore and turn on Automatically reconnect third-party accounts from cloud.
-      - Root the phone, restore the Google backup when you set it up again, and open Duo Mobile to get your accounts back.
+      - Turn on Google backup with Other device data (it needs a screen lock), then tap Back up now.
+      - Root the phone, restore that backup while setting it up again, and open Duo Mobile to get your accounts back.
       - Leave Duo Mobile installed, so the app you're moving to can read its data off the phone.
     data:
       included: [secrets, issuers, hotp]
       excluded: [settings]
       unknown: [token-settings]
     limitations:
-      - Duo says outright that third-party accounts can't be exported, so without root the only way is setting each one up again on the site.
+      - Duo says outright that third-party accounts can't be exported, so to use them in another app it's root or setting each one up again on its site.
+      - Aegis reads just the name, the secret and any HOTP counter, so codes come in with standard settings and no separate issuer.
       - Unlocking the bootloader to root a phone wipes it, which is why the backup has to be on first.
       - Only Google's backup works for this, not a phone maker's own (Samsung Cloud, for one).
-      - Work accounts protected by Duo don't move this way. Your organisation's IT team sets those up again.
+      - This only moves the codes for your own accounts. Duo-protected work logins stay with Duo.
     sources:
       - https://guide.duo.com/third-party-accounts
       - https://guide.duo.com/duo-restore
