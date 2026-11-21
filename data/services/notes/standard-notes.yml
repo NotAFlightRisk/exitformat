@@ -1,0 +1,146 @@
+name: Standard Notes
+website: https://standardnotes.com/
+description: End-to-end encrypted notes, synced through Standard Notes' servers, with apps for the web, Windows, Mac, Linux, Android and iOS.
+deployment: cloud
+platforms: [web, windows, macos, linux, android, ios]
+source: https://github.com/standardnotes/app
+
+export:
+  - id: backup
+    name: Download a decrypted backup
+    method: file
+    formats: [standard-notes-backup]
+    steps:
+      - Open Preferences, then Backups. On a phone, Preferences is in the menu at the top left of the notes list.
+      - Under Data backups, pick Decrypted and select Download backup.
+    data:
+      included: [text, formatting, links, tags, properties, dates, todos, settings]
+      excluded: [attachments, history]
+    limitations:
+      - Super notes are saved as Super's own JSON, not Markdown, so only Standard Notes can read their formatting.
+      - Attachments aren't in it, just their names. Download those from Files, which needs a paid plan.
+      - Pick Encrypted instead and you get a single .txt that only Standard Notes can open, with your password.
+    docs: https://standardnotes.com/help/14/how-do-i-create-and-import-backups-of-my-standard-notes-data
+    sources:
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/web/src/javascripts/Components/Preferences/Panes/Backups/DataBackups.tsx
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/ui-services/src/Archive/ArchiveManager.ts
+
+  - id: export
+    name: Export notes
+    method: file
+    formats: [markdown-frontmatter, markdown, html, pdf, txt]
+    steps:
+      - Select one or more notes, open the note options menu and choose Export.
+      - Super notes ask for an Export format (Markdown (.md), HTML or PDF), whether to Export with frontmatter, and what to do with Embedded files.
+      - Other notes go out as the file type their editor uses, like .txt for plain text.
+    data:
+      included: [text]
+      excluded: [tags, properties]
+      unknown: [formatting, attachments, links, dates, todos]
+    limitations:
+      - Several notes come as one zip, with no folders for your tags.
+      - Front matter only holds the title, dates and note ID. Tags aren't in it.
+      - Super's own warning says Markdown isn't lossless, and things like collapsible blocks don't make it.
+      - Super notes and Files need a paid plan.
+    sources:
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/web/src/javascripts/Components/NotesOptions/SuperExportModal.tsx
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/web/src/javascripts/Utils/NoteExportUtils.ts
+
+  - id: plaintext-backups
+    name: Keep plain text backups on your computer
+    method: file
+    formats: [txt]
+    requirements: [Desktop app]
+    steps:
+      - Open Preferences, then Backups, and switch on Automatic plaintext backups.
+      - Pick the folder. Every note's written there as a .txt file.
+    data:
+      included: [text, formatting]
+      excluded: [properties, dates]
+      unknown: [attachments, links, tags, todos]
+    limitations:
+      - Each note goes in a folder named after its tag, nested tags become subfolders, and a note with several tags is copied into each one.
+      - Super notes are written as Markdown, but still with a .txt name.
+      - Trashed and archived notes are included too.
+    sources:
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/services/src/Domain/Backups/FilesBackupService.ts
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/desktop/app/javascripts/Main/FileBackups/FileBackupsManager.ts
+
+import:
+  - id: backup
+    name: Restore a backup
+    method: file
+    formats: [standard-notes-backup]
+    steps:
+      - Unzip a decrypted backup first, since it needs the Standard Notes Backup and Import File.txt inside.
+      - Open Preferences, then Backups, select Import backup under Data backups and choose the file.
+    docs: https://standardnotes.com/help/14/how-do-i-create-and-import-backups-of-my-standard-notes-data
+
+  - id: evernote
+    name: Import from Evernote
+    method: file
+    formats: [enex]
+    steps:
+      - Export your notebooks from Evernote as .enex files.
+      - In Standard Notes, open the account menu and choose Import, then Evernote, and pick the file.
+    data:
+      included: [text, tags, dates, todos]
+      excluded: [links, properties]
+      unknown: [formatting, attachments]
+    limitations:
+      - On the free plan notes come in as plain text, and attachments are dropped. Formatting needs Super and attachments need Files, both paid.
+      - Notes go into a new tag called Imported on and the date, alongside their own tags.
+    docs: https://standardnotes.com/help/10/how-can-i-import-my-notes-from-evernote
+    sources:
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/ui-services/src/Import/EvernoteConverter/EvernoteConverter.ts
+
+  - id: google-keep
+    name: Import from Google Keep
+    method: file
+    formats: [google-keep-takeout]
+    steps:
+      - Export Keep from Google Takeout and unzip it.
+      - In Standard Notes, open the account menu and choose Import, then Google Keep, and pick the note files from the Keep folder.
+    data:
+      included: [text, properties, dates, todos]
+      excluded: [attachments, tags, sharing]
+      unknown: [formatting]
+    limitations:
+      - Pick the .json files rather than the .html ones. Only the JSON keeps pinned, archived and trashed notes as they were.
+      - Labels and attachments are dropped, and each note gets its last-edited time as both its created and updated date.
+    docs: https://standardnotes.com/help/35/how-can-i-import-my-notes-from-google-keep
+    sources:
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/ui-services/src/Import/GoogleKeepConverter/GoogleKeepConverter.ts
+
+  - id: files
+    name: Import Markdown, text or HTML files
+    method: file
+    formats: [markdown, txt, html]
+    steps:
+      - Open the account menu and choose Import, then Plaintext / Markdown or HTML.
+      - Choose the files. Each one becomes a note named after the file.
+    data:
+      included: [text, dates]
+      excluded: [attachments, structure, tags, properties, databases, canvases, plugins, settings]
+      unknown: [formatting, links]
+    limitations:
+      - On the free plan, Markdown and HTML come in as their raw source in a plain text note. Super, which is paid, turns them into formatted notes.
+      - Front matter isn't read, so its tags and dates stay as text.
+      - Each note's dates come from the file itself.
+    docs: https://standardnotes.com/help/11/how-can-i-import-notes-from-a-bunch-of-text-files
+    sources:
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/ui-services/src/Import/PlaintextConverter/PlaintextConverter.ts
+
+delete:
+  steps:
+    - If you're paying, cancel the subscription first. Deleting the account doesn't touch it.
+    - Open Preferences, then Account, and select Delete my account.
+    - Confirm with Delete my account for good and your password.
+  docs: https://standardnotes.com/help/19/how-do-i-delete-my-account
+  notes:
+    - Standard Notes keeps backups for 14 days, and after that it says there's no trace of your data.
+    - If you've lost your password, the reset tool at standardnotes.com/reset deletes the account instead.
+
+verification:
+  status: documented
+  checked_at: 2026-11-21
