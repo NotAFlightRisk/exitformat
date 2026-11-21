@@ -1,6 +1,7 @@
 {
-  "commit": "ea8533d50c98575c0187c6a330fd3a5946222808",
+  "commit": "e8fa8dffec7370a22446ff2697567d610684fc36",
   "entries": [
+    {"date":"2026-11-21","commit":"e8fa8df","pr":21,"id":"raivo-otp","category":"2fa","name":"Raivo OTP","kind":"added"},
     {"date":"2026-11-21","commit":"ea8533d","pr":20,"id":"yubico-authenticator","category":"2fa","name":"Yubico Authenticator","kind":"added"},
     {"date":"2026-11-21","commit":"6556fdb","pr":19,"id":"duo-mobile","category":"2fa","name":"Duo Mobile","kind":"added"},
     {"date":"2026-11-21","commit":"289bebf","pr":18,"id":"freeotp","category":"2fa","name":"FreeOTP","kind":"added"},
