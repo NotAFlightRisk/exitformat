@@ -1,0 +1,48 @@
+name: FreeOTP
+website: https://freeotp.github.io/
+description: Red Hat's free, open source 2FA app for Android and iOS, which keeps your codes on the phone.
+deployment: local
+platforms: [android, ios]
+source: https://github.com/freeotp/freeotp-android
+icon: https://raw.githubusercontent.com/freeotp/freeotp-android/v2.0.6/fastlane/metadata/android/en-US/images/icon.png
+
+export:
+  - id: backup
+    name: Back up to a file
+    method: file
+    formats: [freeotp-backup]
+    requirements: [Android only]
+    steps:
+      - Tap Menu at the top, then Backup.
+      - Choose where to save the file. It's locked with the backup password FreeOTP had you set up.
+    data:
+      included: [secrets, issuers, token-settings, hotp]
+      excluded: [sort-order, settings]
+    limitations:
+      - The backup password can't be changed, and nothing opens the file without it.
+      - The iOS app has no export at all.
+      - Android's own backup to your Google Account only restores into FreeOTP.
+    docs: https://github.com/freeotp/freeotp-android/blob/v2.0.6/BACKUP.md
+    sources:
+      - https://github.com/freeotp/freeotp-android/blob/v2.0.6/mobile/src/main/java/org/fedorahosted/freeotp/TokenPersistence.java
+      - https://github.com/freeotp/freeotp-android/blob/v2.0.6/mobile/src/main/java/org/fedorahosted/freeotp/Token.java
+      - https://github.com/freeotp/freeotp-android/blob/v2.0.6/mobile/src/main/res/values/strings.xml
+
+import:
+  - id: backup
+    name: Restore a FreeOTP backup
+    method: file
+    formats: [freeotp-backup]
+    requirements: [Android only]
+    steps:
+      - Tap Menu at the top, then Restore, and choose the backup file.
+      - Enter the backup password. It becomes your backup password from then on.
+    data:
+      included: [secrets, issuers, token-settings, hotp]
+    docs: https://github.com/freeotp/freeotp-android/blob/v2.0.6/BACKUP.md
+    sources:
+      - https://github.com/freeotp/freeotp-android/blob/v2.0.6/mobile/src/main/java/org/fedorahosted/freeotp/TokenPersistence.java
+
+verification:
+  status: documented
+  checked_at: 2026-11-21

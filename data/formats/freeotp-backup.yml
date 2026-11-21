@@ -1,4 +1,6 @@
 name: FreeOTP backup
 extensions: [.xml]
 standard: false
-description: The externalBackup.xml file that FreeOTP 2 saves, with the tokens encrypted by your backup password.
+owner: freeotp
+description: The backup file FreeOTP 2 saves on Android. Despite the .xml name it's a Java object file, with each token's secret encrypted by your backup password and its other settings next to it.
+spec: https://github.com/freeotp/freeotp-android/blob/v2.0.6/BACKUP.md
