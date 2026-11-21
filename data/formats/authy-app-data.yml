@@ -1,3 +1,4 @@
 name: Authy app data
 standard: false
+owner: authy
 description: The token files in Authy's private storage on Android. Authy has no export, so these are the only way out, and getting at them needs root.
