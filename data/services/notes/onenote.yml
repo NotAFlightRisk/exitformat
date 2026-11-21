@@ -105,12 +105,12 @@ export:
 
 import:
   - id: web-notebook
-    name: Open a notebook exported from the web
+    name: Open a downloaded notebook
     method: file
     formats: [onenote-web-zip]
     requirements: [OneNote for Windows]
     steps:
-      - Unzip the notebook you exported from OneNote for the web.
+      - Unzip the notebook you exported from OneNote for the web, or downloaded as a folder from OneDrive.
       - On a Windows PC, open the OneNote app and double-click the file called OneNote Table of Contents in that folder.
     limitations:
       - OneNote for the web's own notebook import has been retired, so this only works in the Windows app.
