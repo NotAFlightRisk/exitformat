@@ -1,0 +1,52 @@
+name: Raivo OTP
+website: https://raivo-otp.com/
+description: 2FA app for iPhone and iPad, now published by Mobime, that keeps your codes encrypted on the phone and syncs them through iCloud if you pick it.
+deployment: hybrid
+platforms: [ios]
+source: https://github.com/raivo-otp/ios-application
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/a4/69/be/a469bea8-1502-3db3-e61d-9d279d924f21/AppIcon-0-0-1x_U007emarketing-0-11-0-85-220.png/128x128bb.png
+aliases: [raivo, raivo authenticator]
+
+export:
+  - id: zip
+    name: Export to a ZIP archive
+    method: file
+    formats: [raivo-json]
+    steps:
+      - Open Settings and tap Export OTPs to ZIP archive, under Data, then Export.
+      - Save the zip, then open it on your computer or in the Files app with your Raivo master password.
+      - Give the raivo-otp-export.json file inside to the app you're moving to.
+    data:
+      included: [secrets, issuers, token-settings, hotp, icons, favourites]
+      excluded: [settings]
+    limitations:
+      - The zip is locked with your master password, but the JSON inside isn't, so delete it once you're done.
+      - Raivo warns that some unzip tools can't open it, especially if the password has special characters. The Files app on the phone can.
+      - Icons are saved as picks from Raivo's own icon set, so they mean nothing to other apps.
+    docs: https://raivo-otp.com/faq/
+    sources:
+      - https://github.com/raivo-otp/ios-application/blob/build-1108/Raivo/Features/DataExportFeature.swift
+      - https://github.com/raivo-otp/ios-application/blob/build-1108/Raivo/Models/Password.swift
+      - https://github.com/raivo-otp/ios-application/blob/build-1108/Raivo/Forms/MiscellaneousForm.swift
+      - https://github.com/raivo-otp/ios-application/blob/build-1108/Raivo/Views/SwiftUI/MainDataExportView.swift
+
+import:
+  - id: zip
+    name: Import a Raivo ZIP archive
+    method: file
+    formats: [raivo-json]
+    steps:
+      - Open Settings and tap Import OTPs from ZIP archive, under Data.
+      - Choose a Raivo zip and enter the master password it was made with.
+    data:
+      included: [secrets, issuers, token-settings, hotp, icons, favourites]
+    limitations:
+      - It only takes Raivo's own zip, not the JSON on its own.
+      - Everything in it is added to what you've already got.
+    docs: https://raivo-otp.com/faq/
+    sources:
+      - https://github.com/raivo-otp/ios-application/blob/build-1108/Raivo/Features/DataImportFeature.swift
+
+verification:
+  status: documented
+  checked_at: 2026-11-21
