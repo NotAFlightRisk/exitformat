@@ -1,0 +1,116 @@
+name: Evernote
+website: https://evernote.com/
+description: Notes, web clips and to-dos kept in Evernote's cloud, with apps for the web, Mac, Windows, Android and iOS.
+deployment: cloud
+platforms: [web, windows, macos, android, ios]
+
+export:
+  - id: enex
+    name: Export notes or notebooks as ENEX
+    method: file
+    formats: [enex]
+    requirements: [Mac or Windows app]
+    steps:
+      - Select a notebook or up to 100 notes, right-click and select Export....
+      - Pick ENEX and tick the attributes you want to keep, like tags, created date and author.
+      - Select Export. For a big notebook, choose how large each file can get, from 300 MB to 2 GB.
+    data:
+      included: [text, formatting, attachments, links, tags, properties, dates, todos]
+      excluded: [structure, history, sharing, settings]
+    limitations:
+      - The file doesn't say which notebook a note came from, so export one notebook at a time and keep the file names.
+      - Notebook stacks don't come across, and tags come out as plain names without their parent tags.
+      - It's 100 notes at a time unless you export a whole notebook.
+    docs: https://help.evernote.com/hc/en-us/articles/209005557-Export-Notes-and-Notebooks-as-ENEX-or-HTML
+    sources:
+      - https://xml.evernote.com/pub/evernote-export4.dtd
+
+  - id: html
+    name: Export notes or notebooks as HTML
+    method: file
+    formats: [html]
+    requirements: [Mac or Windows app]
+    steps:
+      - Select a notebook or up to 100 notes, right-click and select Export....
+      - Pick single-page HTML for one file, or multi-page HTML for a file per note plus an index.
+      - Tick the attributes you want to keep, then select Export.
+    data:
+      included: [text, formatting, attachments, tags, properties, dates]
+      excluded: [history, sharing, settings]
+      unknown: [links, structure, todos]
+    limitations:
+      - Tags, dates and other attributes go in as metadata in the HTML, not as part of the note.
+      - Every attachment goes in one shared folder next to the HTML.
+    docs: https://help.evernote.com/hc/en-us/articles/209005557-Export-Notes-and-Notebooks-as-ENEX-or-HTML
+
+  - id: pdf
+    name: Export as a PDF
+    method: file
+    formats: [pdf]
+    steps:
+      - On Mac or Windows, select More actions (three dots) on a note or notebook, then Export as PDF....
+      - Pick your page options and select Export. A notebook or several notes come out as one PDF.
+      - On the web or an iPhone, use Print on one note at a time and save it as a PDF instead.
+    data:
+      included: [text, formatting]
+      excluded: [attachments, tags, properties, dates]
+    limitations:
+      - Images come out, but other attachments only show up as an icon.
+      - It's a printout, so no other notes app can turn it back into notes properly.
+    docs: https://help.evernote.com/hc/en-us/articles/4403616330387-Export-notes-as-a-PDF
+
+import:
+  - id: enex
+    name: Import an ENEX file
+    method: file
+    formats: [enex]
+    requirements: [Mac or Windows app]
+    steps:
+      - Go to File --> Import... and pick the .enex file.
+      - Select Open. The notes land in a new notebook, called Import and the file name on a Mac, or Imported notes on Windows.
+    data:
+      included: [text, formatting, attachments, links, tags, properties, dates, todos]
+      excluded: [structure]
+    limitations:
+      - Notebooks aren't kept, so move the notes where you want them afterwards.
+    docs: https://help.evernote.com/hc/en-us/articles/360035153274-How-To-Import-Notes-and-Notebooks
+
+  - id: files
+    name: Import documents
+    method: file
+    formats: [pdf, txt, html, markdown, docx]
+    requirements: [Desktop app]
+    steps:
+      - Select your name or profile picture, then Settings --> Import.
+      - Drag your files in, or browse for them. Each one becomes an editable note.
+    limitations:
+      - Dragging a file straight into your note list just attaches it to a new note, so use Settings --> Import.
+    docs: https://help.evernote.com/hc/en-us/articles/208314308-Import-content-from-other-apps-into-Evernote
+
+  - id: notion
+    name: Import a Notion export
+    method: file
+    formats: [notion-html]
+    requirements: [Desktop app]
+    steps:
+      - In Notion, export the page as HTML with Include subpages switched on.
+      - In Evernote, select your name or profile picture, then Settings --> Import, and upload the zip.
+    data:
+      excluded: [databases]
+      unknown: [formatting, attachments, structure, links, properties]
+    docs: https://help.evernote.com/hc/en-us/articles/208314308-Import-content-from-other-apps-into-Evernote
+
+delete:
+  steps:
+    - Cancel any paid plan first, including a free trial that's set to renew.
+    - Sign in to your account settings, select Account security, then the Close account link.
+    - Follow the prompts to close the account and delete everything in it.
+  docs: https://help.evernote.com/hc/en-us/articles/360056549574-Permanently-close-your-Evernote-account
+  notes:
+    - It's permanent, and not even Evernote's support can get your notes back afterwards, so export first.
+    - You can also ask through Evernote's privacy web form, picking I want to delete my account.
+    - On a Teams account, your Teams admin has to put the request in.
+
+verification:
+  status: documented
+  checked_at: 2026-11-21

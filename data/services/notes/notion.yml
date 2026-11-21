@@ -266,6 +266,7 @@ import:
   - id: evernote
     name: Import from Evernote
     method: connect
+    from: [evernote]
     requirements: [Desktop or web app]
     steps:
       - Go to Settings in the sidebar --> Import --> Third party imports --> Evernote.

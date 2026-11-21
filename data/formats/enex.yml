@@ -1,5 +1,6 @@
 name: Evernote export (ENEX)
 extensions: [.enex]
 standard: false
+owner: evernote
 description: Evernote's export file, one per notebook - XML holding each note's content, tags, dates and attachments. It's Evernote's own format, but other notes apps, Joplin and Obsidian included, can import it.
 spec: https://xml.evernote.com/pub/evernote-export4.dtd
