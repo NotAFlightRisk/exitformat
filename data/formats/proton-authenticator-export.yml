@@ -1,5 +1,6 @@
 name: Proton Authenticator export
 extensions: [.json]
 standard: false
+owner: proton-authenticator
 based_on: json
-description: The JSON export from Proton Authenticator, which can be encrypted with a password.
+description: The JSON export from Proton Authenticator, with each code as an otpauth link plus its note. It can be encrypted with a password, which wraps the whole file.

@@ -1,0 +1,5 @@
+name: Proton Pass export
+extensions: [.zip]
+standard: false
+based_on: zip
+description: The zip Proton Pass exports, with every vault and item in a JSON file inside. Proton Pass can also export it encrypted with PGP, which is a different file.
