@@ -1,0 +1,183 @@
+name: Proton Authenticator
+website: https://proton.me/authenticator
+description: Proton's free, open source 2FA app for phones and computers, which works without an account and can sync your codes end-to-end encrypted if you sign in.
+deployment: local
+platforms: [android, ios, windows, macos, linux]
+source: https://github.com/protonpass/android-authenticator
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/ce/8a/0e/ce8a0e69-98d2-4556-cbb2-4835741cd724/AppIcon-0-0-1x_U007epad-0-1-sRGB-85-220.png/128x128bb.png
+aliases: [proton 2fa]
+
+export:
+  - id: file
+    name: Export to a file
+    method: file
+    formats: [proton-authenticator-export]
+    steps:
+      - Open Settings and pick Export.
+      - On Android, set a password and tap Use the password, or Export data without password. On iOS, pick Password protected or Plain text.
+      - Choose where to save the file.
+    data:
+      included: [secrets, issuers, token-settings, steam, notes]
+      excluded: [settings]
+      unknown: [sort-order]
+    limitations:
+      - Without a password, every secret in it is in plain text.
+      - Aegis and Ente Auth can open a password-protected one, but 2FAS can't.
+      - Settings --> Backups can save copies to a folder automatically too, in the same format. Android lets you pick daily, weekly or monthly.
+    sources:
+      - https://github.com/protonpass/proton-pass-common/blob/2.4.0/proton-authenticator/src/entry/exporter.rs
+      - https://github.com/protonpass/proton-pass-common/blob/2.4.0/proton-authenticator/src/entry/password_exporter.rs
+      - https://github.com/protonpass/android-authenticator/blob/1.3.10/business/entries/src/main/kotlin/proton/android/authenticator/business/entries/application/exportall/EntriesExporter.kt
+      - https://github.com/protonpass/android-authenticator/blob/1.3.10/features/exports/passwords/src/main/res/values/strings.xml
+      - https://github.com/protonpass/ios-authenticator/blob/1.4.5/LocalPackages/PresentationLayer/Sources/PresentationLayer/Pages/SettingsView/SettingsView.swift
+
+import:
+  - id: proton-aegis
+    name: Import a Proton Authenticator or Aegis file
+    method: file
+    formats: [proton-authenticator-export, aegis-vault]
+    steps:
+      - Open Settings and pick Import.
+      - Pick Proton Authenticator or Aegis, then choose the .json file.
+      - Enter its password if it's protected.
+    data:
+      included: [secrets, issuers, token-settings, steam, notes]
+      excluded: [hotp, motp-yandex, icons, groups, favourites]
+      unknown: [sort-order]
+    limitations:
+      - Aegis HOTP codes are skipped, and a single entry of a type it doesn't know, like mOTP or Yandex, stops the whole vault from importing.
+    docs: https://proton.me/support/import-2fa-codes
+    sources:
+      - https://github.com/protonpass/proton-pass-common/blob/2.4.0/proton-authenticator/src/entry/exporter.rs
+      - https://github.com/protonpass/proton-pass-common/blob/2.4.0/proton-authenticator/src/parser/aegis/db.rs
+      - https://github.com/protonpass/proton-pass-common/blob/2.4.0/proton-authenticator/src/parser/aegis/json.rs
+
+  - id: text
+    name: Import an Aegis or Ente Auth text file
+    method: file
+    formats: [otpauth-uri]
+    from: [aegis, ente-auth]
+    steps:
+      - Export a plain text file from Aegis or Ente Auth.
+      - In Proton Authenticator, open Settings --> Import, pick Aegis or Ente and choose the .txt file.
+    data:
+      included: [secrets, issuers, token-settings, steam]
+      excluded: [hotp, motp-yandex, icons, groups, notes, favourites]
+      unknown: [sort-order]
+    limitations:
+      - On Android the Aegis option only takes the vault's .json file, so use that instead.
+      - Lines it can't read, HOTP codes included, are skipped.
+    docs: https://proton.me/support/import-2fa-codes
+    sources:
+      - https://github.com/protonpass/proton-pass-common/blob/2.4.0/proton-authenticator/src/parser/ente/txt.rs
+      - https://github.com/protonpass/proton-pass-common/blob/2.4.0/proton-authenticator/src/parser/aegis/txt.rs
+      - https://github.com/protonpass/proton-pass-common/blob/2.4.0/proton-authenticator/src/entry/mod.rs
+      - https://github.com/protonpass/android-authenticator/blob/1.3.10/business/entries/src/main/kotlin/proton/android/authenticator/business/entries/domain/EntryImportType.kt
+
+  - id: 2fas
+    name: Import a 2FAS backup
+    method: file
+    formats: [2fas-backup]
+    steps:
+      - Open Settings and pick Import.
+      - Pick 2FAS, then choose the .2fas file and enter its password if it has one.
+    data:
+      included: [secrets, issuers, token-settings, steam]
+      excluded: [hotp, icons, groups]
+      unknown: [sort-order]
+    limitations:
+      - HOTP codes are skipped.
+    docs: https://proton.me/support/import-2fa-codes
+    sources:
+      - https://github.com/protonpass/proton-pass-common/blob/2.4.0/proton-authenticator/src/parser/twofas/parser.rs
+
+  - id: bitwarden-json
+    name: Import a Bitwarden .json export
+    method: file
+    formats: [bitwarden-json]
+    steps:
+      - Open Settings and pick Import.
+      - Pick Bitwarden, then choose the unencrypted .json export.
+    data:
+      included: [secrets, issuers, token-settings, steam, notes]
+      excluded: [hotp, groups, favourites]
+    limitations:
+      - An encrypted Bitwarden export won't open.
+    docs: https://proton.me/support/import-2fa-codes
+    sources:
+      - https://github.com/protonpass/proton-pass-common/blob/2.4.0/proton-authenticator/src/parser/bitwarden/json.rs
+
+  - id: bitwarden-csv
+    name: Import a Bitwarden .csv export
+    method: file
+    formats: [bitwarden-csv]
+    steps:
+      - Open Settings and pick Import.
+      - Pick Bitwarden, then choose the .csv export.
+    data:
+      included: [secrets, issuers, token-settings, steam]
+      excluded: [hotp, groups, notes, favourites]
+    docs: https://proton.me/support/import-2fa-codes
+    sources:
+      - https://github.com/protonpass/proton-pass-common/blob/2.4.0/proton-authenticator/src/parser/bitwarden/csv.rs
+
+  - id: lastpass
+    name: Import a LastPass Authenticator export
+    method: file
+    formats: [lastpass-authenticator-json]
+    steps:
+      - In LastPass Authenticator, go to Settings --> Transfer accounts --> Export accounts to file.
+      - In Proton Authenticator, open Settings --> Import, pick LastPass and choose the .json file.
+    data:
+      included: [secrets, issuers, token-settings]
+      excluded: [hotp, steam, notes, groups]
+    docs: https://proton.me/support/import-2fa-codes
+    sources:
+      - https://github.com/protonpass/proton-pass-common/blob/2.4.0/proton-authenticator/src/parser/lastpass/json.rs
+
+  - id: proton-pass
+    name: Import from Proton Pass
+    method: file
+    formats: [proton-pass-zip]
+    steps:
+      - In Proton Pass, go to Settings --> Export and save a zip without file attachments.
+      - In Proton Authenticator, open Settings --> Import, pick Proton Pass and choose the zip.
+    data:
+      included: [secrets, issuers, token-settings, notes]
+      excluded: [hotp]
+    limitations:
+      - It only takes the plain zip, not a PGP-encrypted export.
+    docs: https://proton.me/support/import-2fa-codes
+    sources:
+      - https://github.com/protonpass/proton-pass-common/blob/2.4.0/proton-authenticator/src/parser/pass/mod.rs
+
+  - id: google-authenticator
+    name: Scan Google Authenticator's export QR codes
+    method: qr
+    formats: [otpauth-migration]
+    steps:
+      - In Google Authenticator, tap Menu --> Transfer codes --> Export codes on Android, or Menu --> Transfer accounts --> Export accounts on iOS.
+      - In Proton Authenticator, open Settings --> Import and pick Google Authenticator.
+      - Scan each QR code, or pick screenshots of them (Choose one or more Photos on Android).
+    data:
+      included: [secrets, issuers, token-settings]
+      excluded: [hotp]
+    limitations:
+      - Every code gets a 30-second timer, since Google's QR codes don't carry one.
+    docs: https://proton.me/support/import-2fa-codes
+    sources:
+      - https://github.com/protonpass/proton-pass-common/blob/2.4.0/proton-authenticator/src/parser/google/mod.rs
+      - https://github.com/protonpass/android-authenticator/blob/1.3.10/features/imports/menus/src/main/res/values/strings.xml
+
+delete:
+  steps:
+    - On iPhone or Mac, open Settings and tap Delete all data at the bottom. It clears this device and any iCloud or Proton sync you've turned on.
+    - On Android, swipe left on each code to delete it. On Windows, right-click it and pick Delete.
+  docs: https://proton.me/support/import-2fa-codes
+  notes:
+    - Check every code works in your new app before you delete anything here.
+    - Deleting your codes doesn't turn off 2FA on the sites themselves.
+
+verification:
+  status: documented
+  checked_at: 2026-11-21
