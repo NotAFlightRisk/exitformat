@@ -1,4 +1,4 @@
 name: Open Authenticator backup
 standard: false
 based_on: json
-description: The backup file Open Authenticator makes. It's JSON underneath, and every secret, name and issuer in it is encrypted with the backup password.
+description: The backup file Open Authenticator makes. It's JSON underneath, and every secret, account name and issuer in it is encrypted with the backup password.

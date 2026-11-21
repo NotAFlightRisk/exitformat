@@ -40,11 +40,12 @@ export:
       - Tap I understand, then unlock with your device's lock when it asks.
       - Tap Save to keep the .html file, or Send to share it.
     data:
-      included: [secrets, issuers, token-settings, hotp, steam, notes]
+      included: [secrets, issuers, token-settings, hotp, steam, icons, groups, notes, favourites, sort-order]
       excluded: [settings]
     limitations:
       - There's no password on it, so every secret is in plain text.
       - It's a page with a QR code for each account, which you can scan into another app one at a time. Ente suggests it for moving to Google Authenticator.
+      - Each QR code holds the same link as the plain text export, tags and pins included, though only Ente Auth reads those.
       - Codes in the trash go in too.
     docs: https://ente.com/help/auth/faq/#export-google-authenticator
     sources:
@@ -81,7 +82,7 @@ import:
       excluded: [icons, sort-order, motp-yandex]
     limitations:
       - Groups come in as tags and favourites as pins.
-      - A single mOTP or Yandex entry stops the whole import, since Ente Auth can't make those codes.
+      - One entry it can't read, like an mOTP or Yandex code, stops the whole import.
     docs: https://ente.com/help/auth/migration/import
     sources:
       - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/import/aegis_import.dart
@@ -93,7 +94,7 @@ import:
     formats: [2fas-backup, andotp-backup]
     steps:
       - Open Settings --> Data --> Import codes and pick 2FAS Authenticator or andOTP.
-      - Tap Select 2FAS Authenticator export file (or the andOTP one) and choose the backup.
+      - Tap Select 2FAS Authenticator export file, or Select andOTP export file, and choose the backup.
       - Enter its password if it's encrypted.
     data:
       included: [secrets, issuers, token-settings, hotp, steam, groups]
@@ -132,6 +133,7 @@ import:
       - Tap Select JSON file, choose the export and enter its password if it has one.
     data:
       included: [secrets, issuers, token-settings, steam, notes]
+      excluded: [hotp]
     docs: https://ente.com/help/auth/migration/import
     sources:
       - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/import/proton_import_parser.dart
@@ -143,10 +145,10 @@ import:
     steps:
       - Open Settings --> Data --> Import codes and pick Raivo OTP or OTP Auth.
       - For Raivo, unzip its export first and pick the JSON file inside.
-      - For OTP Auth, pick its encrypted backup and enter the backup password.
+      - For OTP Auth, pick its encrypted backup (or one account's .otpauth file) and enter the password.
     data:
       included: [secrets, issuers, token-settings, hotp]
-      excluded: [icons, groups]
+      excluded: [steam, icons, groups]
     limitations:
       - OTP Auth's folders don't come across.
       - OTP Auth files over 10 MB are turned away.
@@ -165,7 +167,7 @@ import:
       - Enter Open Authenticator's backup password when it asks.
     data:
       included: [secrets, issuers, token-settings]
-      excluded: [hotp, steam]
+      excluded: [hotp, steam, groups]
     docs: https://ente.com/help/auth/migration/import
     sources:
       - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/import/lastpass_import.dart
@@ -178,7 +180,7 @@ import:
     steps:
       - In Google Authenticator, tap Menu --> Transfer codes --> Export codes on Android, or Menu --> Transfer accounts --> Export accounts on iOS.
       - In Ente Auth, open Settings --> Data --> Import codes and pick Google Authenticator.
-      - Tap Scan a QR code, or Select file for a picture of it on a computer, and repeat for each code.
+      - Tap Scan a QR code, or Select file for a picture of it on a computer, and repeat for each QR code.
     data:
       included: [secrets, issuers, token-settings, hotp]
     limitations:
@@ -190,13 +192,13 @@ import:
 delete:
   steps:
     - Open Settings --> Account --> Delete account and follow the prompts.
-    - If you used it without backups, nothing's on Ente's servers, so just uninstall the app.
+    - If you used it without backups, your codes only live on that device, so uninstalling the app deletes them.
   docs: https://ente.com/help/auth/faq/#auth-delete-account
   notes:
     - Check every code works in your new app before you delete anything here.
     - Deleting your codes or your account doesn't turn off 2FA on the sites themselves.
     - Ente Photos and Locker share the same account, so their data goes too.
-    - Ente waits 7 days before clearing your data out, in case you change your mind.
+    - Ente waits 7 days before it starts clearing your data out, and support can help you undo it in that time.
 
 verification:
   status: documented
