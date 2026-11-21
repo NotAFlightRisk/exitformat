@@ -1,0 +1,46 @@
+name: Google Keep
+website: https://workspace.google.com/products/keep/
+description: Google's notes and lists app for the web, Android and iOS, with everything kept in your Google Account.
+deployment: cloud
+platforms: [web, android, ios]
+icon: https://play-lh.googleusercontent.com/0AM0MfDO-MWUAKwg8vpbftm7GqvEW1JfLGHCgwsgIemF6hMW61XOVnnNDHCGeRMiYZtVaxV2M-AYoP_zMoJt6w=s128
+aliases: [keep notes]
+
+export:
+  - id: takeout
+    name: Download your notes with Google Takeout
+    method: account
+    formats: [google-keep-takeout]
+    steps:
+      - Go to Google Takeout, untick every product except Keep, then select Next step.
+      - Pick a delivery method, like Send download link via email, then select Create export.
+      - When the email arrives, select Download archive and save the zip.
+    data:
+      included: [text, formatting, attachments, tags, properties, dates, todos, sharing]
+      excluded: [history, settings]
+    limitations:
+      - Google's list of what's in it doesn't mention reminders, so expect to set those up again.
+      - Version history isn't in it, but you can download a note's old versions as text from More --> Version history on the web.
+      - Changes you make after asking for it might not make it into the archive.
+      - On a work or school account, some of it might not be available.
+    docs: https://support.google.com/keep/answer/10017039
+    sources:
+      - https://support.google.com/accounts/answer/3024190
+      - https://support.google.com/keep/answer/13820887
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/keep/models.ts
+
+import: []
+
+delete:
+  steps:
+    - On keep.google.com, tick the notes you want gone, then select More --> Delete notes.
+    - Open Menu --> Trash and select Empty Trash to delete them for good.
+  docs: https://support.google.com/keep/answer/6262765
+  notes:
+    - Deleting a note deletes it for anyone you've shared it with too.
+    - Deleted notes can be recovered from the trash for seven days.
+    - Google's general policy is that deleting data takes around two months, and copies can sit in its encrypted backups for up to six months.
+
+verification:
+  status: documented
+  checked_at: 2026-11-21
