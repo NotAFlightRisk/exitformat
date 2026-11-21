@@ -1,0 +1,205 @@
+name: Ente Auth
+website: https://ente.com/auth/
+description: Free, open source 2FA app for phones, computers and the web that backs your codes up to Ente's servers, end-to-end encrypted, or works offline.
+deployment: hybrid
+platforms: [android, ios, windows, macos, linux, web]
+source: https://github.com/ente/ente
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/cb/cd/c8/cbcdc8a9-1843-fc10-e908-893bdc1fea22/IconDefault-0-0-1x_U007epad-0-1-85-220.png/128x128bb.png
+aliases: [ente authenticator]
+
+export:
+  - id: plain-text
+    name: Export as plain text
+    method: file
+    formats: [otpauth-uri]
+    steps:
+      - Open Settings --> Data --> Export codes and pick Plain text.
+      - Tap I understand, then unlock with your device's lock when it asks.
+      - Tap Save to keep the .txt file, or Send to share it.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam, icons, groups, notes, favourites, sort-order]
+      excluded: [settings]
+    limitations:
+      - There's no password on it, so every secret is in plain text.
+      - Tags, notes, pins and icons ride along in an extra bit of each link that only Ente Auth reads, so other apps just get the codes.
+      - Codes in the trash go in too, and another app brings them back as normal codes.
+      - The Encrypted export only goes back into Ente Auth, though the Ente CLI can decrypt it to this same text file.
+    docs: https://ente.com/help/auth/migration/export
+    sources:
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/export_widget.dart
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/models/code_display.dart
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/store/code_store.dart
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/packages/strings/lib/l10n/arb/strings_en.arb
+
+  - id: web-page
+    name: Export as a web page
+    method: file
+    formats: [html]
+    steps:
+      - Open Settings --> Data --> Export codes and pick Plain HTML.
+      - Tap I understand, then unlock with your device's lock when it asks.
+      - Tap Save to keep the .html file, or Send to share it.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam, icons, groups, notes, favourites, sort-order]
+      excluded: [settings]
+    limitations:
+      - There's no password on it, so every secret is in plain text.
+      - It's a page with a QR code for each account, which you can scan into another app one at a time. Ente suggests it for moving to Google Authenticator.
+      - Each QR code holds the same link as the plain text export, tags and pins included, though only Ente Auth reads those.
+      - Codes in the trash go in too.
+    docs: https://ente.com/help/auth/faq/#export-google-authenticator
+    sources:
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/html_export.dart
+
+import:
+  - id: plain-text
+    name: Import a list of otpauth links
+    method: file
+    formats: [otpauth-uri]
+    steps:
+      - Open Settings --> Data --> Import codes and pick Plain text.
+      - Tap Select file and choose a text file of otpauth:// links, one per line or split by commas.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam]
+      excluded: [motp-yandex]
+    limitations:
+      - Any link it can't read, like an mOTP or Yandex one, is skipped without a warning.
+      - Tags, notes, pins and icons only come back from Ente Auth's own plain text export.
+    docs: https://ente.com/help/auth/migration/import
+    sources:
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/import/plain_text_import_parser.dart
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/models/code.dart
+
+  - id: aegis
+    name: Import an Aegis vault
+    method: file
+    formats: [aegis-vault]
+    steps:
+      - Open Settings --> Data --> Import codes and pick Aegis Authenticator.
+      - Tap Select JSON file, choose the vault and enter its password if it's encrypted.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam, groups, notes, favourites]
+      excluded: [icons, sort-order, motp-yandex]
+    limitations:
+      - Groups come in as tags and favourites as pins.
+      - One entry it can't read, like an mOTP or Yandex code, stops the whole import.
+    docs: https://ente.com/help/auth/migration/import
+    sources:
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/import/aegis_import.dart
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/import/import_flow.dart
+
+  - id: 2fas-andotp
+    name: Import a 2FAS or andOTP backup
+    method: file
+    formats: [2fas-backup, andotp-backup]
+    steps:
+      - Open Settings --> Data --> Import codes and pick 2FAS Authenticator or andOTP.
+      - Tap Select 2FAS Authenticator export file, or Select andOTP export file, and choose the backup.
+      - Enter its password if it's encrypted.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam, groups]
+      excluded: [icons, sort-order, motp-yandex]
+    limitations:
+      - Groups and andOTP's tags both come in as tags.
+      - andOTP's mOTP codes are skipped.
+    docs: https://ente.com/help/auth/migration/import
+    sources:
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/import/two_fas_import.dart
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/import/andotp_import.dart
+
+  - id: bitwarden
+    name: Import a Bitwarden export
+    method: file
+    formats: [bitwarden-json]
+    steps:
+      - Open Settings --> Data --> Import codes and pick Bitwarden.
+      - Tap Select JSON file and choose the unencrypted .json export.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam, groups, notes]
+      excluded: [favourites]
+    limitations:
+      - It has to be the unencrypted .json export. CSV doesn't work.
+      - A Bitwarden folder comes in as a tag.
+    docs: https://ente.com/help/auth/migration/import
+    sources:
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/import/bitwarden_import.dart
+
+  - id: proton
+    name: Import a Proton Authenticator export
+    method: file
+    formats: [proton-authenticator-export]
+    steps:
+      - Open Settings --> Data --> Import codes and pick Proton Authenticator.
+      - Tap Select JSON file, choose the export and enter its password if it has one.
+    data:
+      included: [secrets, issuers, token-settings, steam, notes]
+      excluded: [hotp]
+    docs: https://ente.com/help/auth/migration/import
+    sources:
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/import/proton_import_parser.dart
+
+  - id: raivo-otp-auth
+    name: Import from Raivo OTP or OTP Auth
+    method: file
+    formats: [raivo-json, otp-auth-backup]
+    steps:
+      - Open Settings --> Data --> Import codes and pick Raivo OTP or OTP Auth.
+      - For Raivo, unzip its export first and pick the JSON file inside.
+      - For OTP Auth, pick its encrypted backup (or one account's .otpauth file) and enter the password.
+    data:
+      included: [secrets, issuers, token-settings, hotp]
+      excluded: [steam, icons, groups]
+    limitations:
+      - OTP Auth's folders don't come across.
+      - OTP Auth files over 10 MB are turned away.
+    docs: https://ente.com/help/auth/migration/import
+    sources:
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/import/raivo_plain_text_import.dart
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/import/otp_auth_import_parser.dart
+
+  - id: lastpass-open-authenticator
+    name: Import from LastPass Authenticator or Open Authenticator
+    method: file
+    formats: [lastpass-authenticator-json, open-authenticator-backup]
+    steps:
+      - Open Settings --> Data --> Import codes and pick LastPass Authenticator or Open Authenticator.
+      - Tap Select JSON file (Select file for Open Authenticator) and choose the export.
+      - Enter Open Authenticator's backup password when it asks.
+    data:
+      included: [secrets, issuers, token-settings]
+      excluded: [hotp, steam, groups]
+    docs: https://ente.com/help/auth/migration/import
+    sources:
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/import/lastpass_import.dart
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/import/openauthenticator_import_parser.dart
+
+  - id: google-authenticator
+    name: Scan Google Authenticator's export QR codes
+    method: qr
+    formats: [otpauth-migration]
+    steps:
+      - In Google Authenticator, tap Menu --> Transfer codes --> Export codes on Android, or Menu --> Transfer accounts --> Export accounts on iOS.
+      - In Ente Auth, open Settings --> Data --> Import codes and pick Google Authenticator.
+      - Tap Scan a QR code, or Select file for a picture of it on a computer, and repeat for each QR code.
+    data:
+      included: [secrets, issuers, token-settings, hotp]
+    limitations:
+      - Ente's help says some codes, Google Account ones especially, can fail to come across and need setting up again on the site.
+    docs: https://ente.com/help/auth/faq/#google-authenticator-multiple-qr
+    sources:
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/import/google_auth_qr_parser.dart
+
+delete:
+  steps:
+    - Open Settings --> Account --> Delete account and follow the prompts.
+    - If you used it without backups, your codes only live on that device, so uninstalling the app deletes them.
+  docs: https://ente.com/help/auth/faq/#auth-delete-account
+  notes:
+    - Check every code works in your new app before you delete anything here.
+    - Deleting your codes or your account doesn't turn off 2FA on the sites themselves.
+    - Ente Photos and Locker share the same account, so their data goes too.
+    - Ente waits 7 days before it starts clearing your data out, and support can help you undo it in that time.
+
+verification:
+  status: documented
+  checked_at: 2026-11-21

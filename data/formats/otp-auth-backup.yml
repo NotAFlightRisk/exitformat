@@ -1,0 +1,4 @@
+name: OTP Auth backup
+extensions: [.otpauthdb, .otpauth]
+standard: false
+description: The encrypted backup from OTP Auth, an authenticator for Apple devices, holding your folders and accounts. You need the backup password to open it. A single account exports as an .otpauth file in much the same shape.
