@@ -171,10 +171,10 @@ import:
       included: [text, formatting, attachments, links, tags, dates]
       unknown: [todos]
     limitations:
-      - Locked notes come in empty from a .bear2bk and get skipped from Share Application Data, so take the locks off first.
+      - Locked notes come in as empty notes from a .bear2bk, and get skipped from Share Application Data, so take the locks off first.
       - Tags with spaces, like #two words#, become #two_words.
       - Links to a heading in another note keep Bear's [[Note/Heading]] form, which Obsidian reads as a folder, so they won't open.
-      - Archived and trashed notes go in their own folders, and pins aren't kept.
+      - Archived notes go in an archive folder and trashed ones in a trash folder, with the date in a property. Pins aren't kept.
     docs: https://help.obsidian.md/import/bear
     sources:
       - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/bear-bear2bk.ts

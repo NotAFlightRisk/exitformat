@@ -23,19 +23,19 @@ export:
     docs: https://bear.app/faq/backup-restore/
 
   - id: markdown
-    name: Export notes as Markdown or plain text
+    name: Export notes as Markdown
     method: file
-    formats: [markdown, txt]
+    formats: [markdown]
     steps:
       - On a Mac, select the notes (or a tag in the sidebar) and go to File --> Export Notes...
-      - On iPhone or iPad, swipe right with two fingers in the note list, select the notes, tap the more icon (⫶) and choose Export...
-      - Pick Markdown or Plain Text and where to save them.
+      - On iPhone or iPad, long-press a tag, or swipe right with two fingers to select notes and tap the more icon (⫶), then choose Export...
+      - Pick Markdown and where to save them.
     data:
       included: [text, formatting]
       unknown: [attachments, links, tags, dates, todos]
     limitations:
       - Exporting a tag turns its nested tags into folders.
-      - Whether tags stay in the text depends on Keep tags during export, under Bear --> Preferences --> General.
+      - On a Mac, whether tags stay in the text depends on Keep tags during export, under Bear --> Preferences --> General.
     docs: https://bear.app/faq/export-your-notes/
     sources:
       - https://bear.app/faq/export-your-tags/
@@ -64,7 +64,7 @@ export:
       included: [text, formatting]
       unknown: [attachments, links, tags]
     limitations:
-      - For HTML on a Mac, switch on HTML Links in the save panel to turn links between notes into working links, and the base64 option to keep photos inside each file.
+      - When you export several notes as HTML on a Mac, switch on HTML Links in the save panel so the links between them work, and base64 to keep photos inside each file.
     docs: https://bear.app/faq/export-your-notes/
 
 import:
@@ -111,7 +111,7 @@ import:
       unknown: [formatting, structure, links, properties, embeds]
     limitations:
       - Images and files linked from the web aren't downloaded.
-      - Inline #tags and front matter tags come across, but tags added by scripts or plugins don't.
+      - Inline #tags and tags listed in a note's YAML come across, but tags added by scripts or plugins don't.
     docs: https://bear.app/faq/migrate-from-obsidian/
 
   - id: files
@@ -122,9 +122,9 @@ import:
       - On a Mac, go to File --> Import Notes... On iPhone or iPad, use the more menu (⫶) in the sidebar.
       - Choose the files, whether to keep their original dates, and whether each title comes from the first line or the file name.
     data:
-      included: [text]
+      included: [text, dates]
       excluded: [canvases, databases, plugins, settings]
-      unknown: [formatting, attachments, structure, links, tags, properties, dates, embeds]
+      unknown: [formatting, attachments, structure, links, tags, properties, embeds]
     limitations:
       - On a Mac, Import Notes... can't bring a Markdown file's attachments with it. Use File --> Import From --> Markdown Folder for that.
     docs: https://bear.app/faq/import-your-notes/
@@ -135,7 +135,8 @@ delete:
     - On a Mac, Bear's help points you to System Preferences --> iCloud --> iCloud Drive.
   docs: https://bear.app/faq/bear-is-gdpr-compliant/
   notes:
-    - Only matters if you've synced with Bear Pro. Bear has no servers of its own, so without Pro your notes are only on your devices.
+    - That clears the copy in iCloud. Notes on your own devices stay until you delete them in Bear.
+    - Only matters if you've synced with Bear Pro. Bear has no servers holding your notes, so without Pro they're only on your devices.
 
 verification:
   status: documented
