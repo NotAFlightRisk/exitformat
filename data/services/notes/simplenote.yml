@@ -21,7 +21,7 @@ export:
       included: [text, formatting, dates, todos]
       excluded: [links, tags, properties, sharing, history, settings]
     limitations:
-      - Each file ends with a Tags list as plain text, which ends up in the note wherever you import it.
+      - Each file ends with a Tags list as plain text, which normally comes in as part of the note when you import it elsewhere.
       - A file's date is when its note last changed. The created date is only in the JSON.
       - Trashed notes are in a trash folder inside the zip.
       - On a Mac, it's only in the Electron version of the app, not the Mac App Store one.
@@ -40,7 +40,7 @@ export:
       included: [text, formatting, links, tags, properties, dates, todos, sharing]
       excluded: [history, settings]
     limitations:
-      - Logging out deletes notes that haven't synced yet, so export before you log out anywhere.
+      - Logging out deletes notes that haven't synced yet, so check they're on the web app first.
       - Android's export leaves out who each note's shared with. The web and desktop one keeps their email addresses.
       - The iPhone and iPad app has no export, only sharing one note at a time as plain text.
       - Links between notes point at each note's ID, which changes when you import it anywhere, Simplenote included.

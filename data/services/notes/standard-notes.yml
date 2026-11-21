@@ -124,7 +124,7 @@ import:
       excluded: [links, tags, properties]
     limitations:
       - Tags and pins are dropped. Trashed notes come in trashed.
-      - A note's first line only becomes its title if it has more than one line and came from the web or desktop export. The rest, Android's included, get their creation date as a title.
+      - A note's first line only becomes its title if the note has Windows line breaks, which the web and desktop export writes. Notes without them, like most from Android, get their creation date as a title.
       - On the free plan notes come in as plain text, Markdown and all. Super, which is paid, formats them.
     docs: https://standardnotes.com/help/30/how-can-i-import-my-notes-from-simplenote
     sources:
