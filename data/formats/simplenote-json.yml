@@ -3,4 +3,4 @@ extensions: [.json]
 standard: false
 owner: simplenote
 based_on: json
-description: Every note in a Simplenote account as one JSON file - text, tags, dates, whether it's pinned or Markdown, and its published link, with trashed notes in a list of their own. Android saves it as simplenote.json, and the web and desktop export puts it in the zip as source/notes.json.
+description: Every note in a Simplenote account as one JSON file - text, tags, dates, whether it's pinned or Markdown, and its published link, with trashed notes in a list of their own. Android saves it as simplenote.json, and the web and desktop export puts it in the zip as source/notes.json, along with who each shared note is shared with.

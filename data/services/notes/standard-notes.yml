@@ -120,12 +120,11 @@ import:
       - Export your notes from Simplenote on the web or desktop, unzip it and find notes.json in the source folder.
       - In Standard Notes, open the account menu and choose Import, then Simplenote, and pick notes.json.
     data:
-      included: [text, formatting, dates]
+      included: [text, formatting, dates, todos]
       excluded: [links, tags, properties]
-      unknown: [todos]
     limitations:
       - Tags and pins are dropped. Trashed notes come in trashed.
-      - Each note's first line becomes its title, but only with the web or desktop export. Android's simplenote.json breaks lines differently, so those notes get their creation date as a title.
+      - A note's first line only becomes its title if it has more than one line and came from the web or desktop export. The rest, Android's included, get their creation date as a title.
       - On the free plan notes come in as plain text, Markdown and all. Super, which is paid, formats them.
     docs: https://standardnotes.com/help/30/how-can-i-import-my-notes-from-simplenote
     sources:
