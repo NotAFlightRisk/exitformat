@@ -272,6 +272,9 @@ import:
       - Go to Settings in the sidebar --> Import --> Third party imports --> Evernote.
       - Sign in to Evernote and let it connect to Notion.
       - Tick the notebooks you want and choose where each one goes.
+    data:
+      included: [text, structure]
+      unknown: [formatting, attachments, links, tags, properties, dates, todos]
     limitations:
       - Notebooks become pages, with their notes as items in a database.
       - It's reliable up to about 5,000 notes, and Evernote Teams can't be imported.
