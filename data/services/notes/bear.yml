@@ -1,0 +1,142 @@
+name: Bear
+website: https://bear.app/
+description: A Markdown notes app for Mac, iPhone and iPad that keeps your notes on your own devices, synced through your iCloud with Bear Pro.
+deployment: local
+platforms: [macos, ios]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/17/8d/54/178d5470-51d1-7bee-5e1d-fe41f8abdea5/AppIcon-26-0-0-1x_U007epad-0-0-0-1-0-0-sRGB-85-220.png/128x128bb.png
+aliases: [bear notes, bear app, bear markdown notes]
+
+export:
+  - id: backup
+    name: Back up all your notes
+    method: file
+    formats: [bear-backup]
+    steps:
+      - On a Mac, go to File --> Backup Notes...
+      - On iPhone or iPad, tap the more menu (⋮) at the top of the sidebar and choose Backup all notes.
+      - Save the .bear2bk file somewhere safe.
+    data:
+      included: [text, formatting, attachments, links, tags, dates, todos]
+      excluded: [settings]
+    limitations:
+      - Locked notes stay encrypted in the backup, so only Bear can open them, and only with their password.
+    docs: https://bear.app/faq/backup-restore/
+
+  - id: markdown
+    name: Export notes as Markdown or plain text
+    method: file
+    formats: [markdown, txt]
+    steps:
+      - On a Mac, select the notes (or a tag in the sidebar) and go to File --> Export Notes...
+      - On iPhone or iPad, swipe right with two fingers in the note list, select the notes, tap the more icon (⫶) and choose Export...
+      - Pick Markdown or Plain Text and where to save them.
+    data:
+      included: [text, formatting]
+      unknown: [attachments, links, tags, dates, todos]
+    limitations:
+      - Exporting a tag turns its nested tags into folders.
+      - Whether tags stay in the text depends on Keep tags during export, under Bear --> Preferences --> General.
+    docs: https://bear.app/faq/export-your-notes/
+    sources:
+      - https://bear.app/faq/export-your-tags/
+
+  - id: textbundle
+    name: Export notes as TextBundles
+    method: file
+    formats: [textbundle]
+    steps:
+      - Select the notes and go to File --> Export Notes... on a Mac, or Export... from the more menu (⫶) on iPhone or iPad.
+      - Pick the .textbundle format, which keeps each note's images and files with it, and where to save them.
+    data:
+      included: [text, formatting, attachments]
+      unknown: [links, tags, dates, todos]
+    docs: https://bear.app/faq/export-your-notes/
+
+  - id: documents
+    name: Export as HTML, Word, PDF or ePub
+    method: file
+    formats: [html, docx, pdf, epub]
+    requirements: [Bear Pro]
+    steps:
+      - Select the notes and go to File --> Export Notes... on a Mac, or Export... from the more menu (⫶) on iPhone or iPad.
+      - Pick the format and where to save them.
+    data:
+      included: [text, formatting]
+      unknown: [attachments, links, tags]
+    limitations:
+      - For HTML on a Mac, switch on HTML Links in the save panel to turn links between notes into working links, and the base64 option to keep photos inside each file.
+    docs: https://bear.app/faq/export-your-notes/
+
+import:
+  - id: backup
+    name: Restore a backup
+    method: file
+    formats: [bear-backup]
+    steps:
+      - On a Mac, go to File --> Restore Backup and choose the .bear2bk file.
+      - On iPhone or iPad, tap the more menu (⋮) at the top of the sidebar and choose Restore Backup.
+    limitations:
+      - It replaces everything. Every note in Bear, trash included, is deleted for good and the backup's notes take their place.
+    docs: https://bear.app/faq/backup-restore/
+
+  - id: evernote
+    name: Import from Evernote
+    method: file
+    formats: [enex]
+    steps:
+      - Export your notebooks from Evernote as .enex files.
+      - On a Mac, go to File --> Import From --> Evernote. On iPhone or iPad, go to Import in the sidebar's more menu.
+      - Choose the file, and whether to keep the notes' original dates.
+    data:
+      included: [text, tags, dates]
+      unknown: [formatting, attachments, links, properties, todos]
+    limitations:
+      - ENEX files don't say which notebook a note was in, so tag your notes with their notebook in Evernote before you export.
+      - Bear says notes from Evernote's trash can come along too, so empty it first.
+    docs: https://bear.app/faq/migrate-from-evernote/
+
+  - id: obsidian
+    name: Import an Obsidian vault
+    method: folder
+    formats: [markdown, markdown-frontmatter]
+    from: [obsidian]
+    requirements: [A Mac]
+    steps:
+      - Go to File --> Import From --> Obsidian.
+      - Keep the original creation and modification dates and use the file name as the title, as Bear suggests.
+      - Choose the vault's main folder and select Import Notes.
+    data:
+      included: [text, attachments, tags, dates]
+      excluded: [canvases, databases, plugins, settings]
+      unknown: [formatting, structure, links, properties, embeds]
+    limitations:
+      - Images and files linked from the web aren't downloaded.
+      - Inline #tags and front matter tags come across, but tags added by scripts or plugins don't.
+    docs: https://bear.app/faq/migrate-from-obsidian/
+
+  - id: files
+    name: Import Markdown, text, TextBundle or HTML files
+    method: file
+    formats: [markdown, txt, textbundle, html]
+    steps:
+      - On a Mac, go to File --> Import Notes... On iPhone or iPad, use the more menu (⫶) in the sidebar.
+      - Choose the files, whether to keep their original dates, and whether each title comes from the first line or the file name.
+    data:
+      included: [text]
+      excluded: [canvases, databases, plugins, settings]
+      unknown: [formatting, attachments, structure, links, tags, properties, dates, embeds]
+    limitations:
+      - On a Mac, Import Notes... can't bring a Markdown file's attachments with it. Use File --> Import From --> Markdown Folder for that.
+    docs: https://bear.app/faq/import-your-notes/
+
+delete:
+  steps:
+    - On iPhone or iPad, go to Settings --> your name --> iCloud --> Manage Storage and remove Bear's data.
+    - On a Mac, Bear's help points you to System Preferences --> iCloud --> iCloud Drive.
+  docs: https://bear.app/faq/bear-is-gdpr-compliant/
+  notes:
+    - Only matters if you've synced with Bear Pro. Bear has no servers of its own, so without Pro your notes are only on your devices.
+
+verification:
+  status: documented
+  checked_at: 2026-11-21
