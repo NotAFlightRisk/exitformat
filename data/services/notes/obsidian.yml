@@ -185,9 +185,11 @@ import:
     limitations:
       - Checklists all come in as top-level items, since Keep doesn't export indents.
       - Reminders and assigned people aren't imported.
+      - Archived and deleted notes are skipped unless you switch on Import archived notes and Import deleted notes.
     docs: https://help.obsidian.md/import/google-keep
     sources:
       - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/keep/convert.ts
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/i18n/en.ts
 
   - id: onenote
     name: Import from OneNote with a Microsoft account

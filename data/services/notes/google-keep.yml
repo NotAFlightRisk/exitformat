@@ -19,7 +19,9 @@ export:
       included: [text, formatting, attachments, tags, properties, dates, todos, sharing]
       excluded: [history, settings]
     limitations:
-      - Reminders aren't in it, just the notes and lists themselves.
+      - Google's list of what's in it doesn't mention reminders, so expect to set those up again.
+      - Version history isn't in it, but you can download a note's old versions as text from More --> Version history on the web.
+      - Changes you make after asking for it might not make it into the archive.
       - On a work or school account, some of it might not be available.
     docs: https://support.google.com/keep/answer/10017039
     sources:
@@ -35,7 +37,7 @@ delete:
   docs: https://support.google.com/keep/answer/6262765
   notes:
     - Deleting a note deletes it for anyone you've shared it with too.
-    - Notes left in the trash go by themselves after seven days.
+    - Deleted notes can be recovered from the trash for seven days.
     - Google's general policy is that deleting data takes around two months, and copies can sit in its encrypted backups for up to six months.
 
 verification:
