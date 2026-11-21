@@ -107,7 +107,7 @@ delete:
   notes:
     - Deleted notes in upgraded iCloud notes leave your devices after 30 days, and iCloud after 40.
     - In older iCloud notes or another account, like Google, a deleted note goes from every device using that account straight away.
-    - Deleting a note someone shared with you only takes it off your devices, and their link can bring it back.
+    - Deleting a note you were invited to only takes it off your devices, and your invite link may still open it.
 
 verification:
   status: documented
