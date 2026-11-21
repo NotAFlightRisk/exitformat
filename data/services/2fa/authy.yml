@@ -1,9 +1,10 @@
-name: Authy
+name: Twilio Authy
 website: https://www.authy.com/
 description: Twilio's 2FA app for Android and iOS, tied to your phone number. It has no export at all, so leaving means root or setting every code up again.
 deployment: local
 platforms: [android, ios]
-aliases: [twilio authy, authy authenticator]
+icon: https://play-lh.googleusercontent.com/zSwzBRRZ2ZRStFCCeDUnlcvdy8lhzwp6268PPQ1pgzEDDs70rzs7QjPBP7qnkD3X9s4IJMIA6nEZOHcd7PI-zg=s128
+aliases: [authy authenticator]
 
 export:
   - id: root
