@@ -4,7 +4,7 @@
 
   let { data, kind }: { data: ScopeView; kind: 'export' | 'import' | 'move' } = $props();
 
-  type Group = { state: State; title: string; items?: Term[]; empty: string };
+  type Group = { state: State; title: string; items?: Term[]; empty?: string };
 
   const titles = {
     export: ['Comes with it', 'Left behind'],
@@ -25,7 +25,9 @@
       items: data.excluded,
       empty: 'Nothing we know of'
     },
-    { state: 'unknown', title: 'Not sure', items: data.unknown, empty: 'Nothing' }
+    ...(data.unknown?.length
+      ? [{ state: 'unknown' as const, title: 'Not sure', items: data.unknown }]
+      : [])
   ]);
 </script>
 

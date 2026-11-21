@@ -159,8 +159,10 @@
       <div class="signoff">
         <Checked verification={service.verification} long />
         <p class="actions">
-          <a href={fixUrl(service.name, service.href)} rel="external">Suggest an edit</a>
-          <a href={service.edit} rel="external">Edit the file on GitHub</a>
+          <a href={fixUrl(service.name, service.href)} rel="external" target="_blank">
+            Suggest an edit
+          </a>
+          <a href={service.edit} rel="external" target="_blank">Edit the file on GitHub</a>
           <a href={service.history} rel="external">Every change to this file</a>
         </p>
         {#if data.changes.length}

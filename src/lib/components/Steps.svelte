@@ -31,9 +31,10 @@
 
   li {
     display: grid;
-    grid-template-columns: 1.55rem 1fr;
+    grid-template-columns: 1.55rem minmax(0, 1fr);
     gap: var(--space-3);
     align-items: start;
+    overflow-wrap: anywhere;
     counter-increment: step;
 
     &::before {

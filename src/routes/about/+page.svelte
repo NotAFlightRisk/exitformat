@@ -157,9 +157,12 @@
   <Section id="who" title="Who runs it">
     <div class="prose">
       <p>
-        Exit Format is an open project from <a href="https://peng.ly" rel="external">peng.ly</a>,
-        and all of it lives on <a href={site.repo} rel="external">GitHub</a>. Anyone can add a
-        service or fix a mistake, and <a href="/contribute">here's how</a>.
+        Exit Format is an open project by
+        <a href="https://github.com/NotAFlightRisk" rel="external">@NotAFlightRisk</a> (from
+        <a href="https://peng.ly" rel="external">peng.ly</a>), and all of it lives on
+        <a href={site.repo} rel="external">GitHub</a>. Anyone can add a service or fix a mistake,
+        and
+        <a href="/contribute">here's how</a>.
       </p>
     </div>
   </Section>

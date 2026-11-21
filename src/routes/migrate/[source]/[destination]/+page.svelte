@@ -11,10 +11,11 @@
   import RouteSides from '#lib/components/RouteSides.svelte';
   import Section from '#lib/components/Section.svelte';
   import StateMark from '#lib/components/StateMark.svelte';
+  import Tile from '#lib/components/Tile.svelte';
   import type { PathView } from '#lib/data/types.ts';
   import { howTo } from '#lib/schema.ts';
   import { absolute, editUrl, href } from '#lib/site.ts';
-  import { count, symbol } from '#lib/text.ts';
+  import { count } from '#lib/text.ts';
 
   let { data } = $props();
 
@@ -63,10 +64,10 @@
   {#snippet figure()}
     <div class="plate" aria-hidden="true">
       <span class="badge"><PathBadge kind={best.kind} /></span>
-      <span class="symbols">
-        {symbol(source.name)}
+      <span class="tiles">
+        <Tile name={source.name} icon={source.icon} />
         <span class="arrow"><Icon name="arrow" /></span>
-        {symbol(destination.name)}
+        <Tile name={destination.name} icon={destination.icon} />
       </span>
       <span class="names">
         {source.name} to {destination.name}
@@ -97,10 +98,10 @@
       wrong, the fix goes in one of those.
     </p>
     <p class="actions">
-      <a href={editUrl(source.category.id, source.id)} rel="external">
+      <a href={editUrl(source.category.id, source.id)} rel="external" target="_blank">
         Edit the {source.name} entry
       </a>
-      <a href={editUrl(destination.category.id, destination.id)} rel="external">
+      <a href={editUrl(destination.category.id, destination.id)} rel="external" target="_blank">
         Edit the {destination.name} entry
       </a>
     </p>
@@ -194,7 +195,7 @@
 <style>
   .plate {
     display: grid;
-    grid-template-areas: 'badge' 'symbols' 'names';
+    grid-template-areas: 'badge' 'tiles' 'names';
     grid-template-rows: auto 1fr auto;
     gap: var(--space-3);
     block-size: 100%;
@@ -202,15 +203,15 @@
     padding: var(--space-4);
 
     @media (width < 40rem) {
-      grid-template-areas: 'symbols names' 'symbols badge';
+      grid-template-areas: 'tiles names' 'tiles badge';
       grid-template-columns: auto minmax(0, 1fr);
       grid-template-rows: auto auto;
       gap: var(--space-1) var(--space-4);
       min-block-size: 0;
       padding-block: var(--space-3);
 
-      .symbols {
-        font-size: 1.75rem;
+      .tiles {
+        --tile: 2.75rem;
       }
     }
   }
@@ -219,23 +220,21 @@
     grid-area: badge;
   }
 
-  .symbols {
+  .tiles {
+    --tile: 4.5rem;
+
     display: inline-flex;
-    grid-area: symbols;
+    grid-area: tiles;
     align-items: center;
     align-self: center;
     justify-self: center;
-    gap: 0.2em;
-    font-size: clamp(2.25rem, 1.75rem + 1.5vw, 3rem);
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: -0.04em;
+    gap: var(--space-2);
   }
 
   .arrow {
     display: inline-flex;
     color: var(--text-muted);
-    font-size: 0.5em;
+    font-size: var(--size-lg);
   }
 
   .names {
