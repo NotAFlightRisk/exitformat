@@ -1,5 +1,7 @@
 name: FreeOTP+ export
 extensions: [.json]
 standard: false
+owner: freeotp-plus
 based_on: json
-description: The JSON export from FreeOTP+, a fork of FreeOTP for Android.
+description: The JSON export from FreeOTP+, a fork of FreeOTP for Android, with each token's settings and category plus the order they're in. It isn't encrypted.
+spec: https://github.com/helloworld1/FreeOTPPlus/blob/RELEASE-3.5/README.md#import-notes
