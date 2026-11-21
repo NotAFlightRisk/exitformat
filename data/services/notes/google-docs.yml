@@ -10,9 +10,9 @@ export:
   - id: download
     name: Download a document
     method: file
-    formats: [docx, pdf, markdown, html, txt, epub]
+    formats: [docx, pdf, markdown]
     steps:
-      - Open the document, go to File --> Download and pick a file type, like Word, PDF or Markdown (.md).
+      - Open the document, go to File --> Download and pick a file type, like Microsoft Word (.docx), PDF or Markdown (.md).
       - If it has tabs, pick All tabs in the dialogue, since it only takes the current tab unless you do, then select Export.
       - On Android, it's More --> Download. On iPhone and iPad, use More --> Share and export --> Save as Word.
     data:
@@ -21,7 +21,7 @@ export:
       unknown: [formatting, attachments, links, comments, todos, embeds]
     limitations:
       - It's one document at a time. Select several in Drive and choose Download to get them all in one go.
-      - Google Takeout can take every doc at once, along with comments, suggestions and any versions you've named, but Google doesn't say which file type it uses.
+      - Google Takeout can take all your docs at once, with comments, suggestions and any versions you've named, but Google doesn't say which file type it uses, and a work or school admin can switch it off.
       - The owner of a shared doc can stop people with comment or view access from downloading it.
     docs: https://support.google.com/docs/answer/49114
     sources:
@@ -35,7 +35,7 @@ import:
     method: file
     formats: [docx, html, txt, markdown, pdf]
     steps:
-      - Upload the file to Google Drive, then right-click it and choose Open with --> Google Docs.
+      - Upload the file to Google Drive and open it with Google Docs, then select File --> Save as Google Docs.
       - For a Markdown file, you can also use File --> Open --> Upload in Docs.
       - To convert every upload from now on, tick Convert uploads to Google Docs editor format in Drive's settings.
     data:
@@ -45,20 +45,22 @@ import:
     limitations:
       - A converted doc can be up to 50 MB and 1.02 million characters.
       - Macros are dropped, and charts and videos embedded in Word files turn into images.
-      - PDFs are read with OCR, so expect the text rather than the layout.
+      - PDFs are converted with OCR.
     docs: https://support.google.com/docs/answer/6055139
     sources:
+      - https://support.google.com/drive/answer/9276408
       - https://support.google.com/drive/answer/2424368
       - https://support.google.com/drive/answer/37603
       - https://support.google.com/docs/answer/12014036
 
 delete:
   steps:
-    - In Drive, move the documents to the bin. They're deleted for good after 30 days, or straight away if you empty the bin.
-    - To remove Drive and Docs from your account, go to Data & privacy --> Remove data from services you no longer use.
-    - Or delete your whole Google account, which takes your email, files and everything else with it.
+    - In Drive, move the documents you own to the bin. They're deleted for good after 30 days, or straight away if you empty the bin.
+    - To go altogether, open Data & privacy in your Google Account, then More options --> Delete your Google Account.
+    - That deletes your email, files and everything else in the account too.
   docs: https://support.google.com/drive/answer/2375102
   notes:
+    - Only a doc's owner can bin it. Docs other people own just come out of your Drive, and stay for everyone else.
     - Anyone you've shared a doc with can still open it until it's deleted for good.
     - Google says deleting takes around two months, and copies can stay in its encrypted backups for up to six months.
     - If you sent a Takeout archive to Drive, move it somewhere else before you delete the account.
