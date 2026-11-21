@@ -1,6 +1,8 @@
 {
-  "commit": "b7d4cf9221b4b8e9ef5068925170ac08278ec7b8",
+  "commit": "4904476b6cfc789aac972cb8ec37bbf3d9d9389b",
   "entries": [
+    {"date":"2026-11-21","commit":"4904476","pr":24,"id":"bear","category":"notes","name":"Bear","kind":"added"},
+    {"date":"2026-11-21","commit":"4904476","pr":24,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
     {"date":"2026-11-21","commit":"b7d4cf9","pr":23,"id":"joplin","category":"notes","name":"Joplin","kind":"updated","sections":["import"]},
     {"date":"2026-11-21","commit":"b7d4cf9","pr":23,"id":"onenote","category":"notes","name":"Microsoft OneNote","kind":"added"},
     {"date":"2026-11-21","commit":"b7d4cf9","pr":23,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
