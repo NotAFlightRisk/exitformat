@@ -1,6 +1,8 @@
 {
-  "commit": "dae99374b62ffc424e7fd257a43c70ccf7a3e518",
+  "commit": "4fe3f05f64518a8a9e5c21b1301653f8bc3f0a22",
   "entries": [
+    {"date":"2026-11-21","commit":"4fe3f05","pr":10,"id":"evernote","category":"notes","name":"Evernote","kind":"added"},
+    {"date":"2026-11-21","commit":"4fe3f05","pr":10,"id":"notion","category":"notes","name":"Notion","kind":"updated","sections":["import"]},
     {"date":"2026-11-21","commit":"dae9937","pr":9,"id":"authy","category":"2fa","name":"Twilio Authy","kind":"added"},
     {"date":"2026-11-21","commit":"ebfa84f","pr":8,"id":"2fas","category":"2fa","name":"2FAS Auth","kind":"updated","sections":["import"]},
     {"date":"2026-11-21","commit":"ebfa84f","pr":8,"id":"aegis","category":"2fa","name":"Aegis Authenticator","kind":"updated","sections":["import"]},
