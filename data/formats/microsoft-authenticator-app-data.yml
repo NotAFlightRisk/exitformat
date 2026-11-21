@@ -1,3 +1,4 @@
 name: Microsoft Authenticator database
 standard: false
+owner: microsoft-authenticator
 description: The PhoneFactor SQLite database in Microsoft Authenticator's private storage on Android. The app has no export, so this is the only way out, and it needs root.
