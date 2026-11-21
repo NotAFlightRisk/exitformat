@@ -1,0 +1,48 @@
+name: Microsoft Authenticator
+website: https://www.microsoft.com/en-us/security/mobile-authenticator-app
+description: Microsoft's 2FA app for Android and iOS. Its codes can't be exported, and its cloud backup only restores into Authenticator on the same kind of phone.
+deployment: local
+platforms: [android, ios]
+icon: https://play-lh.googleusercontent.com/7Qf6PPkO5HPtxkkGdI56KAXonEzgzyUvQARaDWP3dUsmwweJEHAI1oiZf6tSZn1wkSKKj7SO-eemScUh9a5k=s128
+aliases: [ms authenticator, azure authenticator]
+
+export:
+  - id: root
+    name: Read the app's data with root
+    method: file
+    formats: [microsoft-authenticator-app-data]
+    requirements: [Root access, Android only]
+    steps:
+      - Before rooting, open Settings in Authenticator, switch on Cloud Backup and pick a personal Microsoft account to keep it in.
+      - Root the phone, reinstall Authenticator, select Restore from backup and sign in with that same Microsoft account.
+      - Leave Authenticator installed, so the app you're moving to can read its data off the phone.
+    data:
+      included: [secrets, issuers]
+      excluded: [settings]
+      unknown: [token-settings]
+    limitations:
+      - Unlocking the bootloader to root a phone wipes it, which is why Cloud Backup has to be on first.
+      - The backup only keeps codes that change every 30 seconds, and work or school accounts have to be signed in and registered again.
+      - From January 2027, Android backups go through Google One instead of a Microsoft account.
+      - Without root, the only way out is setting 2FA up again at every site with your new app.
+    sources:
+      - https://support.microsoft.com/en-us/authenticator/back-up-your-accounts-in-microsoft-authenticator
+      - https://support.microsoft.com/en-us/authenticator/restore-account-credentials-from-microsoft-authenticator
+      - https://source.android.com/docs/core/architecture/bootloader/locking_unlocking
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/MicrosoftAuthImporter.java
+
+import: []
+
+delete:
+  steps:
+    - Check every site works with your new app, or turn its 2FA off, before you delete anything.
+    - On Android, open Settings, switch off Cloud Backup and select OK to delete the backup.
+    - Remove each account from the app, then uninstall it.
+  docs: https://support.microsoft.com/en-us/authenticator/back-up-your-accounts-in-microsoft-authenticator
+  notes:
+    - On iOS the backup is kept in your own iCloud rather than by Microsoft.
+    - For a personal Microsoft account, also turn off verification for the old phone under two-step verification on your Account Security page.
+
+verification:
+  status: documented
+  checked_at: 2026-11-21
