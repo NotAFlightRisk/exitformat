@@ -1,3 +1,4 @@
 name: Google Authenticator transfer QR codes
 standard: false
-description: The QR codes Google Authenticator shows when you use Transfer accounts. Each one holds an otpauth-migration:// link with several accounts packed inside. It's Google's own format, and Google hasn't published a spec for it.
+owner: google-authenticator
+description: The QR codes Google Authenticator shows when you transfer your codes. Each one holds an otpauth-migration:// link that can pack several accounts inside, unencrypted. There's no field for the period, so a code on anything but a 30-second timer won't survive the trip. It's Google's own format, and Google hasn't published a spec for it.
