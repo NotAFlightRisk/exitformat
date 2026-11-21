@@ -167,9 +167,18 @@ import:
       - In Bear on a Mac, use File --> Backup notes. On iPhone or iPad, use Settings --> Advanced --> Share Application Data.
       - In Obsidian, install the Importer plugin, open it and pick Bear (.bear2bk, .zip).
       - Choose the backup file and select Import.
+    data:
+      included: [text, formatting, attachments, links, tags, dates]
+      unknown: [todos]
     limitations:
-      - Encrypted notes get skipped.
+      - Locked notes come in as empty notes from a .bear2bk, and get skipped from Share Application Data, so take the locks off first.
+      - Tags with spaces, like #two words#, become #two_words.
+      - Links to a heading in another note keep Bear's [[Note/Heading]] form, which Obsidian reads as a folder, so they won't open.
+      - Archived notes go in an archive folder and trashed ones in a trash folder, with the date in a property. Pins aren't kept.
     docs: https://help.obsidian.md/import/bear
+    sources:
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/bear-bear2bk.ts
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/bear/convert.ts
 
   - id: google-keep
     name: Import from Google Keep
