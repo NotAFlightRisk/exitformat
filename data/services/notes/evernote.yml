@@ -11,8 +11,8 @@ export:
     formats: [enex]
     requirements: [Mac or Windows app]
     steps:
-      - Select a notebook or up to 100 notes, right-click and select Export....
-      - Pick ENEX and tick the attributes you want to keep, like tags, created date and author.
+      - Right-click a notebook, or up to 100 selected notes, and select Export... from the menu.
+      - Select ENEX as the file format and tick the attributes you want to keep, like tags, created date and author.
       - Select Export. For a big notebook, choose how large each file can get, from 300 MB to 2 GB.
     data:
       included: [text, formatting, attachments, links, tags, properties, dates, todos]
@@ -31,15 +31,15 @@ export:
     formats: [html]
     requirements: [Mac or Windows app]
     steps:
-      - Select a notebook or up to 100 notes, right-click and select Export....
+      - Right-click a notebook, or up to 100 selected notes, and select Export... from the menu.
       - Pick single-page HTML for one file, or multi-page HTML for a file per note plus an index.
       - Tick the attributes you want to keep, then select Export.
     data:
       included: [text, formatting, attachments, tags, properties, dates]
-      excluded: [history, sharing, settings]
-      unknown: [links, structure, todos]
+      excluded: [settings]
+      unknown: [links, structure, todos, history, sharing]
     limitations:
-      - Tags, dates and other attributes go in as metadata in the HTML, not as part of the note.
+      - Tags, dates and other attributes are stored as metadata in the HTML.
       - Every attachment goes in one shared folder next to the HTML.
     docs: https://help.evernote.com/hc/en-us/articles/209005557-Export-Notes-and-Notebooks-as-ENEX-or-HTML
 
@@ -48,15 +48,15 @@ export:
     method: file
     formats: [pdf]
     steps:
-      - On Mac or Windows, select More actions (three dots) on a note or notebook, then Export as PDF....
-      - Pick your page options and select Export. A notebook or several notes come out as one PDF.
-      - On the web or an iPhone, use Print on one note at a time and save it as a PDF instead.
+      - On Mac or Windows, select More actions (three dots) in an open note, on the bar under several selected notes, or next to a notebook.
+      - Select Export as PDF..., pick your page options and select Export. Several notes or a notebook come out as one PDF.
+      - On the web, it's More actions --> Print, saved as a PDF. On iOS, tap More options --> Print note, then share it to Files.
     data:
       included: [text, formatting]
-      excluded: [attachments, tags, properties, dates]
+      excluded: [tags, properties, dates]
+      unknown: [attachments]
     limitations:
       - Images come out, but other attachments only show up as an icon.
-      - It's a printout, so no other notes app can turn it back into notes properly.
     docs: https://help.evernote.com/hc/en-us/articles/4403616330387-Export-notes-as-a-PDF
 
 import:
@@ -64,13 +64,15 @@ import:
     name: Import an ENEX file
     method: file
     formats: [enex]
-    requirements: [Mac or Windows app]
+    requirements: [Desktop or web app]
     steps:
-      - Go to File --> Import... and pick the .enex file.
-      - Select Open. The notes land in a new notebook, called Import and the file name on a Mac, or Imported notes on Windows.
+      - On Mac or Windows, go to File --> Import... and pick the .enex file, or just drag it onto a notebook.
+      - On the web, select your name or profile picture, then Settings --> Import, and drop the file in.
+      - The notes land in a new notebook, called Import and the file name on a Mac, or Imported notes on Windows.
     data:
-      included: [text, formatting, attachments, links, tags, properties, dates, todos]
+      included: [text, formatting, attachments, tags, properties, dates]
       excluded: [structure]
+      unknown: [links, todos]
     limitations:
       - Notebooks aren't kept, so move the notes where you want them afterwards.
     docs: https://help.evernote.com/hc/en-us/articles/360035153274-How-To-Import-Notes-and-Notebooks
@@ -109,7 +111,8 @@ delete:
   notes:
     - It's permanent, and not even Evernote's support can get your notes back afterwards, so export first.
     - You can also ask through Evernote's privacy web form, picking I want to delete my account.
-    - On a Teams account, your Teams admin has to put the request in.
+    - Evernote's backups can keep copies of deleted notes for up to 60 days.
+    - On a Teams account, ask your Teams admin, who has to raise it with Evernote's support.
 
 verification:
   status: documented
