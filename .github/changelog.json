@@ -1,6 +1,8 @@
 {
-  "commit": "2e9bd9aeb53d0af1dbebedc85582c623e1937e01",
+  "commit": "8eba83fdacc1ccb7d9590e1cf41c7e4db7e4fbd5",
   "entries": [
+    {"date":"2026-11-21","commit":"8eba83f","pr":13,"id":"google-keep","category":"notes","name":"Google Keep","kind":"added"},
+    {"date":"2026-11-21","commit":"8eba83f","pr":13,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
     {"date":"2026-11-21","commit":"2e9bd9a","pr":12,"id":"apple-notes","category":"notes","name":"Apple Notes","kind":"added"},
     {"date":"2026-11-21","commit":"b4fe991","pr":11,"id":"microsoft-authenticator","category":"2fa","name":"Microsoft Authenticator","kind":"added"},
     {"date":"2026-11-21","commit":"4fe3f05","pr":10,"id":"evernote","category":"notes","name":"Evernote","kind":"added"},
