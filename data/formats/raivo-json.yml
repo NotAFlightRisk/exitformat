@@ -3,4 +3,4 @@ extensions: [.json]
 standard: false
 owner: raivo-otp
 based_on: json
-description: The raivo-otp-export.json file from inside the zip that Raivo OTP exports on iOS, which is locked with your Raivo master password. Importers want the JSON, so unzip it first.
+description: The raivo-otp-export.json file from the zip Raivo OTP exports on iOS. The zip is locked with your Raivo master password but the JSON inside isn't, and importers want the JSON, so unzip it first.

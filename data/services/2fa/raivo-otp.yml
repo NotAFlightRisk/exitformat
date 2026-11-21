@@ -13,16 +13,15 @@ export:
     method: file
     formats: [raivo-json]
     steps:
-      - Open Settings and tap Export OTPs to ZIP archive, under Data, then Export.
-      - Save the zip, then open it on your computer or in the Files app with your Raivo master password.
-      - Give the raivo-otp-export.json file inside to the app you're moving to.
+      - Open Settings and, under Data, tap Export OTPs to ZIP archive.
+      - Tap Export, then save or share raivo-otp-export.zip.
+      - Unzip it with your Raivo master password. Apps that import Raivo want the raivo-otp-export.json inside.
     data:
       included: [secrets, issuers, token-settings, hotp, icons, favourites]
       excluded: [settings]
     limitations:
-      - The zip is locked with your master password, but the JSON inside isn't, so delete it once you're done.
-      - Raivo warns that some unzip tools can't open it, especially if the password has special characters. The Files app on the phone can.
-      - Icons are saved as picks from Raivo's own icon set, so they mean nothing to other apps.
+      - The zip is locked with your master password, but nothing inside it is. It also holds a web page with every secret and a QR code for each, so delete both files once you're done.
+      - Raivo warns that unzip tools without AES support, or a password with special characters, can trip it up. The Files app on the phone can open it.
     docs: https://raivo-otp.com/faq/
     sources:
       - https://github.com/raivo-otp/ios-application/blob/build-1108/Raivo/Features/DataExportFeature.swift
@@ -41,8 +40,8 @@ import:
     data:
       included: [secrets, issuers, token-settings, hotp, icons, favourites]
     limitations:
-      - It only takes Raivo's own zip, not the JSON on its own.
-      - Everything in it is added to what you've already got.
+      - It wants a Raivo zip with raivo-otp-export.json inside, not the JSON on its own.
+      - One bad record stops the whole import, and importing the same zip twice gives you duplicates, since it adds to what you've got.
     docs: https://raivo-otp.com/faq/
     sources:
       - https://github.com/raivo-otp/ios-application/blob/build-1108/Raivo/Features/DataImportFeature.swift
