@@ -1,5 +1,6 @@
 name: Duo Mobile app data
 extensions: [.json]
 standard: false
+owner: duo-mobile
 based_on: json
-description: The accounts.json file in Duo Mobile's private storage on Android. Getting at it needs root.
+description: The accounts.json file in Duo Mobile's private storage on Android, which holds your third-party accounts' secrets. Duo has no export, so this is the only way out, and getting at it needs root.

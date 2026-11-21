@@ -1,0 +1,39 @@
+name: Duo Mobile
+website: https://duo.com/product/multi-factor-authentication-mfa/duo-mobile-app
+description: Cisco Duo's 2FA app for Android and iOS, mostly for work logins, which can hold codes for your own accounts too but has no way to export them.
+deployment: local
+platforms: [android, ios]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/d3/7f/a8/d37fa8bb-e2ae-a160-3a98-4dd084d0e24c/AppIconGlass-0-0-1x_U007epad-0-0-0-1-0-0-85-220.png/128x128bb.png
+aliases: [duo, duo security, cisco duo]
+
+export:
+  - id: root
+    name: Read the app's data with root
+    method: file
+    formats: [duo-app-data]
+    requirements: [Root access, Android only]
+    steps:
+      - Before rooting, turn on Google backup with app data, which needs a screen lock on the phone.
+      - In Duo Mobile, go to Settings --> Duo Instant Restore and turn on Automatically reconnect third-party accounts from cloud.
+      - Root the phone, restore the Google backup when you set it up again, and open Duo Mobile to get your accounts back.
+      - Leave Duo Mobile installed, so the app you're moving to can read its data off the phone.
+    data:
+      included: [secrets, issuers, hotp]
+      excluded: [settings]
+      unknown: [token-settings]
+    limitations:
+      - Duo says outright that third-party accounts can't be exported, so without root the only way is setting each one up again on the site.
+      - Unlocking the bootloader to root a phone wipes it, which is why the backup has to be on first.
+      - Only Google's backup works for this, not a phone maker's own (Samsung Cloud, for one).
+      - Work accounts protected by Duo don't move this way. Your organisation's IT team sets those up again.
+    sources:
+      - https://guide.duo.com/third-party-accounts
+      - https://guide.duo.com/duo-restore
+      - https://source.android.com/docs/core/architecture/bootloader/locking_unlocking
+      - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/DuoImporter.java
+
+import: []
+
+verification:
+  status: documented
+  checked_at: 2026-11-21
