@@ -1,0 +1,7 @@
+name: Ente Auth encrypted export
+extensions: [.json]
+standard: false
+owner: ente-auth
+based_on: json
+description: The password-protected export from Ente Auth. It's JSON holding the same list of otpauth links as the plain text export, encrypted with a key made from your password, and Ente publishes how it works.
+spec: https://ente.com/help/auth/migration/export#overview

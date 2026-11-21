@@ -23,13 +23,33 @@ export:
       - There's no password on it, so every secret is in plain text.
       - Tags, notes, pins and icons ride along in an extra bit of each link that only Ente Auth reads, so other apps just get the codes.
       - Codes in the trash go in too, and another app brings them back as normal codes.
-      - The Encrypted export only goes back into Ente Auth, though the Ente CLI can decrypt it to this same text file.
     docs: https://ente.com/help/auth/migration/export
     sources:
       - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/export_widget.dart
       - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/models/code_display.dart
       - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/store/code_store.dart
       - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/packages/strings/lib/l10n/arb/strings_en.arb
+
+  - id: encrypted
+    name: Export an encrypted file
+    method: file
+    formats: [ente-auth-encrypted]
+    steps:
+      - Open Settings --> Data --> Export codes and pick Encrypted.
+      - Type a password of at least 4 characters and tap Export.
+      - Unlock with your device's lock when it asks, then tap Save or Send.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam, icons, groups, notes, favourites, sort-order]
+      excluded: [settings]
+    limitations:
+      - Ente can't recover the password if you forget it.
+      - Aegis, 2FAS and Proton Authenticator can't open it, so use Plain text for those.
+      - Codes in the trash go in too.
+      - Settings --> Data --> Local backup can write an encrypted backup every day as well, keeping the last 5.
+    docs: https://ente.com/help/auth/migration/export#create-encrypted-export
+    sources:
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/ui/settings/data/export_widget.dart
+      - https://github.com/ente/ente/blob/auth-v4.4.27/mobile/apps/auth/lib/models/export/ente.dart
 
   - id: web-page
     name: Export as a web page
