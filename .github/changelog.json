@@ -1,6 +1,7 @@
 {
-  "commit": "ebfa84f3d96b3922c8310eab7f6f54d2c80ceb04",
+  "commit": "dae99374b62ffc424e7fd257a43c70ccf7a3e518",
   "entries": [
+    {"date":"2026-11-21","commit":"dae9937","pr":9,"id":"authy","category":"2fa","name":"Twilio Authy","kind":"added"},
     {"date":"2026-11-21","commit":"ebfa84f","pr":8,"id":"2fas","category":"2fa","name":"2FAS Auth","kind":"updated","sections":["import"]},
     {"date":"2026-11-21","commit":"ebfa84f","pr":8,"id":"aegis","category":"2fa","name":"Aegis Authenticator","kind":"updated","sections":["import"]},
     {"date":"2026-11-21","commit":"ebfa84f","pr":8,"id":"bitwarden-authenticator","category":"2fa","name":"Bitwarden Authenticator","kind":"updated","sections":["import"]},
