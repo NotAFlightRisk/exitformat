@@ -14,14 +14,15 @@ export:
     requirements: [Android only]
     steps:
       - Tap Menu at the top, then Backup.
-      - Choose where to save the file. It's locked with the backup password FreeOTP had you set up.
+      - Choose where to save externalBackup. It's locked with the backup password FreeOTP had you set up.
     data:
-      included: [secrets, issuers, token-settings, hotp]
+      included: [secrets, issuers, token-settings, hotp, steam, icons]
       excluded: [sort-order, settings]
     limitations:
-      - The backup password can't be changed, and nothing opens the file without it.
-      - The iOS app has no export at all.
-      - Android's own backup to your Google Account only restores into FreeOTP.
+      - FreeOTP won't let you change the backup password, and the secrets can't be read without it.
+      - Icons only come across as the web address of the picture, not the picture itself.
+      - The iOS app has no backup or export at all.
+      - Android's backup to your Google Account puts FreeOTP back on a new phone, but no other app can use it.
     docs: https://github.com/freeotp/freeotp-android/blob/v2.0.6/BACKUP.md
     sources:
       - https://github.com/freeotp/freeotp-android/blob/v2.0.6/mobile/src/main/java/org/fedorahosted/freeotp/TokenPersistence.java
@@ -38,7 +39,9 @@ import:
       - Tap Menu at the top, then Restore, and choose the backup file.
       - Enter the backup password. It becomes your backup password from then on.
     data:
-      included: [secrets, issuers, token-settings, hotp]
+      included: [secrets, issuers, token-settings, hotp, steam, icons]
+    limitations:
+      - It adds to the tokens you've already got, skipping any that are already there.
     docs: https://github.com/freeotp/freeotp-android/blob/v2.0.6/BACKUP.md
     sources:
       - https://github.com/freeotp/freeotp-android/blob/v2.0.6/mobile/src/main/java/org/fedorahosted/freeotp/TokenPersistence.java
