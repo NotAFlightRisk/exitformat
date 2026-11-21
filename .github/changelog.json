@@ -1,6 +1,7 @@
 {
-  "commit": "4904476b6cfc789aac972cb8ec37bbf3d9d9389b",
+  "commit": "a971e64a8ba4f2b567d0a56a0b77958ddda09881",
   "entries": [
+    {"date":"2026-11-21","commit":"a971e64","pr":25,"id":"standard-notes","category":"notes","name":"Standard Notes","kind":"added"},
     {"date":"2026-11-21","commit":"4904476","pr":24,"id":"bear","category":"notes","name":"Bear","kind":"added"},
     {"date":"2026-11-21","commit":"4904476","pr":24,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
     {"date":"2026-11-21","commit":"b7d4cf9","pr":23,"id":"joplin","category":"notes","name":"Joplin","kind":"updated","sections":["import"]},
