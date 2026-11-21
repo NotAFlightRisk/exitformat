@@ -1,6 +1,5 @@
-name: Standard Notes decrypted backup
-extensions: [.zip]
+name: Standard Notes backup
+extensions: [.zip, .txt]
 standard: false
 owner: standard-notes
-based_on: zip
-description: What Download backup gives you with Decrypted picked - a zip with one backup file of JSON holding every note, tag and preference, and a text file for each note, tag and other item. Super notes are kept as Super's own JSON rather than Markdown, and attachments are only their details, not the files. Restoring takes the backup file from inside the zip, not the zip itself.
+description: What Download backup gives you. Decrypted, it's a zip with one backup file of JSON holding every note, tag and preference, and a text file for each note, tag and other item. Encrypted, it's just that backup file, which only opens with your password. Super notes are kept as Super's own JSON rather than Markdown, and attachments are only their details, not the files. Restoring takes the backup file, so unzip a decrypted one first.

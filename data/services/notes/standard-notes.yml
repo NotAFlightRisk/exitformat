@@ -89,7 +89,8 @@ import:
       excluded: [links, properties]
     limitations:
       - On the free plan notes come in as plain text and attachments are dropped. Formatting needs Super and attachments need Files, both paid.
-      - Notes bigger than 3 MB won't import, which catches web clips with images inside them. Import big notebooks in smaller files.
+      - Notes bigger than 3 MB won't import. Web clips with images inside them are the usual culprits, so save those images as files and reattach them in Evernote first.
+      - Each .enex file can be up to 50 MB.
     docs: https://standardnotes.com/help/10/how-can-i-import-my-notes-from-evernote
     sources:
       - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/ui-services/src/Import/EvernoteConverter/EvernoteConverter.ts
