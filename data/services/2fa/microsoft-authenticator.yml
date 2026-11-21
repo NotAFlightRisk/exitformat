@@ -1,6 +1,6 @@
 name: Microsoft Authenticator
 website: https://www.microsoft.com/en-us/security/mobile-authenticator-app
-description: Microsoft's 2FA app for Android and iOS. Its codes can't be exported, and its cloud backup only restores into Authenticator on the same kind of phone.
+description: Microsoft's 2FA app for Android and iOS. It has no export for your codes, and its backup only restores into Authenticator on the same platform.
 deployment: local
 platforms: [android, ios]
 icon: https://play-lh.googleusercontent.com/7Qf6PPkO5HPtxkkGdI56KAXonEzgzyUvQARaDWP3dUsmwweJEHAI1oiZf6tSZn1wkSKKj7SO-eemScUh9a5k=s128
@@ -14,7 +14,7 @@ export:
     requirements: [Root access, Android only]
     steps:
       - Before rooting, open Settings in Authenticator, switch on Cloud Backup and pick a personal Microsoft account to keep it in.
-      - Root the phone, reinstall Authenticator, select Restore from backup and sign in with that same Microsoft account.
+      - Root the phone and reinstall Authenticator. Select Restore from backup before signing in to anything, with that same account.
       - Leave Authenticator installed, so the app you're moving to can read its data off the phone.
     data:
       included: [secrets, issuers]
@@ -22,7 +22,8 @@ export:
       unknown: [token-settings]
     limitations:
       - Unlocking the bootloader to root a phone wipes it, which is why Cloud Backup has to be on first.
-      - The backup only keeps codes that change every 30 seconds, and work or school accounts have to be signed in and registered again.
+      - Only codes that change every 30 seconds come back from the backup. Passwordless sign-in and work or school accounts have to be set up again.
+      - Microsoft's sign-in approvals aren't one-time codes, so they don't come across either.
       - From January 2027, Android backups go through Google One instead of a Microsoft account.
       - Without root, the only way out is setting 2FA up again at every site with your new app.
     sources:
@@ -41,7 +42,8 @@ delete:
   docs: https://support.microsoft.com/en-us/authenticator/back-up-your-accounts-in-microsoft-authenticator
   notes:
     - On iOS the backup is kept in your own iCloud rather than by Microsoft.
-    - For a personal Microsoft account, also turn off verification for the old phone under two-step verification on your Account Security page.
+    - Uninstalling isn't enough for Microsoft accounts. Turn off verification for the old phone under two-step verification on your Account Security page, or My Apps for work or school.
+    - Microsoft doesn't say how long a deleted backup hangs around.
 
 verification:
   status: documented
