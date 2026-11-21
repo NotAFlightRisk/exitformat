@@ -3,4 +3,4 @@ extensions: [.zip]
 standard: false
 owner: confluence
 based_on: zip
-description: A zip of HTML pages exported from a Confluence space, with each page's attachments in a folder named after its page ID. Page comments and blog posts aren't in it. Notion's Confluence importer takes it as it is, without unzipping.
+description: A zip of HTML pages exported from a Confluence Cloud space, with each page's attachments in a folder named after its page ID. Page comments and blog posts aren't in it. Notion's Confluence importer takes it as it is, without unzipping.
