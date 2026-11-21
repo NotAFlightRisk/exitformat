@@ -1,6 +1,8 @@
 {
-  "commit": "a971e64a8ba4f2b567d0a56a0b77958ddda09881",
+  "commit": "a30366632bb56a2d063c10d393507708e1789e30",
   "entries": [
+    {"date":"2026-11-21","commit":"a303666","pr":26,"id":"simplenote","category":"notes","name":"Simplenote","kind":"added"},
+    {"date":"2026-11-21","commit":"a303666","pr":26,"id":"standard-notes","category":"notes","name":"Standard Notes","kind":"updated","sections":["import"]},
     {"date":"2026-11-21","commit":"a971e64","pr":25,"id":"standard-notes","category":"notes","name":"Standard Notes","kind":"added"},
     {"date":"2026-11-21","commit":"4904476","pr":24,"id":"bear","category":"notes","name":"Bear","kind":"added"},
     {"date":"2026-11-21","commit":"4904476","pr":24,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
