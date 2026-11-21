@@ -1,6 +1,6 @@
 name: Google Authenticator
 website: https://support.google.com/accounts/answer/1066447
-description: Google's free 2FA app for Android and iOS, which keeps your codes on the phone and syncs them to your Google Account if you sign in.
+description: Google's 2FA app for Android and iOS, which keeps your codes on the phone and syncs them to your Google Account if you sign in.
 deployment: hybrid
 platforms: [android, ios]
 icon: https://play-lh.googleusercontent.com/4qyuLCJkVpVfoIeu6b0ld6LkKzPHHby9ZilLbxhUZLK4f64o65oHGW-ZsuVe3LAWDVuIZpkQISmmVvA4-qnofw=s128
@@ -13,7 +13,7 @@ export:
     formats: [otpauth-migration]
     steps:
       - On Android, tap Menu --> Transfer codes --> Export codes. On iOS, it's Menu --> Transfer accounts --> Export accounts.
-      - Unlock your phone when it asks, select the accounts you want to move and tap Next.
+      - Unlock your device when it asks, select the accounts you want to move and tap Next.
       - Scan each QR code it shows with the other app. More than one account can mean more than one QR code.
     data:
       included: [secrets, issuers, hotp]
@@ -35,20 +35,19 @@ import:
     formats: [otpauth-migration]
     steps:
       - On Android, tap Menu --> Transfer codes --> Import codes. On iOS, it's Menu --> Transfer accounts --> Import accounts.
-      - Scan each QR code from the other phone until it says your codes have been transferred.
+      - Scan every QR code the old device shows. Google Authenticator tells you once your codes have been transferred.
     docs: https://support.google.com/accounts/answer/1066447
 
 delete:
   steps:
-    - To delete one code, swipe right on it and confirm. If you sync, it goes from every synced device too.
+    - To delete a code, swipe right on it and confirm. If you sync, that deletes it from every synced device too.
     - To wipe every code from your Google Account, go to Data & privacy --> Delete a Google service and delete Google Authenticator.
-    - Uninstall the app to clear the codes left on the phone itself.
   docs: https://support.google.com/accounts/answer/1066447
   notes:
     - Check every code works in the new app before you delete anything here.
     - Deleting the Google Authenticator service clears your codes from every device, but leaves the rest of your Google Account alone.
-    - To keep the codes but take them off Google's servers, tap your profile picture --> Use Authenticator without an account.
-    - Google says deleted data generally takes about two months to clear from its servers, and can sit in its backups for up to six months.
+    - To keep your codes on this device only, tap your profile picture --> Use Authenticator without an account. That takes them out of every Google Account.
+    - Google's general policy is that deleting data takes around two months, and copies can sit in its encrypted backups for up to six months.
 
 verification:
   status: documented

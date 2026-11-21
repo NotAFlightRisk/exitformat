@@ -121,7 +121,7 @@ import:
     method: qr
     formats: [otpauth-migration]
     steps:
-      - In Google Authenticator, tap Menu --> Transfer codes --> Export codes (Transfer accounts --> Export accounts on iOS).
+      - In Google Authenticator, tap Menu --> Transfer codes --> Export codes on Android, or Menu --> Transfer accounts --> Export accounts on iOS.
       - In 2FAS, open Import Tokens (Transfer tokens on iOS) and pick Google Authenticator.
       - Tap Scan QR code, or Choose QR code for a screenshot, and repeat for each code.
     data:

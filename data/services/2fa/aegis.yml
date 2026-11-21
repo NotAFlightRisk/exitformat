@@ -158,7 +158,7 @@ import:
     method: qr
     formats: [otpauth-migration]
     steps:
-      - In Google Authenticator, tap Menu --> Transfer codes --> Export codes (Transfer accounts --> Export accounts on iOS).
+      - In Google Authenticator, tap Menu --> Transfer codes --> Export codes on Android, or Menu --> Transfer accounts --> Export accounts on iOS.
       - In Aegis, tap + then Scan QR code, or Scan image for a screenshot or photo.
       - Scan every QR code in order - Aegis counts them off as it goes.
     data:
