@@ -18,12 +18,12 @@ export:
       - Export everything or pick the pages, select Export space and download the zip when it's ready.
     data:
       included: [text, attachments, structure]
-      excluded: [comments, databases, sharing, settings]
-      unknown: [formatting, links, tags, properties, dates, todos, history, embeds, canvases]
+      excluded: [comments, sharing, settings]
+      unknown: [formatting, links, tags, properties, dates, todos, history, embeds, canvases, databases]
     limitations:
       - Page comments, blog posts and Team Calendars aren't in it. Whiteboards and databases have exports of their own.
       - It only has what you can see, and an organisation admin can block exports altogether.
-      - The CSV export keeps comments, and a site admin's CSV or XML export has everything, but those are made for importing back into Confluence.
+      - The CSV export keeps comments, and a site admin's CSV or XML export takes restricted pages too, but those are made for importing back into Confluence.
     docs: https://support.atlassian.com/confluence-cloud/docs/export-content-to-word-pdf-html-and-xml/
     sources:
       - https://support.atlassian.com/confluence-cloud/docs/import-a-confluence-cloud-space/
@@ -51,7 +51,7 @@ import:
     formats: [html]
     requirements: [Create space permission]
     steps:
-      - Zip one folder of .html files, with each page's images in a folder of the same name. The folder's name becomes the space's.
+      - Zip one folder of .html files, with each page's media files in a folder of the same name. The folder's name becomes the space's.
       - In Confluence, select Spaces in the sidebar, then Import from other tools, and pick HTML.
       - Upload the zip, name the space, choose who can see it, then select Start import.
     limitations:
@@ -81,7 +81,7 @@ delete:
   docs: https://support.atlassian.com/confluence-cloud/docs/delete-a-space/
   notes:
     - Spaces left in the trash for 60 days or more get deleted for good.
-    - Cancel a paid plan instead and the site stays open for 15 days after the billing period, then its data is kept for 60 more (15 for a trial). A Free plan's site is deactivated straight away. Atlassian's own database backups last 30 days.
+    - Cancel a paid plan instead and the site stays open for 15 days after the billing period, then its data is kept for 60 more. A trial or a Free plan's site ends straight away, and a trial's data is kept for 15 days. Atlassian's own database backups last 30 days.
     - Deleting your account has a 14-day grace period and clears your personal data within 30 days, but pages you wrote stay, under the name Former user. An account your organisation manages can't be deleted by you.
 
 verification:
