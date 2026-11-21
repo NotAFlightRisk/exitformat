@@ -1,0 +1,43 @@
+name: Open Authenticator
+website: https://openauthenticator.app/
+description: Free, open source TOTP app for phones and computers that keeps your codes on the device and can sync them if you sign in.
+deployment: local
+platforms: [android, ios, windows, macos, linux]
+source: https://github.com/openauthenticator-app/openauthenticator
+
+export:
+  - id: backup
+    name: Export a backup
+    method: file
+    formats: [open-authenticator-backup]
+    steps:
+      - Open Settings, tap Backup now under Backups and set a password for it.
+      - Tap Manage backups, then Share on that backup to save or send the file.
+    data:
+      included: [secrets, issuers, token-settings, icons]
+      excluded: [settings]
+    limitations:
+      - The backup password is the only way back into the file.
+    sources:
+      - https://github.com/openauthenticator-app/openauthenticator/blob/2.1.0/lib/model/backup/backup.dart
+      - https://github.com/openauthenticator-app/openauthenticator/blob/2.1.0/lib/model/totp/totp.dart
+      - https://github.com/openauthenticator-app/openauthenticator/blob/2.1.0/lib/i18n/en/settings.json
+
+import:
+  - id: backup
+    name: Import a backup
+    method: file
+    formats: [open-authenticator-backup]
+    steps:
+      - Open Settings, tap Manage backups under Backups, then Import a backup and choose the file.
+      - Tap Restore on it and enter the backup password.
+    data:
+      included: [secrets, issuers, token-settings, icons]
+    limitations:
+      - Restoring swaps every code you've got for the ones in the backup, rather than adding to them.
+    sources:
+      - https://github.com/openauthenticator-app/openauthenticator/blob/2.1.0/lib/model/backup/backup.dart
+
+verification:
+  status: documented
+  checked_at: 2026-11-21
