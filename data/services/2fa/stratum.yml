@@ -1,6 +1,6 @@
 name: Stratum
 website: https://stratumauth.com/
-description: Free, open source 2FA app for Android and Wear OS, once called Authenticator Pro, that keeps your codes on the phone and never goes online.
+description: Free, open source 2FA app for Android and Wear OS, once called Authenticator Pro, that keeps your codes on the phone and has no internet access.
 deployment: local
 platforms: [android]
 source: https://github.com/stratumauth/app
@@ -37,12 +37,11 @@ export:
       - Tap OK past the warning and choose where to save the .txt file.
     data:
       included: [secrets, issuers, token-settings, hotp]
-      excluded: [steam, icons, groups, sort-order, settings]
-      unknown: [motp-yandex]
+      excluded: [steam, motp-yandex, icons, groups, sort-order, settings]
     limitations:
       - There's no password on it, so every secret is in plain text.
-      - Steam codes go out as ordinary TOTP links that only Stratum recognises, so other apps make the wrong codes for them.
-      - mOTP and Yandex codes go out without their PIN, so you'll need to type it in again.
+      - Steam codes go out as unmarked TOTP links, so other apps make the wrong codes for them.
+      - mOTP and Yandex codes go out without their PIN.
     sources:
       - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Backup/UriListBackup.cs
       - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Entity/Authenticator.cs
@@ -56,11 +55,11 @@ export:
       - Tap OK past the warning and choose where to save it.
     data:
       included: [secrets, issuers, token-settings, hotp]
-      excluded: [steam, icons, groups, sort-order, settings]
-      unknown: [motp-yandex]
+      excluded: [steam, motp-yandex, icons, groups, sort-order, settings]
     limitations:
       - There's no password on it, so every secret is in plain text.
       - It's a page with a QR code for each account, made for printing rather than importing.
+      - Its QR codes have the same Steam, mOTP and Yandex problems as the URI list.
     sources:
       - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Backup/HtmlBackup.cs
 
@@ -119,8 +118,10 @@ import:
       - Tap + then Import from other apps, and pick LastPass Authenticator.
       - Choose the LastPassAuthenticator.json file.
     data:
-      included: [secrets, issuers, token-settings, groups, sort-order]
-      excluded: [hotp, steam]
+      included: [secrets, issuers, token-settings, groups]
+      excluded: [hotp, steam, sort-order]
+    limitations:
+      - Only the order within each folder survives.
     sources:
       - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Converter/LastPassBackupConverter.cs
 
@@ -147,6 +148,7 @@ import:
       - Choose the TOTP_Backup.encrypt file and enter its password.
     data:
       included: [secrets, issuers, token-settings]
+      excluded: [hotp, steam]
     sources:
       - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Converter/TotpAuthenticatorBackupConverter.cs
 
@@ -175,7 +177,7 @@ import:
       included: [secrets, issuers, token-settings, hotp]
       excluded: [steam, icons, groups, notes, favourites, sort-order]
     limitations:
-      - Ente's Steam codes are skipped, since Stratum doesn't read the way Ente writes them.
+      - Ente's Steam codes are skipped, since Stratum doesn't read the way Ente writes them. The rest still come in.
     sources:
       - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Converter/EnteAuthBackupConverter.cs
       - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/UriParser.cs
@@ -189,11 +191,11 @@ import:
       - Choose the text file of otpauth:// links.
     data:
       included: [secrets, issuers, token-settings, hotp]
-      excluded: [motp-yandex, icons, groups, notes, favourites, sort-order]
-      unknown: [steam]
+      excluded: [steam, motp-yandex, icons, groups, notes, favourites, sort-order]
     limitations:
       - A line that isn't an otpauth or motp link stops the whole file. Links it can't read are skipped.
-      - Steam codes only come across when the link is a TOTP one marked as Steam, which isn't how Aegis or Ente write them.
+      - Steam codes only come across from a TOTP link marked as Steam, which isn't how Aegis or Ente write them.
+      - mOTP and Yandex links are always skipped, since Stratum doesn't read a PIN from a link.
     sources:
       - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Converter/UriListBackupConverter.cs
       - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/UriParser.cs
