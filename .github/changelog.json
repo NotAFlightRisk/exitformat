@@ -1,6 +1,8 @@
 {
-  "commit": "8eba83fdacc1ccb7d9590e1cf41c7e4db7e4fbd5",
+  "commit": "41b0713f5b0b20253533aaaa898f3b45d46ee152",
   "entries": [
+    {"date":"2026-11-21","commit":"41b0713","pr":14,"id":"aegis","category":"2fa","name":"Aegis Authenticator","kind":"updated","sections":["import"]},
+    {"date":"2026-11-21","commit":"41b0713","pr":14,"id":"ente-auth","category":"2fa","name":"Ente Auth","kind":"added"},
     {"date":"2026-11-21","commit":"8eba83f","pr":13,"id":"google-keep","category":"notes","name":"Google Keep","kind":"added"},
     {"date":"2026-11-21","commit":"8eba83f","pr":13,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
     {"date":"2026-11-21","commit":"2e9bd9a","pr":12,"id":"apple-notes","category":"notes","name":"Apple Notes","kind":"added"},
