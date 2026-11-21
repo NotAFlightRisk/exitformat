@@ -25,8 +25,6 @@ export:
       - Syncing to your Google Account only restores into Google Authenticator, so it won't get you into another app.
     docs: https://support.google.com/accounts/answer/1066447
     sources:
-      - https://support.google.com/accounts/answer/1066447?hl=en&co=GENIE.Platform%3DAndroid
-      - https://support.google.com/accounts/answer/1066447?hl=en&co=GENIE.Platform%3DiOS
       - https://2fas.com/support/2fas-auth-mobile-app/how-to-move-transfer-tokens-codes-from-google-authenticator-to-2fas/
       - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/proto/google_auth.proto
 
@@ -39,9 +37,6 @@ import:
       - On Android, tap Menu --> Transfer codes --> Import codes. On iOS, it's Menu --> Transfer accounts --> Import accounts.
       - Scan each QR code from the other phone until it says your codes have been transferred.
     docs: https://support.google.com/accounts/answer/1066447
-    sources:
-      - https://support.google.com/accounts/answer/1066447?hl=en&co=GENIE.Platform%3DAndroid
-      - https://support.google.com/accounts/answer/1066447?hl=en&co=GENIE.Platform%3DiOS
 
 delete:
   steps:
