@@ -1,6 +1,9 @@
 {
-  "commit": "02ea7d3dc85e702722aeed1c4a941f655bf3aa3b",
+  "commit": "16808c9db6c4168c170dd462ffa87ae06b02f5fc",
   "entries": [
+    {"date":"2026-11-21","commit":"16808c9","pr":16,"id":"aegis","category":"2fa","name":"Aegis Authenticator","kind":"updated","sections":["import"]},
+    {"date":"2026-11-21","commit":"16808c9","pr":16,"id":"ente-auth","category":"2fa","name":"Ente Auth","kind":"updated","sections":["export"]},
+    {"date":"2026-11-21","commit":"16808c9","pr":16,"id":"stratum","category":"2fa","name":"Stratum","kind":"added"},
     {"date":"2026-11-21","commit":"02ea7d3","pr":15,"id":"proton-authenticator","category":"2fa","name":"Proton Authenticator","kind":"added"},
     {"date":"2026-11-21","commit":"41b0713","pr":14,"id":"aegis","category":"2fa","name":"Aegis Authenticator","kind":"updated","sections":["import"]},
     {"date":"2026-11-21","commit":"41b0713","pr":14,"id":"ente-auth","category":"2fa","name":"Ente Auth","kind":"added"},
