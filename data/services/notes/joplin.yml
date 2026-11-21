@@ -201,17 +201,26 @@ import:
   - id: onenote
     name: Import from OneNote
     method: file
-    formats: [onenote]
+    formats: [onenote, onenote-web-zip]
     requirements: [Desktop app]
     steps:
-      - Export a section or notebook from OneNote for Windows, or download the notebook's folder from OneDrive as a zip.
-      - In Joplin, go to File --> Import --> ONE - OneNote Notebook and choose the file.
+      - Export a notebook from OneNote for the web, or a notebook or section from OneNote for Windows.
+      - In Joplin, go to File --> Import --> ONE - OneNote Notebook and choose the zip, .onepkg or .one file.
+    data:
+      included: [text, formatting, attachments, structure, links, dates, todos]
+      excluded: [tags, history, embeds]
     limitations:
-      - .onepkg files only import when Joplin's running on Windows.
-      - OneDrive may not hand over notebooks bigger than 2-4 GB in one go.
+      - Pages come in as HTML notes, so they keep their layout rather than turning into Markdown.
+      - Subpages land alongside their parent page, with the indents only kept in each section's index note.
+      - OneNote's tags show up as icons in the note, not Joplin tags, and To Do boxes aren't Joplin to-dos.
+      - Handwriting and drawings come in as SVG images.
     docs: https://joplinapp.org/help/apps/import_export
     sources:
       - https://github.com/laurent22/joplin/blob/v3.7.24/packages/lib/services/interop/InteropService.ts
+      - https://github.com/laurent22/joplin/blob/v3.7.24/packages/lib/services/interop/InteropService_Importer_OneNote.ts
+      - https://github.com/laurent22/joplin/blob/v3.7.24/packages/onenote-converter/renderer/src/lib.rs
+      - https://github.com/laurent22/joplin/blob/v3.7.24/packages/onenote-converter/renderer/src/page/note_tag.rs
+      - https://github.com/laurent22/joplin/pull/14094
 
 delete:
   steps:

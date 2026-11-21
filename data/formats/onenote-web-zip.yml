@@ -1,0 +1,6 @@
+name: OneNote for the web notebook zip
+extensions: [.zip]
+standard: false
+owner: onenote
+based_on: zip
+description: What OneNote for the web's Export notebook gives you - a zip with a folder named after the notebook, holding a .one file for each section and a table of contents file. Downloading the notebook's folder from OneDrive gets you the same kind. Its .one files are packed the way OneDrive stores them, not the way OneNote for Windows saves them, so some apps that read one can't read the other.
