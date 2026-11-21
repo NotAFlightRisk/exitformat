@@ -1,6 +1,10 @@
 {
-  "commit": "e77f3f2cd5e36c0f90a124198937c32b63bd2479",
+  "commit": "ebfa84f3d96b3922c8310eab7f6f54d2c80ceb04",
   "entries": [
+    {"date":"2026-11-21","commit":"ebfa84f","pr":8,"id":"2fas","category":"2fa","name":"2FAS Auth","kind":"updated","sections":["import"]},
+    {"date":"2026-11-21","commit":"ebfa84f","pr":8,"id":"aegis","category":"2fa","name":"Aegis Authenticator","kind":"updated","sections":["import"]},
+    {"date":"2026-11-21","commit":"ebfa84f","pr":8,"id":"bitwarden-authenticator","category":"2fa","name":"Bitwarden Authenticator","kind":"updated","sections":["import"]},
+    {"date":"2026-11-21","commit":"ebfa84f","pr":8,"id":"google-authenticator","category":"2fa","name":"Google Authenticator","kind":"added"},
     {"date":"2026-11-20","commit":"d2c3be9","id":"2fas","category":"2fa","name":"2FAS Auth","kind":"added"},
     {"date":"2026-11-20","commit":"d2c3be9","id":"aegis","category":"2fa","name":"Aegis Authenticator","kind":"added"},
     {"date":"2026-11-20","commit":"d2c3be9","id":"bitwarden-authenticator","category":"2fa","name":"Bitwarden Authenticator","kind":"added"},
