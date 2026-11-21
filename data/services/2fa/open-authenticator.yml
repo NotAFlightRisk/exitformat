@@ -11,13 +11,14 @@ export:
     method: file
     formats: [open-authenticator-backup]
     steps:
-      - Open Settings, tap Backup now under Backups and set a password for it.
-      - Tap Manage backups, then Share on that backup to save or send the file.
+      - Open Settings and, under Backups, select Backup now and set a Backup password.
+      - Select Manage backups, open the backup, then select Export and save the .bak file.
     data:
       included: [secrets, issuers, token-settings, icons]
       excluded: [settings]
     limitations:
-      - The backup password is the only way back into the file.
+      - A backup stays in the app's own backups folder until you export it.
+      - Nothing restores the backup without its password.
     sources:
       - https://github.com/openauthenticator-app/openauthenticator/blob/2.1.0/lib/model/backup/backup.dart
       - https://github.com/openauthenticator-app/openauthenticator/blob/2.1.0/lib/model/totp/totp.dart
@@ -29,14 +30,22 @@ import:
     method: file
     formats: [open-authenticator-backup]
     steps:
-      - Open Settings, tap Manage backups under Backups, then Import a backup and choose the file.
-      - Tap Restore on it and enter the backup password.
+      - Open Settings and, under Backups, select Manage backups, then Import a backup and choose the .bak file.
+      - That only adds it to the list, so open it, select Restore and enter its Backup password.
     data:
       included: [secrets, issuers, token-settings, icons]
     limitations:
-      - Restoring swaps every code you've got for the ones in the backup, rather than adding to them.
+      - Restoring swaps the codes you've got for the ones in the backup, rather than adding to them.
     sources:
       - https://github.com/openauthenticator-app/openauthenticator/blob/2.1.0/lib/model/backup/backup.dart
+
+delete:
+  steps:
+    - If you signed in to sync, open Settings and, under Danger zone, select Delete your account.
+    - Then select Clear everything to wipe the app on this device, backups included if you say so.
+  notes:
+    - Check every code works in your new app before you delete anything here.
+    - Clear everything on its own leaves synced codes on Open Authenticator's servers.
 
 verification:
   status: documented
