@@ -1,6 +1,7 @@
 {
-  "commit": "2d77ac3a72834d976a4093a1bb539c48e3abbfaa",
+  "commit": "289bebf750a2cc62368194b1397086284cf33e1c",
   "entries": [
+    {"date":"2026-11-21","commit":"289bebf","pr":18,"id":"freeotp","category":"2fa","name":"FreeOTP","kind":"added"},
     {"date":"2026-11-21","commit":"2d77ac3","pr":17,"id":"freeotp-plus","category":"2fa","name":"FreeOTP+","kind":"added"},
     {"date":"2026-11-21","commit":"16808c9","pr":16,"id":"aegis","category":"2fa","name":"Aegis Authenticator","kind":"updated","sections":["import"]},
     {"date":"2026-11-21","commit":"16808c9","pr":16,"id":"ente-auth","category":"2fa","name":"Ente Auth","kind":"updated","sections":["export"]},
