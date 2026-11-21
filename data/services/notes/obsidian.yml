@@ -199,14 +199,14 @@ import:
       - In Obsidian, install the Importer plugin, open it and pick Microsoft OneNote --> Microsoft account.
       - Sign in, choose the notebooks or sections, then select Import.
     data:
-      included: [text, formatting, attachments, structure, links, tags, dates, todos]
+      included: [text, formatting, attachments, structure, links, tags, dates, todos, embeds]
       excluded: [history, sharing]
-      unknown: [embeds]
     limitations:
       - Only notebooks you own that sync to OneDrive. Ones other people shared with you won't work.
       - A work or school account may need your organisation to approve access, and locked sections stay hidden until you take the lock off.
       - Bold, italic, underline, strikethrough and highlights come across, but fonts and colours don't.
       - Files that aren't images, audio, video or PDFs are skipped unless you switch on Import incompatible attachments.
+      - Embedded videos only stay embedded if they're from YouTube. Others become plain links.
       - Handwriting comes in as one SVG image at the end of each page.
     docs: https://help.obsidian.md/import/onenote
     sources:

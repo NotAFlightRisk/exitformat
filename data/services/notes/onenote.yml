@@ -17,12 +17,12 @@ export:
       - Select Export notebook. The pop-up shows how big it is, so check you've got the space, then select Export.
       - It downloads as a zip, with a folder named after the notebook inside.
     data:
-      included: [text, formatting, attachments, structure, links, tags, dates, todos, embeds]
+      included: [text, formatting, attachments, structure, links, tags, dates, todos]
       excluded: [sharing, settings]
-      unknown: [history]
+      unknown: [history, embeds]
     limitations:
-      - It only works for notebooks in a personal OneDrive, not a work or school one or SharePoint. Use OneNote for Windows for those.
-      - It's one notebook at a time, and one that's too big has to be split into smaller notebooks first.
+      - It only works for notebooks in a personal OneDrive, not a work or school one or SharePoint.
+      - It's one notebook at a time. A download that stops when you run out of space has to start again, and one that's too big has to be split into smaller notebooks first.
       - If the zip only holds an errors.txt, the export failed, and that file says why.
     docs: https://support.microsoft.com/en-us/onenote/export-and-import-onenote-notebooks
 
@@ -33,16 +33,15 @@ export:
     requirements: [OneNote for Windows]
     steps:
       - Open the notebook and go to File --> Export.
-      - Under Export Current pick Notebook, then OneNote Package (*.onepkg), and select Export.
+      - Under Export Current pick Notebook, then pick OneNote Package (*.onepkg) as the format and select Export.
       - For a single section, pick Section and OneNote 2010-2016 Section instead.
     data:
-      included: [text, formatting, attachments, structure, links, tags, dates, todos, embeds]
+      included: [text, formatting, attachments, structure, links, tags, dates, todos]
       excluded: [sharing, settings]
-      unknown: [history]
+      unknown: [history, embeds]
     limitations:
       - Only the desktop app for Windows exports these, not OneNote for Mac, the web or the old OneNote for Windows 10.
       - Password-protected sections stay locked inside the file, and the apps that read it skip them. Take the password off first.
-      - It works for work and school notebooks too, one notebook at a time.
     docs: https://support.microsoft.com/en-us/onenote/onenote-help-and-learning/export-notes-from-onenote-as-a-pdf
     sources:
       - https://github.com/obsidianmd/obsidian-help/blob/ced32050c0d9d1e1f8d3faa19a8ba8474d75a32d/en/Import%20notes/Import%20from%20Microsoft%20OneNote.md
@@ -58,9 +57,9 @@ export:
       - Select Back Up All Notebooks Now, then OK once it's done.
       - The .one files are in the Backup Folder shown there, which starts out as %LOCALAPPDATA%\Microsoft\OneNote\16.0\Backup.
     data:
-      included: [text, formatting, attachments, structure, links, tags, dates, todos, embeds]
+      included: [text, formatting, attachments, structure, links, tags, dates, todos]
       excluded: [sharing, settings]
-      unknown: [history]
+      unknown: [history, embeds]
     limitations:
       - It takes every notebook in one go, rather than one at a time.
       - Password-protected sections stay locked in the backup too.
@@ -69,11 +68,11 @@ export:
       - https://github.com/obsidianmd/obsidian-help/blob/ced32050c0d9d1e1f8d3faa19a8ba8474d75a32d/en/Import%20notes/Import%20from%20Microsoft%20OneNote.md
 
   - id: pdf
-    name: Export pages as PDF or Word
+    name: Export pages as a PDF
     method: file
-    formats: [pdf, docx]
+    formats: [pdf]
     steps:
-      - In OneNote for Windows, go to File --> Export, pick Page, Section or Notebook, then PDF (*.pdf) or Word Document (*.docx).
+      - In OneNote for Windows, go to File --> Export, pick Page, Section or Notebook under Export Current, then PDF (*.pdf).
       - On a Mac, go to File --> Save as PDF, which saves the page you're on.
       - In OneNote for the web, it's File --> Print, or File --> Export as PDF in a browser on a Mac, one page at a time.
     data:
@@ -81,12 +80,27 @@ export:
       excluded: [history, sharing, settings]
       unknown: [attachments]
     limitations:
-      - Word only takes a page or a section, and only from OneNote for Windows.
-      - It's a snapshot of how the page looks, so nothing comes back into OneNote as notes.
+      - It's a snapshot of how the pages look, so you can read it anywhere but it won't come back in as notes.
     docs: https://support.microsoft.com/en-us/onenote/onenote-help-and-learning/export-notes-from-onenote-as-a-pdf
     sources:
       - https://support.microsoft.com/en-us/onenote/onenote-for-mac-help-and-learning/export-notes-as-a-pdf-file-in-onenote-for-mac
       - https://support.microsoft.com/en-us/onenote/onenote-for-web-help-and-learning/export-notes-as-a-pdf-in-onenote-for-the-web
+
+  - id: word
+    name: Export a page or section as a Word document
+    method: file
+    formats: [docx]
+    requirements: [OneNote for Windows]
+    steps:
+      - Go to File --> Export and pick Page or Section under Export Current.
+      - Pick Word Document (*.docx) as the format and select Export.
+    data:
+      included: [text]
+      unknown: [formatting, attachments]
+    limitations:
+      - It won't export a whole notebook to Word, only a page or a section at a time.
+    docs: https://support.microsoft.com/en-us/onenote/onenote-help-and-learning/export-notes-from-onenote-as-a-pdf
+    sources:
       - https://mc.merill.net/message/MC1104312
 
 import:
@@ -97,19 +111,19 @@ import:
     requirements: [OneNote for Windows]
     steps:
       - Unzip the notebook you exported from OneNote for the web.
-      - With OneNote for Windows installed, double-click the file called OneNote Table of Contents in the folder.
+      - On a Windows PC, open the OneNote app and double-click the file called OneNote Table of Contents in that folder.
     limitations:
       - OneNote for the web's own notebook import has been retired, so this only works in the Windows app.
-      - Microsoft's Evernote importer was retired in 2022, so nothing brings Evernote notes straight in anymore.
+      - Microsoft's own Evernote importer was retired in September 2022.
     docs: https://support.microsoft.com/en-us/onenote/export-and-import-onenote-notebooks
     sources:
       - https://support.microsoft.com/en-us/office/making-the-move-from-evernote-to-onenote-aa00ec78-229d-4012-a9cd-9b015e89d516
 
 delete:
   steps:
-    - Go to your OneDrive, open the Notebooks folder, select the notebook and select Delete.
+    - In OneDrive, find the notebook, usually in a folder called Notebooks or OneNote Notebooks, select it and select Delete.
     - In OneNote for Windows, right-click it in your notebook list and select Close this Notebook, so it stops trying to sync.
-    - To close the Microsoft account as well, sign in, work through Microsoft's closure checklist and select Mark account for closure.
+    - To close a personal Microsoft account as well, sign in, work through Microsoft's closure checklist and select Mark account for closure.
   docs: https://support.microsoft.com/en-us/onenote/onenote-help-and-learning/delete-a-onenote-notebook
   notes:
     - Tell anyone you've shared the notebook with first, since it goes for them too.
