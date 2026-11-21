@@ -1,6 +1,9 @@
 {
-  "commit": "dbf746a04b4f76bf2bc8f898edea77582f5600f0",
+  "commit": "b7d4cf9221b4b8e9ef5068925170ac08278ec7b8",
   "entries": [
+    {"date":"2026-11-21","commit":"b7d4cf9","pr":23,"id":"joplin","category":"notes","name":"Joplin","kind":"updated","sections":["import"]},
+    {"date":"2026-11-21","commit":"b7d4cf9","pr":23,"id":"onenote","category":"notes","name":"Microsoft OneNote","kind":"added"},
+    {"date":"2026-11-21","commit":"b7d4cf9","pr":23,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
     {"date":"2026-11-21","commit":"dbf746a","pr":22,"id":"open-authenticator","category":"2fa","name":"Open Authenticator","kind":"added"},
     {"date":"2026-11-21","commit":"e8fa8df","pr":21,"id":"raivo-otp","category":"2fa","name":"Raivo OTP","kind":"added"},
     {"date":"2026-11-21","commit":"ea8533d","pr":20,"id":"yubico-authenticator","category":"2fa","name":"Yubico Authenticator","kind":"added"},
