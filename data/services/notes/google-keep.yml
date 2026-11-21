@@ -26,6 +26,7 @@ export:
     docs: https://support.google.com/keep/answer/10017039
     sources:
       - https://support.google.com/accounts/answer/3024190
+      - https://support.google.com/keep/answer/13820887
       - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/keep/models.ts
 
 import: []
