@@ -62,7 +62,7 @@ export:
       - Pick the format and where to save them.
     data:
       included: [text, formatting]
-      unknown: [attachments, links, tags]
+      unknown: [attachments, links, tags, dates, todos]
     limitations:
       - When you export several notes as HTML on a Mac, switch on HTML Links in the save panel so the links between them work, and base64 to keep photos inside each file.
     docs: https://bear.app/faq/export-your-notes/
