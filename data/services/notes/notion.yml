@@ -240,11 +240,18 @@ import:
     formats: [confluence-html]
     requirements: [Desktop or web app]
     steps:
-      - In Confluence, export the space as HTML with Custom Export, and leave comments out.
+      - In Confluence Cloud, export the space as HTML from Space settings --> General --> Export space.
+      - On Data Center, it's Space tools --> Content Tools --> Export, with comments left out.
       - In Notion, go to Settings --> Import --> Third party imports --> Confluence and upload the zip.
+    data:
+      included: [text, formatting, attachments, structure, todos]
+      excluded: [comments, history, sharing, embeds, properties, dates]
+      unknown: [links, tags]
     limitations:
       - Up to 5 GB, or 15 GB if you ask Notion nicely.
-      - Permissions, page history, charts and most macros don't come across.
+      - Permissions, page history, charts and most macros don't come across, and only the page title is kept of each page's details.
+      - Only basic formatting makes it, tables lose their styling, and the page tree isn't always kept in full.
+      - Attachments no page uses are left behind.
     docs: https://www.notion.com/help/import-from-confluence
     sources:
       - https://web.archive.org/web/20261113004048/https://www.notion.com/help/import-from-confluence
@@ -252,13 +259,19 @@ import:
   - id: confluence
     name: Import from Confluence
     method: connect
+    from: [confluence]
     requirements: [Desktop or web app]
     steps:
       - Go to Settings in the sidebar --> Import --> Confluence and choose Import via API.
       - Sign in with your Confluence email, site and an API token, then pick what to import.
+    data:
+      included: [text, formatting, attachments, structure, comments, todos]
+      excluded: [history, sharing, embeds, properties, dates]
+      unknown: [links, tags]
     limitations:
-      - It takes whole spaces up to about 50,000 pages or 30 GB, or single pages by link.
-      - Comments come across, but permissions and page history don't.
+      - It takes up to about 50,000 pages or 30 GB per import, or single pages by link.
+      - Comments come across, but permissions, page history and most macros don't, and only the page title is kept of each page's details.
+      - Only basic formatting makes it, the page tree isn't always kept in full, and attachments no page uses are left behind.
     docs: https://www.notion.com/help/import-from-confluence
     sources:
       - https://web.archive.org/web/20261113004048/https://www.notion.com/help/import-from-confluence

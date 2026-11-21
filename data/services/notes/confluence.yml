@@ -1,0 +1,89 @@
+name: Confluence
+website: https://www.atlassian.com/software/confluence
+description: Atlassian's team wiki, with pages kept in spaces on Atlassian's cloud. These steps are for Confluence Cloud, and Data Center's menus differ.
+deployment: cloud
+platforms: [web, android, ios]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/5e/6a/19/5e6a194e-99ff-813c-cd49-71c72ad00ebd/AppIcon-0-0-1x_U007epad-0-1-0-85-220.png/128x128bb.png
+aliases: [confluence cloud, atlassian confluence]
+
+export:
+  - id: space-html
+    name: Export a space as HTML
+    method: file
+    formats: [confluence-html]
+    requirements: [Space admin]
+    steps:
+      - Next to the space's name in the sidebar, select More actions (•••), then Space settings.
+      - Open the General menu, select Export space and pick HTML, then Next.
+      - Export everything or pick the pages, select Export space and download the zip when it's ready.
+    data:
+      included: [text, attachments, structure]
+      excluded: [comments, sharing, settings]
+      unknown: [formatting, links, tags, properties, dates, todos, history, embeds, canvases, databases]
+    limitations:
+      - Page comments, blog posts and Team Calendars aren't in it. Whiteboards and databases have exports of their own.
+      - It only has what you can see, and an organisation admin can block exports altogether.
+      - The CSV export keeps comments, and a site admin's CSV or XML export takes restricted pages too, but those are made for importing back into Confluence.
+    docs: https://support.atlassian.com/confluence-cloud/docs/export-content-to-word-pdf-html-and-xml/
+    sources:
+      - https://support.atlassian.com/confluence-cloud/docs/import-a-confluence-cloud-space/
+
+  - id: pdf
+    name: Export a page or space as a PDF
+    method: file
+    formats: [pdf]
+    steps:
+      - For one page, select ••• on it, hover over Export and select Export to PDF.
+      - For a space, go to Space settings, then General --> Export space, and pick PDF.
+    data:
+      included: [text]
+      excluded: [comments, history, sharing, settings]
+      unknown: [formatting, attachments]
+    limitations:
+      - A space PDF needs a space admin and leaves out blog posts and comments. A single page's PDF is its published version.
+      - Export to Word is there too, but Atlassian says those files only open in Microsoft Word.
+    docs: https://support.atlassian.com/confluence-cloud/docs/export-content-to-word-pdf-html-and-xml/
+
+import:
+  - id: html
+    name: Import HTML files
+    method: file
+    formats: [html]
+    requirements: [Create space permission]
+    steps:
+      - Zip one folder of .html files, with each page's media files in a folder of the same name. The folder's name becomes the space's.
+      - In Confluence, select Spaces in the sidebar, then Import from other tools, and pick HTML.
+      - Upload the zip, name the space, choose who can see it, then select Start import.
+    limitations:
+      - Code blocks come in as plain text, and links to other pages become ordinary web links.
+      - If your site's default permissions are open, imported pages may be visible to everyone, so restrict the space if in doubt.
+    docs: https://support.atlassian.com/confluence-cloud/docs/import-data-from-html-to-confluence/
+    sources:
+      - https://support.atlassian.com/confluence-cloud/docs/faq-import-data-from-html-to-confluence/
+
+  - id: word
+    name: Import Word documents
+    method: file
+    formats: [docx]
+    steps:
+      - Select Create, then More actions, then Templates and import, and open the Import tab.
+      - Choose the .docx files, up to 30 at a time.
+    limitations:
+      - One document can be up to 5 MB plus 100 MB of attachments. In bulk it's 30 files and 50 MB, up to 10 MB each.
+      - Shapes and unsupported images turn into placeholders.
+    docs: https://support.atlassian.com/confluence-cloud/docs/import-content-into-confluence-cloud/
+
+delete:
+  steps:
+    - To delete a space, open Space settings --> General and select Send space to trash. A Confluence admin can then delete it for good.
+    - To remove Confluence altogether, an admin deletes it from your Atlassian subscription, which deletes its data straight away.
+    - To delete your own Atlassian account, go to id.atlassian.com/manage-profile --> Account preferences --> Delete account.
+  docs: https://support.atlassian.com/confluence-cloud/docs/delete-a-space/
+  notes:
+    - Spaces left in the trash for 60 days or more get deleted for good.
+    - Cancel a paid plan instead and the site stays open for 15 days after the billing period, then its data is kept for 60 more. A trial or a Free plan's site ends straight away, and a trial's data is kept for 15 days. Atlassian's own database backups last 30 days.
+    - Deleting your account has a 14-day grace period and clears your personal data within 30 days, but pages you wrote stay, under the name Former user. An account your organisation manages can't be deleted by you.
+
+verification:
+  status: documented
+  checked_at: 2026-11-21
