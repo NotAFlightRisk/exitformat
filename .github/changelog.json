@@ -1,6 +1,8 @@
 {
-  "commit": "a30366632bb56a2d063c10d393507708e1789e30",
+  "commit": "1d51e4419ff463671ba70c494926b3ee7dd469c8",
   "entries": [
+    {"date":"2026-11-21","commit":"1d51e44","pr":27,"id":"confluence","category":"notes","name":"Confluence","kind":"added"},
+    {"date":"2026-11-21","commit":"1d51e44","pr":27,"id":"notion","category":"notes","name":"Notion","kind":"updated","sections":["import"]},
     {"date":"2026-11-21","commit":"a303666","pr":26,"id":"simplenote","category":"notes","name":"Simplenote","kind":"added"},
     {"date":"2026-11-21","commit":"a303666","pr":26,"id":"standard-notes","category":"notes","name":"Standard Notes","kind":"updated","sections":["import"]},
     {"date":"2026-11-21","commit":"a971e64","pr":25,"id":"standard-notes","category":"notes","name":"Standard Notes","kind":"added"},
