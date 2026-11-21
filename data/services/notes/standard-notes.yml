@@ -1,7 +1,7 @@
 name: Standard Notes
 website: https://standardnotes.com/
-description: End-to-end encrypted notes, synced through Standard Notes' servers, with apps for the web, Windows, Mac, Linux, Android and iOS.
-deployment: cloud
+description: End-to-end encrypted notes, synced through Standard Notes' servers once you sign in, with apps for the web, Windows, Mac, Linux, Android and iOS.
+deployment: hybrid
 platforms: [web, windows, macos, linux, android, ios]
 source: https://github.com/standardnotes/app
 
@@ -18,7 +18,7 @@ export:
       excluded: [attachments, history]
     limitations:
       - Super notes are saved as Super's own JSON, not Markdown, so only Standard Notes can read their formatting.
-      - Attachments aren't in it, just their names. Download those from Files, which needs a paid plan.
+      - Attachments aren't in it, only their details. Download the files themselves from Files, which needs a paid plan.
       - Pick Encrypted instead and you get a single .txt that only Standard Notes can open, with your password.
     docs: https://standardnotes.com/help/14/how-do-i-create-and-import-backups-of-my-standard-notes-data
     sources:
@@ -31,17 +31,18 @@ export:
     formats: [markdown-frontmatter, markdown, html, pdf, txt]
     steps:
       - Select one or more notes, open the note options menu and choose Export.
-      - Super notes ask for an Export format (Markdown (.md), HTML or PDF), whether to Export with frontmatter, and what to do with Embedded files.
+      - Super notes ask for an Export format (Super (.json), Markdown (.md), HTML or PDF), Export with frontmatter, and Embedded files.
       - Other notes go out as the file type their editor uses, like .txt for plain text.
     data:
-      included: [text]
+      included: [text, attachments]
       excluded: [tags, properties]
-      unknown: [formatting, attachments, links, dates, todos]
+      unknown: [formatting, links, dates, todos]
     limitations:
       - Several notes come as one zip, with no folders for your tags.
+      - Super notes can take their attached files with them, inline or as separate files. A PDF only takes images.
       - Front matter only holds the title, dates and note ID. Tags aren't in it.
       - Super's own warning says Markdown isn't lossless, and things like collapsible blocks don't make it.
-      - Super notes and Files need a paid plan.
+      - Once a paid plan runs out, Files can't be downloaded any more, so export before it ends.
     sources:
       - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/web/src/javascripts/Components/NotesOptions/SuperExportModal.tsx
       - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/web/src/javascripts/Utils/NoteExportUtils.ts
@@ -55,9 +56,9 @@ export:
       - Open Preferences, then Backups, and switch on Automatic plaintext backups.
       - Pick the folder. Every note's written there as a .txt file.
     data:
-      included: [text, formatting]
+      included: [text, formatting, tags]
       excluded: [properties, dates]
-      unknown: [attachments, links, tags, todos]
+      unknown: [attachments, links, todos]
     limitations:
       - Each note goes in a folder named after its tag, nested tags become subfolders, and a note with several tags is copied into each one.
       - Super notes are written as Markdown, but still with a .txt name.
@@ -84,12 +85,11 @@ import:
       - Export your notebooks from Evernote as .enex files.
       - In Standard Notes, open the account menu and choose Import, then Evernote, and pick the file.
     data:
-      included: [text, tags, dates, todos]
+      included: [text, formatting, attachments, tags, dates, todos]
       excluded: [links, properties]
-      unknown: [formatting, attachments]
     limitations:
-      - On the free plan notes come in as plain text, and attachments are dropped. Formatting needs Super and attachments need Files, both paid.
-      - Notes go into a new tag called Imported on and the date, alongside their own tags.
+      - On the free plan notes come in as plain text and attachments are dropped. Formatting needs Super and attachments need Files, both paid.
+      - Notes bigger than 3 MB won't import, which catches web clips with images inside them. Import big notebooks in smaller files.
     docs: https://standardnotes.com/help/10/how-can-i-import-my-notes-from-evernote
     sources:
       - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/ui-services/src/Import/EvernoteConverter/EvernoteConverter.ts
@@ -100,14 +100,13 @@ import:
     formats: [google-keep-takeout]
     steps:
       - Export Keep from Google Takeout and unzip it.
-      - In Standard Notes, open the account menu and choose Import, then Google Keep, and pick the note files from the Keep folder.
+      - In Standard Notes, open the account menu and choose Import, then Google Keep, and pick all the .html files in the Keep folder.
     data:
-      included: [text, properties, dates, todos]
+      included: [text, formatting, properties, dates, todos]
       excluded: [attachments, tags, sharing]
-      unknown: [formatting]
     limitations:
-      - Pick the .json files rather than the .html ones. Only the JSON keeps pinned, archived and trashed notes as they were.
-      - Labels and attachments are dropped, and each note gets its last-edited time as both its created and updated date.
+      - The .html files keep formatting, on a paid plan with Super. The .json files lose it but keep pinned, archived and trashed notes as they were.
+      - Labels and attachments are dropped.
     docs: https://standardnotes.com/help/35/how-can-i-import-my-notes-from-google-keep
     sources:
       - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/ui-services/src/Import/GoogleKeepConverter/GoogleKeepConverter.ts
@@ -117,23 +116,23 @@ import:
     method: file
     formats: [markdown, txt, html]
     steps:
-      - Open the account menu and choose Import, then Plaintext / Markdown or HTML.
+      - Open the account menu and choose Import, then Plaintext / Markdown, or HTML for web pages.
       - Choose the files. Each one becomes a note named after the file.
     data:
-      included: [text, dates]
-      excluded: [attachments, structure, tags, properties, databases, canvases, plugins, settings]
-      unknown: [formatting, links]
+      included: [text, formatting, dates]
+      excluded: [attachments, structure, tags, properties]
+      unknown: [links]
     limitations:
       - On the free plan, Markdown and HTML come in as their raw source in a plain text note. Super, which is paid, turns them into formatted notes.
-      - Front matter isn't read, so its tags and dates stay as text.
-      - Each note's dates come from the file itself.
+      - Front matter isn't read, so its tags and dates don't become Standard Notes tags or dates. Each note's dates come from the file itself.
+      - Each file can be up to 50 MB, and each note up to 3 MB.
     docs: https://standardnotes.com/help/11/how-can-i-import-notes-from-a-bunch-of-text-files
     sources:
       - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/ui-services/src/Import/PlaintextConverter/PlaintextConverter.ts
 
 delete:
   steps:
-    - If you're paying, cancel the subscription first. Deleting the account doesn't touch it.
+    - If you're paying, cancel the subscription first, or keep it and sign up again with the same email to link it back.
     - Open Preferences, then Account, and select Delete my account.
     - Confirm with Delete my account for good and your password.
   docs: https://standardnotes.com/help/19/how-do-i-delete-my-account

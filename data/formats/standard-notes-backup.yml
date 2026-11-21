@@ -3,4 +3,4 @@ extensions: [.zip]
 standard: false
 owner: standard-notes
 based_on: zip
-description: What Download backup gives you with Decrypted picked - a zip with one JSON file holding every note, tag and preference, and a plain text file for each note. Super notes are kept as Super's own JSON rather than Markdown, and attachments aren't in it, only their names.
+description: What Download backup gives you with Decrypted picked - a zip with one backup file of JSON holding every note, tag and preference, and a text file for each note, tag and other item. Super notes are kept as Super's own JSON rather than Markdown, and attachments are only their details, not the files. Restoring takes the backup file from inside the zip, not the zip itself.
