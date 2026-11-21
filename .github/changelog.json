@@ -1,6 +1,7 @@
 {
-  "commit": "b4fe991c26cad72831436df9cd3540afbad4b191",
+  "commit": "2e9bd9aeb53d0af1dbebedc85582c623e1937e01",
   "entries": [
+    {"date":"2026-11-21","commit":"2e9bd9a","pr":12,"id":"apple-notes","category":"notes","name":"Apple Notes","kind":"added"},
     {"date":"2026-11-21","commit":"b4fe991","pr":11,"id":"microsoft-authenticator","category":"2fa","name":"Microsoft Authenticator","kind":"added"},
     {"date":"2026-11-21","commit":"4fe3f05","pr":10,"id":"evernote","category":"notes","name":"Evernote","kind":"added"},
     {"date":"2026-11-21","commit":"4fe3f05","pr":10,"id":"notion","category":"notes","name":"Notion","kind":"updated","sections":["import"]},
