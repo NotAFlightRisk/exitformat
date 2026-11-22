@@ -266,11 +266,11 @@ import:
       - In Notesnook, go to Settings --> Import & export --> Notesnook Importer and pick Markdown.
       - Drop in the zip or the .md files and select Start importing.
     data:
-      included: [text, formatting, attachments, structure, tags, dates, todos]
-      excluded: [links, properties, databases]
+      included: [text, formatting, attachments, structure, tags, dates]
+      excluded: [links, properties, databases, todos]
     limitations:
       - The title is the front matter's, or else the first # or ## heading, which is taken out of the note, or else the file name.
-      - Only the front matter's title, tags, dates, pinned, favorite and color are read. The rest is dropped.
+      - Only the front matter's title, tags, dates, pinned, favorite and color are read, so to-do fields like Joplin's are dropped. Checklists in the text are kept.
       - Links to other notes don't become note links. A link to another .md file attaches a copy of it instead.
       - Folders in the zip become notebooks, apart from its top level folder.
     docs: https://notesnook.com/help/importing-notes/import-notes-from-markdown-files
@@ -305,8 +305,10 @@ import:
     data:
       included: [text, formatting, attachments, structure]
       excluded: [links, tags]
+      unknown: [dates]
     limitations:
       - The title is the page's title, or else its first h1 or h2 heading, which is taken out of the note.
+      - Dates come from created and updated meta tags if the file has them, or else from the file itself.
       - Links to other pages attach a copy of the page rather than linking to a note.
       - Folders in the zip become notebooks, apart from its top level folder.
     docs: https://notesnook.com/help/importing-notes/import-notes-from-html-files
