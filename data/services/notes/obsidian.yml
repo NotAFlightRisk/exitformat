@@ -249,7 +249,7 @@ import:
     method: file
     formats: [roam-json]
     steps:
-      - In Roam, select More actions --> Export All and pick JSON.
+      - In Roam, open the ⋯ menu at the top right, choose Export All and pick JSON.
       - In Obsidian, install the Importer plugin, open it and pick Roam Research (.json).
       - Choose the .json file and select Import.
     data:
