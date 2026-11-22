@@ -14,16 +14,17 @@ export:
     requirements: [Root access, Android only]
     steps:
       - Root the phone, then install the Battle.net app and sign in, approving it from the authenticator on your old phone.
-      - Lost the old phone? Select Can't Log In instead, and remove the old authenticator with a code sent by text.
-      - Let the app set up the authenticator, or open the side menu and tap Authenticator if it doesn't ask.
+      - No old phone? Select Can't Log In and remove the old authenticator with a code sent by text, or ask Blizzard support.
+      - Enable the authenticator when it asks, or open the side menu, tap Authenticator and select Enable.
       - Leave the app installed, so the app you're moving to can read its data off the phone.
     data:
-      included: [secrets]
+      included: [secrets, issuers]
       excluded: [settings]
     limitations:
-      - Unlocking the bootloader to root a phone wipes it, and Blizzard ties the authenticator to one phone, so it has to be set up again once the phone's rooted.
-      - Only the 8-digit codes come across. Approving sign-ins with a tap stays in the Battle.net app.
-      - Without root, there's no way to get the codes out of the Battle.net app.
+      - Unlocking the bootloader to root a phone wipes it, so the authenticator has to be set up again on it afterwards.
+      - It comes across labelled with the authenticator's serial number rather than your account.
+      - Your new app gets the 8-digit codes, but approving sign-ins with a tap still needs the Battle.net app.
+      - Blizzard doesn't offer an export, so without root the codes stay in the Battle.net app.
     sources:
       - https://us.support.blizzard.com/en/article/24520
       - https://source.android.com/docs/core/architecture/bootloader/locking_unlocking
@@ -39,9 +40,9 @@ delete:
     - Uninstall the Battle.net app if you don't need it for anything else.
   docs: https://us.support.blizzard.com/en/article/24520
   notes:
-    - Detaching it also stops the codes working in any app you've moved them to.
+    - Detaching takes the authenticator off your account, copies in other apps included. If you've moved your codes, just uninstall the app.
     - Turning the authenticator off inside the Battle.net app doesn't detach it from your account.
-    - In World of Warcraft, detaching it shrinks your backpack and takes the Core Hound Pup away.
+    - In World of Warcraft, detaching it takes away the extra backpack space (the items in it move to other bags) and the Core Hound Pup.
 
 verification:
   status: documented
