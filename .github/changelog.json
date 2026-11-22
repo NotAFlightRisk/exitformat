@@ -1,6 +1,7 @@
 {
-  "commit": "0b4de84655821418db26dfee237d9979a9680d78",
+  "commit": "51a89584cb071c5421c10a747b929ad8e006362e",
   "entries": [
+    {"date":"2026-11-22","commit":"51a8958","pr":31,"id":"steam-mobile","category":"2fa","name":"Steam Mobile","kind":"added"},
     {"date":"2026-11-22","commit":"0b4de84","pr":30,"id":"notesnook","category":"notes","name":"Notesnook","kind":"added"},
     {"date":"2026-11-21","commit":"7f59431","pr":28,"id":"google-docs","category":"notes","name":"Google Docs","kind":"added"},
     {"date":"2026-11-21","commit":"7f59431","pr":28,"id":"notion","category":"notes","name":"Notion","kind":"updated","sections":["import"]},
