@@ -80,10 +80,9 @@ import:
       - Choose the export's .zip and it imports into the channel you picked under Importing to.
     data:
       included: [text, formatting, attachments, links, tags, properties, databases, dates, todos, embeds]
-      excluded: [history]
     limitations:
-      - The channel's own name, icon and home page aren't brought across, and nor are its widgets.
-      - Files only come in if they're inside the export. Otherwise Anytype has to fetch them from the channel they came from.
+      - The desktop app imports into a channel you already have, so the old channel's name, icon, home page and widgets don't come across.
+      - Files only come in if they're inside the export. Otherwise Anytype has to fetch them from its network, which only works while they're still there.
     docs: https://doc.anytype.io/anytype/data/import-and-export
     sources:
       - https://github.com/anyproto/anytype-heart/blob/v0.51.7/core/block/import/pb/converter.go
@@ -97,13 +96,12 @@ import:
       - In Anytype, go to File --> Import and pick Notion under By app.
       - Paste the token, select Import data, then Proceed.
     data:
-      included: [text, formatting, attachments, structure, links, properties, databases, dates, todos]
+      included: [text, formatting, attachments, structure, links, properties, databases, dates, todos, embeds]
       excluded: [comments, history, sharing]
-      unknown: [embeds]
     limitations:
       - It only gets what the integration can see. Pages and database rows it hasn't been given just don't come across.
       - Anytype has no page tree, so subpages become links from their parent page, and top-level pages go in a Notion Import collection.
-      - Databases keep their default view only. Formulas and rollups come in as fixed values, a date range becomes two properties, and buttons are dropped.
+      - Databases keep their default view only. Formulas and rollups come in as fixed values, a date range becomes two properties, and button properties are dropped.
       - Mentions of people become plain names, and blocks it doesn't know become an Unsupported block placeholder.
     docs: https://doc.anytype.io/anytype/data/import-and-export
     sources:
@@ -158,8 +156,7 @@ import:
       - Go to File --> Import and pick HTML under By file type.
       - Choose the .html files or a zip of them.
     data:
-      included: [text, formatting, attachments]
-      excluded: [dates]
+      included: [text, formatting, attachments, links]
     limitations:
       - Only files ending in a lowercase .html are read, so .htm and .mhtml files bring in nothing.
       - Each page is named after its file, and its styling is dropped.
@@ -176,10 +173,10 @@ import:
       - Go to File --> Import and pick CSV under By file type.
       - Leave Import CSV as on Collection, check the column settings and select Import data.
     data:
-      included: [text, properties, databases]
+      included: [properties, databases]
     limitations:
       - Each row becomes a page named after its first column, and every other column becomes a text property.
-      - A file with more than 10 columns or about 1,000 rows stops the whole import. Import CSV as Table has no limit, but gives you a plain table on one page.
+      - A file with more than 10 columns or 1,000 rows makes the import fail. Import CSV as Table has no limit, but gives you a plain table on one page.
     docs: https://doc.anytype.io/anytype/data/import-and-export
     sources:
       - https://github.com/anyproto/anytype-heart/blob/v0.51.7/core/block/import/csv/converter.go

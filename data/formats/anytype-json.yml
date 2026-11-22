@@ -3,4 +3,4 @@ extensions: [.zip]
 standard: false
 owner: anytype
 based_on: zip
-description: Anytype's Any-Block v1 export with JSON picked rather than Protobuf - a zip of JSON snapshots of every object in a channel, with its types, properties and templates, and its files if you asked for them.
+description: Anytype's Any-Block v1 export with JSON picked rather than Protobuf - a zip of JSON snapshots of the objects in a channel, with the types, properties and templates they use, and their files if you asked for them.
