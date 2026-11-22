@@ -1,6 +1,8 @@
 {
-  "commit": "d169f2048a575a2b220f47ca6fead224e6fc8fbf",
+  "commit": "86eb0e5717b778aa90159fe968da407005996a57",
   "entries": [
+    {"date":"2026-11-22","commit":"86eb0e5","pr":38,"id":"anytype","category":"notes","name":"Anytype","kind":"added"},
+    {"date":"2026-11-22","commit":"86eb0e5","pr":38,"id":"trilium-notes","category":"notes","name":"Trilium Notes","kind":"updated","sections":["import"]},
     {"date":"2026-11-22","commit":"d169f20","pr":37,"id":"trilium-notes","category":"notes","name":"Trilium Notes","kind":"added"},
     {"date":"2026-11-22","commit":"43cc64e","pr":36,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
     {"date":"2026-11-22","commit":"43cc64e","pr":36,"id":"roam-research","category":"notes","name":"Roam Research","kind":"added"},
