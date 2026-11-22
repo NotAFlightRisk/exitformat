@@ -21,9 +21,9 @@ export:
       unknown: [embeds]
     limitations:
       - Labels and relations are only in the zip's !!!meta.json, which only Trilium reads.
-      - Only each note's modified date comes out, as the file's date. Created dates and revisions aren't in it.
+      - Only each note's modified date comes out, as the file's date. Created dates and revisions are only in a database backup (Options --> Backup --> Backup now), which only Trilium opens.
       - Protected notes only come out if you've unlocked them first, and then they're in plain text. Otherwise you get an empty note called [protected].
-      - Links to notes outside the branch stop working, and a note in two places comes out once, with a stub pointing to it from the other.
+      - Links to notes outside the branch won't work, and a note in two places comes out once, with a stub pointing to it from the other.
       - Canvases come out as an SVG picture plus their drawing data in JSON.
     docs: https://docs.triliumnotes.org/user-guide/concepts/import-export
     sources:
@@ -39,11 +39,11 @@ export:
       - Under What to export pick This note & all descendants, then pick Markdown under Format.
       - Select Export to save a zip with a .md file for each note and a folder for each note with children.
     data:
-      included: [text, formatting, attachments, structure, links, dates, todos]
+      included: [text, formatting, attachments, structure, links, dates, todos, canvases]
       excluded: [properties, history, sharing, settings]
-      unknown: [embeds, canvases]
+      unknown: [embeds]
     limitations:
-      - Links between notes and pictures stay as HTML tags inside the Markdown, which some apps won't treat as links.
+      - In text notes, links between notes and pictures stay as HTML tags inside the Markdown, which some apps won't treat as links.
       - Each file starts with the note's title as a heading. There's no front matter, so labels and relations are only in the zip's !!!meta.json.
       - Only each note's modified date comes out, as the file's date.
       - Protected notes only come out if you've unlocked them first, and then they're in plain text.
@@ -60,9 +60,9 @@ export:
       - Right-click the top note of what you want in the tree and choose Export...
       - Pick This note & all descendants, then OPML under Format, and select Export.
     data:
-      included: [text, structure]
+      included: [text, formatting, structure]
       excluded: [attachments, properties, dates, history, sharing, settings]
-      unknown: [formatting, links, todos]
+      unknown: [links, todos]
     limitations:
       - Each note's text goes in as HTML inside the outline, and images and attachments are left out.
       - A note in two places comes out twice.
@@ -76,7 +76,7 @@ export:
     formats: [pdf]
     requirements: [Desktop app]
     steps:
-      - Open the note, then choose Print/export to PDF... from the note actions menu (⋯) at the top right.
+      - Open the note, then choose Print/export to PDF... from its More actions menu (⋯).
       - Under Destination pick Save as PDF and save it.
     data:
       included: [text, formatting]
@@ -94,12 +94,12 @@ import:
       - Right-click the note to import into and choose Import into note...
       - Leave Files & other formats picked, choose the files or a zip of them and select Import.
     data:
-      included: [text, formatting, attachments, structure, links, properties]
-      excluded: [tags, dates, databases, canvases, plugins, settings]
+      included: [text, formatting, attachments, structure, links, tags, properties]
+      excluded: [dates, databases, canvases, plugins, settings]
     limitations:
       - A zip's folders become the note tree, and relative links and images between its files are connected up.
-      - Front matter turns into labels, one for each key, tags included. Nested values are dropped.
-      - "[[Wiki links]] are only matched against notes at the top of the zip, so links into folders break."
+      - Front matter turns into labels, one for each key and one per item in a list, so tags come in as tags labels. Nested values are dropped.
+      - It's built for ordinary Markdown links, so [[wiki links]] may not connect up. For an Obsidian vault, use the Obsidian import.
       - Files imported on their own, rather than in a zip, don't get their links connected.
     docs: https://docs.triliumnotes.org/user-guide/concepts/import-export/markdown
     sources:
@@ -140,15 +140,16 @@ import:
       - In Trilium, right-click a note in the tree, choose Import into note... and pick Obsidian under Import from.
       - Choose the .zip and select Import.
     data:
-      included: [text, formatting, attachments, structure, links, tags, properties, dates, embeds]
+      included: [text, formatting, attachments, structure, links, tags, properties, embeds]
       excluded: [databases, canvases, plugins, settings]
+      unknown: [dates]
     limitations:
       - It takes a zip of the vault, not the folder itself.
       - Canvases and bases are dropped, along with embeds of them and any folder whose name starts with a dot.
       - Tags in the front matter become labels, so project/alpha becomes #projectAlpha. Tags typed in the text stay as text.
       - Links to a heading or block just go to the note, and Markdown-style [text](note.md) links aren't connected up.
       - Callouts become one of Trilium's five admonition types, and lose their folding.
-      - Both dates come from each file's modified time in the zip.
+      - Both dates come from each file's time in the zip, which might just be when you made the zip.
     docs: https://docs.triliumnotes.org/user-guide/concepts/import-export/import-from-apps/obsidian
     sources:
       - https://github.com/TriliumNext/Trilium/blob/v0.107.0/packages/trilium-core/src/services/import/obsidian/importer.ts
@@ -163,7 +164,7 @@ import:
       - In Trilium, right-click a note in the tree, choose Import into note... and pick Evernote under Import from.
       - Choose one or more .enex files and select Import.
     data:
-      included: [text, formatting, attachments, structure, links, tags, properties, dates, todos]
+      included: [text, formatting, attachments, links, tags, properties, dates, todos]
     limitations:
       - Each .enex file becomes a note named after the file, with its notes inside.
       - Links between notes only work within one file, so links to another notebook stay as evernote:// links.
@@ -188,7 +189,7 @@ import:
       - Labels, pins and archived or trashed status are dropped, so archived and trashed notes come in like any other. Colours come across as labels.
       - Every note lands flat under one Google Keep import note.
       - Checklists lose their indents, and empty items are dropped.
-      - Any other JSON file in the zip becomes a note too, so leave the other Google products out of the Takeout.
+      - Any other JSON file in the zip gets imported as a note too, so leave the other Google products out of the Takeout.
       - Reminders and collaborators aren't imported.
     docs: https://docs.triliumnotes.org/user-guide/concepts/import-export/import-from-apps/keep
     sources:
@@ -211,7 +212,7 @@ import:
       - Only notebooks in your own OneDrive show up, not ones shared with you or kept on SharePoint or Teams.
       - To Do tags become checkboxes, and about 20 of OneNote's built-in tags become an icon in front of the text. Other tags are dropped.
       - Handwriting comes in as one SVG image at the end of each page.
-      - Password-protected sections come in as empty notes, so take the lock off first.
+      - Password-protected sections come in as placeholder notes without their pages, so take the lock off first.
       - Sections and section groups come in sorted by when they were made, not in your order.
       - Nothing's saved until the end, so an import that's stopped part way keeps nothing.
     docs: https://docs.triliumnotes.org/user-guide/concepts/import-export/import-from-apps/onenote
@@ -228,10 +229,10 @@ import:
       - In Trilium, right-click a note in the tree, choose Import into note... and pick Anytype under Import from.
       - Choose the .zip and select Import.
     data:
-      included: [text, formatting, attachments, links, properties, databases, dates, todos]
-      excluded: [tags, embeds]
+      included: [text, formatting, attachments, links, properties, databases, dates, todos, embeds]
+      excluded: [tags]
     limitations:
-      - Only pages and collections come in. Sets, tasks, notes and bookmarks are skipped.
+      - Only pages and collections come in. Sets, tasks, notes and bookmark objects are skipped.
       - Anytype's own Tag and Description properties are dropped, and so are links to objects between them. Only properties you made yourself come across.
       - Everything lands under one Anytype import note, with collections as list, grid, board, calendar or table views from their first view.
     docs: https://docs.triliumnotes.org/user-guide/concepts/import-export/import-from-apps/anytype
