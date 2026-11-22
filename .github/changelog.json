@@ -1,6 +1,7 @@
 {
-  "commit": "7110a6cf48c6db801a9d125bb443dcd7b4334d20",
+  "commit": "b1923b9c5fc2f74b85420994232334582a2f6026",
   "entries": [
+    {"date":"2026-11-22","commit":"b1923b9","pr":34,"id":"gnome-authenticator","category":"2fa","name":"Authenticator","kind":"added"},
     {"date":"2026-11-22","commit":"7110a6c","pr":33,"id":"lastpass-authenticator","category":"2fa","name":"LastPass Authenticator","kind":"added"},
     {"date":"2026-11-22","commit":"7110a6c","pr":33,"id":"stratum","category":"2fa","name":"Stratum","kind":"updated","sections":["import"]},
     {"date":"2026-11-22","commit":"43e42bb","pr":32,"id":"battle-net-authenticator","category":"2fa","name":"Battle.net Authenticator","kind":"added"},
