@@ -1,6 +1,6 @@
 name: Roam Research
 website: https://roamresearch.com/
-description: An outliner for linked notes, where any page or block can point to any other, kept in graphs on Roam's servers.
+description: An outliner for linked notes, where any page or block can point to any other, with graphs kept on Roam's servers or only on your device.
 deployment: cloud
 platforms: [web, windows, macos, linux, android, ios]
 icon: https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a4/3e/0b/a43e0ba6-5a65-56d2-2119-ff3945f0e511/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/128x128bb.png
@@ -16,14 +16,14 @@ export:
       - Under Export format, pick JSON and select Export.
       - You get one .json file with every page in the graph.
     data:
-      included: [text, formatting, attachments, structure, links, tags, properties, dates, todos, comments, embeds, canvases]
-      excluded: [history, sharing, plugins, settings]
+      included: [text, formatting, structure, links, tags, properties, dates, todos, comments, embeds, canvases]
+      excluded: [attachments, history, sharing, plugins, settings]
     limitations:
-      - Images and files are links to Roam's storage, not copies. Obsidian's importer downloads them, but anything else just links back to Roam, and the files go when you delete your account.
+      - Images and files aren't in it, just links to them on Roam's storage, which stop working once you delete your account.
       - To keep the files themselves, use Export under Attachments in Settings --> Data & Backups. It needs the desktop app, Chrome or Edge.
       - Exports from an encrypted graph aren't encrypted, and its images and files only come out through that attachments export.
       - On a graph someone else shares with you, the admin can stop you exporting with Exportable by, under Settings --> Sharing.
-      - EDN and msgpack in the same list are full backups that only Roam's Restore Graph reads.
+      - EDN and msgpack, in the same list, are full backups for Roam's own Restore Graph.
     docs: https://roamresearch.com/#/app/help/page/FK4fiJVom
     sources:
       - https://roamresearch.com/#/app/help/page/ezi38UFk6
@@ -62,7 +62,7 @@ import:
     steps:
       - Open the ⋯ menu at the top right and choose Import, or Import under Graph Data in Settings --> Data & Backups.
       - Select Choose Files and pick the .json file.
-      - Tick the pages you want and select Import.
+      - Tick the pages you want, then select Import [number] Pages.
     data:
       included: [text, formatting, structure, links, tags, properties, dates, todos, comments, embeds]
       unknown: [canvases]
@@ -82,7 +82,7 @@ import:
     steps:
       - Open the ⋯ menu at the top right and choose Import, or Import under Graph Data in Settings --> Data & Backups.
       - Select Choose Files or Choose Folder and pick your .md files.
-      - Tick the pages you want, rename any if you like, then select Import.
+      - Tick the pages you want, rename any if you like, then select Import [number] Pages.
     limitations:
       - Each file becomes a page named after the file, with its folder in front (notes/Idea), and one named like January 23rd, 2025 becomes that day's daily note.
       - A page with the same title as one you already have goes on the bottom of that page.
@@ -98,7 +98,7 @@ delete:
   docs: https://roamresearch.com/#/app/help/page/fQyPj9yfg
   notes:
     - Deleting your account deletes every graph you're the only admin of, with its files. Graphs with other admins stay with them.
-    - Deleting a graph on its own leaves its uploaded files behind, so delete those in Settings --> Attachments first.
+    - Deleting a graph on its own leaves its uploaded files behind, so delete those in Settings --> Attachments first. An encrypted graph is the exception, and takes its files with it.
     - You lose access straight away, and Roam says full deletion can take up to 30 days.
     - Cancelling your subscription doesn't delete anything. Your graphs go read-only, and you can still export them.
 
