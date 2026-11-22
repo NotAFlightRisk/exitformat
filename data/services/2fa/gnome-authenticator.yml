@@ -72,7 +72,7 @@ import:
       included: [secrets, issuers, token-settings, hotp, steam]
       excluded: [motp-yandex, icons, groups, notes, favourites, sort-order]
     limitations:
-      - Unencrypted vaults from Aegis 3 and later are turned away, since it only takes their older database versions. Encrypted ones get through.
+      - Unencrypted vaults from Aegis 3 and later are turned away, since it only takes their older database versions. Encrypted vaults skip that check.
       - One mOTP or Yandex entry in the vault crashes the import, so nothing from it comes in.
     sources:
       - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/aegis.rs
