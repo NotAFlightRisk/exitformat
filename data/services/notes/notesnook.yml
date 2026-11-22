@@ -1,0 +1,344 @@
+name: Notesnook
+website: https://notesnook.com/
+description: Open source, end-to-end encrypted notes, kept on your devices and synced through Notesnook's servers once you sign in, or through your own.
+deployment: hybrid
+platforms: [web, windows, macos, linux, android, ios]
+source: https://github.com/streetwriters/notesnook
+
+export:
+  - id: backup
+    name: Create a backup
+    method: file
+    formats: [notesnook-backup]
+    steps:
+      - On desktop or the web, go to Settings --> Backup & export and pick Backup with attachments under Backup now.
+      - On a phone, go to Settings --> Backup & restore --> Backups and tap Backup now.
+      - Save the .nnbackupz file somewhere safe.
+    data:
+      included: [text, formatting, attachments, structure, links, tags, properties, dates, todos, history, settings]
+    limitations:
+      - Only Notesnook can restore it, into your account or another one.
+      - It's encrypted with your account unless you turn off Backup encryption first.
+      - A plain Backup leaves your images and files out. Backup with attachments keeps them.
+      - The web app can't make backups on a schedule, it only reminds you to.
+    docs: https://notesnook.com/help/backup-and-restore-notes-in-notesnook
+    sources:
+      - https://github.com/streetwriters/notesnook/blob/v3.4.13/packages/core/src/database/backup.ts
+      - https://github.com/streetwriters/notesnook/blob/v3.4.13/apps/web/src/dialogs/settings/backup-export-settings.ts
+
+  - id: markdown
+    name: Export as Markdown
+    method: file
+    formats: [markdown]
+    steps:
+      - On desktop or the web, go to Settings --> Backup & export and pick Markdown from Export as, under Export all notes.
+      - On a phone, it's Settings --> Backup & restore --> Export all notes, then Markdown.
+      - For some notes, select them and choose Export as from the right-click menu, or tap Export on a phone.
+    data:
+      included: [text, formatting, attachments, structure, links, todos]
+      excluded: [tags, properties, dates, history, settings]
+    limitations:
+      - Notebooks become folders, a note in two notebooks is saved in both, and archived notes go in an _archive folder.
+      - Tags, dates and colours are left out. Use Markdown + Frontmatter to keep them.
+      - Locked notes are left out unless you unlock the vault when it asks.
+      - Reminders aren't in any export, only in backups.
+    docs: https://notesnook.com/help/export-notes-from-notesnook
+    sources:
+      - https://github.com/streetwriters/notesnook/blob/v3.4.13/packages/common/src/utils/export-notes.ts
+      - https://github.com/streetwriters/notesnook/blob/v3.4.13/packages/core/src/utils/templates/md.ts
+
+  - id: markdown-frontmatter
+    name: Export as Markdown with front matter
+    method: file
+    formats: [markdown-frontmatter]
+    steps:
+      - On desktop or the web, go to Settings --> Backup & export and pick Markdown + Frontmatter from Export as, under Export all notes.
+      - On a phone, it's Settings --> Backup & restore --> Export all notes, then Markdown + Frontmatter.
+      - For some notes, select them and choose Export as from the right-click menu, or tap Export on a phone.
+    data:
+      included: [text, formatting, attachments, structure, links, tags, properties, dates, todos]
+      excluded: [history, settings]
+    limitations:
+      - The title, dates, tags, and whether it's pinned, a favourite, archived or coloured go in a YAML block at the top of each note.
+      - "Tags go on one line as text, like tags: \"work, ideas\", rather than as a list."
+      - Notebooks become folders, a note in two notebooks is saved in both, and archived notes go in an _archive folder.
+      - Locked notes are left out unless you unlock the vault when it asks.
+      - Reminders aren't in any export, only in backups.
+    docs: https://notesnook.com/help/export-notes-from-notesnook
+    sources:
+      - https://github.com/streetwriters/notesnook/blob/v3.4.13/packages/common/src/utils/export-notes.ts
+      - https://github.com/streetwriters/notesnook/blob/v3.4.13/packages/core/src/utils/templates/md.ts
+
+  - id: html
+    name: Export as HTML
+    method: file
+    formats: [html]
+    steps:
+      - On desktop or the web, go to Settings --> Backup & export and pick HTML from Export as, under Export all notes.
+      - On a phone, it's Settings --> Backup & restore --> Export all notes, then HTML.
+      - For some notes, select them and choose Export as from the right-click menu, or tap Export on a phone.
+    data:
+      included: [text, formatting, attachments, structure, links, tags, properties, dates, todos]
+      excluded: [history, settings]
+    limitations:
+      - Dates, tags, and whether a note's pinned, a favourite or coloured are saved as meta tags at the top of each file.
+      - Notebooks become folders, a note in two notebooks is saved in both, and archived notes go in an _archive folder.
+      - Locked notes are left out unless you unlock the vault when it asks.
+      - Reminders aren't in any export, only in backups.
+    docs: https://notesnook.com/help/export-notes-from-notesnook
+    sources:
+      - https://github.com/streetwriters/notesnook/blob/v3.4.13/packages/common/src/utils/export-notes.ts
+      - https://github.com/streetwriters/notesnook/blob/v3.4.13/packages/core/src/utils/templates/html/template.ts
+
+  - id: text
+    name: Export as plain text
+    method: file
+    formats: [txt]
+    steps:
+      - On desktop or the web, go to Settings --> Backup & export and pick Plain text from Export as, under Export all notes.
+      - On a phone, it's Settings --> Backup & restore --> Export all notes, then Plain text.
+      - For some notes, select them and choose Export as from the right-click menu, or tap Export on a phone.
+    data:
+      included: [text, structure, todos]
+      excluded: [formatting, attachments, links, tags, properties, dates, history, settings]
+    limitations:
+      - Images and files are left out, and checklists become ✅ and ☐ bullets.
+      - Notebooks become folders, and archived notes go in an _archive folder.
+      - Locked notes are left out unless you unlock the vault when it asks.
+    docs: https://notesnook.com/help/export-notes-from-notesnook
+    sources:
+      - https://github.com/streetwriters/notesnook/blob/v3.4.13/packages/common/src/utils/export-notes.ts
+      - https://github.com/streetwriters/notesnook/blob/v3.4.13/packages/core/src/content-types/tiptap.ts
+
+  - id: pdf
+    name: Export notes as PDF
+    method: file
+    formats: [pdf]
+    steps:
+      - On desktop or the web, right-click a note, choose Export as --> PDF and save it from the print window.
+      - On a phone, select one or more notes, tap Export and pick PDF.
+    data:
+      included: [text, formatting]
+      excluded: [tags, properties, dates]
+    limitations:
+      - On desktop and the web it's one note at a time.
+      - Images are kept, but other attachments aren't.
+    docs: https://notesnook.com/help/export-notes-from-notesnook
+    sources:
+      - https://github.com/streetwriters/notesnook/blob/v3.4.13/apps/web/src/common/export.ts
+
+import:
+  - id: backup
+    name: Restore a backup
+    method: file
+    formats: [notesnook-backup]
+    steps:
+      - On desktop or the web, go to Settings --> Backup & export and select Restore next to Restore backup.
+      - On a phone, go to Settings --> Backup & restore --> Restore backup, or Restore from files if it isn't listed.
+      - Pick the .nnbackupz or .nnbackup file.
+    limitations:
+      - Any note that's in the backup and in Notesnook now goes back to the backup's version, so take a fresh backup first.
+      - Sign in before you restore, or the attachments won't come back.
+      - It can bring back notes you've deleted since the backup was made.
+    docs: https://notesnook.com/help/backup-and-restore-notes-in-notesnook
+    sources:
+      - https://notesnook.com/help/faqs/login-to-restore-attachments-in-backup
+
+  - id: evernote
+    name: Import from Evernote
+    method: file
+    formats: [enex]
+    requirements: [Web or desktop app]
+    steps:
+      - Export each notebook from the Evernote desktop app as an ENEX file.
+      - In Notesnook, go to Settings --> Import & export --> Notesnook Importer and pick Evernote.
+      - Drop in the .enex files and select Start importing.
+    data:
+      included: [text, formatting, attachments, structure, links, tags, dates, todos]
+      excluded: [properties]
+    limitations:
+      - Each .enex file becomes a notebook named after it.
+      - Links between notes are matched by title, so some may not work.
+      - Tasks come in as checklist items without their due dates, and reminders don't come across.
+      - Details like a note's source URL and author are dropped.
+      - Attachments count towards your monthly storage, which is 50 MB on the free plan.
+    docs: https://notesnook.com/help/importing-notes/import-notes-from-evernote
+    sources:
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/evernote/index.ts
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/evernote/element-handlers/en-internal-link.ts
+
+  - id: google-keep
+    name: Import from Google Keep
+    method: file
+    formats: [google-keep-takeout]
+    requirements: [Web or desktop app]
+    steps:
+      - Download Keep from Google Takeout and keep the zip as it is.
+      - In Notesnook, go to Settings --> Import & export --> Notesnook Importer and pick Google Keep.
+      - Drop in the zip and select Start importing.
+    data:
+      included: [text, attachments, tags, properties, dates, todos]
+      excluded: [formatting, sharing]
+    limitations:
+      - It reads each note's plain text, so Keep's bold, italics and headings are dropped.
+      - Notes in Keep's bin come in with the rest.
+      - Labels become tags, and pins, archived notes and colours come across. Collaborators and link previews don't.
+      - Attachments count towards your monthly storage, which is 50 MB on the free plan.
+    docs: https://notesnook.com/help/importing-notes/import-notes-from-googlekeep
+    sources:
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/keep/index.ts
+
+  - id: simplenote
+    name: Import from Simplenote
+    method: file
+    formats: [simplenote-json]
+    requirements: [Web or desktop app]
+    steps:
+      - Export your notes from Simplenote on the web or desktop, and keep the zip as it is.
+      - In Notesnook, go to Settings --> Import & export --> Notesnook Importer and pick Simplenote.
+      - Drop in the zip and select Start importing.
+    data:
+      included: [text, formatting, tags, properties, dates, todos]
+      excluded: [links, sharing]
+    limitations:
+      - Notes in Simplenote's trash are left out.
+      - Pins and tags come across, but published links and who a note was shared with don't.
+      - Checklists only become checklists in notes that had Markdown turned on.
+      - It only takes a zip, so zip Android's simplenote.json before you drop it in.
+    docs: https://notesnook.com/help/importing-notes/import-notes-from-simplenote
+    sources:
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/simplenote/index.ts
+
+  - id: joplin
+    name: Import from Joplin
+    method: file
+    formats: [joplin-jex]
+    requirements: [Web or desktop app]
+    steps:
+      - In Joplin, go to File --> Export all --> JEX - Joplin Export File.
+      - In Notesnook, go to Settings --> Import & export --> Notesnook Importer and pick Joplin.
+      - Drop in the .jex file and select Start importing.
+    data:
+      included: [text, formatting, attachments, structure, tags, dates]
+      excluded: [links, properties, todos, history, plugins, settings]
+    limitations:
+      - Links between notes still point at Joplin, so they don't open anything.
+      - To-dos come in as ordinary notes, without their tick or alarm. Checkboxes inside notes are kept.
+      - Notes with nothing in them are skipped.
+      - Attachments count towards your monthly storage, which is 50 MB on the free plan.
+    docs: https://notesnook.com/help/importing-notes/import-notes-from-joplin
+    sources:
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/joplin/index.ts
+
+  - id: obsidian
+    name: Import an Obsidian vault
+    method: file
+    formats: [markdown, markdown-frontmatter]
+    from: [obsidian]
+    requirements: [Web or desktop app]
+    steps:
+      - Zip your vault's folder, the folder itself rather than what's in it, so its subfolders become notebooks.
+      - In Notesnook, go to Settings --> Import & export --> Notesnook Importer and pick Obsidian.
+      - Drop in the zip and select Start importing.
+    data:
+      included: [text, formatting, attachments, structure, tags, dates, todos]
+      excluded: [links, properties, databases, embeds, canvases, plugins, settings]
+    limitations:
+      - Each note's title is its file name, and the first # or ## heading in it is removed.
+      - Wikilinks stay as text, and embedded notes turn into links that don't go anywhere.
+      - Images and files have to be linked by their path from the note. One linked by name alone from another folder is left out.
+      - Only the front matter's title, tags, dates, pinned, favorite and color are read. Inline #tags stay as text.
+      - Callouts come in as plain quotes.
+      - Attachments count towards your monthly storage, which is 50 MB on the free plan.
+    docs: https://notesnook.com/help/importing-notes/import-notes-from-obsidian
+    sources:
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/dummies/obsidian.ts
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/md/index.ts
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/html/index.ts
+
+  - id: markdown
+    name: Import Markdown files
+    method: file
+    formats: [markdown, markdown-frontmatter]
+    requirements: [Web or desktop app]
+    steps:
+      - Zip your Markdown files along with their images and folders, so the importer can find them.
+      - In Notesnook, go to Settings --> Import & export --> Notesnook Importer and pick Markdown.
+      - Drop in the zip or the .md files and select Start importing.
+    data:
+      included: [text, formatting, attachments, structure, tags, dates, todos]
+      excluded: [links, properties, databases]
+    limitations:
+      - The title is the front matter's, or else the first # or ## heading, which is taken out of the note, or else the file name.
+      - Only the front matter's title, tags, dates, pinned, favorite and color are read. The rest is dropped.
+      - Links to other notes don't become note links. A link to another .md file attaches a copy of it instead.
+      - Folders in the zip become notebooks, apart from its top level folder.
+    docs: https://notesnook.com/help/importing-notes/import-notes-from-markdown-files
+    sources:
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/md/index.ts
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/html/index.ts
+
+  - id: text
+    name: Import text files
+    method: file
+    formats: [txt]
+    requirements: [Web or desktop app]
+    steps:
+      - In Notesnook, go to Settings --> Import & export --> Notesnook Importer and pick Text.
+      - Drop in the .txt files, or a zip of them, and select Start importing.
+    data:
+      included: [text, structure]
+    limitations:
+      - Each note's title is its file name, and folders in a zip become notebooks, apart from its top level folder.
+    docs: https://notesnook.com/help/importing-notes/import-notes-from-plaintext-files
+    sources:
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/txt/index.ts
+
+  - id: html
+    name: Import HTML files
+    method: file
+    formats: [html]
+    requirements: [Web or desktop app]
+    steps:
+      - In Notesnook, go to Settings --> Import & export --> Notesnook Importer and pick HTML.
+      - Drop in the .html files, or a zip of them with their images, and select Start importing.
+    data:
+      included: [text, formatting, attachments, structure]
+      excluded: [links, tags]
+    limitations:
+      - The title is the page's title, or else its first h1 or h2 heading, which is taken out of the note.
+      - Links to other pages attach a copy of the page rather than linking to a note.
+      - Folders in the zip become notebooks, apart from its top level folder.
+    docs: https://notesnook.com/help/importing-notes/import-notes-from-html-files
+    sources:
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/html/index.ts
+
+  - id: textbundle
+    name: Import TextBundles
+    method: file
+    formats: [textbundle]
+    requirements: [Web or desktop app]
+    steps:
+      - In Notesnook, go to Settings --> Import & export --> Notesnook Importer and pick TextBundle.
+      - Drop in the .textbundle folders or .textpack files and select Start importing.
+    data:
+      included: [text, formatting, attachments, todos]
+      excluded: [structure, links]
+    limitations:
+      - Notes land outside any notebook.
+    docs: https://notesnook.com/help/importing-notes/import-notes-from-textbundle-files
+    sources:
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/textbundle/index.ts
+
+delete:
+  steps:
+    - Sign in, then on desktop or the web go to Settings, open Profile under Account and select Delete account.
+    - On a phone, go to Settings --> Account --> Manage account --> Delete account.
+    - Enter your password to confirm.
+  docs: https://notesnook.com/help/deleting-your-account
+  notes:
+    - It's immediate and permanent. Your notes are end-to-end encrypted, so nobody can get them back afterwards. Export or back up first.
+
+verification:
+  status: documented
+  checked_at: 2026-11-22
