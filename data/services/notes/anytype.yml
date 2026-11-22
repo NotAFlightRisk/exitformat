@@ -69,6 +69,7 @@ export:
     docs: https://doc.anytype.io/anytype/data/import-and-export
     sources:
       - https://github.com/anyproto/anytype-ts/blob/v0.57.7/src/ts/component/popup/export.tsx
+      - https://github.com/anyproto/anytype-ts/blob/v0.57.7/src/ts/lib/keyboard.ts
 
 import:
   - id: anytype
@@ -86,6 +87,7 @@ import:
     docs: https://doc.anytype.io/anytype/data/import-and-export
     sources:
       - https://github.com/anyproto/anytype-heart/blob/v0.51.7/core/block/import/pb/converter.go
+      - https://github.com/anyproto/anytype-ts/blob/v0.57.7/src/ts/lib/action.ts
 
   - id: notion
     name: Import from Notion with an API token
@@ -160,7 +162,7 @@ import:
     limitations:
       - Only files ending in a lowercase .html are read, so .htm and .mhtml files bring in nothing.
       - Each page is named after its file, and its styling is dropped.
-      - A paragraph that links to a local file, another HTML page included, is replaced by that file as an attachment.
+      - A paragraph that links to a local file can be replaced by that file as an attachment, losing its text.
     docs: https://doc.anytype.io/anytype/data/import-and-export
     sources:
       - https://github.com/anyproto/anytype-heart/blob/v0.51.7/core/block/import/html/converter.go
