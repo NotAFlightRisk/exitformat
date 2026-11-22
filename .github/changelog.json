@@ -1,6 +1,8 @@
 {
-  "commit": "905ec710454e0b4349acf471df4ec2eedc9e6c7e",
+  "commit": "43cc64ecdf4884958234df58b5ec4182bbc31ca1",
   "entries": [
+    {"date":"2026-11-22","commit":"43cc64e","pr":36,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
+    {"date":"2026-11-22","commit":"43cc64e","pr":36,"id":"roam-research","category":"notes","name":"Roam Research","kind":"added"},
     {"date":"2026-11-22","commit":"905ec71","pr":35,"id":"colornote","category":"notes","name":"ColorNote","kind":"added"},
     {"date":"2026-11-22","commit":"905ec71","pr":35,"id":"notesnook","category":"notes","name":"Notesnook","kind":"updated","sections":["import"]},
     {"date":"2026-11-22","commit":"b1923b9","pr":34,"id":"gnome-authenticator","category":"2fa","name":"Authenticator","kind":"added"},
