@@ -1,0 +1,46 @@
+name: ColorNote
+website: https://www.colornote.com/
+description: Simple notes and checklists app for Android, colour-coded, with reminders. Notes stay on the phone unless you sign up for its online backup.
+deployment: local
+platforms: [android]
+icon: https://play-lh.googleusercontent.com/IoYdXZ5Z9ooJ7QoQA4LOACcrXhndg3nBZgy81s4UmxuQUoXB-gwAlGXyf1qFrYxTXxGsFE6jFwYuFXWJe0InYnw=s128
+aliases: [colornote notepad, color note]
+
+export:
+  - id: device-backup
+    name: Back up notes to the device
+    method: file
+    formats: [colornote-backup]
+    steps:
+      - Open Menu (⋮) --> Backup and tap Device in the top bar, or go to Settings --> Backup.
+      - Tap Backup Notes and enter your master password, or create one.
+      - Tap the new backup file and send it to your email or a cloud app, so you can get at it from elsewhere.
+    data:
+      included: [text, formatting, structure, todos, properties, dates, settings]
+    limitations:
+      - The file's encrypted with your master password, and ColorNote has no way to recover a forgotten one.
+      - Backups end in .backup or .doc. The .doc ones aren't Word files, whatever the name says.
+      - On Android 11 and later, file manager apps can't open the backup folder, so send the file from ColorNote itself.
+    docs: https://www.colornote.com/faq-question/i-changed-devices-how-can-i-restore-the-notes-on-the-new-device-using-device-backup/
+    sources:
+      - https://www.colornote.com/faq-question/what-is-device-backup/
+      - https://www.colornote.com/faq-question/what-is-the-location-on-the-device-where-my-notes-backed-up-to/
+      - https://www.colornote.com/faq-question/i-forgot-my-master-password-used-to-back-up-notes-to-my-device-can-i-restore-my-notes/
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/colornote/types.ts
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/colornote/index.ts
+
+import: []
+
+delete:
+  steps:
+    - Tap ≡ --> Settings --> Online Backup, then the ⋮ menu in the top bar and Account settings.
+    - Tap ⋮ again, choose Delete account and follow the checks it asks for.
+  docs: https://www.colornote.com/faq-question/account-deletion/
+  notes:
+    - Deleting the account takes every note, password and anything else synced to it.
+    - If you can't do it in the app, ColorNote's support will delete it by email, after checking it's yours.
+    - ColorNote may keep copies where the law says it has to.
+
+verification:
+  status: documented
+  checked_at: 2026-11-22

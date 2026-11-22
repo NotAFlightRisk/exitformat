@@ -1,0 +1,5 @@
+name: ColorNote backup
+extensions: [.backup, .doc]
+standard: false
+owner: colornote
+description: The encrypted backup file ColorNote saves on an Android phone, holding your notes and the app's settings. Manual backups, and auto backups with Secured auto backup on, need your master password to open. Despite the name, a .doc one isn't a Word file.

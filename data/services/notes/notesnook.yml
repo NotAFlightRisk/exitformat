@@ -145,6 +145,28 @@ import:
     sources:
       - https://notesnook.com/help/faqs/login-to-restore-attachments-in-backup
 
+  - id: colornote
+    name: Import from ColorNote
+    method: file
+    formats: [colornote-backup]
+    requirements: [Web or desktop app]
+    steps:
+      - In ColorNote, go to Settings --> Backup, make a backup with a master password and send the file to your computer.
+      - In Notesnook, go to Settings --> Import & export --> Notesnook Importer and pick ColorNote.
+      - Drop in the backup, select Start importing and enter the master password.
+    data:
+      included: [text, formatting, structure, todos, properties, dates]
+      excluded: [settings]
+    limitations:
+      - Locked (encrypted) notes are skipped, and so are deleted and trashed ones.
+      - It only takes backups ending in .backup, .db or .dat, so a .doc one won't go in.
+      - It always asks for a password, so use a backup you made with your master password rather than an unsecured auto backup.
+      - Colours become Notesnook colours, archived notes stay archived and checklists come in as task lists. Reminders keep their repeats, bar any it doesn't recognise, which fire once.
+    docs: https://notesnook.com/help/importing-notes/import-notes-from-colornote
+    sources:
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/colornote/index.ts
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/colornote/decrypt-backup.ts
+
   - id: evernote
     name: Import from Evernote
     method: file
