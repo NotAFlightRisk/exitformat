@@ -1,0 +1,23 @@
+name: Steam Mobile
+website: https://store.steampowered.com/mobile
+description: Valve's Steam app for Android and iOS, the only authenticator Steam Guard supports. There's no export, just a move to a new phone in the app.
+deployment: local
+platforms: [android, ios]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/30/4c/8c/304c8c7d-c9cb-43c3-56e5-090c68f4ce47/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/128x128bb.png
+aliases: [steam guard, steam guard mobile authenticator, steam authenticator]
+
+export: []
+
+import: []
+
+delete:
+  steps:
+    - In Steam Mobile, open the Steam Guard tab, tap the gear icon and select Remove Authenticator, then confirm.
+    - Tap your avatar at the top right and select Sign out, then uninstall the app.
+  docs: https://help.steampowered.com/en/faqs/view/7EFD-3CAE-64D3-1C31
+  notes:
+    - Removing it stops you trading or using the Community Market for 15 days.
+
+verification:
+  status: documented
+  checked_at: 2026-11-22
