@@ -27,6 +27,7 @@ export:
       - https://www.colornote.com/faq-question/what-is-the-location-on-the-device-where-my-notes-backed-up-to/
       - https://www.colornote.com/faq-question/i-forgot-my-master-password-used-to-back-up-notes-to-my-device-can-i-restore-my-notes/
       - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/colornote/types.ts
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/colornote/index.ts
 
 import: []
 
