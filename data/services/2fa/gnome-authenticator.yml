@@ -1,11 +1,11 @@
-name: GNOME Authenticator
+name: Authenticator
 website: https://apps.gnome.org/Authenticator/
-description: Free, open source 2FA app for the Linux desktop and phones. It backs up to Aegis, andOTP or plain text files, and reads a handful of other apps' exports.
+description: GNOME's free, open source 2FA app for Linux. It backs up to Aegis, andOTP or plain text files, and reads a handful of other apps' exports.
 deployment: local
 platforms: [linux]
 source: https://gitlab.gnome.org/World/Authenticator
 icon: https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/icons/128x128/com.belmoussaoui.Authenticator.png
-aliases: [authenticator, com.belmoussaoui.Authenticator]
+aliases: [gnome authenticator, gnome-authenticator, com.belmoussaoui.Authenticator]
 
 export:
   - id: plain-text
@@ -73,7 +73,7 @@ import:
       excluded: [motp-yandex, icons, groups, notes, favourites, sort-order]
     limitations:
       - Unencrypted vaults from Aegis 3 and later are turned away, since it only takes their older database versions. Encrypted ones get through.
-      - A single mOTP or Yandex entry in the vault stops the whole import.
+      - One mOTP or Yandex entry in the vault crashes the import, so nothing from it comes in.
     sources:
       - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/aegis.rs
       - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/models/algorithm.rs
@@ -82,24 +82,42 @@ import:
   - id: other-apps
     name: Restore another app's file
     method: file
-    formats: [andotp-backup, bitwarden-json, freeotp-plus-json, otpauth-uri]
+    formats: [andotp-backup, bitwarden-json, otpauth-uri]
     steps:
       - Open the Main Menu --> Backup & Restore.
-      - Under Restore, select the app the file came from - Authenticator for a plain text list of otpauth links.
+      - Under Restore, select andOTP, Bitwarden, or Authenticator for a plain text list of otpauth links.
       - Pick the file.
     data:
       included: [secrets, issuers, token-settings, hotp, steam]
       excluded: [motp-yandex, icons, groups, notes, favourites, sort-order]
     limitations:
       - Files have to be unencrypted.
-      - In a plain text list, lines it can't read (mOTP links, say) are skipped without a word. In an andOTP file, one mOTP entry stops the whole import.
-      - Codes that are already in the app are skipped.
+      - In a plain text list, Steam codes only come across from otpauth://steam/ links, and lines it can't read (mOTP ones, say) are skipped without a word.
+      - In an andOTP file, one mOTP entry crashes the import, so nothing from it comes in.
+      - Codes whose secret is already in the app are skipped.
     sources:
       - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/andotp.rs
       - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/bitwarden.rs
-      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/freeotp_json.rs
       - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/freeotp.rs
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/models/otp_uri.rs
       - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/mod.rs
+
+  - id: freeotp-plus
+    name: Restore a FreeOTP+ export
+    method: file
+    formats: [freeotp-plus-json]
+    steps:
+      - Open the Main Menu --> Backup & Restore.
+      - Under Restore, select FreeOTP+ and pick the JSON file FreeOTP+ exported.
+    data:
+      included: [secrets, issuers, token-settings, hotp]
+      excluded: [steam, icons, groups, notes, favourites, sort-order]
+    limitations:
+      - FreeOTP+ only marks Steam codes by their issuer, so they come in as ordinary codes and show the wrong numbers.
+    sources:
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/freeotp_json.rs
+      - https://github.com/helloworld1/FreeOTPPlus/blob/RELEASE-3.5/token-data/src/main/java/org/fedorahosted/freeotp/data/OtpTokenType.kt
+      - https://github.com/helloworld1/FreeOTPPlus/blob/RELEASE-3.5/token-data/src/main/java/org/fedorahosted/freeotp/data/util/TokenCodeUtil.kt
 
   - id: raivo-otp
     name: Restore a Raivo OTP export
@@ -121,13 +139,13 @@ import:
     formats: [otpauth-migration]
     steps:
       - In Google Authenticator, tap Menu --> Transfer codes --> Export codes on Android, or Menu --> Transfer accounts --> Export accounts on iOS.
-      - In Authenticator, open the Main Menu --> Backup & Restore and select the scan button by Google Authenticator.
+      - In Authenticator, open the Main Menu --> Backup & Restore and select Scan QR Code by Google Authenticator.
       - Pick Camera, Screenshot or QR Code Image, and repeat for each QR code.
     data:
       included: [secrets, issuers, hotp]
       excluded: [token-settings]
     limitations:
-      - Codes that don't use SHA1 are skipped, and time-based ones always come in as 6 digits.
+      - Codes that don't use SHA1 are skipped, and time-based ones lose their digit count, so 8-digit codes can come out wrong.
     sources:
       - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/google.rs
       - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/widgets/backup/dialog.rs
