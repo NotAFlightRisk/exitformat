@@ -1,6 +1,8 @@
 {
-  "commit": "b1923b9c5fc2f74b85420994232334582a2f6026",
+  "commit": "905ec710454e0b4349acf471df4ec2eedc9e6c7e",
   "entries": [
+    {"date":"2026-11-22","commit":"905ec71","pr":35,"id":"colornote","category":"notes","name":"ColorNote","kind":"added"},
+    {"date":"2026-11-22","commit":"905ec71","pr":35,"id":"notesnook","category":"notes","name":"Notesnook","kind":"updated","sections":["import"]},
     {"date":"2026-11-22","commit":"b1923b9","pr":34,"id":"gnome-authenticator","category":"2fa","name":"Authenticator","kind":"added"},
     {"date":"2026-11-22","commit":"7110a6c","pr":33,"id":"lastpass-authenticator","category":"2fa","name":"LastPass Authenticator","kind":"added"},
     {"date":"2026-11-22","commit":"7110a6c","pr":33,"id":"stratum","category":"2fa","name":"Stratum","kind":"updated","sections":["import"]},
