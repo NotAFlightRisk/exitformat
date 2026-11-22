@@ -1,6 +1,8 @@
 {
-  "commit": "43e42bb492f976413e877180de4796e1724f69d4",
+  "commit": "7110a6cf48c6db801a9d125bb443dcd7b4334d20",
   "entries": [
+    {"date":"2026-11-22","commit":"7110a6c","pr":33,"id":"lastpass-authenticator","category":"2fa","name":"LastPass Authenticator","kind":"added"},
+    {"date":"2026-11-22","commit":"7110a6c","pr":33,"id":"stratum","category":"2fa","name":"Stratum","kind":"updated","sections":["import"]},
     {"date":"2026-11-22","commit":"43e42bb","pr":32,"id":"battle-net-authenticator","category":"2fa","name":"Battle.net Authenticator","kind":"added"},
     {"date":"2026-11-22","commit":"51a8958","pr":31,"id":"steam-mobile","category":"2fa","name":"Steam Mobile","kind":"added"},
     {"date":"2026-11-22","commit":"0b4de84","pr":30,"id":"notesnook","category":"notes","name":"Notesnook","kind":"added"},
