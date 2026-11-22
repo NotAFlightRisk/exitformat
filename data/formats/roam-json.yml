@@ -1,5 +1,7 @@
 name: Roam Research JSON export
 extensions: [.json]
 standard: false
+owner: roam-research
 based_on: json
-description: Roam's Export All, in its JSON flavour. Every page and block in your graph is in there, block references included.
+description: One JSON file with every page in a Roam graph and its blocks nested inside, each with its id, created and edited times and who wrote it. Images and files are links to Roam's storage rather than copies.
+spec: https://roamresearch.com/#/app/help/page/Nxz8u0vXU

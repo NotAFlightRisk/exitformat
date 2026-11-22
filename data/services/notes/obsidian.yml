@@ -252,7 +252,23 @@ import:
       - In Roam, select More actions --> Export All and pick JSON.
       - In Obsidian, install the Importer plugin, open it and pick Roam Research (.json).
       - Choose the .json file and select Import.
+    data:
+      included: [text, formatting, attachments, structure, links, tags, properties, todos, comments, embeds]
+      excluded: [dates, canvases, plugins]
+    limitations:
+      - Created and edited dates aren't read, so every note is dated the day you import it.
+      - Flatten outlines is on by default and turns bullets into paragraphs. Switch it off to keep the outline.
+      - Images and files on Roam's storage get downloaded into your vault. Anything hosted elsewhere stays a link.
+      - "A one-line attr:: value block that isn't nested under another becomes a property. The rest stay as text."
+      - Roam ids can have underscores, which Obsidian's block ids can't, so references to those blocks won't open.
+      - Sliders, timers, counters and encrypted blocks are dropped, diagrams lose their drawing, and other components stay as Roam's {{ }} text.
+      - Daily notes are renamed to your daily note format, but stay in the import folder.
     docs: https://help.obsidian.md/import/roam
+    sources:
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/roam-json.ts
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/roam/convert.ts
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/roam/utils.ts
+      - https://help.obsidian.md/links
 
   - id: logseq
     name: Import a Logseq graph
