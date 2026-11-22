@@ -3,4 +3,4 @@ extensions: [.json]
 standard: false
 owner: steam
 based_on: json
-description: The Steamguard file in the Steam app's private storage on Android. Getting at it needs root, and it's only readable before Steam 3.0, since newer versions encrypt it.
+description: The Steamguard file in the Steam app's private storage on Android, from before Steam 3.0. Getting at it needs root, and 3.0 and later keep the secret encrypted somewhere else.
