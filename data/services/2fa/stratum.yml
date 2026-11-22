@@ -118,11 +118,11 @@ import:
       - Tap + then Import from other apps, and pick LastPass Authenticator.
       - Choose the LastPassAuthenticator.json file.
     data:
-      included: [secrets, issuers, token-settings, groups]
-      excluded: [hotp, steam, sort-order]
+      included: [secrets, issuers, token-settings, groups, sort-order]
+      excluded: [hotp, steam]
     limitations:
       - Only the order within each folder survives.
-      - Favourites come in as a group called Favorites, since that's how LastPass files them.
+      - Accounts in LastPass's Favorites folder come in as a group called Favorites, rather than as favourites.
     sources:
       - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Converter/LastPassBackupConverter.cs
 

@@ -19,7 +19,8 @@ export:
       excluded: [settings]
     limitations:
       - The file isn't encrypted, so every secret's in plain text. Delete it once you're done.
-      - Sign-in approvals by push aren't one-time codes, so they don't come across.
+      - It only records the order within each folder.
+      - Push sign-in approvals aren't in it, just the codes.
     docs: https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Fhow_do_i_move_my_mfa_accounts_in_the_lastpass_authenticator_to_a_new_device.html&_LANG=enus
     sources:
       - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Test/data/lastpass.json
@@ -66,12 +67,11 @@ import:
 
 delete:
   steps:
-    - If you turned on cloud backup, tap Delete your data from cloud in the app's Cloud backup settings, then Delete.
-    - Tap Got it, then delete the app from your phone.
+    - If you turned on cloud backup, tap Delete your data from cloud in the app's Cloud backup settings, then Delete and Got it.
+    - Delete the app from your phone.
   docs: https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Fdelete_your_data_using_the_lastpass_authenticator_app.html&_LANG=enus
   notes:
     - Deleting the cloud backup turns cloud sync off too, and you can't restore from it afterwards.
-    - If the app also protects your LastPass vault, switch it off in LastPass first, or you'll need another way to sign in.
 
 verification:
   status: documented
