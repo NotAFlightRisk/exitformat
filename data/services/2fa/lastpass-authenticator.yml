@@ -1,0 +1,78 @@
+name: LastPass Authenticator
+website: https://www.lastpass.com/solutions/authentication
+description: LastPass's free 2FA app for Android and iOS. It exports your codes to a plain JSON file, with an optional backup to your LastPass account.
+deployment: local
+platforms: [android, ios]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/ee/32/26/ee322604-2a6d-0f93-8351-f0103a4ebb46/AppIconRelease-0-0-1x_U007epad-0-1-0-85-220.png/128x128bb.png
+
+export:
+  - id: file
+    name: Export accounts to a file
+    method: file
+    formats: [lastpass-authenticator-json]
+    steps:
+      - Open Settings --> Transfer accounts --> Export accounts to file.
+      - Tap Download JSON file and confirm it's you.
+      - Pick a folder to save the file in.
+    data:
+      included: [secrets, issuers, token-settings, groups, favourites, sort-order]
+      excluded: [settings]
+    limitations:
+      - The file isn't encrypted, so every secret's in plain text. Delete it once you're done.
+      - Sign-in approvals by push aren't one-time codes, so they don't come across.
+    docs: https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Fhow_do_i_move_my_mfa_accounts_in_the_lastpass_authenticator_to_a_new_device.html&_LANG=enus
+    sources:
+      - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Test/data/lastpass.json
+      - https://github.com/protonpass/proton-pass-common/blob/2.4.0/proton-authenticator/test_data/authenticator/lastpass/lastpass_ios_export.json
+
+import:
+  - id: google-authenticator
+    name: Scan Google Authenticator's export QR codes
+    method: qr
+    formats: [otpauth-migration]
+    steps:
+      - In Google Authenticator, tap Menu --> Transfer codes --> Export codes on Android, or Menu --> Transfer accounts --> Export accounts on iOS.
+      - In LastPass Authenticator, tap Import accounts and pick Google Authenticator.
+      - Tap Scan QR code, or Read QR from image for a screenshot, then tap Add to bring the accounts in.
+    data:
+      included: [secrets]
+      unknown: [issuers, token-settings, hotp]
+    limitations:
+      - It only imports into an empty app, so do it before you add any accounts yourself.
+    docs: https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Fimport_totp_accounts_from_file_or_other_authenticator_app.html&_LANG=enus
+
+  - id: other-apps
+    name: Import another app's export file
+    method: file
+    formats:
+      - 2fas-backup
+      - aegis-vault
+      - andotp-backup
+      - bitwarden-json
+      - freeotp-backup
+      - freeotp-plus-json
+      - totp-authenticator-backup
+    steps:
+      - Export your accounts from the other app as a file.
+      - In LastPass Authenticator, tap Import accounts and pick the app the file came from.
+      - Tap Select JSON file, choose the file and enter its password if it has one.
+      - Tap Add to bring the accounts in.
+    data:
+      included: [secrets]
+      unknown: [issuers, token-settings, hotp, steam, motp-yandex, icons, groups, notes, favourites, sort-order]
+    limitations:
+      - It only imports into an empty app, so do it before you add any accounts yourself.
+    docs: https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Fimport_totp_accounts_from_file_or_other_authenticator_app.html&_LANG=enus
+
+delete:
+  steps:
+    - If you turned on cloud backup, tap Delete your data from cloud in the app's Cloud backup settings, then Delete.
+    - Tap Got it, then delete the app from your phone.
+  docs: https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Fdelete_your_data_using_the_lastpass_authenticator_app.html&_LANG=enus
+  notes:
+    - Deleting the cloud backup turns cloud sync off too, and you can't restore from it afterwards.
+    - If the app also protects your LastPass vault, switch it off in LastPass first, or you'll need another way to sign in.
+
+verification:
+  status: documented
+  checked_at: 2026-11-22

@@ -122,6 +122,7 @@ import:
       excluded: [hotp, steam, sort-order]
     limitations:
       - Only the order within each folder survives.
+      - Favourites come in as a group called Favorites, since that's how LastPass files them.
     sources:
       - https://github.com/stratumauth/app/blob/v1.7.0/Stratum.Core/src/Converter/LastPassBackupConverter.cs
 
