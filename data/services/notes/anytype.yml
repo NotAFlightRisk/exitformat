@@ -1,0 +1,198 @@
+name: Anytype
+website: https://anytype.io/
+description: A local-first app for notes and linked objects, synced end-to-end encrypted to Anytype's backup nodes or a server you run yourself.
+deployment: hybrid
+platforms: [windows, macos, linux, android, ios]
+source: https://github.com/anyproto/anytype-ts
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/34/21/65/342165f8-30c2-fb4b-fd71-302488afc1fb/AppIcon-0-0-1x_U007epad-0-1-P3-85-220.png/128x128bb.png
+aliases: [any type, anytype.io]
+
+export:
+  - id: markdown
+    name: Export a channel as Markdown
+    method: file
+    formats: [markdown, markdown-frontmatter]
+    requirements: [Desktop app or iPhone]
+    steps:
+      - Go to File --> Export, or Integrations --> Export in the channel's settings, and pick Markdown.
+      - Switch on Include files, plus Zip archive and Include archived objects if you want them, then select Export data.
+      - On iPhone, tap ⋯ next to the space in your spaces list and choose Export.
+    data:
+      included: [text, formatting, attachments, links, tags, properties, dates, todos]
+      excluded: [databases, embeds, comments, history, sharing, settings]
+    limitations:
+      - Without Include files, the links to images and files point at nothing.
+      - Sets and collections aren't in it, and links to them go nowhere.
+      - Front matter only holds the properties on each object's type, plus a few like its type, tags and creation date. The modified date is just the file's date, and the iPhone export has no front matter at all.
+      - Underline, colours and highlights are dropped, callouts become plain paragraphs, and embeds like Mermaid or Excalidraw come out as their raw source in a $$ block.
+      - Everything lands in one flat folder, with names cut to 48 characters.
+      - To export a few objects, select them and choose Export from the ⋯ menu or by right-clicking. Include linked objects brings what they link to.
+    docs: https://doc.anytype.io/anytype/data/import-and-export
+    sources:
+      - https://github.com/anyproto/anytype-heart/blob/v0.51.7/core/converter/md/md.go
+      - https://github.com/anyproto/anytype-heart/blob/v0.51.7/core/block/export/export.go
+      - https://github.com/anyproto/anytype-ts/blob/v0.57.7/src/ts/component/popup/export.tsx
+
+  - id: any-block
+    name: Export a channel as Any-Block JSON
+    method: file
+    formats: [anytype-json]
+    requirements: [Desktop app]
+    steps:
+      - Go to File --> Export, or Integrations --> Export in the channel's settings, and pick Any-Block v1.
+      - Leave File Format on JSON, switch on Include files data and Zip archive, then select Export data.
+    data:
+      included: [text, formatting, attachments, links, tags, properties, databases, dates, todos, embeds]
+      excluded: [comments, history, sharing]
+    limitations:
+      - Without Include files data, files only come back while the channel they came from is still there.
+      - It's Anytype's own format, made for restoring into Anytype. Trilium can import it too.
+      - Any-Block v2 (Preview), in the same list, is a newer version that Anytype says isn't for backups yet.
+    docs: https://doc.anytype.io/anytype/data/import-and-export
+    sources:
+      - https://github.com/anyproto/anytype-heart/blob/v0.51.7/core/converter/pbc/pbc.go
+      - https://github.com/anyproto/anytype-heart/blob/v0.51.7/core/block/export/collection.go
+
+  - id: pdf
+    name: Export an object to PDF
+    method: file
+    formats: [pdf]
+    requirements: [Desktop app]
+    steps:
+      - Open the object, then choose Export from the ⋯ menu, or File --> Export Object.
+      - Set Export format to PDF, pick the page size and background, then select Export.
+    data:
+      included: [text, formatting]
+      unknown: [attachments, links]
+    limitations:
+      - It works one object at a time.
+    docs: https://doc.anytype.io/anytype/data/import-and-export
+    sources:
+      - https://github.com/anyproto/anytype-ts/blob/v0.57.7/src/ts/component/popup/export.tsx
+
+import:
+  - id: anytype
+    name: Import an Anytype export
+    method: file
+    formats: [anytype-json]
+    steps:
+      - Go to File --> Import and pick Anytype under By app.
+      - Choose the export's .zip and it imports into the channel you picked under Importing to.
+    data:
+      included: [text, formatting, attachments, links, tags, properties, databases, dates, todos, embeds]
+      excluded: [history]
+    limitations:
+      - The channel's own name, icon and home page aren't brought across, and nor are its widgets.
+      - Files only come in if they're inside the export. Otherwise Anytype has to fetch them from the channel they came from.
+    docs: https://doc.anytype.io/anytype/data/import-and-export
+    sources:
+      - https://github.com/anyproto/anytype-heart/blob/v0.51.7/core/block/import/pb/converter.go
+
+  - id: notion
+    name: Import from Notion with an API token
+    method: connect
+    from: [notion]
+    steps:
+      - In Notion, create an integration, copy its token and give it access to the pages you want.
+      - In Anytype, go to File --> Import and pick Notion under By app.
+      - Paste the token, select Import data, then Proceed.
+    data:
+      included: [text, formatting, attachments, structure, links, properties, databases, dates, todos]
+      excluded: [comments, history, sharing]
+      unknown: [embeds]
+    limitations:
+      - It only gets what the integration can see. Pages and database rows it hasn't been given just don't come across.
+      - Anytype has no page tree, so subpages become links from their parent page, and top-level pages go in a Notion Import collection.
+      - Databases keep their default view only. Formulas and rollups come in as fixed values, a date range becomes two properties, and buttons are dropped.
+      - Mentions of people become plain names, and blocks it doesn't know become an Unsupported block placeholder.
+    docs: https://doc.anytype.io/anytype/data/import-and-export
+    sources:
+      - https://github.com/anyproto/anytype-heart/blob/v0.51.7/core/block/importv2/notion/mapblocks.go
+      - https://github.com/anyproto/anytype-heart/blob/v0.51.7/core/block/importv2/notion/page.go
+
+  - id: obsidian
+    name: Import from Obsidian
+    method: file
+    formats: [markdown, markdown-frontmatter]
+    from: [obsidian]
+    steps:
+      - On Windows or Linux, zip up your vault folder first. On a Mac you can pick the folder itself.
+      - In Anytype, go to File --> Import, pick Obsidian under By app and select Import files.
+      - Choose the vault or its zip.
+    data:
+      included: [text, formatting, attachments, structure, links, tags, properties, dates]
+      excluded: [embeds, databases, canvases, plugins, settings]
+    limitations:
+      - Callouts, highlights, maths, footnotes and %%comments%% stay as plain text, and the comments become visible.
+      - "![[Note]] embeds become links, links to a heading or block just go to the note, and #tags in the text stay as text."
+      - Canvases, bases and your .obsidian settings are ignored, but notes in .trash get imported.
+      - Each folder becomes a page listing what's in it, and a link to a name that isn't unique may stay as a raw link.
+    docs: https://doc.anytype.io/anytype/data/import-and-export
+    sources:
+      - https://github.com/anyproto/anytype-heart/blob/v0.51.7/core/block/importv2/markdown/converter.go
+
+  - id: markdown
+    name: Import Markdown files
+    method: file
+    formats: [markdown, markdown-frontmatter]
+    steps:
+      - Go to File --> Import and pick Markdown under By file type.
+      - Choose a zip of your notes, or the folder on a Mac, so it can find their images.
+    data:
+      included: [text, formatting, attachments, structure, links, tags, properties, dates]
+      excluded: [databases, embeds]
+    limitations:
+      - A single .md file picked on its own comes in without its images.
+      - Headings below H3 become H3, and any HTML in the notes is dropped.
+      - Front matter becomes properties, with tags, status and the created and modified dates understood.
+      - Each folder becomes a page listing what's in it.
+    docs: https://doc.anytype.io/anytype/data/import-and-export
+    sources:
+      - https://github.com/anyproto/anytype-heart/blob/v0.51.7/core/block/importv2/markdown/converter.go
+
+  - id: html
+    name: Import HTML files
+    method: file
+    formats: [html]
+    steps:
+      - Go to File --> Import and pick HTML under By file type.
+      - Choose the .html files or a zip of them.
+    data:
+      included: [text, formatting, attachments]
+      excluded: [dates]
+    limitations:
+      - Only files ending in a lowercase .html are read, so .htm and .mhtml files bring in nothing.
+      - Each page is named after its file, and its styling is dropped.
+      - A paragraph that links to a local file, another HTML page included, is replaced by that file as an attachment.
+    docs: https://doc.anytype.io/anytype/data/import-and-export
+    sources:
+      - https://github.com/anyproto/anytype-heart/blob/v0.51.7/core/block/import/html/converter.go
+
+  - id: csv
+    name: Import a CSV as a collection
+    method: file
+    formats: [csv]
+    steps:
+      - Go to File --> Import and pick CSV under By file type.
+      - Leave Import CSV as on Collection, check the column settings and select Import data.
+    data:
+      included: [text, properties, databases]
+    limitations:
+      - Each row becomes a page named after its first column, and every other column becomes a text property.
+      - A file with more than 10 columns or about 1,000 rows stops the whole import. Import CSV as Table has no limit, but gives you a plain table on one page.
+    docs: https://doc.anytype.io/anytype/data/import-and-export
+    sources:
+      - https://github.com/anyproto/anytype-heart/blob/v0.51.7/core/block/import/csv/converter.go
+
+delete:
+  steps:
+    - To delete one channel, open its settings and choose Delete Channel.
+    - To delete everything, go to Settings --> Vault & Key --> Login Key, then Delete vault under Danger zone.
+  docs: https://doc.anytype.io/anytype/data/data-erasure-and-recovery
+  notes:
+    - You get 30 days to change your mind, then your encrypted data is removed from Anytype's backup nodes.
+    - Copies on your own devices stay until you delete them there too.
+
+verification:
+  status: documented
+  checked_at: 2026-11-22

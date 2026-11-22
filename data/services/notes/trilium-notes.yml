@@ -94,7 +94,7 @@ import:
       - Right-click the note to import into and choose Import into note...
       - Leave Files & other formats picked, choose the files or a zip of them and select Import.
     data:
-      included: [text, formatting, attachments, structure, links, tags, properties]
+      included: [text, formatting, attachments, structure, links, tags, properties, todos]
       excluded: [dates, databases, canvases, plugins, settings]
     limitations:
       - A zip's folders become the note tree, and relative links and images between its files are connected up.
