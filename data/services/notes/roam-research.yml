@@ -1,0 +1,107 @@
+name: Roam Research
+website: https://roamresearch.com/
+description: An outliner for linked notes, where any page or block can point to any other, with graphs kept on Roam's servers or only on your device.
+deployment: cloud
+platforms: [web, windows, macos, linux, android, ios]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a4/3e/0b/a43e0ba6-5a65-56d2-2119-ff3945f0e511/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/128x128bb.png
+aliases: [roam, roam mobile]
+
+export:
+  - id: json
+    name: Export your graph as JSON
+    method: file
+    formats: [roam-json]
+    steps:
+      - Open the ⋯ menu at the top right and choose Export All, or Export / Backup under Settings --> Data & Backups.
+      - Under Export format, pick JSON and select Export.
+      - You get one .json file with every page in the graph.
+    data:
+      included: [text, formatting, structure, links, tags, properties, dates, todos, comments, embeds, canvases]
+      excluded: [attachments, history, sharing, plugins, settings]
+    limitations:
+      - Images and files aren't in it, just links to them on Roam's storage, which stop working once you delete your account.
+      - To keep the files themselves, use Export under Attachments in Settings --> Data & Backups. It needs the desktop app, Chrome or Edge.
+      - Exports from an encrypted graph aren't encrypted, and its images and files only come out through that attachments export.
+      - On a graph someone else shares with you, the admin can stop you exporting with Exportable by, under Settings --> Sharing.
+      - EDN and msgpack, in the same list, are full backups for Roam's own Restore Graph.
+    docs: https://roamresearch.com/#/app/help/page/FK4fiJVom
+    sources:
+      - https://roamresearch.com/#/app/help/page/ezi38UFk6
+      - https://roamresearch.com/#/app/help/page/4dMa6HdZZ
+      - https://roamresearch.com/#/app/help/page/cjMloyF5c
+      - https://roamresearch.com/#/app/help/page/DTR1FMubL
+      - https://roamresearch.com/#/app/help/page/vh3S6FSr1
+
+  - id: markdown
+    name: Export your graph as Markdown
+    method: file
+    formats: [markdown]
+    steps:
+      - Open the ⋯ menu at the top right and choose Export All, or Export / Backup under Settings --> Data & Backups.
+      - Leave Export format on Markdown and select Export.
+      - You get a zip with a .md file for each page, and a folder for each namespace, so roam/css becomes css.md in a roam folder.
+    data:
+      included: [text, formatting, structure, links, tags, comments]
+      excluded: [attachments, properties, dates, todos, embeds, canvases, history, sharing, plugins, settings]
+    limitations:
+      - Links stay as [[Page]], which only apps that read wiki links will follow, and block references become a copy of the text.
+      - "Roam's own syntax stays as it is, like __italics__, ^^highlights^^, attr:: value lines, {{[[TODO]]}} and components like {{[[video]]}}, so other apps show it as plain text."
+      - Images and files are links back to Roam's storage, and every .md file is dated the day you export.
+      - Flat Markdown, in the same list, drops the bullets and indentation as well.
+      - To export one page, open it and choose Export from the ⋯ menu instead.
+    docs: https://roamresearch.com/#/app/help/page/FK4fiJVom
+    sources:
+      - https://roamresearch.com/#/app/help/page/x6OUeEC02
+      - https://roamresearch.com/#/app/help/page/okENJwsDL
+
+import:
+  - id: json
+    name: Import Roam JSON files
+    method: file
+    formats: [roam-json]
+    steps:
+      - Open the ⋯ menu at the top right and choose Import, or Import under Graph Data in Settings --> Data & Backups.
+      - Select Choose Files and pick the .json file.
+      - Tick the pages you want, then select the button with the count on it, like Import 4 Pages.
+    data:
+      included: [text, formatting, structure, links, tags, properties, dates, todos, comments, embeds]
+      unknown: [canvases]
+    limitations:
+      - It's made for Roam's own exports, so it's how you copy pages from one graph to another.
+      - A page with the same title as one you already have goes on the bottom of that page.
+      - Block ids come across, so block references keep working. Any that are already in the graph get new ones.
+    docs: https://roamresearch.com/#/app/help/page/m6jiiw1bO
+    sources:
+      - https://roamresearch.com/#/app/help/page/Nxz8u0vXU
+      - https://roamresearch.com/#/app/help/page/NeNwv6Y47
+
+  - id: markdown
+    name: Import Markdown files
+    method: file
+    formats: [markdown]
+    steps:
+      - Open the ⋯ menu at the top right and choose Import, or Import under Graph Data in Settings --> Data & Backups.
+      - Select Choose Files or Choose Folder and pick your .md files.
+      - Tick the pages you want and rename any if you like, then select the button with the count on it, like Import 4 Pages.
+    limitations:
+      - Each file becomes a page named after the file, with its folder in front (notes/Idea), and one named like January 23rd, 2025 becomes that day's daily note.
+      - A page with the same title as one you already have goes on the bottom of that page.
+    docs: https://roamresearch.com/#/app/help/page/m6jiiw1bO
+    sources:
+      - https://roamresearch.com/#/app/help/page/NeNwv6Y47
+      - https://roamresearch.com/#/app/help/page/LQYvufUgJ
+
+delete:
+  steps:
+    - To delete one graph, go to Settings --> Graph --> Delete this graph, type its name and confirm.
+    - To delete your account, go to Settings --> Account --> Danger Zone --> Delete my account, type your email and confirm.
+  docs: https://roamresearch.com/#/app/help/page/fQyPj9yfg
+  notes:
+    - Deleting your account deletes every graph you're the only admin of, with its files. Graphs with other admins stay with them.
+    - Deleting a graph on its own leaves its uploaded files behind, so delete those in Settings --> Attachments first. An encrypted graph is the exception, and takes its files with it.
+    - You lose access straight away, and Roam says full deletion can take up to 30 days.
+    - Cancelling your subscription doesn't delete anything. Your graphs go read-only, and you can still export them.
+
+verification:
+  status: documented
+  checked_at: 2026-11-22
