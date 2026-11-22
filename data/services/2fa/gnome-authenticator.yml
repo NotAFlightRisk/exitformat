@@ -1,0 +1,137 @@
+name: GNOME Authenticator
+website: https://apps.gnome.org/Authenticator/
+description: Free, open source 2FA app for the Linux desktop and phones. It backs up to Aegis, andOTP or plain text files, and reads a handful of other apps' exports.
+deployment: local
+platforms: [linux]
+source: https://gitlab.gnome.org/World/Authenticator
+icon: https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/icons/128x128/com.belmoussaoui.Authenticator.png
+aliases: [authenticator, com.belmoussaoui.Authenticator]
+
+export:
+  - id: plain-text
+    name: Back up as plain text
+    method: file
+    formats: [otpauth-uri]
+    steps:
+      - Open the Main Menu --> Backup & Restore.
+      - Under Backup, select Authenticator and save the file.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam]
+      excluded: [icons, settings]
+    limitations:
+      - There's no option to encrypt it, so every secret is in plain text.
+    sources:
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/freeotp.rs
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/models/otp_uri.rs
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/widgets/backup/dialog.rs
+
+  - id: aegis
+    name: Back up to an Aegis file
+    method: file
+    formats: [aegis-vault]
+    steps:
+      - Open the Main Menu --> Backup & Restore.
+      - Under Backup, expand Aegis and type a password into Key / Passphrase.
+      - Select Select File and save it.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam]
+      excluded: [icons, settings]
+    limitations:
+      - The file's always encrypted with whatever's in Key / Passphrase, so fill it in - left empty, the password is blank.
+      - 2FAS and Bitwarden Authenticator only read unencrypted Aegis files, so they can't open it.
+    sources:
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/aegis.rs
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/widgets/backup/dialog.rs
+
+  - id: andotp
+    name: Back up to an andOTP file
+    method: file
+    formats: [andotp-backup]
+    steps:
+      - Open the Main Menu --> Backup & Restore.
+      - Under Backup, select andOTP and save the file.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam]
+      excluded: [icons, settings]
+    limitations:
+      - There's no option to encrypt it, so every secret is in plain text.
+    sources:
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/andotp.rs
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/widgets/backup/dialog.rs
+
+import:
+  - id: aegis
+    name: Restore an Aegis vault
+    method: file
+    formats: [aegis-vault]
+    steps:
+      - In Aegis, export an encrypted vault.
+      - In Authenticator, open the Main Menu --> Backup & Restore and expand Aegis under Restore.
+      - Type the vault's password into Key / Passphrase first, then select Select File and pick the vault.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam]
+      excluded: [motp-yandex, icons, groups, notes, favourites, sort-order]
+    limitations:
+      - Unencrypted vaults from Aegis 3 and later are turned away, since it only takes their older database versions. Encrypted ones get through.
+      - A single mOTP or Yandex entry in the vault stops the whole import.
+    sources:
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/aegis.rs
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/models/algorithm.rs
+      - https://gitlab.gnome.org/World/Authenticator/-/issues/432
+
+  - id: other-apps
+    name: Restore another app's file
+    method: file
+    formats: [andotp-backup, bitwarden-json, freeotp-plus-json, otpauth-uri]
+    steps:
+      - Open the Main Menu --> Backup & Restore.
+      - Under Restore, select the app the file came from - Authenticator for a plain text list of otpauth links.
+      - Pick the file.
+    data:
+      included: [secrets, issuers, token-settings, hotp, steam]
+      excluded: [motp-yandex, icons, groups, notes, favourites, sort-order]
+    limitations:
+      - Files have to be unencrypted.
+      - In a plain text list, lines it can't read (mOTP links, say) are skipped without a word. In an andOTP file, one mOTP entry stops the whole import.
+      - Codes that are already in the app are skipped.
+    sources:
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/andotp.rs
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/bitwarden.rs
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/freeotp_json.rs
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/freeotp.rs
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/mod.rs
+
+  - id: raivo-otp
+    name: Restore a Raivo OTP export
+    method: file
+    formats: [raivo-json]
+    steps:
+      - Open the Main Menu --> Backup & Restore and expand Raivo OTP under Restore.
+      - Type your Raivo master password into Key / Passphrase, then select Select File.
+      - Pick the raivo-otp-export.zip Raivo saved, without unzipping it.
+    data:
+      included: [secrets, issuers, token-settings, hotp]
+      excluded: [icons, favourites]
+    sources:
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/raivootp.rs
+
+  - id: google-authenticator
+    name: Scan Google Authenticator's export QR codes
+    method: qr
+    formats: [otpauth-migration]
+    steps:
+      - In Google Authenticator, tap Menu --> Transfer codes --> Export codes on Android, or Menu --> Transfer accounts --> Export accounts on iOS.
+      - In Authenticator, open the Main Menu --> Backup & Restore and select the scan button by Google Authenticator.
+      - Pick Camera, Screenshot or QR Code Image, and repeat for each QR code.
+    data:
+      included: [secrets, issuers, hotp]
+      excluded: [token-settings]
+    limitations:
+      - Codes that don't use SHA1 are skipped, and time-based ones always come in as 6 digits.
+    sources:
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/google.rs
+      - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/widgets/backup/dialog.rs
+
+verification:
+  status: documented
+  checked_at: 2026-11-22
