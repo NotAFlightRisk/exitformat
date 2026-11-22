@@ -13,7 +13,7 @@ import: []
 delete:
   steps:
     - In Steam Mobile, open the Steam Guard tab, tap the gear icon and select Remove Authenticator, then confirm.
-    - If there's more than one account in the app, pick each from the blue drop-down on that tab and do the same.
+    - If there's more than one account in the app, do the same for each one.
     - Tap your avatar at the top right and select Sign out, then uninstall the app.
   docs: https://help.steampowered.com/en/faqs/view/7EFD-3CAE-64D3-1C31
   notes:
