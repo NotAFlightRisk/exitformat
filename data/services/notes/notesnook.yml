@@ -248,7 +248,7 @@ import:
       - Each note's title is its file name, or the title in its front matter, and the first # or ## heading in it is removed.
       - Wikilinks stay as text, and embedded notes don't come in as part of the note.
       - Images and files have to be linked by their path from the note. One linked by name alone from another folder is left out.
-      - From the front matter it only reads title, tags, pinned, favorite, color and dates in created, created_at, updated or updated_at. Inline #tags stay as text.
+      - From the front matter it only reads title, tags, pinned, favorite, color and dates under created, created_at, date created, updated, updated_at or date updated. Inline #tags stay as text.
       - Callouts come in as plain quotes.
       - Attachments count towards your monthly storage, which is 50 MB on the free plan.
     docs: https://notesnook.com/help/importing-notes/import-notes-from-obsidian
@@ -271,7 +271,7 @@ import:
       excluded: [links, properties, databases, todos]
     limitations:
       - The title is the front matter's, or else the first # or ## heading, which is taken out of the note, or else the file name.
-      - From the front matter it only reads title, tags, pinned, favorite, color and dates in created, created_at, updated or updated_at, so to-do fields like Joplin's are dropped. Checklists in the text are kept.
+      - From the front matter it only reads title, tags, pinned, favorite, color and dates under created, created_at, date created, updated, updated_at or date updated, so to-do fields like Joplin's are dropped. Checklists in the text are kept.
       - Links to other notes don't become note links. A link to another .md file attaches a copy of it instead.
       - Folders in the zip become notebooks, apart from its top level folder.
     docs: https://notesnook.com/help/importing-notes/import-notes-from-markdown-files
@@ -305,7 +305,7 @@ import:
       - Drop in the .html files, or a zip of them with their images, and select Start importing.
     data:
       included: [text, formatting, attachments, structure]
-      excluded: [links, tags]
+      excluded: [links, tags, properties]
       unknown: [dates]
     limitations:
       - The title is the page's title, or else its first h1 or h2 heading, which is taken out of the note.
@@ -329,7 +329,7 @@ import:
       excluded: [structure, links]
     limitations:
       - Notes land outside any notebook.
-      - Tags only come from front matter, so inline #tags stay as text.
+      - Tags only come from front matter in Markdown bundles, so inline #tags stay as text.
     docs: https://notesnook.com/help/importing-notes/import-notes-from-textbundle-files
     sources:
       - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/textbundle/index.ts
