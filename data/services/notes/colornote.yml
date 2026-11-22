@@ -16,11 +16,9 @@ export:
       - Tap Backup Notes and enter your master password, or create one.
       - Tap the new backup file and send it to your email or a cloud app, so you can get at it from elsewhere.
     data:
-      included: [text, formatting, todos, properties, dates, settings]
-      unknown: [structure]
+      included: [text, formatting, structure, todos, properties, dates, settings]
     limitations:
       - The file's encrypted with your master password, and ColorNote has no way to recover a forgotten one.
-      - Locked notes stay encrypted inside it.
       - Backups end in .backup or .doc. The .doc ones aren't Word files, whatever the name says.
       - On Android 11 and later, file manager apps can't open the backup folder, so send the file from ColorNote itself.
     docs: https://www.colornote.com/faq-question/i-changed-devices-how-can-i-restore-the-notes-on-the-new-device-using-device-backup/
