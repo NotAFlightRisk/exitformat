@@ -1,0 +1,5 @@
+name: Anytype Any-Block JSON export
+extensions: [.zip]
+standard: false
+based_on: zip
+description: A zip of JSON files describing the objects in an Anytype space, written when you export it with the Any-Block format and JSON picked rather than Protobuf.
