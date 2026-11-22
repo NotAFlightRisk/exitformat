@@ -46,7 +46,7 @@ export:
     limitations:
       - Links stay as [[Page]], which only apps that read wiki links will follow, and block references become a copy of the text.
       - "Roam's own syntax stays as it is, like __italics__, ^^highlights^^, attr:: value lines, {{[[TODO]]}} and components like {{[[video]]}}, so other apps show it as plain text."
-      - Images and files are links back to Roam's storage, and every file is dated the day you export.
+      - Images and files are links back to Roam's storage, and every .md file is dated the day you export.
       - Flat Markdown, in the same list, drops the bullets and indentation as well.
       - To export one page, open it and choose Export from the ⋯ menu instead.
     docs: https://roamresearch.com/#/app/help/page/FK4fiJVom
@@ -62,7 +62,7 @@ import:
     steps:
       - Open the ⋯ menu at the top right and choose Import, or Import under Graph Data in Settings --> Data & Backups.
       - Select Choose Files and pick the .json file.
-      - Tick the pages you want, then select Import [number] Pages.
+      - Tick the pages you want, then select the button with the count on it, like Import 4 Pages.
     data:
       included: [text, formatting, structure, links, tags, properties, dates, todos, comments, embeds]
       unknown: [canvases]
@@ -82,7 +82,7 @@ import:
     steps:
       - Open the ⋯ menu at the top right and choose Import, or Import under Graph Data in Settings --> Data & Backups.
       - Select Choose Files or Choose Folder and pick your .md files.
-      - Tick the pages you want, rename any if you like, then select Import [number] Pages.
+      - Tick the pages you want and rename any if you like, then select the button with the count on it, like Import 4 Pages.
     limitations:
       - Each file becomes a page named after the file, with its folder in front (notes/Idea), and one named like January 23rd, 2025 becomes that day's daily note.
       - A page with the same title as one you already have goes on the bottom of that page.

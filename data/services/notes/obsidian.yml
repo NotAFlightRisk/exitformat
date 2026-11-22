@@ -259,9 +259,9 @@ import:
       - Created and edited dates aren't read, so every note is dated the day you import it.
       - Flatten outlines is on by default and turns the outline into paragraphs, headings and lists. Switch it off to keep the bullets.
       - It downloads images and files from Roam's storage into your vault, so import before you delete your Roam account. Any it can't fetch, or that live elsewhere, stay as links.
-      - "A one-line attr:: value block at the top level, with nothing under it, becomes a property, and a base lists them. The rest stay as text."
+      - "A one-line attr:: value block at the top level, with nothing under it, becomes a property, and a base shows the notes in a table by those properties. The rest stay as text."
       - Roam ids can have underscores, which Obsidian's block ids can't, so references to those blocks won't open.
-      - Tables become Markdown tables and simple queries become search blocks. Sliders, Pomodoro timers, word counts and encrypted blocks are dropped, diagrams lose their drawing, and other components stay as Roam's {{ }} text.
+      - Tables become Markdown tables and simple queries become search blocks. Sliders, Pomodoro timers, word counts, encrypted blocks and a few other components are dropped, diagrams lose their drawing, and ones it doesn't know stay as Roam's {{ }} text.
       - Comments come in as ordinary text at the bottom of each note.
       - Daily notes are renamed to your daily note format, but stay in the import folder.
     docs: https://help.obsidian.md/import/roam

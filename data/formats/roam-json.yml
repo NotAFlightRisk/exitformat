@@ -3,5 +3,5 @@ extensions: [.json]
 standard: false
 owner: roam-research
 based_on: json
-description: One JSON file with every page in a Roam graph and its blocks nested inside, each with its id, its created and edited times and the user id of whoever made it. Images and files are links to Roam's storage rather than copies.
+description: One JSON file with every page in a Roam graph and its blocks nested inside, each with its id, its created and edited times and the user ids of whoever made it and last edited it. Images and files are links to Roam's storage rather than copies.
 spec: https://roamresearch.com/#/app/help/page/Nxz8u0vXU
