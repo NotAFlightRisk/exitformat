@@ -1,6 +1,7 @@
 {
-  "commit": "43cc64ecdf4884958234df58b5ec4182bbc31ca1",
+  "commit": "d169f2048a575a2b220f47ca6fead224e6fc8fbf",
   "entries": [
+    {"date":"2026-11-22","commit":"d169f20","pr":37,"id":"trilium-notes","category":"notes","name":"Trilium Notes","kind":"added"},
     {"date":"2026-11-22","commit":"43cc64e","pr":36,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
     {"date":"2026-11-22","commit":"43cc64e","pr":36,"id":"roam-research","category":"notes","name":"Roam Research","kind":"added"},
     {"date":"2026-11-22","commit":"905ec71","pr":35,"id":"colornote","category":"notes","name":"ColorNote","kind":"added"},
