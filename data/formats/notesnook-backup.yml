@@ -3,4 +3,4 @@ extensions: [.nnbackupz, .nnbackup]
 standard: false
 owner: notesnook
 based_on: zip
-description: Notesnook's own backup, a zip of JSON holding every note, notebook, tag, reminder and old version of a note, plus your settings and, if you ask for them, your attachments. It's encrypted with your account by default, and only Notesnook reads it. Backups from older versions are a single .nnbackup file instead.
+description: Notesnook's own backup, a zip of compressed JSON holding your notes, notebooks, tags, colours, reminders, note history and settings, plus your images and files if you pick a backup with attachments. It's encrypted with your account by default, and only Notesnook can restore it. A .nnbackup file is the older, single-file form.
