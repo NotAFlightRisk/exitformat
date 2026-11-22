@@ -98,8 +98,8 @@ import:
       excluded: [dates, databases, canvases, plugins, settings]
     limitations:
       - A zip's folders become the note tree, and relative links and images between its files are connected up.
-      - Front matter turns into labels, one for each key and one per item in a list, so tags come in as tags labels. Nested values are dropped.
-      - It's built for ordinary Markdown links, so [[wiki links]] may not connect up. For an Obsidian vault, use the Obsidian import.
+      - Front matter turns into labels, one for each key and one per item in a list, so each tag becomes a tags label. Nested values are dropped.
+      - "[[Wiki links]] become links to a path of the same name, which is then looked for in the zip, so they may not connect up. For an Obsidian vault, use the Obsidian import."
       - Files imported on their own, rather than in a zip, don't get their links connected.
     docs: https://docs.triliumnotes.org/user-guide/concepts/import-export/markdown
     sources:
@@ -233,7 +233,7 @@ import:
       excluded: [tags]
     limitations:
       - Only pages and collections come in. Sets, tasks, notes and bookmark objects are skipped.
-      - Anytype's own Tag and Description properties are dropped, and so are links to objects between them. Only properties you made yourself come across.
+      - Anytype's own Tag and Description properties are dropped, and so are properties that link to other objects. Only properties you made yourself come across.
       - Everything lands under one Anytype import note, with collections as list, grid, board, calendar or table views from their first view.
     docs: https://docs.triliumnotes.org/user-guide/concepts/import-export/import-from-apps/anytype
     sources:
