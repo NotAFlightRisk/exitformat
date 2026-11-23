@@ -34,6 +34,7 @@ import {
   type ServiceView,
   type Term
 } from '#lib/data/types.ts';
+import { markFor } from '#lib/format-icons.ts';
 import {
   category,
   exporters,
@@ -67,8 +68,16 @@ export const categoryLink = ({ id, name, short }: Category): CategoryLink => ({
 });
 
 export function formatLink(id: string): FormatLink {
-  const { name, standard } = format(id)!;
-  return { id, name, standard, href: href.format(id) };
+  const { name, standard, owner, extensions } = format(id)!;
+  return {
+    id,
+    name,
+    standard,
+    href: href.format(id),
+    // only open formats wear a mark, so one app's JSON doesn't pass for an open format
+    mark: standard ? markFor(extensions) : null,
+    icon: owner ? icon(owner) : null
+  };
 }
 
 export const serviceLink = ({ id, name, category: home }: Service): ServiceLink => ({

@@ -3,6 +3,7 @@
   import Facts from '#lib/components/Facts.svelte';
   import FormatChip from '#lib/components/FormatChip.svelte';
   import FormatChips from '#lib/components/FormatChips.svelte';
+  import FormatMark from '#lib/components/FormatMark.svelte';
   import PageHead from '#lib/components/PageHead.svelte';
   import Section from '#lib/components/Section.svelte';
   import ServiceLink from '#lib/components/ServiceLink.svelte';
@@ -82,13 +83,17 @@
 {/snippet}
 
 {#snippet key()}
-  {#if open}<span class="open-key">Open format, so any app can read it</span>{/if}
+  {#if open}<span class="open-key">Green marks an open format, so any app can read it</span>{/if}
 {/snippet}
 
 <PageHead title={data.heading} lede={format.description}>
   {#snippet figure()}
     <div class="plate" aria-hidden="true">
-      <span class="kind" class:open={format.standard}>{kind}</span>
+      <!-- the mark is green already, so the kind only needs the square without one -->
+      <span class="kind" class:open={format.standard && !format.mark}>{kind}</span>
+      {#if format.icon || format.mark}
+        <span class="mark"><FormatMark {format} /></span>
+      {/if}
       <span class="face" class:extension={format.extensions.length} style:--length={face.length}>
         {face}
       </span>
@@ -155,9 +160,11 @@
 {/if}
 
 <style>
+  /* laid out like an element in the periodic table, with the mark in the top corner */
   .plate {
     display: grid;
-    grid-template-areas: 'kind' 'face' 'name';
+    grid-template-areas: 'kind mark' 'face face' 'name name';
+    grid-template-columns: minmax(0, 1fr) auto;
     grid-template-rows: auto 1fr auto;
     gap: var(--space-3);
     block-size: 100%;
@@ -165,13 +172,20 @@
     padding: var(--space-4);
 
     @media (width < 40rem) {
-      grid-template-areas: 'face name' 'face kind';
-      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-areas: 'face name mark' 'face kind mark';
+      grid-template-columns: auto minmax(0, 1fr) auto;
       grid-template-rows: auto auto;
       gap: var(--space-1) var(--space-4);
       min-block-size: 0;
       padding-block: var(--space-3);
     }
+  }
+
+  .mark {
+    display: flex;
+    grid-area: mark;
+    align-self: start;
+    font-size: var(--size-md);
   }
 
   .kind {

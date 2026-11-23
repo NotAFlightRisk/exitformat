@@ -101,7 +101,9 @@
 
   <div class="sections">
     <Section id="export" title="{service.name} export options">
-      {#snippet aside()}<span class="open-key">Open format, so any app can read it</span>{/snippet}
+      {#snippet aside()}
+        <span class="open-key">Green marks an open format, so any app can read it</span>
+      {/snippet}
       {#each service.export as option (option)}
         <OptionPanel {option} kind="export" />
       {:else}

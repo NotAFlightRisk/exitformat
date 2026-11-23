@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import { initWasm, Resvg } from '@resvg/resvg-wasm';
 import satori from 'satori';
 import { categoryIcon } from '#lib/category-icons.ts';
+import { formatMark, markFor, viewBox } from '#lib/format-icons.ts';
 import {
   meterFill,
   meterSteps,
@@ -167,7 +168,29 @@ const facts = (items: [label: string, value: Child][]) =>
 const openSquare = (size: number) =>
   div({ width: size, height: size, flexShrink: 0, background: colour.accent });
 
-const chip = ({ name, standard }: { name: string; standard: boolean }) =>
+// FormatMark.svelte as a picture: the app's icon, or an open format's green mark
+function markOf({ standard, owner, extensions }: Format) {
+  const app = owner && iconOf(owner);
+  if (app) return app;
+  const name = standard && markFor(extensions);
+  if (!name) return null;
+  const mark = formatMark(name);
+  const paint = mark.filled
+    ? `fill="${colour.accent}" fill-rule="evenodd"`
+    : `fill="none" stroke="${colour.accent}" stroke-width="1.75" stroke-linecap="square"`;
+  return dataUri(
+    'image/svg+xml',
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox(mark)}"><path d="${mark.d}" ${paint}/></svg>`
+  );
+}
+
+interface Chip {
+  name: string;
+  standard: boolean;
+  picture: string | null;
+}
+
+const chip = ({ name, standard, picture }: Chip) =>
   edged(
     colour.ink,
     hairline,
@@ -179,16 +202,18 @@ const chip = ({ name, standard }: { name: string; standard: boolean }) =>
       fontSize: 24,
       letterSpacing: '-0.04em'
     },
-    standard && openSquare(14),
+    picture ? img(picture, 30) : standard && openSquare(14),
     name
   );
 
 /** Chips for two lines of the title cell, leaving room on the second to count the rest */
 function chips(ids: string[]) {
   const [line, more] = [714, 150];
-  const formats = ids.map(formatLink);
-  // the frame, padding and gap, then about 14px a character of mono, plus any open square
-  const widths = formats.map(({ name, standard }) => 44 + name.length * 14.4 + (standard ? 24 : 0));
+  const formats = ids.map((id): Chip => ({ ...formatLink(id), picture: markOf(format(id)!) }));
+  // the frame, padding and gap, then about 14px a character of mono, plus any mark or square
+  const widths = formats.map(
+    ({ name, standard, picture }) => 44 + name.length * 14.4 + (picture ? 40 : standard ? 24 : 0)
+  );
   let [row, used, shown] = [0, 0, formats.length];
   for (const [index, width] of widths.entries()) {
     if (used + width > line) [row, used] = [row + 1, 0];
@@ -396,8 +421,9 @@ function formatImage(found: Format) {
     row(
       element(
         found.extensions[0] ?? symbol(found.name),
-        found.standard && openSquare(22),
-        null,
+        // the mark's green already, so the square's only for an open format without one
+        found.standard && !markFor(found.extensions) && openSquare(22),
+        markOf(found),
         ...(found.extensions.length > 1 ? [found.extensions.join(' ')] : [])
       ),
       cell(

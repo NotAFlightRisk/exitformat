@@ -1,3 +1,5 @@
+import type { MarkName } from '#lib/format-icons.ts';
+
 export const exportMethods = {
   file: 'File',
   folder: 'Folder',
@@ -212,6 +214,10 @@ export interface CategoryLink extends Link {
 
 export interface FormatLink extends Link {
   standard: boolean;
+  /** an open format's mark, in place of the plain green square */
+  mark: MarkName | null;
+  /** the icon of the app the format belongs to, when we list that app and have its icon */
+  icon: string | null;
 }
 
 export interface ServiceLink extends Link {

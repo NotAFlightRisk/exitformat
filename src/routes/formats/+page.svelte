@@ -60,7 +60,9 @@
 </PageHead>
 
 <Section id="open" title="Open formats">
-  {#snippet aside()}<span class="open-key">Open format, so any app can read it</span>{/snippet}
+  {#snippet aside()}
+    <span class="open-key">Green marks an open format, so any app can read it</span>
+  {/snippet}
   {@render rows(data.open)}
 </Section>
 

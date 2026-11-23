@@ -84,7 +84,7 @@
 
 <Section id="how" title="How to move from {source.name} to {destination.name}">
   {#snippet aside()}
-    {#if open}<span class="open-key">Open format, so any app can read it</span>{/if}
+    {#if open}<span class="open-key">Green marks an open format, so any app can read it</span>{/if}
   {/snippet}
   <Journey path={best} {source} {destination} />
 </Section>
