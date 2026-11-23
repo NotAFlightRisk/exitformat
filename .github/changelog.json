@@ -1,6 +1,10 @@
 {
-  "commit": "8b1e229def7bf6dd5e279d2f7ab87713574545e4",
+  "commit": "cea03adacdd99c57ef0c9ae68a737c11ccf014a9",
   "entries": [
+    {"date":"2026-11-23","commit":"cea03ad","pr":41,"id":"joplin","category":"notes","name":"Joplin","kind":"updated","sections":["import"]},
+    {"date":"2026-11-23","commit":"cea03ad","pr":41,"id":"onenote","category":"notes","name":"Microsoft OneNote","kind":"updated","sections":["export"]},
+    {"date":"2026-11-23","commit":"cea03ad","pr":41,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
+    {"date":"2026-11-23","commit":"cea03ad","pr":41,"id":"trilium-notes","category":"notes","name":"Trilium Notes","kind":"updated","sections":["import"]},
     {"date":"2026-11-23","commit":"8b1e229","pr":40,"id":"joplin","category":"notes","name":"Joplin","kind":"updated","sections":["import","verification"]},
     {"date":"2026-11-23","commit":"23182eb","pr":39,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
     {"date":"2026-11-23","commit":"23182eb","pr":39,"id":"samsung-notes","category":"notes","name":"Samsung Notes","kind":"added"},
