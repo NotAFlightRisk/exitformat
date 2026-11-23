@@ -1,16 +1,15 @@
 <script lang="ts">
-  import type { Term } from '#lib/data/types.ts';
+  import { meterFill, meterSteps, type MeterKind, type Term } from '#lib/data/types.ts';
 
-  let { kind, bare = false }: { kind: Term; bare?: boolean } = $props();
+  let { kind, bare = false }: { kind: Term<MeterKind>; bare?: boolean } = $props();
 
-  // how smooth the move is, out of three
-  const ease: Record<string, number> = { direct: 3, file: 2, convert: 1 };
+  const filled = $derived(meterFill[kind.id]);
 </script>
 
 <span class="path">
-  <span class="meter" aria-hidden="true">
-    {#each [1, 2, 3] as cell (cell)}
-      <span class:on={cell <= ease[kind.id]}></span>
+  <span class="meter" style:--tone="var(--path-{kind.id})" aria-hidden="true">
+    {#each { length: meterSteps }, step}
+      <span class:on={step < filled}></span>
     {/each}
   </span>
   <span class:visually-hidden={bare}>{kind.label}</span>
@@ -32,11 +31,11 @@
     span {
       inline-size: 0.5rem;
       block-size: 0.875rem;
-      border: 1.5px solid var(--accent);
+      border: 1.5px solid var(--tone);
     }
 
     .on {
-      background: var(--accent);
+      background: var(--tone);
     }
   }
 </style>

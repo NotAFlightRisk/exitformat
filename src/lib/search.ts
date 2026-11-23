@@ -1,4 +1,10 @@
-import { pathKinds, type Directory, type Migration, type Term } from '#lib/data/types.ts';
+import {
+  pathKinds,
+  type Directory,
+  type Migration,
+  type PathKind,
+  type Term
+} from '#lib/data/types.ts';
 import { href } from '#lib/site.ts';
 
 // a guided move out: the destination's place in the list and its best route's carry counts
@@ -30,7 +36,7 @@ export interface SearchResult {
   route?: {
     source: End;
     destination: End;
-    kind: Term;
+    kind: Term<PathKind>;
     carried: number;
     lost: number;
     unknown: number;

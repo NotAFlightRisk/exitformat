@@ -129,7 +129,7 @@
   <Section id="moves" title="Who can move to whom">
     {#snippet aside()}Read along a row to see where that app's data can go{/snippet}
     <Matrix services={data.matrix.services} rows={data.matrix.rows} />
-    <RouteKey marks={false} blank />
+    <RouteKey marks={false} matrix />
   </Section>
 {/if}
 

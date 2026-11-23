@@ -4,7 +4,7 @@
   import PathBadge from '#lib/components/PathBadge.svelte';
   import Section from '#lib/components/Section.svelte';
   import StateMark, { type State } from '#lib/components/StateMark.svelte';
-  import { pathKinds } from '#lib/data/types.ts';
+  import { pathKinds, terms } from '#lib/data/types.ts';
   import { site } from '#lib/site.ts';
   import { formatDate } from '#lib/text.ts';
 
@@ -135,10 +135,10 @@
     <div class="group">
       <h3>How easy a move is</h3>
       <dl class="key">
-        {#each Object.entries(pathKinds) as [id, label] (id)}
+        {#each terms(pathKinds) as kind (kind.id)}
           <div>
-            <dt><PathBadge kind={{ id, label }} /></dt>
-            <dd>{ease[id]}</dd>
+            <dt><PathBadge {kind} /></dt>
+            <dd>{ease[kind.id]}</dd>
           </div>
         {/each}
       </dl>

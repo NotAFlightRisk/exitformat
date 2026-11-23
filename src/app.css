@@ -17,6 +17,13 @@
   --on-accent: light-dark(#ffffff, #0b1610);
   --accent-tint: light-dark(#d9ebe0, #173022);
 
+  /* the move meter, one per kind in meterFill, from a built-in importer down to no way across */
+  --path-direct: light-dark(#237f52, #4cc38a);
+  --path-file: light-dark(#a17a00, #e3c04a);
+  --path-convert: light-dark(#d0620f, #ef8f45);
+  --path-none: light-dark(#c8372d, #f0675d);
+  --path-self: light-dark(#7d7f82, #737579);
+
   --font-text: 'Atkinson Hyperlegible Next Variable', system-ui, sans-serif;
   --font-data: 'Atkinson Hyperlegible Mono Variable', ui-monospace, monospace;
 

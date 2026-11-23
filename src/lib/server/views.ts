@@ -49,10 +49,10 @@ import { commitUrl, editUrl, historyUrl, href, pullUrl } from '#lib/site.ts';
 
 type Labeller = (id: string) => Term;
 
-export const term = <T extends Record<string, string>>(labels: T, id: keyof T & string): Term => ({
-  id,
-  label: labels[id]
-});
+export const term = <T extends Record<string, string>, Id extends keyof T & string>(
+  labels: T,
+  id: Id
+): Term<Id> => ({ id, label: labels[id] });
 
 export const andList = (items: string[]) =>
   new Intl.ListFormat('en-GB', { type: 'conjunction' }).format(items);

@@ -34,6 +34,19 @@ export const pathKinds = {
   convert: 'Convert it first'
 } as const;
 
+// what a matrix cell shows when there's no path to take its kind from
+export const matrixKinds = { none: 'No way that we know of', self: 'Same app' } as const;
+
+// how many of the meter's steps each kind fills, so the smoother the move the fuller it is
+export const meterSteps = 3;
+export const meterFill = {
+  direct: 3,
+  file: 2,
+  convert: 1,
+  none: 0,
+  self: 3
+} as const satisfies Record<MeterKind, number>;
+
 // on top of every category's own data list
 export const sharedData = { settings: 'App settings' } as const;
 
@@ -55,6 +68,8 @@ export type Deployment = keyof typeof deployments;
 export type Platform = keyof typeof platforms;
 export type Status = keyof typeof statuses;
 export type PathKind = keyof typeof pathKinds;
+export type MatrixKind = keyof typeof matrixKinds;
+export type MeterKind = PathKind | MatrixKind;
 export type ChangeKind = keyof typeof changeKinds;
 export type ChangeSection = keyof typeof changeSections;
 
@@ -176,10 +191,14 @@ export interface Changelog {
 
 // what the pages get, with every id swapped for a name and a link
 
-export interface Term {
-  id: string;
+export interface Term<Id extends string = string> {
+  id: Id;
   label: string;
 }
+
+/** Every entry in a list of labels, as terms in the same order */
+export const terms = <T extends Record<string, string>>(labels: T) =>
+  Object.entries(labels).map(([id, label]) => ({ id, label }) as Term<keyof T & string>);
 
 export interface Link {
   id: string;
@@ -256,7 +275,7 @@ export interface ConversionView {
 }
 
 export interface PathView {
-  kind: Term;
+  kind: Term<PathKind>;
   export?: OptionView;
   conversion?: ConversionView;
   import: OptionView;
@@ -270,14 +289,14 @@ export interface MigrationCard {
   href: string;
   source: ServiceLink;
   destination: ServiceLink;
-  kind: Term;
+  kind: Term<PathKind>;
   carried: number;
   lost: number;
   unknown: number;
 }
 
 export interface OpeningView {
-  kind: Term;
+  kind: Term<PathKind>;
   format: FormatLink;
   conversion?: { from: FormatLink; to: FormatLink; tool: string; href: string };
   services: ServiceLink[];

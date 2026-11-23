@@ -3,10 +3,13 @@ import { resolve } from 'node:path';
 import { initWasm, Resvg } from '@resvg/resvg-wasm';
 import satori from 'satori';
 import {
+  meterFill,
+  meterSteps,
   pathKinds,
   type Category,
   type Format,
   type Migration,
+  type PathKind,
   type Service
 } from '#lib/data/types.ts';
 import {
@@ -39,7 +42,12 @@ const colour = {
   ink: '#1c1d1f',
   muted: '#56585b',
   rule: '#d0d0c9',
-  accent: '#237f52'
+  accent: '#237f52',
+  path: {
+    direct: '#237f52',
+    file: '#a17a00',
+    convert: '#d0620f'
+  } satisfies Record<PathKind, string>
 };
 
 // the site's 1px hairline, doubled so it survives being shrunk into a feed
@@ -261,16 +269,14 @@ function serviceRow(list: Service[], named: boolean) {
   );
 }
 
-// how smooth a move is, out of three, as in PathBadge
-const ease: Record<string, number> = { direct: 3, file: 2, convert: 1 };
-
-const meter = (kind: string) =>
+// how smooth a move is, as PathBadge draws it
+const meter = (kind: PathKind) =>
   div(
     { gap: 4 },
-    ...[1, 2, 3].map((step) =>
-      step <= ease[kind]
-        ? div({ width: 14, height: 26, background: colour.accent })
-        : edged(colour.accent, 3, { width: 8, height: 20 })
+    ...Array.from({ length: meterSteps }, (_, step) =>
+      step < meterFill[kind]
+        ? div({ width: 14, height: 26, background: colour.path[kind] })
+        : edged(colour.path[kind], 3, { width: 8, height: 20 })
     )
   );
 
