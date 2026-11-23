@@ -17,7 +17,7 @@ export:
       - Select Export notebook. The pop-up shows how big it is, so check you've got the space, then select Export.
       - It downloads as a zip, with a folder named after the notebook inside.
     data:
-      included: [text, formatting, attachments, structure, links, tags, dates, todos]
+      included: [text, formatting, attachments, drawings, structure, links, tags, dates, todos]
       excluded: [sharing, settings]
       unknown: [history, embeds]
     limitations:
@@ -36,7 +36,7 @@ export:
       - Under Export Current pick Notebook, then pick OneNote Package (*.onepkg) as the format and select Export.
       - For a single section, pick Section and OneNote 2010-2016 Section instead.
     data:
-      included: [text, formatting, attachments, structure, links, tags, dates, todos]
+      included: [text, formatting, attachments, drawings, structure, links, tags, dates, todos]
       excluded: [sharing, settings]
       unknown: [history, embeds]
     limitations:
@@ -57,7 +57,7 @@ export:
       - Select Back Up All Notebooks Now, then OK once it's done.
       - The .one files are in the Backup Folder shown there, which starts out as %LOCALAPPDATA%\Microsoft\OneNote\16.0\Backup.
     data:
-      included: [text, formatting, attachments, structure, links, tags, dates, todos]
+      included: [text, formatting, attachments, drawings, structure, links, tags, dates, todos]
       excluded: [sharing, settings]
       unknown: [history, embeds]
     limitations:
@@ -78,7 +78,7 @@ export:
     data:
       included: [text, formatting]
       excluded: [history, sharing, settings]
-      unknown: [attachments]
+      unknown: [attachments, drawings]
     limitations:
       - It's a snapshot of how the pages look, so you can read it anywhere but it won't come back in as notes.
     docs: https://support.microsoft.com/en-us/onenote/onenote-help-and-learning/export-notes-from-onenote-as-a-pdf
@@ -96,7 +96,7 @@ export:
       - Pick Word Document (*.docx) as the format and select Export.
     data:
       included: [text]
-      unknown: [formatting, attachments]
+      unknown: [formatting, attachments, drawings]
     limitations:
       - It won't export a whole notebook to Word, only a page or a section at a time.
     docs: https://support.microsoft.com/en-us/onenote/onenote-help-and-learning/export-notes-from-onenote-as-a-pdf
