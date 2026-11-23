@@ -1,6 +1,8 @@
 <script lang="ts">
+  import CategorySymbol from '#lib/components/CategorySymbol.svelte';
   import Facts from '#lib/components/Facts.svelte';
   import FormatChip from '#lib/components/FormatChip.svelte';
+  import Icon from '#lib/components/Icon.svelte';
   import MenuText from '#lib/components/MenuText.svelte';
   import PageHead from '#lib/components/PageHead.svelte';
   import Section from '#lib/components/Section.svelte';
@@ -8,9 +10,6 @@
   import { count } from '#lib/text.ts';
 
   let { data } = $props();
-
-  const open = $derived(data.formats.filter(({ standard }) => standard));
-  const own = $derived(data.formats.filter(({ standard }) => !standard));
 </script>
 
 {#snippet rows(formats: FormatCard[])}
@@ -53,21 +52,37 @@
 <PageHead title={data.meta.title} lede={data.meta.description}>
   <Facts
     items={[
-      { label: 'Formats', value: data.formats.length },
-      { label: 'Open formats', value: open.length, href: '#open' },
-      { label: "One app's own", value: own.length, href: '#own' }
+      { label: 'Formats', value: data.open.length + data.own.total },
+      { label: 'Open formats', value: data.open.length, href: '#open' },
+      { label: "One app's own", value: data.own.total, href: '#own' }
     ]}
   />
 </PageHead>
 
 <Section id="open" title="Open formats">
   {#snippet aside()}<span class="open-key">Open format, so any app can read it</span>{/snippet}
-  {@render rows(open)}
+  {@render rows(data.open)}
 </Section>
 
+<!-- grouped by category and closed, as there's one or more for nearly every app, but still on the
+     page for search engines and find in page -->
 <Section id="own" title="Formats that belong to one app">
   {#snippet aside()}Other apps only read these if someone's written an importer for them{/snippet}
-  {@render rows(own)}
+  <div class="chart">
+    {#each data.own.groups as { category, formats } (category)}
+      <details id="own-{category?.id ?? 'other'}">
+        <summary>
+          <span class="chevron"><Icon name="chevron" /></span>
+          <span class="symbol" aria-hidden="true">
+            {#if category}<CategorySymbol id={category.id} name={category.name} />{/if}
+          </span>
+          <span class="name">{category?.name ?? 'Not used by any app we list'}</span>
+          <span class="count">{count(formats.length, 'format')}</span>
+        </summary>
+        <div class="body">{@render rows(formats)}</div>
+      </details>
+    {/each}
+  </div>
 </Section>
 
 <style>
@@ -81,6 +96,97 @@
       inline-size: 0.5rem;
       block-size: 0.5rem;
       background: var(--accent);
+    }
+  }
+
+  summary {
+    display: grid;
+    grid-template-columns: auto 1.5rem minmax(0, 1fr) auto;
+    gap: var(--space-3);
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    cursor: pointer;
+    list-style: none;
+    transition: background-color var(--quick) var(--ease);
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &:hover {
+      background: var(--surface-hover);
+    }
+
+    /* on a phone the count goes under the name, to leave the name the whole line */
+    @media (width < 40rem) {
+      grid-template-columns: auto 1.5rem minmax(0, 1fr);
+      row-gap: 0;
+
+      .count {
+        grid-column: 3;
+      }
+    }
+  }
+
+  .chevron {
+    display: inline-flex;
+    transition: rotate var(--quick) var(--ease);
+  }
+
+  .symbol {
+    display: inline-flex;
+    font-size: var(--size-base);
+    font-weight: 800;
+  }
+
+  .name {
+    font-size: var(--size-md);
+    font-weight: 700;
+  }
+
+  .count {
+    color: var(--text-muted);
+    font-size: var(--size-sm);
+  }
+
+  details[open] summary {
+    background: var(--surface-sunken);
+
+    .chevron {
+      rotate: 90deg;
+    }
+  }
+
+  /* the summary above and the panel's edge below already draw the list's top and bottom lines */
+  .body {
+    padding-inline: var(--space-4);
+
+    .rows {
+      border-block-start: 0;
+    }
+
+    li:last-child {
+      border-block-end: 0;
+    }
+  }
+
+  /* the formats slide down, where the browser can animate up to their full height, and just
+     appear where it can't */
+  @media (prefers-reduced-motion: no-preference) {
+    details {
+      interpolate-size: allow-keywords;
+
+      &::details-content {
+        block-size: 0;
+        overflow: clip;
+        transition:
+          block-size 250ms var(--ease),
+          content-visibility 250ms allow-discrete;
+      }
+
+      &[open]::details-content {
+        block-size: auto;
+      }
     }
   }
 
