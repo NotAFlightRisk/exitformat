@@ -116,7 +116,7 @@ import:
     method: folder
     formats: [markdown, markdown-frontmatter]
     from: [obsidian]
-    requirements: [Joplin 3.7.16 or later, Desktop or terminal app]
+    requirements: [Desktop app 3.7.16 or later, or terminal app 3.7.1 or later]
     steps:
       - Go to File --> Import --> OBSIDIAN - Obsidian Vault.
       - Choose the top folder of your vault.
@@ -131,7 +131,8 @@ import:
     sources:
       - https://github.com/laurent22/joplin/blob/v3.7.24/packages/lib/services/interop/InteropService_Importer_Obsidian.ts
       - https://github.com/laurent22/joplin/blob/v3.7.24/packages/lib/services/interop/InteropService.ts
-      - https://github.com/laurent22/joplin/blob/dev/readme/about/changelog/desktop.md
+      - https://github.com/laurent22/joplin/blob/58fbd837cac2f9ea8fb9a1edbcb7f0f5b0d3d6aa/readme/about/changelog/desktop.md
+      - https://github.com/laurent22/joplin/blob/58fbd837cac2f9ea8fb9a1edbcb7f0f5b0d3d6aa/readme/about/changelog/cli.md
 
   - id: markdown
     name: Import Markdown or text files
@@ -234,4 +235,4 @@ delete:
 
 verification:
   status: documented
-  checked_at: 2026-11-20
+  checked_at: 2026-11-23
