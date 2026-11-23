@@ -8,7 +8,7 @@
   }: { name: string; icon?: string | null; size?: 'sm' | 'md' } = $props();
 </script>
 
-<span class="tile {size}" aria-hidden="true">
+<span class="tile {size}" class:lettered={!icon} aria-hidden="true">
   {#if icon}
     <img src={icon} alt="" loading="lazy" decoding="async" />
   {:else}
@@ -25,8 +25,6 @@
     place-items: center;
     inline-size: var(--size);
     block-size: var(--size);
-    border: var(--hairline) solid var(--rule-strong);
-    background: var(--surface-raised);
     font-size: calc(var(--size) * 0.42);
     font-weight: 800;
     line-height: 1;
@@ -38,9 +36,15 @@
     }
 
     img {
-      inline-size: 75%;
-      block-size: 75%;
+      inline-size: 100%;
+      block-size: 100%;
       object-fit: contain;
     }
+  }
+
+  /* an icon has a shape of its own, so only the letters standing in for one get a box */
+  .lettered {
+    border: var(--hairline) solid var(--rule-strong);
+    background: var(--surface-raised);
   }
 </style>
