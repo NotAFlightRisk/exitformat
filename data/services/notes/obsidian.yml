@@ -290,13 +290,21 @@ import:
     formats: [samsung-notes-sdocx]
     steps:
       - In Samsung Notes, select your notes and save them as Samsung Notes files (.sdocx).
+      - To keep your folders, save each one's notes into a folder of the same name, then zip them all up.
       - Move the files to the device you use Obsidian on, then install Importer and pick Samsung Notes (.sdocx).
-      - Choose the files, or a zip of them, and select Import.
+      - Choose the files, or the zip, and select Import.
+    data:
+      included: [text, formatting, attachments, drawings, dates, todos]
     limitations:
-      - Handwriting comes in as an SVG image at the end of the note.
-      - Text boxes, images and PDFs placed on a page aren't imported yet.
+      - Handwriting and shapes come in as an SVG image for each page, at the end of the note, without the pen's varying width, and shapes turn black.
+      - Only images in the text come across. Text boxes, shapes with text in them, voice recordings and images placed on a page are left out.
+      - A note written on a PDF loses the PDF and keeps only your writing, so save those as PDFs instead.
+      - Checklist items all come in unticked, and text colours, fonts and sizes are lost.
       - Take the lock off any locked notes before you export them.
     docs: https://help.obsidian.md/import/samsung-notes
+    sources:
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/samsung-notes.ts
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/samsung-notes/convert.ts
 
   - id: textbundle
     name: Import Textbundle files

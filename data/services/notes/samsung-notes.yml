@@ -1,0 +1,93 @@
+name: Samsung Notes
+website: https://www.samsung.com/uk/apps/samsung-notes/
+description: Samsung's notes app for Galaxy phones, tablets and Galaxy Books, for typing and S Pen handwriting. Notes stay on the device unless you sync them.
+deployment: local
+platforms: [android, windows]
+icon: https://play-lh.googleusercontent.com/z_o9Zbkp-r2ZU6_Erc2zNnrJDaD0rSa2mxX90Ucg77VzdTaCJvPj_RWywsT1NcRwBNAZffOM66PYkuOhBqwRlg=s128
+
+export:
+  - id: samsung-notes-file
+    name: Save notes as Samsung Notes files
+    method: file
+    formats: [samsung-notes-sdocx]
+    steps:
+      - In All notes, touch and hold a note, then tap every other note you want to save.
+      - Tap More options (⋮) --> Save as file --> Samsung Notes file.
+      - Choose a folder and tap Save. Each note becomes its own .sdocx file.
+    data:
+      included: [text, formatting, attachments, drawings, dates, todos]
+      excluded: [structure, settings]
+      unknown: [tags, sharing]
+    limitations:
+      - The files don't say which folder each note was in, so save each folder's notes into a folder of their own if you want to keep them apart.
+      - Take the lock off any locked notes before you save them.
+      - Sync to Microsoft OneNote only puts a read-only copy in Outlook's OneNote feed, not in OneNote itself.
+    docs: https://www.samsung.com/us/support/answer/ANS10004548/
+    sources:
+      - https://github.com/obsidianmd/obsidian-help/blob/ced32050c0d9d1e1f8d3faa19a8ba8474d75a32d/en/Import%20notes/Import%20from%20Samsung%20Notes.md
+      - https://github.com/Downhillghost/Dietrich/blob/bb9c9202a8ab2bf96347e6cd0b16eaa354b80483/sdocx_specification/note_format_specification.md
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/samsung-notes/parse.ts
+      - https://www.samsung.com/us/support/answer/ANS10001384/
+      - https://www.samsung.com/us/support/answer/ANS10003444/
+
+  - id: pdf
+    name: Save a note as a PDF
+    method: file
+    formats: [pdf]
+    steps:
+      - Open the note and tap More options (⋮) --> Save as file --> PDF file.
+      - Choose a folder, tap Done, then Save.
+    data:
+      included: [text, drawings]
+      excluded: [structure, settings]
+      unknown: [formatting, attachments, tags, dates, todos]
+    limitations:
+      - Good for reading and printing, but it won't come back in as notes you can edit.
+    docs: https://www.samsung.com/us/support/answer/ANS10004548/
+    sources:
+      - https://www.samsung.com/us/support/answer/ANS10002404/
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/samsung-notes/drawing.ts
+
+  - id: word
+    name: Save a note as a Word document
+    method: file
+    formats: [docx]
+    steps:
+      - Open the note and tap More options (⋮) --> Save as file --> Microsoft Word file.
+      - Choose a folder and save.
+    data:
+      included: [text]
+      excluded: [structure, settings]
+      unknown: [formatting, attachments, drawings, tags, dates, todos]
+    docs: https://www.samsung.com/us/support/answer/ANS10001384/
+
+  - id: text
+    name: Save a note as a text file
+    method: file
+    formats: [txt]
+    steps:
+      - Open the note and tap More options (⋮) --> Save as file --> Text file.
+      - Choose a folder and save.
+    data:
+      included: [text]
+      excluded: [formatting, attachments, drawings, structure, settings]
+      unknown: [tags, dates, todos]
+    docs: https://www.samsung.com/us/support/answer/ANS10001384/
+
+import: []
+
+delete:
+  steps:
+    - On your phone, go to Settings, tap your account name, then Profile Information.
+    - Tap More options (⋮) --> Delete account.
+    - Or sign in at account.samsung.com, select Profile, then Manage Samsung Account, and delete it from there.
+  docs: https://www.samsung.com/uk/support/apps-services/how-can-i-delete-my-samsung-account/
+  notes:
+    - It deletes everything synced to the account, plus your purchase history and downloaded items, and can't be undone.
+    - For a copy of your account data first, go to Settings, tap your account name, then Samsung Cloud --> More options (⋮) --> Settings --> Download personal data.
+    - Sign out of your devices first. Deleting the account doesn't, and afterwards you can't sign in to reset or erase them.
+    - Samsung Cloud can delete synced data you haven't used for 12 months.
+
+verification:
+  status: documented
+  checked_at: 2026-11-23

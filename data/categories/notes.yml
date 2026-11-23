@@ -5,6 +5,7 @@ data:
   text: Note text
   formatting: Formatting
   attachments: Attachments and images
+  drawings: Handwriting and drawings
   structure: Page and folder structure
   links: Links between notes
   tags: Tags
