@@ -205,7 +205,7 @@ import:
       - Select Sign in with Microsoft and sign in. On the web version, open the sign-in page and enter the code it shows.
       - Tick the sections you want and select Import selected.
     data:
-      included: [text, formatting, attachments, structure, links, dates, todos]
+      included: [text, formatting, attachments, drawings, structure, links, dates, todos]
       excluded: [tags, history, sharing]
       unknown: [embeds]
     limitations:

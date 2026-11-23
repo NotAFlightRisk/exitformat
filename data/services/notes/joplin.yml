@@ -208,13 +208,13 @@ import:
       - Export a notebook from OneNote for the web, or a notebook or section from OneNote for Windows.
       - In Joplin, go to File --> Import --> ONE - OneNote Notebook and choose the zip, .onepkg or .one file.
     data:
-      included: [text, formatting, attachments, structure, links, dates]
+      included: [text, formatting, attachments, drawings, structure, links, dates]
       excluded: [tags, todos, history, embeds]
     limitations:
       - Pages come in as HTML notes, so they keep their layout rather than turning into Markdown.
       - Subpages land alongside their parent page, with the indents only kept in each section's index note.
       - OneNote's tags show up as icons in the note rather than Joplin tags, and To Do boxes are ticked or not but can't be clicked.
-      - Handwriting and drawings come in as SVG images.
+      - Handwriting and drawings come in as SVG images, placed where they were on the page.
     docs: https://joplinapp.org/help/apps/import_export
     sources:
       - https://github.com/laurent22/joplin/blob/v3.7.24/packages/lib/services/interop/InteropService.ts
