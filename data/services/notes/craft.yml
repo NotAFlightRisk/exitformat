@@ -1,0 +1,244 @@
+name: Craft
+website: https://www.craft.do/
+description: A docs and notes app for Apple devices, Windows, Android and the web, with your documents kept in Craft's cloud and synced to your devices.
+deployment: cloud
+platforms: [android, ios, macos, windows, web]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/f1/f4/18/f1f41890-45a7-4e45-dfc5-96e3eeeedd88/AppIcon-0-0-1x_U007epad-0-0-0-1-0-0-85-220.png/128x128bb.png
+aliases: [craft docs, craft.do]
+
+export:
+  - id: document
+    name: Export a document
+    method: file
+    formats: [pdf, docx, markdown, textbundle]
+    steps:
+      - Open the document and select the Share button at the top right.
+      - Select Export As and choose PDF, Microsoft Word, Markdown or TextBundle.
+      - For a PDF, set the options and select Export (Export to PDF on the web and Windows, the share icon on iPhone).
+    data:
+      included: [text, formatting]
+      unknown: [attachments, drawings, structure, links, tags, properties, dates, todos, comments, embeds]
+    limitations:
+      - Markdown only keeps basic formatting. Of the two Markdown options, TextBundle is the one that brings images and attachments along.
+      - The Windows app can't export to Word.
+      - PDFs carry a Craft watermark unless you turn off Show Watermark.
+    docs: https://support.craft.do/en/import-and-export/export/document
+
+  - id: folder
+    name: Export a folder
+    method: file
+    formats: [markdown, textbundle, pdf]
+    requirements: [Mac]
+    steps:
+      - Open the folder and select the three-dot menu at the top right, then Export as.
+      - Choose Markdown, Textbundle or PDF and save it.
+    data:
+      included: [text, formatting]
+      unknown: [attachments, drawings, structure, links, tags, properties, dates, todos, comments, embeds]
+    limitations:
+      - It takes every document and subpage in the folder. To export a few documents together instead, select them on a Mac or iPad and use Export As from the three-dot menu.
+    docs: https://support.craft.do/en/import-and-export/export/folder
+    sources:
+      - https://support.craft.do/en/import-and-export/export/document
+
+  - id: daily-notes
+    name: Export daily notes
+    method: file
+    formats: [markdown]
+    requirements: [Mac, iPhone or iPad]
+    steps:
+      - Open All Docs and select Export As --> Export Daily Notes from the three-dot menu, or Export Daily Notes in the Calendar view.
+      - Choose All, or Select Dates... and set the start and end dates, then select Export.
+    data:
+      included: [text, formatting]
+      unknown: [attachments, drawings, links, tags, todos, comments, embeds]
+    limitations:
+      - Days without a daily note are skipped.
+    docs: https://support.craft.do/en/import-and-export/export/document
+
+  - id: collection-markdown
+    name: Export a collection's items as Markdown
+    method: file
+    formats: [markdown-frontmatter]
+    requirements: [Mac, iPhone or iPad]
+    steps:
+      - Open the collection menu with the sliders button at the top of the collection.
+      - Select Export, then Export Items as Markdown, and choose where the files go.
+    data:
+      included: [text, attachments, drawings, properties]
+      unknown: [formatting, links, tags, databases, dates, todos, comments]
+    limitations:
+      - Each item's properties go in its front matter, but media properties are left out and empty ones are skipped.
+      - The collection itself comes out as a table in index.md, with a column for each property.
+    docs: https://support.craft.do/en/import-and-export/export/document
+
+  - id: collection-csv
+    name: Export a collection as CSV
+    method: file
+    formats: [csv]
+    steps:
+      - Open the collection menu with the sliders button at the top of the collection.
+      - Select Export, then Export as CSV. On the web and Windows, select Download as CSV.
+    data:
+      included: [properties, databases]
+      unknown: [text]
+    docs: https://support.craft.do/en/import-and-export/export/document
+
+import:
+  - id: notion
+    name: Import from Notion
+    method: connect
+    from: [notion]
+    steps:
+      - Select Import at the bottom of the sidebar, then Import from Notion.
+      - In Notion's developer portal, make a personal access token for everything, or a connection for chosen pages.
+      - Paste the token, choose the Space, turn on Include comments if you want them, then select Import.
+    data:
+      included: [text, databases, comments]
+      unknown: [formatting, attachments, structure, links, properties, dates, todos, embeds]
+    limitations:
+      - Linked databases are skipped. Only original databases and standalone pages come across.
+      - A connection only sees the pages you add to it, one at a time, and comments need its Read comments capability on before you start.
+      - A personal access token is for whichever workspace you're in when you make it, and Notion only shows it once.
+    docs: https://support.craft.do/en/import-and-export/import/notion
+
+  - id: google-docs
+    name: Import from Google Docs
+    method: connect
+    from: [google-docs]
+    steps:
+      - Select Import at the bottom of the sidebar, then Import from Google Docs.
+      - Select Select Documents from Google Docs, sign in and pick the documents from My Drive or Shared Drives.
+      - Choose the Space, then select Import.
+    data:
+      included: [text]
+      unknown: [formatting, attachments, links, comments, todos, embeds]
+    docs: https://support.craft.do/en/import-and-export/import/google-docs
+
+  - id: evernote
+    name: Import from Evernote
+    method: file
+    formats: [enex]
+    steps:
+      - In Evernote's desktop app, export your notebooks as ENEX, with Tags, Tasks and Note reminders ticked.
+      - In Craft on the web or a Mac, select Import at the bottom of the sidebar, then Import from Evernote, and add the .enex files.
+      - Choose the Space, turn on Include comments if you want them, then select Import.
+    data:
+      included: [text, tags, todos]
+      unknown: [formatting, attachments, links, properties, dates, comments]
+    limitations:
+      - It takes up to 50 .enex files an import, so split a bigger export into batches.
+      - Anything you untick in Evernote's export window stays behind, and the fix is exporting again with it ticked.
+    docs: https://support.craft.do/en/import-and-export/import/evernote
+
+  - id: obsidian
+    name: Import from Obsidian
+    method: folder
+    formats: [markdown, markdown-frontmatter]
+    from: [obsidian]
+    steps:
+      - Go to Craft's Obsidian import page and drop your whole vault folder onto the upload area.
+      - Choose the Space, select Import and keep the page open until the upload finishes.
+    data:
+      included: [text, attachments, structure, links]
+      unknown: [formatting, tags, properties, dates, databases, embeds, canvases]
+    limitations:
+      - A note embedded in another note comes in as a link to it.
+      - Attachments kept outside the vault folder are left behind.
+    docs: https://support.craft.do/en/import-and-export/import/obsidian
+
+  - id: bear
+    name: Import from Bear
+    method: file
+    formats: [textbundle]
+    from: [bear]
+    steps:
+      - In Bear on a Mac, select the notes or a tag, choose File --> Export Notes... and pick TextBundle. Unzip any .zip or .textpack.
+      - Go to Craft's Bear import page, select Select a folder and pick the folder with the bundles.
+      - Choose the Space, then select Import.
+    data:
+      included: [text, attachments, links]
+      unknown: [formatting, tags, dates, todos]
+    limitations:
+      - Links only connect to notes in the same import, so export notes that link to each other together.
+      - Each note's text can be up to 10 MB and each file up to 5 GB, and you can pick 5,000 files at a time.
+    docs: https://support.craft.do/en/import-and-export/import/bear
+
+  - id: apple-notes
+    name: Import from Apple Notes
+    method: folder
+    formats: [markdown]
+    from: [apple-notes]
+    steps:
+      - Export your notes from Apple Notes as Markdown.
+      - Go to Craft's Apple Notes import page and drop the whole export folder onto the drop zone.
+      - Choose the Space, then select Import.
+    data:
+      included: [text, attachments]
+      unknown: [formatting, links, tags, dates, todos]
+    limitations:
+      - Drop the folder, not the Markdown files inside it, or your images and attachments are left behind.
+    docs: https://support.craft.do/en/import-and-export/import/apple-notes
+
+  - id: word
+    name: Import Word documents
+    method: file
+    formats: [docx]
+    steps:
+      - Go to Craft's Word import page and drop your .docx files onto the upload area.
+      - Choose the Space, then select Import.
+    data:
+      included: [text, formatting, attachments]
+      unknown: [links, comments, todos, embeds, drawings]
+    limitations:
+      - Up to 100 files an import, and 50 MB a file.
+      - Some formatting gets simplified and anything Craft can't convert is left out, with a count on the confirmation.
+    docs: https://support.craft.do/en/import-and-export/import/word
+
+  - id: textbundle
+    name: Import TextBundles on the import page
+    method: file
+    formats: [textbundle]
+    steps:
+      - Unzip any .zip or .textpack export first, so each .textbundle folder is whole.
+      - Go to Craft's TextBundle import page, select Select a folder and pick the folder with your bundles.
+      - Choose the Space, then select Import.
+    data:
+      included: [text, attachments, structure]
+      unknown: [formatting, links, tags, dates, todos]
+    limitations:
+      - The folders around your bundles are made again in Craft.
+      - Each note's text can be up to 10 MB and each file up to 5 GB, and you can pick 5,000 files at a time.
+    docs: https://support.craft.do/en/import-and-export/import/textbundle
+
+  - id: files
+    name: Import Markdown or TextBundle files in the app
+    method: file
+    formats: [markdown, textbundle]
+    requirements: [Mac, iPhone, iPad or the web]
+    steps:
+      - Select Import at the bottom of the sidebar, or Import from the three-dot menu at the top right of the document list.
+      - Choose Markdown files or TextBundle files and select them.
+    data:
+      included: [text]
+      unknown: [formatting, attachments, structure, links, tags, properties, dates, todos, embeds]
+    limitations:
+      - TextBundles keep their images and attachments in place, but plain Markdown files may not bring theirs.
+      - The web app only imports Markdown files.
+    docs: https://support.craft.do/en/import-and-export/import
+    sources:
+      - https://support.craft.do/en/import-and-export/import/textbundle
+
+delete:
+  steps:
+    - Open Settings from the Space name or icon at the top left, or from your profile picture at the top right on Android.
+    - Select Account Settings, then Delete Account under Danger Zone, and confirm.
+  docs: https://support.craft.do/en/introduction/account-setup/delete-account
+  notes:
+    - It deletes your personal Space and every Space you own, for good and for everyone in them. Spaces other people own just lose you as a member.
+    - If you pay through the App Store or Setapp, cancel the subscription there as well.
+    - Craft keeps disaster recovery backups for a limited time, which you can't get at.
+
+verification:
+  status: documented
+  checked_at: 2026-11-23
