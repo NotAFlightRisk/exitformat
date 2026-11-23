@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { initWasm, Resvg } from '@resvg/resvg-wasm';
 import satori from 'satori';
+import { categoryIcon } from '#lib/category-icons.ts';
 import {
   meterFill,
   meterSteps,
@@ -83,8 +84,8 @@ const svg = (body: string) =>
     'image/svg+xml',
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">${body}</svg>`
   );
-const stroke = (path: string, ink: string) =>
-  `<path d="${path}" fill="none" stroke="${ink}" stroke-width="1.75" stroke-linecap="square"/>`;
+const stroke = (path: string, ink: string, width = 1.75) =>
+  `<path d="${path}" fill="none" stroke="${ink}" stroke-width="${width}" stroke-linecap="square"/>`;
 const box = (dash = '') =>
   `<rect x=".75" y=".75" width="14.5" height="14.5" fill="none" stroke="${colour.ink}" stroke-width="1.5" ${dash}/>`;
 
@@ -205,8 +206,8 @@ function chips(ids: string[]) {
   );
 }
 
-/** A big element tile: a number top left, the icon top right, the symbol, then a name */
-const element = (face: string, corner: Child, picture: string | null, ...foot: string[]) =>
+/** A big element tile: a number top left, the icon top right, a symbol or drawing, then a name */
+const element = (face: string | Node, corner: Child, picture: string | null, ...foot: string[]) =>
   cell(
     { width: 264, flexShrink: 0, flexDirection: 'column', padding: 24 },
     div(
@@ -219,7 +220,7 @@ const element = (face: string, corner: Child, picture: string | null, ...foot: s
         flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: face.length > 3 ? 88 : 132,
+        fontSize: typeof face === 'string' && face.length > 3 ? 88 : 132,
         fontWeight: 800,
         letterSpacing: '-0.04em',
         lineHeight: 1
@@ -370,9 +371,11 @@ function migrationImage({ source, destination, paths: [best] }: Migration) {
 function categoryImage(found: Category) {
   const members = servicesIn(found.id);
   const moves = members.reduce((total, { id }) => total + migrationsFrom(id).length, 0);
+  const drawn = categoryIcon(found.id);
+  const face = drawn ? img(svg(stroke(drawn, colour.ink, 1.5)), 160) : initials(found.name);
   return frame(
     row(
-      element(initials(found.name), String(members.length), null),
+      element(face, String(members.length), null),
       cell(
         { flexGrow: 1, flexDirection: 'column', justifyContent: 'center', gap: 16 },
         headline(found.name, fit(found.name, 720, 2, [68, 60, 52])),

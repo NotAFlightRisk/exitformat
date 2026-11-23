@@ -32,6 +32,8 @@ export interface SearchResult {
   href: string;
   detail: string;
   icon: string | null;
+  /** a category's id, which picks its icon */
+  category?: string;
   /** a guide's two ends, its best route and that route's carry counts */
   route?: {
     source: End;
@@ -281,6 +283,7 @@ export function search(index: SearchIndex, query: string): SearchResult[] {
         kind: 'category',
         name,
         href: href.category(id),
+        category: id,
         detail: plural(keys.sizes.get(id) ?? 0, 'service'),
         icon: null
       })

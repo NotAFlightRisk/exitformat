@@ -1,7 +1,8 @@
 <script lang="ts">
+  import CategorySymbol from '#lib/components/CategorySymbol.svelte';
   import ServiceLink from '#lib/components/ServiceLink.svelte';
   import type { CategoryCard } from '#lib/data/types.ts';
-  import { count, initials } from '#lib/text.ts';
+  import { count } from '#lib/text.ts';
 
   let { categories, level = 3 }: { categories: CategoryCard[]; level?: 2 | 3 } = $props();
 </script>
@@ -11,7 +12,7 @@
     <li>
       <span class="element" aria-hidden="true">
         <span class="number">{category.services}</span>
-        <span class="symbol">{initials(category.name)}</span>
+        <span class="symbol"><CategorySymbol id={category.id} name={category.name} /></span>
       </span>
       <div class="text">
         <svelte:element this={`h${level}`}>
