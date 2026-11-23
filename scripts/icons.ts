@@ -3,10 +3,10 @@ import { join, relative, resolve } from 'node:path';
 import { parseArgs } from 'node:util';
 import { initWasm, Resvg } from '@resvg/resvg-wasm';
 import { iconDir, services } from '#lib/server/directory.ts';
+import { iconSize as size } from '#lib/site.ts';
 
 // npm run icons fetches every missing icon, npm run icons -- notion refetches that one
 const { positionals: asked } = parseArgs({ allowPositionals: true });
-const size = 64;
 
 const favicon = (website: string) =>
   `https://www.google.com/s2/favicons?domain=${new URL(website).host}&sz=${size}`;

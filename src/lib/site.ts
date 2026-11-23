@@ -21,6 +21,9 @@ export const href = {
 export const ogSize = { width: 1200, height: 630 };
 export const defaultCard = '/og/default.png';
 
+// the square npm run icons saves every service icon at, big enough to fill an app page's figure
+export const iconSize = 128;
+
 // routes that draw their own share card, at /og/<path>.png, while the rest share one
 const carded = new Set([
   '/',
