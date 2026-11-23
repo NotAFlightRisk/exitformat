@@ -12,6 +12,7 @@
   --text-muted: light-dark(#56585b, #a4a6a8);
   --rule: light-dark(#d0d0c9, #303232);
   --rule-strong: light-dark(#1c1d1f, #d9d9d5);
+  --rule-soft: light-dark(#e7e7e2, #242526);
   --control-edge: light-dark(#7a7c7f, #84868a);
   --accent: light-dark(#237f52, #4cc38a);
   --on-accent: light-dark(#ffffff, #0b1610);
