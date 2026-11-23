@@ -198,7 +198,7 @@ export const categoryCard = (found: Category): CategoryCard => ({
   description: found.description,
   services: servicesIn(found.id).length,
   migrations: servicesIn(found.id).reduce((total, { id }) => total + migrationsFrom(id).length, 0),
-  examples: busiest(servicesIn(found.id)).slice(0, 4).map(serviceLink)
+  examples: busiest(servicesIn(found.id)).slice(0, 12).map(serviceLink)
 });
 
 export const formatCard = ({ id, extensions, description }: Format): FormatCard => ({

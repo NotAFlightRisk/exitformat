@@ -9,6 +9,7 @@
 
 <ul class="categories">
   {#each categories as category (category)}
+    {@const rest = category.services - category.examples.length}
     <li>
       <span class="element" aria-hidden="true">
         <span class="number">{category.services}</span>
@@ -16,14 +17,21 @@
       </span>
       <div class="text">
         <svelte:element this={`h${level}`}>
-          <a href={category.href}>{category.name}</a>
+          <a class="title" href={category.href}>{category.name}</a>
         </svelte:element>
         <p class="description">{category.description}</p>
         {#if category.examples.length}
           <ul class="examples" aria-label="Some of its services">
             {#each category.examples as service (service)}
-              <li><ServiceLink {service} /></li>
+              <li><ServiceLink {service} named={false} /></li>
             {/each}
+            {#if rest > 0}
+              <li>
+                <a class="more" href="{category.href}#services">
+                  +{rest}<span class="visually-hidden"> more</span>
+                </a>
+              </li>
+            {/if}
           </ul>
         {/if}
         <p class="counts">
@@ -100,7 +108,8 @@
     font-size: var(--size-lg);
   }
 
-  a {
+  /* the title's link stretches over the whole card */
+  .title {
     text-decoration: none;
 
     &::after {
@@ -119,7 +128,7 @@
     }
   }
 
-  li:hover a {
+  li:hover .title {
     text-decoration: underline var(--accent) 2px;
     text-underline-offset: 0.22em;
   }
@@ -128,9 +137,32 @@
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2) var(--space-4);
+    gap: var(--space-2);
     padding-block: var(--space-1);
     list-style: none;
+
+    /* flex, so each item is only as tall as its link, with no line of text around it */
+    li {
+      display: flex;
+    }
+  }
+
+  /* the rest, counted on one more tile the size of the icons */
+  .more {
+    display: grid;
+    place-items: center;
+    min-inline-size: 1.75rem;
+    block-size: 1.75rem;
+    padding-inline: var(--space-1);
+    border: var(--hairline) solid var(--rule-strong);
+    font-size: var(--size-xs);
+    font-weight: 800;
+    text-decoration: none;
+    transition: border-color var(--quick) var(--ease);
+
+    &:hover {
+      border-color: var(--accent);
+    }
   }
 
   .description {
