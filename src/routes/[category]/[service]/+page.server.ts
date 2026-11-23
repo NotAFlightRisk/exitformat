@@ -18,6 +18,7 @@ import {
   serviceView
 } from '#lib/server/views.ts';
 import { href } from '#lib/site.ts';
+import { count } from '#lib/text.ts';
 
 export const entries = () => services().map(({ id, category }) => ({ category, service: id }));
 
@@ -27,16 +28,15 @@ export const load = ({ params }) => {
   const home = category(found.category)!;
   const view = serviceView(found);
   const formats = andList(view.exports.map(({ name }) => name));
-  const as = formats ? ` as ${formats}` : '';
   const [out, into] = [openingsFrom(found), openingsTo(found)];
+  const takers = out.reach ? `, and the ${count(out.reach, 'app')} that can take your data` : '';
 
   return {
     meta: {
       title: `Export your data from ${found.name}`,
-      description: [
-        `How to get your data out of ${found.name}${as}:`,
-        "what's included, what's missing and where you can move it."
-      ].join(' ')
+      description: formats
+        ? `${found.name} exports ${formats}. Here's what each export leaves out${takers}.`
+        : `There's no official way to get your data out of ${found.name} that we know of.`
     },
     crumbs: crumbs(
       { name: 'Categories', href: '/categories' },

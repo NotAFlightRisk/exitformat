@@ -4,6 +4,7 @@ import { deployments, pathKinds, platforms, type Service } from '#lib/data/types
 import { categories, category, pathsBetween, servicesIn } from '#lib/server/directory.ts';
 import {
   andList,
+  busiest,
   categoryCard,
   categoryLink,
   crumbs,
@@ -13,6 +14,7 @@ import {
   term
 } from '#lib/server/views.ts';
 import { href } from '#lib/site.ts';
+import { count } from '#lib/text.ts';
 
 const matrixLimit = 20;
 
@@ -63,12 +65,17 @@ export const load = ({ params }) => {
   if (!found) error(404, 'No category by that name');
   const members = servicesIn(found.id);
   const cards = members.map(serviceCard);
-  const names = andList(members.map(({ name }) => name));
+  // the busiest few by name, as the whole list runs past what a search result shows
+  const named = busiest(members)
+    .slice(0, 3)
+    .map(({ name }) => name);
+  const rest = members.length - named.length;
+  const names = andList(rest ? [...named, count(rest, 'other')] : named);
 
   return {
     meta: {
       title: `${found.name}: get your data out and move it`,
-      description: `${found.description} How to export from ${names}, and where it can go.`
+      description: `${found.description} How to export from ${names}, and which of them can move to each other.`
     },
     crumbs: crumbs(
       { name: 'Categories', href: '/categories' },

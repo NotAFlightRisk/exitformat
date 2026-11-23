@@ -1,6 +1,13 @@
 import { error } from '@sveltejs/kit';
 import { exporters, format, formats, importers } from '#lib/server/directory.ts';
-import { conversionView, crumbs, formatCard, formatLink, serviceLink } from '#lib/server/views.ts';
+import {
+  andList,
+  conversionView,
+  crumbs,
+  formatCard,
+  formatLink,
+  serviceLink
+} from '#lib/server/views.ts';
 import { href } from '#lib/site.ts';
 
 export const entries = () => formats().map(({ id }) => ({ format: id }));
@@ -11,14 +18,17 @@ export const load = ({ params }) => {
   // "Joplin Export File (JEX)" already says what it ends in
   const named = !found.extensions.length || found.name.endsWith(')');
   const heading = named ? found.name : `${found.name} (${found.extensions.join(', ')})`;
+  const [made, read] = [exporters(found.id).length, importers(found.id).length];
+  const uses = andList(
+    [made ? `exported by ${made}` : '', read ? `imported by ${read}` : ''].filter((part) => part)
+  );
 
   return {
     meta: {
       title: `${heading}: what it is and what opens it`,
-      description: [
-        found.description,
-        `Which apps export ${found.name}, which import it, and how to convert it.`
-      ].join(' ')
+      description: uses
+        ? `${found.description} It's ${uses} of the apps we list.`
+        : found.description
     },
     crumbs: crumbs(
       { name: 'Formats', href: '/formats' },
