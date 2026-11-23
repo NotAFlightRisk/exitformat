@@ -15,7 +15,7 @@
   {#if latest}
     <Facts
       items={[
-        { label: 'Changes', value: String(data.total) },
+        { label: 'Changes', value: data.total, href: '#changes' },
         { label: 'Latest', value: formatDate(latest) }
       ]}
     />

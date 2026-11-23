@@ -8,7 +8,7 @@
   import ServiceLink from '#lib/components/ServiceLink.svelte';
   import Steps from '#lib/components/Steps.svelte';
   import type { ConversionView, ServiceLink as Service } from '#lib/data/types.ts';
-  import { count, source, symbol } from '#lib/text.ts';
+  import { source, symbol } from '#lib/text.ts';
 
   let { data } = $props();
 
@@ -23,8 +23,8 @@
     ...(format.spec
       ? [{ label: 'Spec', value: source(format.spec).place, href: format.spec }]
       : []),
-    { label: 'Exported by', value: count(format.exporters, 'app') },
-    { label: 'Imported by', value: count(format.importers, 'app') }
+    { label: 'Exported by', value: format.exporters, unit: 'app', href: '#exporters' },
+    { label: 'Imported by', value: format.importers, unit: 'app', href: '#importers' }
   ]);
 
   // the first section with format chips in it gets the key, if any of them are open

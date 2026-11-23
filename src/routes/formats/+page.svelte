@@ -53,9 +53,9 @@
 <PageHead title={data.meta.title} lede={data.meta.description}>
   <Facts
     items={[
-      { label: 'Formats', value: String(data.formats.length) },
-      { label: 'Open formats', value: String(open.length) },
-      { label: "One app's own", value: String(own.length) }
+      { label: 'Formats', value: data.formats.length },
+      { label: 'Open formats', value: open.length, href: '#open' },
+      { label: "One app's own", value: own.length, href: '#own' }
     ]}
   />
 </PageHead>

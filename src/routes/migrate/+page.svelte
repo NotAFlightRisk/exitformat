@@ -14,10 +14,9 @@
   let to = $state('');
 
   const all = $derived(data.groups.flatMap((group) => group.migrations));
-  const apps = (side: 'source' | 'destination') =>
-    String(new Set(all.map((move) => move[side].id)).size);
+  const apps = (side: 'source' | 'destination') => new Set(all.map((move) => move[side].id)).size;
   const facts = $derived([
-    { label: 'Move guides', value: String(all.length) },
+    { label: 'Move guides', value: all.length },
     { label: 'Apps you can leave', value: apps('source') },
     { label: 'Apps you can move to', value: apps('destination') }
   ]);

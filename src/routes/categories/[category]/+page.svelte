@@ -62,9 +62,9 @@
 <PageHead title={category.name} lede={category.description}>
   <Facts
     items={[
-      { label: 'Services', value: String(data.services.length) },
-      { label: 'Formats in use', value: String(data.formats.length) },
-      { label: 'Move guides', value: String(data.guides) }
+      { label: 'Services', value: data.services.length, href: '#services' },
+      { label: 'Formats in use', value: data.formats.length, href: '#formats' },
+      { label: 'Move guides', value: data.guides, href: data.matrix ? '#moves' : undefined }
     ]}
   />
 </PageHead>

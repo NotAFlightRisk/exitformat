@@ -14,7 +14,7 @@
   import Steps from '#lib/components/Steps.svelte';
   import { howTo } from '#lib/schema.ts';
   import { absolute, fixUrl } from '#lib/site.ts';
-  import { count, formatDate, source, symbol } from '#lib/text.ts';
+  import { formatDate, source, symbol } from '#lib/text.ts';
 
   let { data } = $props();
 
@@ -22,9 +22,9 @@
   const checked = $derived(service.verification);
 
   const facts = $derived([
-    { label: 'Ways out', value: String(service.export.length) },
-    { label: 'Formats you get', value: String(service.exports.length) },
-    { label: 'Can move to', value: count(data.reach.out, 'app') },
+    { label: 'Ways out', value: service.export.length, href: '#export' },
+    { label: 'Formats you get', value: service.exports.length, href: '#export' },
+    { label: 'Can move to', value: data.reach.out, unit: 'app', href: '#move' },
     {
       label: 'Checked',
       value: formatDate(checked.checked) + (checked.stale ? ', over a year ago' : '')
