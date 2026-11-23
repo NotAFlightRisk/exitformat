@@ -23,6 +23,11 @@
     { href: site.repo, label: 'GitHub' }
   ];
 
+  // GitHub's own mark, drawn here rather than with their button script, which would need its
+  // own exception in the CSP and tell GitHub about every visit
+  const githubMark =
+    'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z';
+
   const oops = $derived(page.status === 404 ? 'Page not found' : 'Something broke');
   const meta = $derived(
     page.data.meta ?? {
@@ -90,10 +95,16 @@
           {#each project as item (item.href)}<li><a href={item.href}>{item.label}</a></li>{/each}
         </ul>
       </nav>
-      <p class="licence">
-        The code and the data are <a href="{site.repo}/blob/main/LICENSE">MIT licensed</a>, so take
-        them wherever you like.
-      </p>
+      <div class="base">
+        <p>
+          The code and the data are <a href="{site.repo}/blob/main/LICENSE">MIT licensed</a>, so
+          take them wherever you like.
+        </p>
+        <a class="star" href={site.repo} rel="external">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d={githubMark} /></svg>
+          Star on GitHub
+        </a>
+      </div>
     </div>
   </div>
 </footer>
@@ -213,11 +224,41 @@
     list-style: none;
   }
 
-  .licence {
+  /* the licence on the left and the star on the right, and once they don't both fit, the star
+     drops under it */
+  .base {
+    display: flex;
+    flex-wrap: wrap;
     grid-column: 1 / -1;
+    gap: var(--space-3) var(--space-5);
+    align-items: center;
+    justify-content: space-between;
     padding-block: var(--space-3);
     color: var(--text-muted);
     font-size: var(--size-sm);
+  }
+
+  .star {
+    display: inline-flex;
+    gap: var(--space-2);
+    align-items: center;
+    padding: var(--space-1) var(--space-3);
+    border: var(--hairline) solid var(--control-edge);
+    color: var(--text);
+    font-weight: 650;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color var(--quick) var(--ease);
+
+    &:hover {
+      background: var(--surface-hover);
+    }
+
+    svg {
+      inline-size: 1.15em;
+      block-size: 1.15em;
+      fill: currentColor;
+    }
   }
 
   @media (width < 40rem) {
