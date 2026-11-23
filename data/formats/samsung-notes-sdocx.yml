@@ -1,4 +1,6 @@
 name: Samsung Notes file
 extensions: [.sdocx]
 standard: false
-description: Samsung Notes' own file format, one note per file, with any handwriting and drawings inside.
+owner: samsung-notes
+based_on: zip
+description: Samsung Notes' own file, one note to a file. It's a zip underneath, with the note's text, handwriting, images and any PDF it's written on, but not the folder it was in.
