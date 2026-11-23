@@ -1,6 +1,7 @@
 {
-  "commit": "23182eb674856f7bc8855a9f0d848132afeebf6a",
+  "commit": "8b1e229def7bf6dd5e279d2f7ab87713574545e4",
   "entries": [
+    {"date":"2026-11-23","commit":"8b1e229","pr":40,"id":"joplin","category":"notes","name":"Joplin","kind":"updated","sections":["import","verification"]},
     {"date":"2026-11-23","commit":"23182eb","pr":39,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
     {"date":"2026-11-23","commit":"23182eb","pr":39,"id":"samsung-notes","category":"notes","name":"Samsung Notes","kind":"added"},
     {"date":"2026-11-22","commit":"86eb0e5","pr":38,"id":"anytype","category":"notes","name":"Anytype","kind":"added"},
