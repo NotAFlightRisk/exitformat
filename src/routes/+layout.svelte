@@ -9,14 +9,12 @@
 
   let { children } = $props();
 
-  // the footer lists every way into the directory, and the header the ones it has room for
   const directory = [
-    { href: '/categories', label: 'Categories', header: true },
+    { href: '/categories', label: 'Categories' },
     { href: '/apps', label: 'Apps' },
-    { href: '/migrate', label: 'Migrate', header: true },
-    { href: '/formats', label: 'Formats', header: true }
+    { href: '/migrate', label: 'Migrate' },
+    { href: '/formats', label: 'Formats' }
   ];
-  const primary = directory.filter((item) => item.header);
 
   const project = [
     { href: '/about', label: 'About' },
@@ -56,7 +54,7 @@
     <a class="home" href="/"><Logo /></a>
     <nav class="primary" aria-label="Main">
       <ul>
-        {#each primary as item (item.href)}
+        {#each directory as item (item.href)}
           <li><a href={item.href} aria-current={current(item.href)}>{item.label}</a></li>
         {/each}
       </ul>
@@ -125,7 +123,7 @@
   .bar {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) minmax(16rem, 24rem);
-    min-block-size: 4rem;
+    grid-template-rows: minmax(4rem, auto);
   }
 
   .home {
@@ -209,7 +207,7 @@
     }
   }
 
-  nav ul {
+  .colophon nav ul {
     display: grid;
     gap: var(--space-2);
     list-style: none;
@@ -232,9 +230,25 @@
     }
   }
 
+  /* once the links need the room, the search drops to a row of its own */
+  @media (width < 66rem) {
+    .bar {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .find {
+      grid-column: 1 / -1;
+      padding: var(--space-2) var(--gutter);
+      border-block-start: var(--hairline) solid var(--rule);
+      margin-inline: calc(var(--gutter) * -1);
+    }
+  }
+
+  /* and then so do the links, each as wide as its name needs and sharing out the rest */
   @media (width < 52rem) {
     .bar {
       grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: none;
     }
 
     .home {
@@ -248,7 +262,7 @@
 
       ul {
         display: grid;
-        grid-auto-columns: minmax(0, 1fr);
+        grid-auto-columns: minmax(max-content, 1fr);
         grid-auto-flow: column;
       }
 
@@ -260,13 +274,6 @@
       li:last-child a {
         border-inline-end: 0;
       }
-    }
-
-    .find {
-      padding: var(--space-2) 0;
-      border-block-start: var(--hairline) solid var(--rule);
-      margin-inline: calc(var(--gutter) * -1);
-      padding-inline: var(--gutter);
     }
 
     .sheet {
