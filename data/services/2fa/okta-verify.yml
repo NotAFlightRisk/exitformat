@@ -1,0 +1,15 @@
+name: Okta Verify
+website: https://help.okta.com/eu/en-us/content/topics/end-user/ov-overview.htm
+description: Okta's work 2FA app, which can hold your own codes too. Export account only copies them to Okta Verify on another phone, so leaving means setting each up again.
+deployment: local
+platforms: [android, ios]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/f7/6a/7b/f76a7b43-04f6-7ee9-54a7-660542093a26/AppIcon-0-0-1x_U007emarketing-0-8-0-0-85-220.png/128x128bb.png
+aliases: [okta, okta authenticator]
+
+export: []
+
+import: []
+
+verification:
+  status: documented
+  checked_at: 2026-11-23
