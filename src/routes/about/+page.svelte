@@ -159,7 +159,9 @@
       <p>
         Exit Format is an open project by
         <a href="https://github.com/NotAFlightRisk" rel="external">@NotAFlightRisk</a> (from
-        <a href="https://peng.ly" rel="external">peng.ly</a>), and all of it lives on
+        <a href="https://peng.ly" rel="external">peng.ly</a>) and
+        <a href="https://github.com/lissy93" rel="external">@lissy93</a>
+        (<a href="https://aliciasykes.com" rel="external">aliciasykes.com</a>). All of it lives on
         <a href={site.repo} rel="external">GitHub</a>. Anyone can add a service or fix a mistake,
         and
         <a href="/contribute">here's how</a>.

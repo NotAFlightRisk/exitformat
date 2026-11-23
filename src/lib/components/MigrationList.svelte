@@ -33,7 +33,9 @@
         <span class="carry">
           <span><StateMark state="included" /> {move.carried} carry over</span>
           <span><StateMark state="excluded" /> {move.lost} lost</span>
-          <span><StateMark state="unknown" /> {move.unknown} not sure</span>
+          {#if move.unknown}
+            <span><StateMark state="unknown" /> {move.unknown} not sure</span>
+          {/if}
         </span>
       </li>
     {/each}
