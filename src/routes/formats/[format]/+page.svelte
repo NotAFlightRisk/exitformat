@@ -17,9 +17,11 @@
   const kind = $derived(format.standard ? 'Open format' : "One app's own");
 
   const facts = $derived([
-    { label: 'Type', value: kind },
+    { label: 'Type', value: kind, href: format.standard ? '/formats#open' : '/formats#own' },
     { label: 'Extensions', value: format.extensions.join(', ') || 'None' },
-    ...(format.basedOn ? [{ label: 'Built on', value: format.basedOn.name }] : []),
+    ...(format.basedOn
+      ? [{ label: 'Built on', value: format.basedOn.name, href: format.basedOn.href }]
+      : []),
     ...(format.spec
       ? [{ label: 'Spec', value: source(format.spec).place, href: format.spec }]
       : []),
@@ -92,7 +94,13 @@
       </span>
       <span class="name">
         {format.name}
-        {#if format.basedOn}<span>{format.basedOn.name} underneath</span>{/if}
+        {#if format.basedOn}
+          <!-- out of the tab order, as Built on has the same link for keyboards -->
+          <span>
+            <a href={format.basedOn.href} tabindex="-1">{format.basedOn.name}</a>
+            underneath
+          </span>
+        {/if}
       </span>
     </div>
   {/snippet}

@@ -27,7 +27,8 @@
     { label: 'Can move to', value: data.reach.out, unit: 'app', href: '#move' },
     {
       label: 'Checked',
-      value: formatDate(checked.checked) + (checked.stale ? ', over a year ago' : '')
+      value: formatDate(checked.checked) + (checked.stale ? ', over a year ago' : ''),
+      href: '#entry'
     },
     { label: 'Runs', value: service.deployment.label },
     { label: 'Works on', value: service.platforms.map(({ label }) => label).join(', ') },
@@ -72,7 +73,10 @@
       <span class="symbol">{symbol(service.name)}</span>
       <span class="label">
         {service.name}
-        <span>{service.category.short ?? service.category.name}</span>
+        <!-- out of the tab order, as the breadcrumb has the same link for keyboards -->
+        <a href={service.category.href} tabindex="-1">
+          {service.category.short ?? service.category.name}
+        </a>
       </span>
     </div>
   {/snippet}
@@ -229,7 +233,8 @@
     font-weight: 750;
     line-height: 1.25;
 
-    span {
+    a {
+      justify-self: start;
       color: var(--text-muted);
       font-size: var(--size-sm);
       font-weight: 400;
