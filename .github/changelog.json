@@ -1,6 +1,8 @@
 {
-  "commit": "86eb0e5717b778aa90159fe968da407005996a57",
+  "commit": "23182eb674856f7bc8855a9f0d848132afeebf6a",
   "entries": [
+    {"date":"2026-11-23","commit":"23182eb","pr":39,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
+    {"date":"2026-11-23","commit":"23182eb","pr":39,"id":"samsung-notes","category":"notes","name":"Samsung Notes","kind":"added"},
     {"date":"2026-11-22","commit":"86eb0e5","pr":38,"id":"anytype","category":"notes","name":"Anytype","kind":"added"},
     {"date":"2026-11-22","commit":"86eb0e5","pr":38,"id":"trilium-notes","category":"notes","name":"Trilium Notes","kind":"updated","sections":["import"]},
     {"date":"2026-11-22","commit":"d169f20","pr":37,"id":"trilium-notes","category":"notes","name":"Trilium Notes","kind":"added"},
