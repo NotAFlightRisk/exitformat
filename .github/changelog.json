@@ -1,6 +1,7 @@
 {
-  "commit": "cea03adacdd99c57ef0c9ae68a737c11ccf014a9",
+  "commit": "53bff64373d4abcbb01a96c38dc72cea83688a23",
   "entries": [
+    {"date":"2026-11-23","commit":"53bff64","pr":42,"id":"okta-verify","category":"2fa","name":"Okta Verify","kind":"added"},
     {"date":"2026-11-23","commit":"cea03ad","pr":41,"id":"joplin","category":"notes","name":"Joplin","kind":"updated","sections":["import"]},
     {"date":"2026-11-23","commit":"cea03ad","pr":41,"id":"onenote","category":"notes","name":"Microsoft OneNote","kind":"updated","sections":["export"]},
     {"date":"2026-11-23","commit":"cea03ad","pr":41,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
