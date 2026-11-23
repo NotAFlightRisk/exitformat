@@ -13,7 +13,7 @@
   type Row = { state: State; label: string; means: string };
 
   const facts = $derived([
-    { label: 'Services', value: data.counts.services, href: '/categories' },
+    { label: 'Services', value: data.counts.services, href: '/apps' },
     { label: 'File formats', value: data.counts.formats, href: '/formats' },
     { label: 'Move guides', value: data.counts.migrations, href: '/migrate' },
     { label: 'Last checked', value: formatDate(data.checked) },

@@ -72,6 +72,11 @@ export const GET = () => {
       'the shape of a service file, as JSON Schema'
     ),
     link(
+      'Apps',
+      '/apps',
+      'every app from A to Z, with how many formats it exports and how many apps it can move to'
+    ),
+    link(
       'File formats',
       '/formats',
       'every format, open standard or one app only, and what opens it'

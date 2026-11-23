@@ -46,8 +46,8 @@
     <SearchBox size="large" />
     {#if missing}
       <p>
-        Or head for the <a href="/categories">categories</a>, the <a href="/formats">formats</a> or
-        <a href="/migrate">every move guide</a>.
+        Or head for the <a href="/apps">apps</a>, the <a href="/categories">categories</a>, the
+        <a href="/formats">formats</a> or <a href="/migrate">every move guide</a>.
       </p>
     {:else}
       <p><a href={bug} rel="external">Tell us on GitHub</a>, and say what you were doing.</p>

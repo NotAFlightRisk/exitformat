@@ -25,6 +25,7 @@ export const GET = () => {
   const dated: Record<string, string | undefined> = {
     '/': newest,
     '/categories': newest,
+    '/apps': newest,
     '/formats': newest,
     '/migrate': newest,
     '/changelog': changelog()[0]?.date

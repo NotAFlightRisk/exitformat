@@ -9,11 +9,14 @@
 
   let { children } = $props();
 
+  // the footer lists every way into the directory, and the header the ones it has room for
   const directory = [
-    { href: '/categories', label: 'Categories' },
-    { href: '/migrate', label: 'Migrate' },
-    { href: '/formats', label: 'Formats' }
+    { href: '/categories', label: 'Categories', header: true },
+    { href: '/apps', label: 'Apps' },
+    { href: '/migrate', label: 'Migrate', header: true },
+    { href: '/formats', label: 'Formats', header: true }
   ];
+  const primary = directory.filter((item) => item.header);
 
   const project = [
     { href: '/about', label: 'About' },
@@ -53,7 +56,7 @@
     <a class="home" href="/"><Logo /></a>
     <nav class="primary" aria-label="Main">
       <ul>
-        {#each directory as item (item.href)}
+        {#each primary as item (item.href)}
           <li><a href={item.href} aria-current={current(item.href)}>{item.label}</a></li>
         {/each}
       </ul>
