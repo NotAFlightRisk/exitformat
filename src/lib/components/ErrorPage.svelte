@@ -25,10 +25,6 @@
   });
 </script>
 
-<svelte:head>
-  <meta name="robots" content="noindex" />
-</svelte:head>
-
 <PageHead
   title={missing ? 'Page not found' : 'Something broke'}
   lede={missing

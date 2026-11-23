@@ -8,7 +8,7 @@ import {
   servicesIn
 } from '#lib/server/directory.ts';
 import { andList, serviceCard } from '#lib/server/views.ts';
-import { absolute, site } from '#lib/site.ts';
+import { absolute, href, site } from '#lib/site.ts';
 import type { Service } from '#lib/data/types.ts';
 
 export const prerender = true;
@@ -17,15 +17,21 @@ const link = (title: string, path: string, note: string) =>
   `- [${title}](${absolute(path)}): ${note}`;
 
 function summary(service: Service) {
-  const { href, exports } = serviceCard(service);
+  const { href: page, exports } = serviceCard(service);
   const formats = andList(exports.map(({ name }) => name));
-  const places = andList(migrationsFrom(service.id).map(({ destination }) => destination.name));
+  // each guide linked, so a question about one move can go straight to it
+  const places = andList(
+    migrationsFrom(service.id).map(
+      ({ destination }) =>
+        `[${destination.name}](${absolute(href.migration(service.id, destination.id))})`
+    )
+  );
   const note = [
     service.description,
     formats ? `Exports ${formats}.` : 'No way to export.',
     places && `Step-by-step guides to ${places}.`
   ];
-  return link(service.name, href, note.filter(Boolean).join(' '));
+  return link(service.name, page, note.filter(Boolean).join(' '));
 }
 
 // A plain summary for AI assistants and answer engines, following https://llmstxt.org
@@ -46,9 +52,29 @@ export const GET = () => {
     ...categories().flatMap(({ id, name }) => [
       `## ${name}`,
       '',
+      link(
+        `${name} compared`,
+        href.category(id),
+        "which of these apps can read each other's exports, and in what format"
+      ),
       ...servicesIn(id).map(summary),
       ''
     ]),
+    '## Browse',
+    '',
+    link('Categories', '/categories', 'every category, with how many apps and move guides it has'),
+    link(
+      'Apps',
+      '/apps',
+      'every app from A to Z, with how many formats it exports and how many apps it can move to'
+    ),
+    link(
+      'File formats',
+      '/formats',
+      'every format, open standard or one app only, and what opens it'
+    ),
+    link('Move guides', '/migrate', 'every move with a step-by-step guide'),
+    '',
     '## Data',
     '',
     link(
@@ -71,17 +97,6 @@ export const GET = () => {
       '/schema/service.json',
       'the shape of a service file, as JSON Schema'
     ),
-    link(
-      'Apps',
-      '/apps',
-      'every app from A to Z, with how many formats it exports and how many apps it can move to'
-    ),
-    link(
-      'File formats',
-      '/formats',
-      'every format, open standard or one app only, and what opens it'
-    ),
-    link('Move guides', '/migrate', 'every move with a step-by-step guide'),
     '',
     '## Optional',
     '',

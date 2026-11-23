@@ -1,7 +1,13 @@
 import { error } from '@sveltejs/kit';
 import { guided } from '#lib/data/compat.ts';
 import { deployments, pathKinds, platforms, type Service } from '#lib/data/types.ts';
-import { categories, category, pathsBetween, servicesIn } from '#lib/server/directory.ts';
+import {
+  categories,
+  category,
+  lastChecked,
+  pathsBetween,
+  servicesIn
+} from '#lib/server/directory.ts';
 import {
   andList,
   busiest,
@@ -75,7 +81,8 @@ export const load = ({ params }) => {
   return {
     meta: {
       title: `${found.name}: get your data out and move it`,
-      description: `${found.description} How to export from ${names}, and which of them can move to each other.`
+      description: `${found.description} How to export from ${names}, and which of them can move to each other.`,
+      modified: lastChecked(members)
     },
     crumbs: crumbs(
       { name: 'Categories', href: '/categories' },

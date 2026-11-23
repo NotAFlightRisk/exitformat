@@ -30,10 +30,9 @@
       description: site.description
     }
   );
+  const failed = $derived((page.data.status ?? page.status) >= 400);
   // home, search and the error pages bring their own big search box
-  const ownSearch = $derived(
-    ['/', '/search'].includes(page.url.pathname) || (page.data.status ?? page.status) >= 400
-  );
+  const ownSearch = $derived(['/', '/search'].includes(page.url.pathname) || failed);
   // a service page's crumbs run through Categories, so that's the tab it lights up
   const section = $derived(page.data.crumbs?.[1]?.href);
   const current = (href: string) =>
@@ -42,6 +41,7 @@
 
 <Seo
   {...meta}
+  noindex={meta.noindex || failed}
   path={page.url.pathname}
   crumbs={page.data.crumbs}
   card={ogCard(page.error ? null : page.route.id, page.url.pathname)}

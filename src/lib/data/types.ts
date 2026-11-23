@@ -329,6 +329,10 @@ export interface ChangeView {
 export interface Meta {
   title: string;
   description: string;
+  /** when what the page says last changed, as yyyy-mm-dd */
+  modified?: string;
+  /** kept out of search results */
+  noindex?: boolean;
 }
 
 export interface Crumb {

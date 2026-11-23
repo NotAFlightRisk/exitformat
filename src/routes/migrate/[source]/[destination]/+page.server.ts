@@ -2,6 +2,7 @@ import { error } from '@sveltejs/kit';
 import { better } from '#lib/data/compat.ts';
 import type { Migration, PathView, Service } from '#lib/data/types.ts';
 import {
+  lastChecked,
   migration,
   migrations,
   migrationsFrom,
@@ -73,7 +74,8 @@ export const load = ({ params }) => {
       title: `Move from ${source.name} to ${destination.name}`,
       description: best.carried.length
         ? `${lede} The move carries over ${count(best.carried.length, 'kind')} of data and ${loses}.`
-        : lede
+        : lede,
+      modified: lastChecked([source, destination])
     },
     crumbs: crumbs(
       { name: 'Migrate', href: '/migrate' },

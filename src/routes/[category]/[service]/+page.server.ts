@@ -29,14 +29,17 @@ export const load = ({ params }) => {
   const view = serviceView(found);
   const formats = andList(view.exports.map(({ name }) => name));
   const [out, into] = [openingsFrom(found), openingsTo(found)];
-  const takers = out.reach ? `, and the ${count(out.reach, 'app')} that can take your data` : '';
+  const takers = out.reach
+    ? `, and the ${out.reach === 1 ? 'one app' : count(out.reach, 'app')} that can take your data`
+    : '';
 
   return {
     meta: {
       title: `Export your data from ${found.name}`,
       description: formats
         ? `${found.name} exports ${formats}. Here's what each export leaves out${takers}.`
-        : `There's no official way to get your data out of ${found.name} that we know of.`
+        : `There's no official way to get your data out of ${found.name} that we know of.`,
+      modified: found.verification.checked_at
     },
     crumbs: crumbs(
       { name: 'Categories', href: '/categories' },

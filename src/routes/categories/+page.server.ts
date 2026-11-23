@@ -5,7 +5,7 @@ export const load = () => ({
   meta: {
     title: 'Every category',
     description:
-      "Notes go to another notes app, 2FA codes to another authenticator. Each category shows which of its apps can read the others' exports, and in what format."
+      "Apps that do the same job can often read each other's exports. Each category shows which of its apps can, and in what format."
   },
   crumbs: crumbs({ name: 'Categories', href: '/categories' }),
   categories: categories().map(categoryCard)
