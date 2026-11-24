@@ -14,14 +14,14 @@ export:
     steps:
       - Open the doc and select the three-dot menu at the top right.
       - Go to Export --> Export to Markdown.
-      - You get a .md file, or a zip with the Markdown and an assets folder if the doc has images.
+      - You get a .md file, or a zip with the Markdown and its images if the doc has any.
     data:
       included: [text, formatting, databases, todos]
       excluded: [attachments, links, tags, properties, dates, history, sharing]
       unknown: [embeds, canvases, comments]
     limitations:
       - It's one doc at a time. There's no Markdown or HTML export for a whole workspace.
-      - Images come out in the assets folder, but other files attached to the doc are left out.
+      - Images come along in the zip, but other files attached to the doc are left out.
       - Links to other docs point back into AFFiNE, not at other files you've exported.
       - Databases come out as plain tables, with no views.
       - Export to Snapshot and the desktop app's Full Backup only open in AFFiNE again.
@@ -41,14 +41,14 @@ export:
     steps:
       - Open the doc and select the three-dot menu at the top right.
       - Go to Export --> Export to HTML.
-      - You get an .html file, or a zip with an index.html and an assets folder if the doc has images.
+      - You get an .html file, or a zip with an index.html and its images if the doc has any.
     data:
       included: [text, formatting, databases, todos]
       excluded: [attachments, links, tags, properties, dates, history, sharing]
       unknown: [embeds, canvases, comments]
     limitations:
       - It's one doc at a time.
-      - Images come out in the assets folder, but other files attached to the doc are left out.
+      - Images come along in the zip, but other files attached to the doc are left out.
       - Links to other docs point back into AFFiNE, not at other files you've exported.
     sources:
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/components/page-list/operation-menu-items/export.tsx
@@ -224,7 +224,7 @@ import:
       unknown: [dates, embeds]
     limitations:
       - Wikilinks become links between docs.
-      - Tags don't come across, from front matter or anywhere else. Inline #tags stay as plain text.
+      - "Tags don't come across, from front matter or anywhere else. Inline #tags stay as plain text."
       - From front matter it only reads the title, created and updated dates, favourite and trash.
       - Canvases don't come across, and the .obsidian folder with your plugins and settings is skipped.
       - In the desktop app, an embedded note turns into a link to it.
@@ -282,7 +282,7 @@ import:
 delete:
   steps:
     - To delete a workspace, open its settings, select Delete workspace and type its name to confirm.
-    - To delete your account, open your account settings and select Delete your account, then type your email.
+    - To delete your account, open your account settings, select Delete your account from AFFiNE Cloud and type your email.
   notes:
     - Deleting a synced workspace deletes it on this device and on the server.
     - Deleting your account wipes your personal space on the server, but not what's on your devices. Uninstall the app or clear your browser data for that.
