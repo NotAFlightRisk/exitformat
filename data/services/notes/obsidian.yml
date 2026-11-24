@@ -299,7 +299,7 @@ import:
     limitations:
       - File-based graphs only. Logseq's database graphs aren't supported yet.
       - Queries come in as code blocks, and whiteboards don't come across.
-      - Flashcards and time tracking come in as plain text. Namespaces become folders.
+      - Flashcards come in as plain text, and time tracking is dropped unless you switch on Keep time tracking. Namespaces become folders.
     docs: https://help.obsidian.md/import/logseq
     sources:
       - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/logseq.ts
