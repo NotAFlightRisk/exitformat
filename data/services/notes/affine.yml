@@ -16,9 +16,9 @@ export:
       - Go to Export --> Export to Markdown.
       - You get a .md file, or a zip with the Markdown and an assets folder if the doc has images.
     data:
-      included: [text, formatting, databases]
+      included: [text, formatting, databases, todos]
       excluded: [attachments, links, tags, properties, dates, history, sharing]
-      unknown: [todos, embeds, canvases, comments]
+      unknown: [embeds, canvases, comments]
     limitations:
       - It's one doc at a time. There's no Markdown or HTML export for a whole workspace.
       - Images come out in the assets folder, but other files attached to the doc are left out.
@@ -30,6 +30,7 @@ export:
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/components/hooks/affine/use-export-page.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/blocks/attachment/src/adapters/markdown.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/blocks/database/src/adapters/markdown.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/blocks/list/src/adapters/markdown.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/shared/src/adapters/middlewares/doc-link.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/setting/workspace-setting/storage/export.tsx
 
@@ -42,9 +43,9 @@ export:
       - Go to Export --> Export to HTML.
       - You get an .html file, or a zip with an index.html and an assets folder if the doc has images.
     data:
-      included: [text, formatting, databases]
+      included: [text, formatting, databases, todos]
       excluded: [attachments, links, tags, properties, dates, history, sharing]
-      unknown: [todos, embeds, canvases, comments]
+      unknown: [embeds, canvases, comments]
     limitations:
       - It's one doc at a time.
       - Images come out in the assets folder, but other files attached to the doc are left out.
@@ -53,6 +54,7 @@ export:
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/components/page-list/operation-menu-items/export.tsx
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/components/hooks/affine/use-export-page.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/blocks/database/src/adapters/html.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/blocks/list/src/adapters/html.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/shared/src/adapters/middlewares/doc-link.ts
 
   - id: print
@@ -79,9 +81,9 @@ import:
       - Select Import in the sidebar, then Markdown files (.md).
       - Pick one or more .md files. Each one becomes a doc.
     data:
-      included: [text, formatting]
+      included: [text, formatting, todos]
       excluded: [structure]
-      unknown: [attachments, links, tags, dates, todos]
+      unknown: [attachments, links, tags, dates]
     limitations:
       - Images saved next to the files can't come along. Zip them up with the Markdown and use the zip import instead.
     sources:
@@ -96,9 +98,9 @@ import:
       - Zip up the folder of Markdown files, with their images and files inside it.
       - Select Import in the sidebar, then Markdown with media files (.zip), and pick the zip.
     data:
-      included: [text, formatting, structure, links, dates]
+      included: [text, formatting, structure, links, dates, todos]
       excluded: [tags, properties]
-      unknown: [attachments, todos]
+      unknown: [attachments]
     limitations:
       - AFFiNE calls it experimental and warns you may lose some data.
       - Folders become folders in the sidebar, and links to other .md files in the zip become links between docs.
@@ -110,6 +112,7 @@ import:
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/widgets/linked-doc/src/transformers/markdown.ts
       - https://docs.rs/crate/affine_importer/0.1.2/source/src/planner/providers/markdown.rs
       - https://docs.rs/crate/affine_importer/0.1.2/source/src/planner/frontmatter.rs
+      - https://docs.rs/crate/affine_doc_loader/0.1.7/source/src/markdown/parser.rs
 
   - id: html
     name: Import HTML files
@@ -152,8 +155,8 @@ import:
       - In Notion, export as HTML with Include subpages switched on.
       - At app.affine.pro, select Import in the sidebar, then Notion (Experimental), and pick the zip.
     data:
-      included: [text, formatting, attachments, structure, databases]
-      unknown: [links, properties, dates, todos, comments, embeds]
+      included: [text, formatting, attachments, structure, links, databases, todos]
+      unknown: [properties, dates, comments, embeds]
     limitations:
       - Each page becomes a doc, and Notion's folders become folders in the sidebar. Page icons come along.
       - Databases become AFFiNE databases. Select, multi-select, number, checkbox, date and text columns keep their type, and the rest turn into text.
@@ -163,6 +166,8 @@ import:
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/widgets/linked-doc/src/transformers/notion-html.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/blocks/database/src/adapters/notion-html.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/blocks/attachment/src/adapters/notion-html.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/blocks/list/src/adapters/notion-html.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/inlines/link/src/adapters/notion-html/html-inline.ts
 
   - id: notion-desktop
     name: Import a Notion HTML export in the desktop app
@@ -193,9 +198,9 @@ import:
       - In Notion, export as Markdown & CSV with Include subpages switched on.
       - In AFFiNE, select Import in the sidebar, then Notion (Experimental), and pick the zip.
     data:
-      included: [text, formatting, structure, links]
+      included: [text, formatting, structure, links, todos]
       excluded: [databases]
-      unknown: [attachments, properties, todos]
+      unknown: [attachments, properties]
     limitations:
       - AFFiNE only mentions HTML, but it spots the Markdown in the zip and reads that instead.
       - Databases don't become AFFiNE databases. The desktop app turns each CSV into a plain table in the page, and the web app keeps it as a file.
@@ -214,9 +219,9 @@ import:
       - Select Import in the sidebar, then Obsidian Vault (Experimental).
       - Choose the top folder of your vault.
     data:
-      included: [text, formatting, attachments, structure, links]
+      included: [text, formatting, attachments, structure, links, todos]
       excluded: [tags, properties, databases, canvases, plugins, settings]
-      unknown: [dates, embeds, todos]
+      unknown: [dates, embeds]
     limitations:
       - Wikilinks become links between docs.
       - Tags don't come across, from front matter or anywhere else. Inline #tags stay as plain text.
@@ -238,9 +243,8 @@ import:
       - The file picker only shows .zip files, so rename the backup from .bear2bk to .zip.
       - Select Import in the sidebar, then Bear (.bear2bk) (Experimental), and pick the file.
     data:
-      included: [text, formatting, attachments, structure, tags, dates]
+      included: [text, formatting, attachments, structure, tags, dates, todos]
       excluded: [links]
-      unknown: [todos]
     limitations:
       - "In the desktop app, any line starting with # and no space is read as a tag and taken out of the note. That catches ## headings too, so use the web app."
       - Tags become AFFiNE tags, and folders too, with nested tags as nested folders.
