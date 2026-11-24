@@ -108,6 +108,7 @@ import:
       - Password-protected exports don't work, so export without a password first.
       - 2FAS only takes 10, 30, 60 or 90-second periods and 5 to 8 digits, and skips anything else.
       - Raivo's JSON has to come out of its zip first.
+      - On iOS, a .csv from Bitwarden's password manager imports nothing, since 2FAS misreads its line endings, so use its .json.
     docs: https://2fas.com/support/2fas-auth-mobile-app/which-imports-are-supported-in-the-2fas-app/
     sources:
       - https://github.com/twofas/2fas-android/blob/6.1.0/feature/externalimport/src/main/java/com/twofasapp/feature/externalimport/domain/ImportType.kt
@@ -115,6 +116,7 @@ import:
       - https://github.com/twofas/2fas-android/blob/6.1.0/feature/externalimport/src/main/java/com/twofasapp/feature/externalimport/domain/BitwardenImporter.kt
       - https://github.com/twofas/2fas-android/blob/6.1.0/data/services/src/main/java/com/twofasapp/data/services/ServicesRepositoryImpl.kt
       - https://github.com/twofas/2fas-ios/blob/vv6.0.3/TwoFAS/Data/Interactors/ImportFromFileInteractor.swift
+      - https://github.com/twofas/2fas-ios/blob/vv6.0.3/TwoFAS/Data/Interactors/ImportFromFileInteractor+Parsers.swift
 
   - id: google-authenticator
     name: Scan Google Authenticator's export QR codes
