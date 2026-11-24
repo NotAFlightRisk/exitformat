@@ -51,7 +51,12 @@ const marks = {
   // a list with the last two items tucked in under the first
   outline: { size: 16, d: 'M2.5 3.5h0M5.5 3.5H14M5.5 8h0M8.5 8H14M5.5 12.5h0M8.5 12.5H14' },
   // a box with its lid on
-  archive: { size: 16, d: 'M1.5 2.25H14.5V5.25H1.5ZM2.5 5.25V13.75H13.5V5.25M6.25 8.25H9.75' }
+  archive: { size: 16, d: 'M1.5 2.25H14.5V5.25H1.5ZM2.5 5.25V13.75H13.5V5.25M6.25 8.25H9.75' },
+  // a padlock, shut, for files that are a whole vault
+  lock: {
+    size: 16,
+    d: 'M3.25 7.25H12.75V14.25H3.25ZM5.25 7.25V5a2.75 2.75 0 0 1 5.5 0V7.25M8 10V11.5'
+  }
 } satisfies Record<string, FormatMark>;
 
 export type MarkName = keyof typeof marks;
@@ -76,7 +81,8 @@ const kinds: Record<string, MarkName> = {
   '.opml': 'outline',
   '.zip': 'archive',
   '.textbundle': 'archive',
-  '.textpack': 'archive'
+  '.textpack': 'archive',
+  '.kdbx': 'lock'
 };
 
 /** The mark for the first of a format's extensions that has one */
