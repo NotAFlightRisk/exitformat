@@ -98,12 +98,12 @@ import:
       - Zip up the folder of Markdown files, with their images and files inside it.
       - Select Import in the sidebar, then Markdown with media files (.zip), and pick the zip.
     data:
-      included: [text, formatting, structure, links, dates, todos]
+      included: [text, formatting, structure, dates, todos]
       excluded: [tags, properties]
-      unknown: [attachments]
+      unknown: [attachments, links]
     limitations:
       - AFFiNE calls it experimental and warns you may lose some data.
-      - Folders become folders in the sidebar, and links to other .md files in the zip become links between docs.
+      - Folders become folders in the sidebar, and links to other .md files in the zip become links between docs. Wikilinks don't.
       - From front matter it only reads the title, created and updated dates, favourite and trash. Tags and everything else are dropped.
       - The desktop app skips a file, with a warning, if it holds HTML the importer won't take.
     sources:
