@@ -292,10 +292,18 @@ import:
       - Find your Logseq graph's top folder, the one with pages and journals inside.
       - In Obsidian, install the Importer plugin, open it and pick Logseq (.md).
       - Choose that folder and select Import.
+    data:
+      included: [text, formatting, attachments, structure, links, tags, properties, todos, embeds]
+      excluded: [canvases]
+      unknown: [dates]
     limitations:
       - File-based graphs only. Logseq's database graphs aren't supported yet.
       - Queries come in as code blocks, and whiteboards don't come across.
+      - Flashcards and time tracking come in as plain text. Namespaces become folders.
     docs: https://help.obsidian.md/import/logseq
+    sources:
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/logseq.ts
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/logseq/pipeline.ts
 
   - id: samsung-notes
     name: Import from Samsung Notes
