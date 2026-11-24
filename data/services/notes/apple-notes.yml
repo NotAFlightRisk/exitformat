@@ -17,11 +17,12 @@ export:
       - Open any notes whose attachments you need, so they download from iCloud.
       - Point the app you're moving to at group.com.apple.notes, in the Group Containers folder of your Library.
     data:
-      included: [text, formatting, attachments, structure, links, tags, dates, todos]
+      included: [text, formatting, attachments, drawings, structure, links, tags, dates, todos]
       excluded: [settings]
       unknown: [sharing]
     limitations:
       - Locked notes get skipped, so remove the lock from any you want to keep.
+      - Each drawing is stored with a picture of it, along with any handwriting Notes has read from it.
       - Attachments that are still only in iCloud get missed.
       - Smart folders don't come across, though the notes in them do.
       - Apple will also send you a copy of your iCloud notes from privacy.apple.com, but doesn't say what format they come in.
@@ -41,7 +42,7 @@ export:
     data:
       included: [text, formatting]
       excluded: [structure, sharing]
-      unknown: [attachments, links, tags, dates, todos]
+      unknown: [attachments, drawings, links, tags, dates, todos]
     limitations:
       - It's one note at a time, so a big library takes a while.
     docs: https://support.apple.com/guide/iphone/export-or-print-notes-iphdf551cfa2/ios
@@ -59,7 +60,7 @@ export:
     data:
       included: [text, formatting]
       excluded: [structure, sharing]
-      unknown: [attachments, links, tags, dates, todos]
+      unknown: [attachments, drawings, links, tags, dates, todos]
     limitations:
       - It's one note at a time.
       - A PDF or scan inside the note comes out as just its first page.
