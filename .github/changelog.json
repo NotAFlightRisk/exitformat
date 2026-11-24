@@ -1,6 +1,7 @@
 {
-  "commit": "4034a2713f8210043e1c94cbe5e87f7595e0b429",
+  "commit": "d4676a33d0e6863d2588623a8bb77007a4f7782f",
   "entries": [
+    {"date":"2026-11-24","commit":"d4676a3","pr":49,"id":"standard-notes","category":"notes","name":"Standard Notes","kind":"updated","sections":["export","import","verification"]},
     {"date":"2026-11-24","commit":"4034a27","pr":48,"id":"notesnook","category":"notes","name":"Notesnook","kind":"updated","sections":["import"]},
     {"date":"2026-11-24","commit":"4034a27","pr":48,"id":"zoho-notebook","category":"notes","name":"Zoho Notebook","kind":"added"},
     {"date":"2026-11-24","commit":"f3219bd","pr":47,"id":"bear","category":"notes","name":"Bear","kind":"updated","sections":["import"]},
