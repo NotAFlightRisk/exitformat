@@ -1,0 +1,316 @@
+name: AFFiNE
+website: https://affine.pro/
+description: Open source docs, whiteboards and databases in one app, kept on your device and synced to AFFiNE Cloud or your own server if you like.
+deployment: local
+platforms: [windows, macos, linux, web, android, ios]
+source: https://github.com/toeverything/AFFiNE
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/e1/56/0b/e1560b8b-526b-74de-5ed6-569071d47b02/AppIcon-0-0-1x_U007epad-0-1-85-220.png/128x128bb.png
+
+export:
+  - id: markdown
+    name: Export a doc as Markdown
+    method: file
+    formats: [markdown]
+    steps:
+      - Open the doc and select the three-dot menu at the top right.
+      - Go to Export --> Export to Markdown.
+      - You get a .md file, or a zip with the Markdown and its images if the doc has any.
+    data:
+      included: [text, formatting, databases, todos]
+      excluded: [attachments, links, tags, properties, dates, history, sharing, canvases]
+      unknown: [embeds, comments]
+    limitations:
+      - It's one doc at a time. There's no Markdown or HTML export for a whole workspace.
+      - Images come along in the zip, but other files attached to the doc are left out.
+      - Links to other docs point back into AFFiNE, not at other files you've exported.
+      - Databases come out as plain tables, with no views.
+      - Export to Snapshot and the desktop app's Full Backup only open in AFFiNE again.
+    sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/components/page-list/operation-menu-items/export.tsx
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/components/hooks/affine/use-export-page.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/blocks/attachment/src/adapters/markdown.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/blocks/database/src/adapters/markdown.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/blocks/list/src/adapters/markdown.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/shared/src/adapters/middlewares/doc-link.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/setting/workspace-setting/storage/export.tsx
+
+  - id: html
+    name: Export a doc as HTML
+    method: file
+    formats: [html]
+    steps:
+      - Open the doc and select the three-dot menu at the top right.
+      - Go to Export --> Export to HTML.
+      - You get an .html file, or a zip with an index.html and its images if the doc has any.
+    data:
+      included: [text, formatting, databases, todos]
+      excluded: [attachments, links, tags, properties, dates, history, sharing, canvases]
+      unknown: [embeds, comments]
+    limitations:
+      - It's one doc at a time.
+      - Images come along in the zip, but other files attached to the doc are left out.
+      - Links to other docs point back into AFFiNE, not at other files you've exported.
+    sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/components/page-list/operation-menu-items/export.tsx
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/components/hooks/affine/use-export-page.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/blocks/database/src/adapters/html.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/blocks/list/src/adapters/html.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/shared/src/adapters/middlewares/doc-link.ts
+
+  - id: print
+    name: Print a doc to PDF
+    method: file
+    formats: [pdf]
+    steps:
+      - Open the doc and select the three-dot menu at the top right.
+      - Go to Export --> Print and save it as a PDF from the print dialog.
+    data:
+      included: [text, formatting]
+      unknown: [attachments, databases]
+    limitations:
+      - It's not there for a doc open as a whiteboard.
+    sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/components/page-list/operation-menu-items/export.tsx
+
+import:
+  - id: markdown
+    name: Import Markdown files
+    method: file
+    formats: [markdown, markdown-frontmatter]
+    steps:
+      - Select Import in the sidebar, then Markdown files (.md).
+      - Pick one or more .md files. Each one becomes a doc.
+    data:
+      included: [text, formatting, todos]
+      excluded: [structure]
+      unknown: [attachments, links, tags, dates]
+    limitations:
+      - Images saved next to the files can't come along. Zip them up with the Markdown and use the zip import instead.
+    sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/index.tsx
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/widgets/linked-doc/src/transformers/markdown.ts
+
+  - id: markdown-zip
+    name: Import a zip of Markdown and media files
+    method: file
+    formats: [markdown, markdown-frontmatter]
+    steps:
+      - Zip up the folder of Markdown files, with their images and files inside it.
+      - Select Import in the sidebar, then Markdown with media files (.zip), and pick the zip.
+    data:
+      included: [text, formatting, structure, dates, todos]
+      excluded: [tags, properties]
+      unknown: [attachments, links]
+    limitations:
+      - AFFiNE calls it experimental and warns you may lose some data.
+      - Folders become folders in the sidebar, and links to other .md files in the zip become links between docs. Wikilinks don't.
+      - From front matter it only reads the title, created and updated dates, favourite and trash. Tags and everything else are dropped.
+      - The desktop app skips a file, with a warning, if it holds HTML the importer won't take.
+      - The web app turns away an import over 32 MB, with any file over 8 MB, over 1,000 files or 250 docs, or with a zip inside the zip.
+      - The desktop app skips any file over 10 MB.
+    sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/web-limits.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/native-backend.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/modules/import/services/service.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/commit-service.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/widgets/linked-doc/src/transformers/markdown.ts
+      - https://docs.rs/crate/affine_importer/0.1.2/source/src/planner/providers/markdown.rs
+      - https://docs.rs/crate/affine_importer/0.1.2/source/src/planner/frontmatter.rs
+      - https://docs.rs/crate/affine_doc_loader/0.1.7/source/src/markdown/parser.rs
+
+  - id: html
+    name: Import HTML files
+    method: file
+    formats: [html]
+    steps:
+      - Select Import in the sidebar, then HTML.
+      - Pick one or more .html files. Each one becomes a doc named after the file.
+    data:
+      included: [text, formatting]
+      excluded: [structure]
+      unknown: [attachments, links]
+    limitations:
+      - AFFiNE calls it experimental and warns some of your data may go missing.
+    sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/index.tsx
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/widgets/linked-doc/src/transformers/html.ts
+
+  - id: docx
+    name: Import a Word document
+    method: file
+    formats: [docx]
+    steps:
+      - Select Import in the sidebar, then Docx.
+      - Pick a .docx file. It becomes one doc.
+    data:
+      included: [text, formatting]
+      unknown: [attachments, comments]
+    limitations:
+      - It's one file at a time. AFFiNE turns it into HTML with mammoth first, then imports that.
+    sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/widgets/linked-doc/src/transformers/docx.ts
+
+  - id: notion-web
+    name: Import a Notion HTML export in the web app
+    method: file
+    formats: [notion-html]
+    requirements: [Web app]
+    steps:
+      - In Notion, export as HTML with Include subpages switched on.
+      - At app.affine.pro, select Import in the sidebar, then Notion (Experimental), and pick the zip.
+    data:
+      included: [text, formatting, attachments, structure, links, databases, todos]
+      unknown: [properties, dates, comments, embeds]
+    limitations:
+      - Each page becomes a doc, and Notion's folders become folders in the sidebar. Page icons come along.
+      - Databases become AFFiNE databases. Select, multi-select, number, checkbox, date and text columns keep their type, and the rest turn into text.
+      - The desktop app reads the same zip far less well, so use the web app for this one if your export fits.
+      - The web app turns away an import over 32 MB, with any file over 8 MB, over 1,000 files or 250 docs, or with a zip inside the zip.
+    sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/web-limits.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/modules/import/services/service.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/widgets/linked-doc/src/transformers/notion-html.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/blocks/database/src/adapters/notion-html.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/blocks/attachment/src/adapters/notion-html.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/blocks/list/src/adapters/notion-html.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/inlines/link/src/adapters/notion-html/html-inline.ts
+
+  - id: notion-desktop
+    name: Import a Notion HTML export in the desktop app
+    method: file
+    formats: [notion-html]
+    requirements: [Desktop app]
+    steps:
+      - In Notion, export as HTML with Include subpages switched on.
+      - In AFFiNE, select Import in the sidebar, then Notion (Experimental), and pick the zip.
+    data:
+      included: [text, structure]
+      excluded: [formatting, attachments, links, properties, databases, dates, todos, comments, embeds]
+    limitations:
+      - The desktop app strips each page down to plain text and images, so headings, lists, tables, databases and links between pages are lost.
+      - Images come across, but other files in the zip aren't linked from any doc.
+      - Each page becomes a doc, and Notion's folders become folders in the sidebar. Page icons come along.
+      - The web app at app.affine.pro keeps a lot more, so use that instead if your export is small enough for it (32 MB and 250 pages at most).
+      - The desktop app skips any file over 10 MB.
+    sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/web-limits.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/native-backend.ts
+      - https://docs.rs/crate/affine_importer/0.1.2/source/src/planner/providers/notion/html.rs
+      - https://docs.rs/crate/affine_importer/0.1.2/source/src/planner/html.rs
+
+  - id: notion-markdown
+    name: Import a Notion Markdown & CSV export
+    method: file
+    formats: [notion-markdown-csv]
+    steps:
+      - In Notion, export as Markdown & CSV with Include subpages switched on.
+      - In AFFiNE, select Import in the sidebar, then Notion (Experimental), and pick the zip.
+    data:
+      included: [text, formatting, structure, links, todos]
+      excluded: [databases]
+      unknown: [attachments, properties]
+    limitations:
+      - AFFiNE only mentions HTML, but it spots the Markdown in the zip and reads that instead.
+      - Databases don't become AFFiNE databases. The desktop app turns each CSV into a plain table in the page, and the web app keeps it as a file.
+      - Folders become folders in the sidebar, and links between pages become links between docs.
+      - The web app turns away an import over 32 MB, with any file over 8 MB, over 1,000 files or 250 docs, or with a zip inside the zip.
+      - The desktop app skips any file over 10 MB.
+    sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/web-limits.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/native-backend.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/modules/import/services/service.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/widgets/linked-doc/src/transformers/markdown.ts
+      - https://docs.rs/crate/affine_importer/0.1.2/source/src/planner/providers/notion/markdown.rs
+
+  - id: obsidian
+    name: Import an Obsidian vault
+    method: folder
+    formats: [markdown, markdown-frontmatter]
+    from: [obsidian]
+    steps:
+      - Select Import in the sidebar, then Obsidian Vault (Experimental).
+      - Choose the top folder of your vault.
+    data:
+      included: [text, formatting, attachments, structure, links, todos]
+      excluded: [tags, properties, databases, canvases, plugins, settings]
+      unknown: [dates, embeds]
+    limitations:
+      - Wikilinks become links between docs.
+      - "Tags don't come across, from front matter or anywhere else. Inline #tags stay as plain text."
+      - From front matter it only reads the title, created and updated dates, favourite and trash.
+      - Canvases don't come across, and the .obsidian folder with your plugins and settings is skipped.
+      - In the desktop app, an embedded note turns into a link to it.
+      - The web app turns away an import over 32 MB, with any file over 8 MB, over 1,000 files or 250 docs, or with a zip inside the zip.
+      - The desktop app skips any file over 10 MB.
+    sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/web-limits.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/native-backend.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/modules/import/services/service.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/commit-service.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/widgets/linked-doc/src/transformers/obsidian.ts
+      - https://docs.rs/crate/affine_importer/0.1.2/source/src/planner/providers/obsidian/mod.rs
+
+  - id: bear
+    name: Import a Bear backup
+    method: file
+    formats: [bear-backup]
+    steps:
+      - In Bear, make a backup of all your notes.
+      - The file picker looks for .zip files, so rename the backup from .bear2bk to .zip.
+      - Select Import in the sidebar, then Bear (.bear2bk) (Experimental), and pick the file.
+    data:
+      included: [text, formatting, attachments, structure, dates, todos]
+      excluded: [links]
+      unknown: [tags]
+    limitations:
+      - "In the desktop app, any line starting with # and no space is read as a tag and taken out of the note. That catches ## headings too, so use the web app."
+      - Tags become AFFiNE tags, and folders too, with nested tags as nested folders. The web app only picks up tags on the last few lines of a note, so tags anywhere else stay as text.
+      - Links between notes stay as text, and notes in the trash are skipped.
+      - The desktop app removes every == from the note, so highlights lose their colour, and any == in code goes too.
+      - The web app turns away an import over 32 MB, with any file over 8 MB, over 1,000 files or 250 docs, or with a zip inside the zip.
+      - The desktop app skips any file over 10 MB.
+    sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/web-limits.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/native-backend.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/modules/import/services/service.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/shared/src/utils/file/filesys.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/widgets/linked-doc/src/transformers/bear.ts
+      - https://docs.rs/crate/affine_importer/0.1.2/source/src/planner/providers/bear.rs
+
+  - id: onenote
+    name: Import OneNote files
+    method: file
+    formats: [onenote]
+    requirements: [Desktop app]
+    steps:
+      - In OneNote for Windows, export a section or notebook, or use the .one files it saves.
+      - In AFFiNE, select Import in the sidebar, then OneNote (Experimental), and pick a .one, .onetoc2 or .onepkg file.
+    data:
+      included: [text, formatting, attachments, structure]
+      excluded: [drawings, tags, dates, todos]
+      unknown: [links, history, embeds]
+    limitations:
+      - Ink and handwriting are skipped, with a warning.
+      - OneNote tags, to-do boxes included, don't come across.
+      - Sections and section groups become folders, with a doc for each page. Tables come in as plain tables.
+      - It takes one file at a time.
+      - The desktop app skips any file over 10 MB.
+    sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/native-backend.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/modules/import/services/service.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/native/src/import/onenote/mod.rs
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/native/src/import/onenote/content/mod.rs
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/native/src/import/onenote/content/rich_text.rs
+
+delete:
+  steps:
+    - To delete a workspace, open its settings, select Delete workspace and type its name to confirm.
+    - To delete your account, open your account settings, select Delete your account from AFFiNE Cloud and type your email.
+  notes:
+    - Deleting a synced workspace deletes it on this device and on the server.
+    - Deleting your account wipes your personal space on the server, but not what's on your devices. Uninstall the app or clear your browser data for that.
+    - If you own a team workspace, you'll have to delete it or hand it over first.
+
+verification:
+  status: documented
+  checked_at: 2026-11-24
