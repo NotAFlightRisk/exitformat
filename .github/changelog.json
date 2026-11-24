@@ -1,6 +1,14 @@
 {
-  "commit": "8c6bb255dca1101dfb0c13aa298c5ef5753e1f20",
+  "commit": "40046b60a88bb8fe36efdee213079791e87acead",
   "entries": [
+    {"date":"2026-11-24","commit":"40046b6","pr":54,"id":"apple-notes","category":"notes","name":"Apple Notes","kind":"updated","sections":["export"]},
+    {"date":"2026-11-24","commit":"40046b6","pr":54,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
+    {"date":"2026-11-24","commit":"2902451","pr":53,"id":"google-keep","category":"notes","name":"Google Keep","kind":"updated","sections":["export"]},
+    {"date":"2026-11-24","commit":"2902451","pr":53,"id":"notesnook","category":"notes","name":"Notesnook","kind":"updated","sections":["import"]},
+    {"date":"2026-11-24","commit":"2902451","pr":53,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
+    {"date":"2026-11-24","commit":"2902451","pr":53,"id":"standard-notes","category":"notes","name":"Standard Notes","kind":"updated","sections":["import"]},
+    {"date":"2026-11-24","commit":"2902451","pr":53,"id":"trilium-notes","category":"notes","name":"Trilium Notes","kind":"updated","sections":["import"]},
+    {"date":"2026-11-24","commit":"2902451","pr":53,"id":"zoho-notebook","category":"notes","name":"Zoho Notebook","kind":"updated","sections":["import"]},
     {"date":"2026-11-24","commit":"8c6bb25","pr":52,"id":"notesnook","category":"notes","name":"Notesnook","kind":"updated","sections":["import"]},
     {"date":"2026-11-24","commit":"8c6bb25","pr":52,"id":"upnote","category":"notes","name":"UpNote","kind":"added"},
     {"date":"2026-11-24","commit":"dce989d","pr":51,"id":"logseq","category":"notes","name":"Logseq","kind":"added"},
