@@ -1,6 +1,12 @@
 {
-  "commit": "93cb5fc2f51fc07c1af0202c0bb6fe13f7368c8a",
+  "commit": "8dc48087548514bbc795dce9326be2091f7dcd23",
   "entries": [
+    {"date":"2026-11-24","commit":"8dc4808","pr":57,"id":"aegis","category":"2fa","name":"Aegis Authenticator","kind":"updated","sections":["import"]},
+    {"date":"2026-11-24","commit":"8dc4808","pr":57,"id":"gnome-authenticator","category":"2fa","name":"Authenticator","kind":"updated","sections":["import"]},
+    {"date":"2026-11-24","commit":"8dc4808","pr":57,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"added"},
+    {"date":"2026-11-24","commit":"8dc4808","pr":57,"id":"bitwarden-authenticator","category":"2fa","name":"Bitwarden Authenticator","kind":"updated","sections":["import"]},
+    {"date":"2026-11-24","commit":"8dc4808","pr":57,"id":"proton-authenticator","category":"2fa","name":"Proton Authenticator","kind":"updated","sections":["import"]},
+    {"date":"2026-11-24","commit":"8dc4808","pr":57,"id":"stratum","category":"2fa","name":"Stratum","kind":"updated","sections":["import"]},
     {"date":"2026-11-24","commit":"93cb5fc","pr":55,"id":"affine","category":"notes","name":"AFFiNE","kind":"added"},
     {"date":"2026-11-24","commit":"40046b6","pr":54,"id":"apple-notes","category":"notes","name":"Apple Notes","kind":"updated","sections":["export"]},
     {"date":"2026-11-24","commit":"40046b6","pr":54,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
