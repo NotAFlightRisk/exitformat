@@ -3,4 +3,4 @@ extensions: [.html]
 standard: false
 owner: apple-journal
 based_on: html
-description: What Apple's Journal app exports, a zip called AppleJournalEntries with a web page for each entry and the photos, locations and other media you added to it. Each page has the entry's date, title, text and tiles like State of Mind. Unzip it before another app reads it.
+description: What Apple's Journal app exports, a zip or folder called AppleJournalEntries with a web page for each entry and the photos, locations and other media you added to it. Each page has the entry's date, title, text and tiles like State of Mind. Unzip a zip before another app reads it.
