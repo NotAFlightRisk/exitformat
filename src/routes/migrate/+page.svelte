@@ -223,8 +223,7 @@
     list-style: none;
     background: var(--surface-raised);
 
-    /* each app draws its own soft edges, so the slots a short row leaves over stay blank, and the
-       list clips them at its own edge so the lines around it stay full strength */
+    /* each app draws its own soft edges, clipped at the list's so its outer lines stay solid */
     li {
       display: flex;
       outline: var(--hairline) solid var(--rule-soft);

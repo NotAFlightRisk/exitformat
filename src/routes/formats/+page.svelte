@@ -66,8 +66,7 @@
   {@render rows(data.open)}
 </Section>
 
-<!-- grouped by category and closed, as there's one or more for nearly every app, but still on the
-     page for search engines and find in page -->
+<!-- grouped by category and closed, as nearly every app has one or more -->
 <Section id="own" title="Formats that belong to one app">
   {#snippet aside()}Other apps only read these if someone's written an importer for them{/snippet}
   <div class="chart">
@@ -172,8 +171,7 @@
     }
   }
 
-  /* the formats slide down, where the browser can animate up to their full height, and just
-     appear where it can't */
+  /* slides open where the browser can animate to auto, and just pops open where it can't */
   @media (prefers-reduced-motion: no-preference) {
     details {
       interpolate-size: allow-keywords;

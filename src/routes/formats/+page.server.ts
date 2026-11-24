@@ -2,8 +2,7 @@ import type { Format } from '#lib/data/types.ts';
 import { categories, exporters, formats, importers, service } from '#lib/server/directory.ts';
 import { categoryLink, crumbs, formatCard } from '#lib/server/views.ts';
 
-// an app's own format goes under its app's category, and under any other whose apps read or write
-// it, so it's wherever someone leaving one of those apps would look
+// an app's own format files under its app's category, and any whose apps read or write it
 const homes = ({ id, owner }: Format) =>
   new Set(
     [...exporters(id), ...importers(id), ...(owner ? [service(owner)!] : [])].map(

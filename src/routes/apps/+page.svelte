@@ -62,8 +62,7 @@
 </ul>
 
 <style>
-  /* every card the same width, each drawing its own edges so the slots a short last row leaves
-     stay blank, clipped by the list so its border is the only line round the outside */
+  /* each card draws its own edges, so a short last row leaves blank slots, not stray lines */
   .apps {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));

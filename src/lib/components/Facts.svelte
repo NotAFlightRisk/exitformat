@@ -1,6 +1,5 @@
 <script lang="ts" module>
-  // a number shows large, with its unit after it made plural to match, and an href is another
-  // site, another page here, or a #section further down this one
+  // a number shows large, with its unit made plural to match
   export type Fact = { label: string; value: string | number; unit?: string; href?: string };
 </script>
 

@@ -1,5 +1,4 @@
-// Each category's icon, keyed by its id: one path on Icon.svelte's 16px grid with the same square
-// ends, in a slightly lighter line as it shows bigger. A category not here shows its initials
+// one path per category on Icon.svelte's 16px grid, and the rest make do with initials
 const icons: Record<string, string> = {
   // a padlock with a code in it
   '2fa':

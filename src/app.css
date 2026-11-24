@@ -19,24 +19,24 @@
   --accent-tint: light-dark(#d9ebe0, #173022);
 
   /* the status hues, each at least 3:1 against every surface above */
-  --green: light-dark(#237f52, #4cc38a);
-  --yellow: light-dark(#a17a00, #e3c04a);
-  --orange: light-dark(#d0620f, #ef8f45);
-  --red: light-dark(#c8372d, #f0675d);
-  --grey: light-dark(#7d7f82, #737579);
+  --status-good: light-dark(#237f52, #4cc38a);
+  --status-fair: light-dark(#a17a00, #e3c04a);
+  --status-poor: light-dark(#d0620f, #ef8f45);
+  --status-bad: light-dark(#c8372d, #f0675d);
+  --status-neutral: light-dark(#7d7f82, #737579);
 
-  /* the move meter, one per kind in meterFill, from a built-in importer down to no way across */
-  --path-direct: var(--green);
-  --path-file: var(--yellow);
-  --path-convert: var(--orange);
-  --path-none: var(--red);
-  --path-self: var(--grey);
+  /* the move meter, one per kind in meterFill */
+  --path-direct: var(--status-good);
+  --path-file: var(--status-fair);
+  --path-convert: var(--status-poor);
+  --path-none: var(--status-bad);
+  --path-self: var(--status-neutral);
 
   /* a plain StateMark, one per state */
-  --state-included: var(--green);
-  --state-excluded: var(--red);
-  --state-unknown: var(--yellow);
-  --state-warning: var(--orange);
+  --state-included: var(--status-good);
+  --state-excluded: var(--status-bad);
+  --state-unknown: var(--status-fair);
+  --state-warning: var(--status-poor);
 
   --font-text: 'Atkinson Hyperlegible Next Variable', system-ui, sans-serif;
   --font-data: 'Atkinson Hyperlegible Mono Variable', ui-monospace, monospace;
