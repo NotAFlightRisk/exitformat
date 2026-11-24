@@ -1,6 +1,8 @@
 {
-  "commit": "f3219bd607a7350c3715595ab234910cbd700266",
+  "commit": "4034a2713f8210043e1c94cbe5e87f7595e0b429",
   "entries": [
+    {"date":"2026-11-24","commit":"4034a27","pr":48,"id":"notesnook","category":"notes","name":"Notesnook","kind":"updated","sections":["import"]},
+    {"date":"2026-11-24","commit":"4034a27","pr":48,"id":"zoho-notebook","category":"notes","name":"Zoho Notebook","kind":"added"},
     {"date":"2026-11-24","commit":"f3219bd","pr":47,"id":"bear","category":"notes","name":"Bear","kind":"updated","sections":["import"]},
     {"date":"2026-11-24","commit":"f3219bd","pr":47,"id":"day-one","category":"notes","name":"Day One","kind":"added"},
     {"date":"2026-11-24","commit":"cfd6632","pr":46,"id":"apple-journal","category":"notes","name":"Apple Journal","kind":"added"},
