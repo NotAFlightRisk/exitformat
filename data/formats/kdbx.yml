@@ -1,5 +1,5 @@
 name: KeePass database
 extensions: [.kdbx]
 standard: true
-description: The encrypted database file that KeePass, KeePassXC and plenty of other apps use as the vault itself. It opens with a master password, a key file or both, and holds everything, attachments and old versions included.
+description: The encrypted database file that KeePass, KeePassXC and plenty of other apps use as the vault itself. It opens with a master password, a key file or both, and can hold groups, custom fields, attachments and each entry's old versions.
 spec: https://keepass.info/help/kb/kdbx.html

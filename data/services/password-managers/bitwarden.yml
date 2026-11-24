@@ -206,9 +206,10 @@ import:
           history,
           favourites
         ]
-      unknown: [dates]
+      excluded: [dates]
     limitations:
       - It never checks for duplicates, so importing a file twice gives you two of everything.
+      - Every item is dated the day you import it, since the import doesn't send the old dates.
       - A file with over 40,000 items or 2,000 folders is turned away whole, so split it up.
       - Each item keeps five of its old passwords and drops the rest.
       - Collections only come back when you import into an organisation.
@@ -220,6 +221,7 @@ import:
       - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/bitwarden/bitwarden-json-importer.ts
       - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/bitwarden/bitwarden-password-protected-importer.ts
       - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/services/import.service.ts
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/common/src/vault/models/request/cipher.request.ts
 
   - id: bitwarden-csv
     name: Import a Bitwarden .csv export
@@ -286,8 +288,18 @@ import:
       - Select Import (Import data outside the web app).
     data:
       included:
-        [logins, secrets, secure-notes, cards, identities, custom-fields, groups, favourites]
-      excluded: [other-items, shared-vaults]
+        [
+          logins,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          groups,
+          favourites
+        ]
+      excluded: [shared-vaults]
     limitations:
       - Other item types, like SSH keys, Wi-Fi and software licences, come in as plain secure notes with their details as text.
       - Shared folders become ordinary folders, and favourites are dropped going into an organisation.
@@ -398,7 +410,7 @@ import:
     steps:
       - Export your passwords as a .csv from the browser's password settings.
       - On the web, select Tools --> Import, or Import on desktop. In the extension, it's Settings --> Vault options --> Import items.
-      - Pick Chrome (or Edge, Opera, Brave, Vivaldi or Arc) as the File format and choose the file.
+      - Pick your browser (Chrome, Edge, Opera, Brave, Vivaldi or Arc) as the File format and choose the file.
       - Select Import (Import data outside the web app).
     data:
       included: [logins]
