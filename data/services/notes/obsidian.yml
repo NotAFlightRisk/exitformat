@@ -344,7 +344,8 @@ import:
       included: [text, formatting, links, structure, dates]
     limitations:
       - Notebooks become tags rather than folders, and every note lands in one Tomboy folder.
-      - Large and huge text becomes headings. In notes with TODO in the title, lists become checkboxes, ticked where the item's struck through, unless you switch that off.
+      - Large and huge text, and lines that are all bold, become headings. Underlining is dropped, and template notes get a template tag.
+      - In notes with TODO in the title, lists become checkboxes, ticked where the item's struck through, unless you switch that off.
     docs: https://help.obsidian.md/import/tomboy
     sources:
       - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/tomboy/core.ts

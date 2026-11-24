@@ -1,5 +1,5 @@
 name: Gnote
-website: https://wiki.gnome.org/Apps/Gnote
+website: https://gitlab.gnome.org/GNOME/gnote/-/wikis/home
 description: GNOME's free, open source notes app for Linux, which keeps every note as its own file on your computer.
 deployment: local
 platforms: [linux]
@@ -12,7 +12,7 @@ export:
     method: folder
     formats: [tomboy-note]
     steps:
-      - Close Gnote, then open ~/.local/share/gnote in your file manager.
+      - Close Gnote, then open ~/.local/share/gnote, or ~/.var/app/org.gnome.Gnote/data/gnote if it came from Flathub.
       - Copy the .note files, one for each note, somewhere safe.
     data:
       included: [text, formatting, links, structure, dates]
@@ -26,16 +26,19 @@ export:
     name: Export notes to HTML
     method: file
     formats: [html]
-    requirements: [Export to HTML plugin]
     steps:
-      - Open a note and choose Export to HTML from the Note Actions menu.
-      - Tick Export Linked Notes to take the notes it links to as well, then select Save.
+      - In Preferences, open Plugins, select Export to HTML and click Enable. It's off to start with.
+      - Open a note and choose Export to HTML… from the Note Actions menu.
+      - Tick Export linked notes to take the notes it links to as well, then select Save.
     data:
       included: [text, formatting, links]
-      unknown: [structure, dates]
+      excluded: [structure, dates]
     limitations:
-      - You get one HTML file, with any linked notes inside it, rather than a file per note.
+      - It's one note at a time, plus any it links to, all in one HTML file. Links between them jump around inside that page.
     docs: https://gitlab.gnome.org/GNOME/gnote/-/blob/51.0/help/C/gnote-addin-html.page
+    sources:
+      - https://gitlab.gnome.org/GNOME/gnote/-/blob/51.0/src/addins/exporttohtml/exporttohtml.xsl
+      - https://gitlab.gnome.org/GNOME/gnote/-/blob/51.0/help/C/gnote-addins-preferences.page
 
 import: []
 
