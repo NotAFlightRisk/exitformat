@@ -1,6 +1,7 @@
 {
-  "commit": "a1de44117f2efe29bee9f00f3bc6d8c978401a2c",
+  "commit": "5a0202032199483da3e2899c8c1f0bbeeb68d63b",
   "entries": [
+    {"date":"2026-11-24","commit":"5a02020","pr":62,"id":"google-password-manager","category":"password-managers","name":"Google Password Manager","kind":"added"},
     {"date":"2026-11-24","commit":"a1de441","pr":61,"id":"1password","category":"password-managers","name":"1Password","kind":"added"},
     {"date":"2026-11-24","commit":"a1de441","pr":61,"id":"2fas","category":"2fa","name":"2FAS Auth","kind":"updated","sections":["import"]},
     {"date":"2026-11-24","commit":"d7be1d8","pr":60,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
