@@ -1,0 +1,5 @@
+name: Chrome passwords CSV
+extensions: [.csv]
+standard: false
+based_on: csv
+description: The .csv you get from Chrome and Google Password Manager, with name, url, username, password and note columns. It isn't encrypted.

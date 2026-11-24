@@ -1,0 +1,7 @@
+name: Bitwarden encrypted JSON export
+extensions: [.json]
+standard: false
+owner: bitwarden
+based_on: json
+description: Bitwarden's encrypted .json export. An account restricted one only opens in the Bitwarden account that made it, and a password protected one opens with the password you set.
+spec: https://bitwarden.com/help/encrypted-export/

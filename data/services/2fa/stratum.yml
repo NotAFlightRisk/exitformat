@@ -95,7 +95,7 @@ import:
   - id: groups
     name: Import from 2FAS, andOTP or Bitwarden
     method: file
-    formats: [2fas-backup, andotp-backup, bitwarden-json]
+    formats: [2fas-backup, andotp-backup, bitwarden-json, bitwarden-encrypted-json]
     steps:
       - Tap + then Import from other apps, and pick 2FAS, andOTP or Bitwarden.
       - Choose the export file and enter its password if it has one.

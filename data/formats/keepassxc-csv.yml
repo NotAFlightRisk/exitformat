@@ -1,0 +1,5 @@
+name: KeePassXC CSV export
+extensions: [.csv]
+standard: false
+based_on: csv
+description: The .csv KeePassXC exports, with Group, Title, Username, Password, URL, Notes, TOTP, Icon, Last Modified and Created columns. Attachments and extra fields don't go in, and it isn't encrypted.

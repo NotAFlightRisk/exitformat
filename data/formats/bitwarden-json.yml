@@ -1,6 +1,7 @@
 name: Bitwarden JSON export
 extensions: [.json]
 standard: false
+owner: bitwarden
 based_on: json
-description: The unencrypted .json export from Bitwarden's password manager and from Bitwarden Authenticator. Each code is an otpauth link in the item's login.totp field.
+description: The unencrypted .json export from Bitwarden, with your folders and items in plain text - logins, notes, cards, identities, SSH keys, passkeys and old passwords. Bitwarden Authenticator writes the same shape with just your codes, each an otpauth link in the item's login.totp field.
 spec: https://bitwarden.com/help/condition-bitwarden-import/

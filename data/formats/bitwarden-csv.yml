@@ -1,6 +1,7 @@
 name: Bitwarden CSV export
 extensions: [.csv]
 standard: false
+owner: bitwarden
 based_on: csv
-description: The .csv export from Bitwarden's password manager and from Bitwarden Authenticator, with each code as an otpauth link in the login_totp column. It's never encrypted.
+description: "The .csv export from Bitwarden, which only holds logins and secure notes, with custom fields as name: value lines and each login's one-time code in the login_totp column. Bitwarden Authenticator writes the same columns. It's never encrypted."
 spec: https://bitwarden.com/help/condition-bitwarden-import/

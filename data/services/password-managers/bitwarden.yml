@@ -1,0 +1,503 @@
+name: Bitwarden
+website: https://bitwarden.com/
+description: Open source password manager for every platform. Your vault's end-to-end encrypted and synced through Bitwarden's cloud, or a server you run.
+deployment: cloud
+platforms: [android, ios, windows, macos, linux, web, browser-extension]
+source: https://github.com/bitwarden/clients
+
+export:
+  - id: json
+    name: Export your vault as JSON
+    method: file
+    formats: [bitwarden-json]
+    steps:
+      - On the web, select Tools --> Export. In the browser extension, it's Settings --> Vault options --> Export vault.
+      - On a phone, tap Settings --> Vault --> Export vault, then Export vault to a file on iOS. On desktop, select Export in the navigation menu.
+      - Pick .json as the File format.
+      - Select Export (Export vault outside the web app) and confirm with your master password or an emailed code.
+    data:
+      included:
+        [
+          logins,
+          passkeys,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          groups,
+          history,
+          favourites,
+          dates
+        ]
+      excluded: [attachments, shared-vaults, settings]
+    limitations:
+      - Items in an organisation's collections aren't in it. Pick the organisation under Export from to get the collections you manage.
+      - The trash, your Sends and any item type your organisation has switched off never go into an export.
+      - Every password's in plain text, so delete the file once you've imported it.
+      - Passkeys saved before Bitwarden 2024.3.1 keep a use counter that sites can check, so an old export of them may stop working.
+      - On iOS 26 or later, Export vault to another app hands everything straight to an app that supports Credential Exchange, with no file. On Android, you start that from the other app.
+    docs: https://bitwarden.com/help/export-your-data/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/tools/export-vault-core/src/services/individual-vault-export.service.ts
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/common/src/models/export/cipher.export.ts
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/common/src/models/export/login.export.ts
+
+  - id: encrypted
+    name: Export an encrypted backup
+    method: file
+    formats: [bitwarden-encrypted-json]
+    steps:
+      - On the web, select Tools --> Export. In the browser extension, it's Settings --> Vault options --> Export vault.
+      - On a phone, tap Settings --> Vault --> Export vault, then Export vault to a file on iOS. On desktop, select Export in the navigation menu.
+      - Pick .json (Encrypted) and Password protected, then set a password. On a phone, it's .json (Password protected).
+      - Select Export (Export vault outside the web app) and confirm with your master password or an emailed code.
+    data:
+      included:
+        [
+          logins,
+          passkeys,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          groups,
+          history,
+          favourites,
+          dates
+        ]
+      excluded: [attachments, shared-vaults, settings]
+    limitations:
+      - An Account restricted file only goes back into the account that made it, and stops opening if you rotate that account's encryption key. Use Password protected to move accounts.
+      - Items in an organisation's collections aren't in it, and nor are the trash or your Sends.
+    docs: https://bitwarden.com/help/encrypted-export/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/tools/export-vault-core/src/services/individual-vault-export.service.ts
+
+  - id: csv
+    name: Export your vault as CSV
+    method: file
+    formats: [bitwarden-csv]
+    steps:
+      - On the web, select Tools --> Export. In the browser extension, it's Settings --> Vault options --> Export vault.
+      - On a phone, tap Settings --> Vault --> Export vault, then Export vault to a file on iOS. On desktop, select Export in the navigation menu.
+      - Pick .csv as the File format.
+      - Select Export (Export vault outside the web app) and confirm with your master password or an emailed code.
+    data:
+      included: [logins, secrets, secure-notes, custom-fields, groups, favourites]
+      excluded:
+        [
+          passkeys,
+          cards,
+          identities,
+          other-items,
+          attachments,
+          shared-vaults,
+          history,
+          dates,
+          settings
+        ]
+    limitations:
+      - Only logins and secure notes come out. Cards, identities, SSH keys and passkeys need the .json.
+      - "Custom fields come out as plain name: value lines, so hidden and checkbox fields lose their type and a value over several lines gets split up."
+      - It's never encrypted, so delete it once you've imported it.
+    docs: https://bitwarden.com/help/export-your-data/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/tools/export-vault-core/src/services/individual-vault-export.service.ts
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/tools/export-vault-core/src/services/base-vault-export.service.ts
+
+  - id: zip
+    name: Export your vault with attachments
+    method: file
+    formats: [bitwarden-zip]
+    steps:
+      - On the web, select Tools --> Export. In the browser extension, it's Settings --> Vault options --> Export vault.
+      - On desktop, select Export in the navigation menu.
+      - Pick .zip (with attachments) as the File format.
+      - Select Export (Export vault outside the web app) and confirm with your master password or an emailed code.
+    data:
+      included:
+        [
+          logins,
+          passkeys,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          attachments,
+          groups,
+          history,
+          favourites,
+          dates
+        ]
+      excluded: [shared-vaults, settings]
+    limitations:
+      - The phone apps can't make one.
+      - Items in an organisation aren't in it, and there's no zip for an organisation's attachments at all.
+      - Bitwarden only imports the data.json inside it, so you add each attachment back by hand.
+      - Nothing in it is encrypted.
+      - Attachments that won't download are left out, and Bitwarden tells you how many.
+    docs: https://bitwarden.com/help/export-your-data/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/tools/export-vault-core/src/services/individual-vault-export.service.ts
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/tools/export-vault-core/src/services/org-vault-export.service.ts
+
+  - id: organization
+    name: Export an organisation's vault
+    method: file
+    formats: [bitwarden-json]
+    requirements: [Owner, admin or custom role with export rights]
+    steps:
+      - In the web app, open the Admin Console from the product switcher.
+      - Select Settings --> Export, pick .json as the File format and select Confirm format.
+      - Enter your master password and select Export.
+    data:
+      included:
+        [
+          logins,
+          passkeys,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          shared-vaults,
+          history,
+          dates
+        ]
+      excluded: [attachments, groups, settings]
+      unknown: [favourites]
+    limitations:
+      - It has the collections and what's in them, but not who can see each one.
+      - There's a .json (Encrypted) for a backup only Bitwarden opens, and a .csv with just logins and secure notes.
+      - Members with the Manage collection permission can export those collections from the normal export instead, under Export from.
+    docs: https://bitwarden.com/help/export-organization-items/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/tools/export-vault-core/src/services/org-vault-export.service.ts
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/common/src/models/export/collection.export.ts
+
+import:
+  - id: bitwarden-json
+    name: Import a Bitwarden .json export
+    method: file
+    formats: [bitwarden-json, bitwarden-encrypted-json]
+    steps:
+      - On the web, select Tools --> Import, or Import on desktop. In the extension, it's Settings --> Vault options --> Import items.
+      - Pick Bitwarden (json) as the File format and choose the file.
+      - Select Import (Import data outside the web app), and enter the file's password if it's password protected.
+    data:
+      included:
+        [
+          logins,
+          passkeys,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          groups,
+          history,
+          favourites
+        ]
+      excluded: [dates]
+    limitations:
+      - It never checks for duplicates, so importing a file twice gives you two of everything.
+      - Every item is dated the day you import it, since the import doesn't send the old dates.
+      - A file with over 40,000 items or 2,000 folders is turned away whole, so split it up.
+      - Each item keeps five of its old passwords and drops the rest.
+      - Collections only come back when you import into an organisation.
+      - If your organisation doesn't allow an item type, items of that type are skipped.
+      - The phone apps can't import a file, so use the web app in your phone's browser.
+      - Apps that support Credential Exchange can hand a vault straight over with no file. On iOS 26 you start in the other app, and on Android 14 it's Import from another app.
+    docs: https://bitwarden.com/help/import-data/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/bitwarden/bitwarden-json-importer.ts
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/bitwarden/bitwarden-password-protected-importer.ts
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/services/import.service.ts
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/common/src/vault/models/request/cipher.request.ts
+
+  - id: bitwarden-csv
+    name: Import a Bitwarden .csv export
+    method: file
+    formats: [bitwarden-csv]
+    steps:
+      - On the web, select Tools --> Import, or Import on desktop. In the extension, it's Settings --> Vault options --> Import items.
+      - Pick Bitwarden (csv) as the File format and choose the file.
+      - Select Import (Import data outside the web app).
+    data:
+      included: [logins, secrets, secure-notes, custom-fields, groups, favourites]
+    limitations:
+      - Every custom field comes in as a plain text field.
+      - Into an organisation, folders become collections and favourites are dropped.
+      - Importing a file twice gives you two of everything.
+    docs: https://bitwarden.com/help/condition-bitwarden-import/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/bitwarden/bitwarden-csv-importer.ts
+
+  - id: 1password
+    name: Import a 1Password export
+    method: file
+    formats: [1password-1pux]
+    steps:
+      - Export everything from 1Password 8 as a .1pux file. You get one for each account.
+      - On the web, select Tools --> Import, or Import on desktop. In the extension, it's Settings --> Vault options --> Import items.
+      - Pick 1Password (1pux/json) as the File format and choose the file.
+      - Select Import (Import data outside the web app).
+    data:
+      included:
+        [
+          logins,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          groups,
+          history,
+          favourites
+        ]
+      excluded: [attachments, tags, shared-vaults, dates]
+    limitations:
+      - Only an item's first tag comes across, as its folder, and vault names are dropped.
+      - Attached files and the files in Document items are left behind, so you add those back by hand.
+      - Other item types come in as logins, secure notes, cards or identities, with their details as fields.
+      - Custom fields over 200 characters or several lines long are lost on any item that has notes of its own.
+      - Only the first account in the file comes in, and each item keeps five old passwords.
+      - Importing a file twice gives you two of everything.
+    docs: https://bitwarden.com/help/import-from-1password/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/onepassword/onepassword-1pux-importer.ts
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/base-importer.ts
+
+  - id: lastpass
+    name: Import a LastPass export
+    method: file
+    formats: [lastpass-csv]
+    steps:
+      - Export your vault from LastPass's web vault as a .csv.
+      - On the web, select Tools --> Import, or Import on desktop. In the extension, it's Settings --> Vault options --> Import items.
+      - Pick LastPass as the File format and choose the file.
+      - Select Import (Import data outside the web app).
+    data:
+      included:
+        [
+          logins,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          groups,
+          favourites
+        ]
+      excluded: [shared-vaults]
+    limitations:
+      - Other item types, like SSH keys, Wi-Fi and software licences, come in as plain secure notes with their details as text.
+      - Shared folders become ordinary folders, and favourites are dropped going into an organisation.
+      - LastPass's on-screen export can turn &, < and > in passwords into HTML codes like &amp;, so check any with those in.
+      - The desktop app and browser extension can also sign in to LastPass and pull everything straight across.
+      - Importing a file twice gives you two of everything.
+    docs: https://bitwarden.com/help/import-from-lastpass/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/lastpass/lastpass-csv-importer.ts
+
+  - id: proton-pass
+    name: Import a Proton Pass export
+    method: file
+    formats: [proton-pass-zip]
+    steps:
+      - Export from Proton Pass without PGP encryption.
+      - On the web, select Tools --> Import, or Import on desktop. In the extension, it's Settings --> Vault options --> Import items.
+      - Pick ProtonPass (zip/json) as the File format and choose the file.
+      - Select Import (Import data outside the web app).
+    data:
+      included:
+        [
+          logins,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          groups,
+          favourites
+        ]
+      excluded: [passkeys, attachments, shared-vaults, dates]
+    limitations:
+      - A PGP-encrypted export is turned away.
+      - Each vault becomes a folder, and passkeys and attached files are left behind.
+      - Aliases come in as logins, and Wi-Fi and custom items as secure notes with their details as fields.
+      - Importing a file twice gives you two of everything.
+    docs: https://bitwarden.com/help/import-data/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/protonpass/protonpass-json-importer.ts
+
+  - id: kdbx
+    name: Import a KeePass database
+    method: file
+    formats: [kdbx]
+    steps:
+      - On the web, select Tools --> Import, or Import on desktop. In the extension, it's Settings --> Vault options --> Import items.
+      - Pick KeePass (kdbx) as the File format and choose the .kdbx file.
+      - Enter its master password, and select Add key file if it uses one.
+      - Select Import (Import data outside the web app).
+    data:
+      included: [logins, secrets, custom-fields, groups]
+      excluded: [passkeys, attachments, tags, history, dates, settings]
+    limitations:
+      - A database over 10 MB won't open, and attachments count towards that.
+      - Every entry comes in as a login, dated the day you import it.
+      - KeePassXC's passkeys aren't brought in as passkeys.
+      - Importing a file twice gives you two of everything.
+    docs: https://bitwarden.com/help/import-from-keepass/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/sdk/importers/kdbx-sdk-importer.ts
+      - https://github.com/bitwarden/sdk-internal/blob/5b7fbb413cf0eff108b0abdbc22607945cc36d8b/crates/bitwarden-importers/src/importers/kdbx.rs
+
+  - id: keepass-xml
+    name: Import a KeePass XML export
+    method: file
+    formats: [keepass-xml]
+    steps:
+      - Export the database from KeePass or KeePassXC as XML.
+      - On the web, select Tools --> Import, or Import on desktop. In the extension, it's Settings --> Vault options --> Import items.
+      - Pick KeePass 2 (xml) as the File format and choose the file.
+      - Select Import (Import data outside the web app).
+    data:
+      included: [logins, secrets, custom-fields, groups]
+      excluded: [passkeys, attachments, tags, history, dates, settings]
+    limitations:
+      - Only KeePassXC's one-time codes come across. KeePass 2's own TimeOtp fields arrive as plain custom fields.
+      - Deleted entries come in too, in a Recycle Bin folder.
+      - Importing a file twice gives you two of everything.
+    docs: https://bitwarden.com/help/import-from-keepass/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/keepass2-xml-importer.ts
+
+  - id: keepassxc-csv
+    name: Import a KeePassXC .csv export
+    method: file
+    formats: [keepassxc-csv]
+    steps:
+      - Export the database from KeePassXC as a .csv.
+      - On the web, select Tools --> Import, or Import on desktop. In the extension, it's Settings --> Vault options --> Import items.
+      - Pick KeePassX (csv) as the File format and choose the file.
+      - Select Import (Import data outside the web app).
+    data:
+      included: [logins, secrets, groups]
+      excluded: [dates]
+    limitations:
+      - Entries with no title are skipped without a word.
+      - Importing a file twice gives you two of everything.
+    docs: https://bitwarden.com/help/import-from-keepass/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/keepassx-csv-importer.ts
+
+  - id: chrome
+    name: Import from Chrome or another Chromium browser
+    method: file
+    formats: [chrome-csv]
+    steps:
+      - Export your passwords as a .csv from the browser's password settings.
+      - On the web, select Tools --> Import, or Import on desktop. In the extension, it's Settings --> Vault options --> Import items.
+      - Pick your browser (Chrome, Edge, Opera, Brave, Vivaldi or Arc) as the File format and choose the file.
+      - Select Import (Import data outside the web app).
+    data:
+      included: [logins]
+    limitations:
+      - The desktop app can read Chrome, Edge, Opera, Brave, Vivaldi and Arc straight from the browser, with no file, if you got it from Bitwarden's downloads page or as an AppImage rather than from an app store.
+      - Importing a file twice gives you two of everything.
+    docs: https://bitwarden.com/help/import-from-chrome/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/chrome-csv-importer.ts
+
+  - id: firefox
+    name: Import from Firefox
+    method: file
+    formats: [firefox-csv]
+    steps:
+      - In Firefox, open about:logins and export your passwords as a .csv.
+      - On the web, select Tools --> Import, or Import on desktop. In the extension, it's Settings --> Vault options --> Import items.
+      - Pick Firefox (csv) as the File format and choose the file.
+      - Select Import (Import data outside the web app).
+    data:
+      included: [logins]
+      excluded: [dates]
+    limitations:
+      - Each login is named after its website, since Firefox doesn't give them names.
+      - Importing a file twice gives you two of everything.
+    docs: https://bitwarden.com/help/import-from-firefox/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/firefox-csv-importer.ts
+
+  - id: apple-passwords
+    name: Import from Apple Passwords or Safari
+    method: file
+    formats: [apple-passwords-csv]
+    steps:
+      - Export your passwords as a .csv from Apple's Passwords app or Safari. Safari's comes in a .zip, so unzip it.
+      - On the web, select Tools --> Import, or Import on desktop. In the extension, it's Settings --> Vault options --> Import items.
+      - Pick Safari and macOS (csv) as the File format and choose the Passwords.csv.
+      - Select Import (Import data outside the web app).
+    data:
+      included: [logins, secrets]
+    limitations:
+      - Importing a file twice gives you two of everything.
+    docs: https://bitwarden.com/help/import-from-safari/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/safari-csv-importer.ts
+
+  - id: dashlane
+    name: Import a Dashlane export
+    method: file
+    formats: [dashlane-csv]
+    steps:
+      - Export from Dashlane as CSV, then unzip what it gives you.
+      - On the web, select Tools --> Import, or Import on desktop. In the extension, it's Settings --> Vault options --> Import items.
+      - Pick Dashlane (csv) as the File format, choose one of the .csv files and select Import (Import data outside the web app).
+      - Do the same for each of the other .csv files.
+    data:
+      included:
+        [
+          logins,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          groups
+        ]
+    limitations:
+      - Logins with a one-time code also get its secret as a visible custom field.
+      - Bank accounts, passports and licences come in as cards and identities.
+      - Importing a file twice gives you two of everything.
+    docs: https://bitwarden.com/help/import-from-dashlane/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/dashlane/dashlane-csv-importer.ts
+
+delete:
+  steps:
+    - In the web app, go to Settings --> My account, scroll to Danger zone and select Delete account.
+    - On a phone, tap Settings --> Account security --> Delete account. In the desktop app, it's Account --> Delete account.
+    - Enter your master password to confirm.
+  docs: https://bitwarden.com/help/delete-your-account/
+  notes:
+    - Everything goes straight away, since Bitwarden doesn't soft delete anything.
+    - It doesn't cancel a paid plan, so cancel that first.
+    - If you're an organisation's only owner, add another owner or delete the organisation first.
+    - Lost your master password? The recover-delete page on your vault's address (vault.bitwarden.com/#/recover-delete, or .eu) emails you a link to delete the account.
+
+verification:
+  status: documented
+  checked_at: 2026-11-24

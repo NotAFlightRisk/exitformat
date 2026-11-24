@@ -95,6 +95,7 @@ import:
       - In a plain text list, Steam codes only come across from otpauth://steam/ links, and lines it can't read (mOTP ones, say) are skipped without a word.
       - In an andOTP file, one mOTP entry crashes the import, so nothing from it comes in.
       - Codes whose secret is already in the app are skipped.
+      - Bitwarden codes saved as a bare key, rather than an otpauth:// link, are skipped without a word.
     sources:
       - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/andotp.rs
       - https://gitlab.gnome.org/World/Authenticator/-/blob/4.6.2/src/backup/bitwarden.rs
