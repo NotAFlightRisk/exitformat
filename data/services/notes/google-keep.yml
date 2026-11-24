@@ -16,11 +16,12 @@ export:
       - Pick a delivery method, like Send download link via email, then select Create export.
       - When the email arrives, select Download archive and save the zip.
     data:
-      included: [text, formatting, attachments, tags, properties, dates, todos, sharing]
+      included: [text, formatting, attachments, drawings, tags, properties, dates, todos, sharing]
       excluded: [history, settings]
     limitations:
       - Google's list of what's in it doesn't mention reminders, so expect to set those up again.
       - Version history isn't in it, but you can download a note's old versions as text from More --> Version history on the web.
+      - Drawings come out as pictures, alongside your other attachments.
       - Changes you make after asking for it might not make it into the archive.
       - On a work or school account, some of it might not be available.
     docs: https://support.google.com/keep/answer/10017039

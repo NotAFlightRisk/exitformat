@@ -155,7 +155,7 @@ import:
       - Pick whether you want the files offline, then select Import. Zoho emails you when it's done.
     data:
       included: [text, attachments]
-      unknown: [formatting, tags, properties, dates, todos, sharing]
+      unknown: [formatting, drawings, tags, properties, dates, todos, sharing]
     limitations:
       - Everything lands in one notebook called Google Keep.
       - Attachments become separate file cards, grouped with their note.

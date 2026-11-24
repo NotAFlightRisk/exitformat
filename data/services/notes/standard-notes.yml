@@ -107,7 +107,7 @@ import:
       - In Standard Notes, open the account menu and choose Import, then Google Keep, and pick all the .html files in the Keep folder.
     data:
       included: [text, formatting, properties, dates, todos]
-      excluded: [attachments, tags, sharing]
+      excluded: [attachments, drawings, tags, sharing]
     limitations:
       - The .html files keep formatting, on a paid plan with Super. The .json files lose it but keep pinned, archived and trashed notes as they were.
       - Labels and attachments are dropped.

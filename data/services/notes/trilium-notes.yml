@@ -183,7 +183,7 @@ import:
       - In Trilium, right-click a note in the tree, choose Import into note... and pick Google Keep under Import from.
       - Choose the zip and select Import.
     data:
-      included: [text, formatting, attachments, dates, todos]
+      included: [text, formatting, attachments, drawings, dates, todos]
       excluded: [tags, properties, sharing]
     limitations:
       - Labels, pins and archived or trashed status are dropped, so archived and trashed notes come in like any other. Colours come across as labels.

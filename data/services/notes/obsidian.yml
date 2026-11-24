@@ -201,7 +201,7 @@ import:
       - In Obsidian, install the Importer plugin, open it and pick Google Keep (.zip, .json).
       - Choose the zip and select Import.
     data:
-      included: [text, formatting, attachments, tags, properties, dates, todos]
+      included: [text, formatting, attachments, drawings, tags, properties, dates, todos]
       excluded: [sharing]
     limitations:
       - Checklists all come in as top-level items, since Keep doesn't export indents.
