@@ -1,0 +1,5 @@
+name: mSecure CSV export
+extensions: [.csv]
+standard: false
+based_on: csv
+description: mSecure's CSV export, a header line then a row per item with its name, template, tag and notes, and each field as label, type and value split by |. It isn't encrypted.

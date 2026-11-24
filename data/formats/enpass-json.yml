@@ -1,0 +1,5 @@
+name: Enpass JSON export
+extensions: [.json]
+standard: false
+based_on: json
+description: Enpass's JSON export, with every item's category, fields, notes, dates and trash state, your folders, and attachments embedded in the file. It isn't encrypted.

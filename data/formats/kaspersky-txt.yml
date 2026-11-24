@@ -1,0 +1,5 @@
+name: Kaspersky Password Manager text export
+extensions: [.txt]
+standard: false
+based_on: txt
+description: The text file Kaspersky Password Manager exports, with websites, apps and notes as blocks of label and value lines, split by ---. It isn't encrypted.

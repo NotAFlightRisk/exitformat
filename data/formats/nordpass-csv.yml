@@ -1,0 +1,5 @@
+name: NordPass CSV export
+extensions: [.csv]
+standard: false
+based_on: csv
+description: NordPass's CSV export, one row per item or folder, with a type column (password, note, credit_card, identity or folder) and columns for logins, cards and addresses. Extra URLs and custom fields are JSON in their own columns. It isn't encrypted.

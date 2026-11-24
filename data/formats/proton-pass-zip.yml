@@ -1,5 +1,6 @@
-name: Proton Pass export
+name: Proton Pass ZIP export
 extensions: [.zip]
 standard: false
+owner: proton-pass
 based_on: zip
-description: The zip Proton Pass exports, with every vault and item in a JSON file inside. Proton Pass can also export it encrypted with PGP, which is a different file.
+description: The unencrypted zip Proton Pass exports. Its Proton Pass/data.json holds every vault you own, with its folders and every item in plain text, the trash included, and a files folder holds attachments if you asked for them.
