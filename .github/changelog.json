@@ -1,6 +1,9 @@
 {
-  "commit": "5a0202032199483da3e2899c8c1f0bbeeb68d63b",
+  "commit": "6aee7bcd36cefae8a7a1dd02099c58fd708e4f23",
   "entries": [
+    {"date":"2026-11-24","commit":"6aee7bc","pr":63,"id":"1password","category":"password-managers","name":"1Password","kind":"updated","sections":["import"]},
+    {"date":"2026-11-24","commit":"6aee7bc","pr":63,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
+    {"date":"2026-11-24","commit":"6aee7bc","pr":63,"id":"lastpass","category":"password-managers","name":"LastPass","kind":"added"},
     {"date":"2026-11-24","commit":"5a02020","pr":62,"id":"google-password-manager","category":"password-managers","name":"Google Password Manager","kind":"added"},
     {"date":"2026-11-24","commit":"a1de441","pr":61,"id":"1password","category":"password-managers","name":"1Password","kind":"added"},
     {"date":"2026-11-24","commit":"a1de441","pr":61,"id":"2fas","category":"2fa","name":"2FAS Auth","kind":"updated","sections":["import"]},
