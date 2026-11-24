@@ -1,0 +1,250 @@
+name: Zoho Notebook
+website: https://www.zoho.com/notebook/
+description: Zoho's notes app for text, checklists, sketches, audio and files, kept in your Zoho account and synced across your devices.
+deployment: cloud
+platforms: [web, windows, macos, linux, android, ios]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/24/e2/4b/24e24b4e-c517-abb1-8d59-4b351bb798b3/AppIcon_Linism_Light-0-0-1x_U007epad-0-1-0-sRGB-0-85-220.png/128x128bb.png
+aliases: [notebook by zoho, zoho notes]
+
+export:
+  - id: znote
+    name: Export everything as ZNote
+    method: file
+    formats: [zoho-notebook-znote]
+    steps:
+      - Open Settings (on the web, it's under your profile picture at the top right) and select Export under Migration.
+      - Pick Znote and start the export.
+      - Zoho emails you a download link once it's ready, so grab the zip before the link expires.
+    data:
+      included: [text, formatting, attachments, drawings, structure, links, tags, properties, dates, todos]
+      unknown: [history, sharing, canvases, settings]
+    limitations:
+      - Sketches come out as PNG images.
+      - Links between notes point at zohonotebook:// addresses, which only Zoho Notebook can open.
+      - A big account takes a while, so don't start a second export before the first one's done.
+      - Without a Zoho account your notes only live on your device and the app doesn't offer Export, so sign up first.
+    docs: https://help.zoho.com/portal/en/kb/notebook/import-export-backup/articles/export-options-in-zoho-notebook
+    sources:
+      - https://notesnook.com/help/importing-notes/import-notes-from-zoho-notebook
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/__tests__/data/zohonotebook/Notebook_02Mar2022_0441.zip
+
+  - id: html
+    name: Export everything as HTML
+    method: file
+    formats: [html]
+    steps:
+      - Open Settings (on the web, it's under your profile picture at the top right) and select Export under Migration.
+      - Pick HTML and start the export.
+      - Zoho emails you a download link once it's ready, so grab it before the link expires.
+    data:
+      included: [text]
+      unknown: [formatting, attachments, drawings, structure, links, tags, properties, dates, todos]
+    limitations:
+      - Zoho Notebook can't restore from it, so take a ZNote export as well if you might come back.
+    docs: https://help.zoho.com/portal/en/kb/notebook/import-export-backup/articles/export-options-in-zoho-notebook
+    sources:
+      - https://help.zoho.com/portal/en/kb/notebook/import-export-backup/articles/html-and-text-import-export-in-zoho-notebook
+      - https://help.zoho.com/portal/en/kb/notebook/import-export-backup/articles/import-options-in-zoho-notebook
+
+  - id: markdown
+    name: Export a note as Markdown
+    method: file
+    formats: [markdown]
+    steps:
+      - Open a text or checklist note and select Export as Markdown.
+      - Save the .md file. A note with images or attachments comes out as a zip of the .md and its files.
+    data:
+      included: [text, formatting, attachments, todos]
+      excluded: [structure, drawings]
+      unknown: [links, tags, properties, dates]
+    limitations:
+      - It's one note at a time, and only text and checklist notes.
+      - Formatting that Markdown doesn't have gets simplified.
+    docs: https://help.zoho.com/portal/en/kb/notebook/import-export-backup/articles/markdown-import-export-in-zoho-notebook
+
+  - id: pdf
+    name: Export a note as PDF
+    method: file
+    formats: [pdf]
+    steps:
+      - On a phone, open the note, tap Share and choose Export as PDF.
+      - On desktop, open the note's More Options (...) menu and select Export As PDF. On the web, select Print and save it as a PDF.
+    data:
+      included: [text, formatting]
+      excluded: [structure]
+      unknown: [attachments, drawings]
+    limitations:
+      - It's one note at a time.
+    docs: https://help.zoho.com/portal/en/kb/notebook/import-export-backup/articles/export-options-in-zoho-notebook
+
+import:
+  - id: znote
+    name: Import a ZNote export
+    method: file
+    formats: [zoho-notebook-znote]
+    requirements: [Desktop or phone app]
+    steps:
+      - Go to Settings and select Import under Migration.
+      - Choose the zip from your export, or a single .znote file, and select Import.
+    limitations:
+      - Importing the same file twice gives you duplicates.
+    docs: https://help.zoho.com/portal/en/kb/notebook/import-export-backup/articles/import-options-in-zoho-notebook
+
+  - id: evernote
+    name: Import from Evernote
+    method: connect
+    from: [evernote]
+    steps:
+      - Go to Settings and choose Migrate from Evernote under Migration.
+      - Sign in to Evernote and let Zoho Notebook in.
+      - Pick the notebooks you want and start the migration.
+    data:
+      included: [text, formatting, attachments, structure, tags, todos]
+      unknown: [links, properties, dates, history, sharing]
+    limitations:
+      - Images can turn into photo cards or stay in the note, and files become file cards.
+      - Fancier formatting and embedded content may come out differently.
+      - Zoho lists checklists, but says nothing about Evernote's reminders and tasks.
+      - Imported files count against your storage, which is 500 MB on the free plan, with each file up to 10 MB.
+    docs: https://help.zoho.com/portal/en/kb/notebook/migrate-to-notebook/articles/migrate-from-evernote-to-zoho-notebook
+
+  - id: enex
+    name: Import Evernote ENEX files
+    method: file
+    formats: [enex]
+    steps:
+      - Export each notebook from Evernote as an ENEX file.
+      - On the web, open Settings and choose Migrate from Evernote.
+      - Pick the .enex file and start the import.
+    data:
+      included: [text, formatting, attachments, tags, todos]
+      unknown: [structure, links, properties, dates]
+    limitations:
+      - Files can be up to 500 MB, so export a big account in smaller batches.
+      - Importing the same file twice gives you duplicates.
+      - Imported files count against your storage, which is 500 MB on the free plan, with each file up to 10 MB.
+    docs: https://help.zoho.com/portal/en/kb/notebook/migrate-to-notebook/articles/migrate-from-evernote-to-zoho-notebook
+
+  - id: onenote
+    name: Import from OneNote
+    method: connect
+    from: [onenote]
+    steps:
+      - Go to Settings and select Migrate from OneNote under Migration.
+      - Sign in with your Microsoft account and grant the permissions it asks for.
+      - Pick the notebooks you want and select Start Migration.
+    data:
+      included: [text, formatting, attachments, structure, todos]
+      unknown: [drawings, links, tags, dates, embeds, history, sharing]
+    limitations:
+      - Zoho says it brings across most of the content people use, so check anything unusual afterwards.
+      - Microsoft blocks notebooks with more than 5,000 sections, and OneDrive libraries with more than 5,000 folders.
+      - Images, videos and files land inside text notes rather than as cards of their own.
+      - Running it again makes duplicate notebooks rather than updating the old ones.
+      - Imported files count against your storage, which is 500 MB on the free plan, with each file up to 10 MB.
+    docs: https://help.zoho.com/portal/en/kb/notebook/migrate-to-notebook/articles/migrate-from-onenote-to-zoho-notebook
+
+  - id: google-keep
+    name: Import from Google Keep
+    method: file
+    formats: [google-keep-takeout]
+    requirements: [Web app]
+    steps:
+      - Download Keep from Google Takeout as a .zip.
+      - On the web, select your profile picture, then Settings --> Migrate from Google Keep, and choose the zip.
+      - Pick whether you want the files offline, then select Import. Zoho emails you when it's done.
+    data:
+      included: [text, attachments]
+      unknown: [formatting, tags, properties, dates, todos, sharing]
+    limitations:
+      - Everything lands in one notebook called Google Keep.
+      - Attachments become separate file cards, grouped with their note.
+      - Files can be up to 500 MB, and running it twice gives you duplicates.
+      - Imported files count against your storage, which is 500 MB on the free plan, with each file up to 10 MB.
+    docs: https://help.zoho.com/portal/en/kb/notebook/migrate-to-notebook/articles/migrate-from-google-keep-zoho
+
+  - id: apple-notes
+    name: Import from Apple Notes
+    method: connect
+    from: [apple-notes]
+    requirements: [Mac app]
+    steps:
+      - In the Zoho Notebook Mac app, go to File --> Import and choose Apple Notes.
+      - Pick Import all Apple Notes or Import selected notes only, then select Import.
+    data:
+      included: [text, formatting, attachments, structure, todos]
+      unknown: [drawings, links, tags, dates, sharing]
+    limitations:
+      - Locked notes are left out, so unlock them in Apple Notes first.
+      - Keep the app open until it's finished.
+      - Imported files count against your storage, which is 500 MB on the free plan, with each file up to 10 MB.
+    docs: https://help.zoho.com/portal/en/kb/notebook/migrate-to-notebook/articles/migrate-from-apple-notes-to-zoho-notebook
+
+  - id: markdown
+    name: Import a Markdown file
+    method: file
+    formats: [markdown]
+    steps:
+      - Go to Settings and select Import Markdown.
+      - Drop in a .md file, or a zip of Markdown files with their images. Each file becomes a text note.
+    data:
+      included: [text, formatting, attachments, todos]
+      unknown: [structure, links, tags, properties, dates]
+    limitations:
+      - The Linux app takes one .md file at a time and puts the note in your default notebook.
+    docs: https://help.zoho.com/portal/en/kb/notebook/import-export-backup/articles/markdown-import-export-in-zoho-notebook
+    sources:
+      - https://help.zoho.com/portal/en/kb/notebook/import-export-backup/articles/import-options-in-zoho-notebook
+
+  - id: html
+    name: Import an HTML file
+    method: file
+    formats: [html]
+    steps:
+      - Go to Settings and select Import HTML.
+      - Drop in one .html file, or a zip holding just that file, and it becomes a text note.
+    data:
+      included: [text, formatting]
+      excluded: [structure]
+      unknown: [attachments, links, tags, properties, dates]
+    limitations:
+      - It's one file at a time.
+      - Images the page only links to on the web may not come across.
+    docs: https://help.zoho.com/portal/en/kb/notebook/import-export-backup/articles/html-and-text-import-export-in-zoho-notebook
+
+  - id: text
+    name: Import a text file
+    method: file
+    formats: [txt]
+    steps:
+      - Go to Settings and select Import Text.
+      - Drop in the .txt file and it becomes a text note.
+    data:
+      included: [text]
+    docs: https://help.zoho.com/portal/en/kb/notebook/import-export-backup/articles/html-and-text-import-export-in-zoho-notebook
+
+  - id: zoho-mail
+    name: Import notes from Zoho Mail
+    method: connect
+    steps:
+      - On the web, select your profile picture, then Settings, and choose Migrate Zoho Mail Notes under Migration.
+      - Select Start Migration. Zoho emails you once it's done.
+    limitations:
+      - Books in Zoho Mail become notebooks, and attachments become file cards grouped with their note.
+      - Running it again copies everything again, as new notes.
+    docs: https://help.zoho.com/portal/en/kb/notebook/migrate-to-notebook/articles/migrate-from-zoho-mail-to-notebook-zoho
+
+delete:
+  steps:
+    - Export anything you want to keep, and cancel any paid plan, since Zoho won't close an account that still has one.
+    - Sign in at accounts.zoho.com, go to Settings and scroll down to Close Account.
+    - Select Close Account, pick a reason and confirm.
+  docs: https://help.zoho.com/portal/en/kb/notebook/manage-your-account/articles/close-your-zoho-account-zoho
+  notes:
+    - It closes your whole Zoho account, so you lose every other Zoho app you use with it too.
+    - Zoho's privacy policy says your data goes from its live systems at the next clean-up, which runs every 6 months, and from its backups 3 months after that.
+    - If the account belongs to an organisation, check with its admin first.
+
+verification:
+  status: documented
+  checked_at: 2026-11-24
