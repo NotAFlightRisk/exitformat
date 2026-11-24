@@ -1,6 +1,7 @@
 {
-  "commit": "40046b60a88bb8fe36efdee213079791e87acead",
+  "commit": "93cb5fc2f51fc07c1af0202c0bb6fe13f7368c8a",
   "entries": [
+    {"date":"2026-11-24","commit":"93cb5fc","pr":55,"id":"affine","category":"notes","name":"AFFiNE","kind":"added"},
     {"date":"2026-11-24","commit":"40046b6","pr":54,"id":"apple-notes","category":"notes","name":"Apple Notes","kind":"updated","sections":["export"]},
     {"date":"2026-11-24","commit":"40046b6","pr":54,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
     {"date":"2026-11-24","commit":"2902451","pr":53,"id":"google-keep","category":"notes","name":"Google Keep","kind":"updated","sections":["export"]},
