@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 import { better } from '#lib/data/compat.ts';
-import type { Migration, PathView, Service } from '#lib/data/types.ts';
+import type { Migration, PathView, Service, Term } from '#lib/data/types.ts';
 import {
   lastChecked,
   migration,
@@ -47,6 +47,12 @@ function meaning(path: PathView, { name: from }: Service, { name: to }: Service)
   return `${from} and ${to} both understand ${formats}, so you export a file from one and import it into the other.`;
 }
 
+function losses([first, ...rest]: Term[]) {
+  if (!first) return 'loses none that we know of';
+  const name = first.label.toLowerCase();
+  return rest.length ? `loses ${rest.length + 1}, including ${name}` : `loses ${name}`;
+}
+
 export const load = ({ params }) => {
   const found = migration(params.source, params.destination);
   if (!found) error(404, "We don't know a way between those two yet");
@@ -55,9 +61,6 @@ export const load = ({ params }) => {
   const paths = found.paths.map((path) => pathView(path, source, destination));
   const [best] = paths;
   const lede = meaning(best, source, destination);
-  const loses = best.lost.length
-    ? `loses ${best.lost.length}, including ${best.lost[0].label.toLowerCase()}`
-    : 'loses none that we know of';
   // a route's only as fresh as the older of its two entries
   const older = [source, destination].reduce((a, b) =>
     b.verification.checked_at < a.verification.checked_at ? b : a
@@ -73,7 +76,7 @@ export const load = ({ params }) => {
     meta: {
       title: `Move from ${source.name} to ${destination.name}`,
       description: best.carried.length
-        ? `${lede} The move carries over ${count(best.carried.length, 'kind')} of data and ${loses}.`
+        ? `${lede} The move carries over ${count(best.carried.length, 'kind')} of data and ${losses(best.lost)}.`
         : lede,
       modified: lastChecked([source, destination])
     },

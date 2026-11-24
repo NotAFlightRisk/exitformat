@@ -28,7 +28,7 @@
             {#if rest > 0}
               <li>
                 <a class="more" href="{category.href}#services">
-                  +{rest}<span class="visually-hidden"> more</span>
+                  +{rest}<span class="visually-hidden"> more in {category.name}</span>
                 </a>
               </li>
             {/if}
