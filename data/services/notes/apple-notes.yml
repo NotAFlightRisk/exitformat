@@ -22,7 +22,7 @@ export:
       unknown: [sharing]
     limitations:
       - Locked notes get skipped, so remove the lock from any you want to keep.
-      - Drawings are kept as pictures, along with any handwriting Notes has read from them.
+      - Each drawing is stored with a picture of it, along with any handwriting Notes has read from it.
       - Attachments that are still only in iCloud get missed.
       - Smart folders don't come across, though the notes in them do.
       - Apple will also send you a copy of your iCloud notes from privacy.apple.com, but doesn't say what format they come in.
