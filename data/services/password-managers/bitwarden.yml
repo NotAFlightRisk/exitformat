@@ -1,0 +1,248 @@
+name: Bitwarden
+website: https://bitwarden.com/
+description: Open source password manager for every platform. Your vault's end-to-end encrypted and synced through Bitwarden's cloud, or a server you run.
+deployment: cloud
+platforms: [android, ios, windows, macos, linux, web, browser-extension]
+source: https://github.com/bitwarden/clients
+
+export:
+  - id: json
+    name: Export your vault as JSON
+    method: file
+    formats: [bitwarden-json]
+    steps:
+      - On the web, select Tools --> Export. In the browser extension, it's Settings --> Vault options --> Export vault.
+      - On a phone, tap Settings --> Vault --> Export vault, then Export vault to a file on iOS. The desktop app has Export in its menu.
+      - Pick .json as the File format, then select Export and enter your master password.
+    data:
+      included:
+        [
+          logins,
+          passkeys,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          groups,
+          history,
+          favourites,
+          dates
+        ]
+      excluded: [attachments, shared-vaults, settings]
+    limitations:
+      - Items in an organisation's collections aren't in it. Pick the organisation under Export from to get the collections you manage.
+      - The trash and your Sends never go into an export.
+      - Every password's in plain text, so delete the file once you've imported it.
+      - On iOS 26 or later, Export vault to another app hands everything straight to an app that supports Credential Exchange, with no file.
+    docs: https://bitwarden.com/help/export-your-data/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/tools/export-vault-core/src/services/individual-vault-export.service.ts
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/common/src/models/export/cipher.export.ts
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/common/src/models/export/login.export.ts
+
+  - id: encrypted
+    name: Export an encrypted backup
+    method: file
+    formats: [bitwarden-encrypted-json]
+    steps:
+      - On the web, select Tools --> Export. In the browser extension, it's Settings --> Vault options --> Export vault.
+      - On a phone, tap Settings --> Vault --> Export vault, then Export vault to a file on iOS. The desktop app has Export in its menu.
+      - Pick .json (Encrypted) as the File format, Password protected as the Export type, and set a password.
+      - On a phone, pick .json (Password protected) instead. Then select Export and enter your master password.
+    data:
+      included:
+        [
+          logins,
+          passkeys,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          groups,
+          history,
+          favourites,
+          dates
+        ]
+      excluded: [attachments, shared-vaults, settings]
+    limitations:
+      - Only Bitwarden can open it.
+      - An Account restricted file only goes back into the account that made it, and stops opening if you rotate that account's encryption key. Use Password protected to move accounts.
+      - Items in an organisation's collections aren't in it, and nor are the trash or your Sends.
+    docs: https://bitwarden.com/help/encrypted-export/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/tools/export-vault-core/src/services/individual-vault-export.service.ts
+
+  - id: csv
+    name: Export your vault as CSV
+    method: file
+    formats: [bitwarden-csv]
+    steps:
+      - On the web, select Tools --> Export. In the browser extension, it's Settings --> Vault options --> Export vault.
+      - On a phone, tap Settings --> Vault --> Export vault, then Export vault to a file on iOS. The desktop app has Export in its menu.
+      - Pick .csv as the File format, then select Export and enter your master password.
+    data:
+      included: [logins, secrets, secure-notes, custom-fields, groups, favourites]
+      excluded:
+        [
+          passkeys,
+          cards,
+          identities,
+          other-items,
+          attachments,
+          shared-vaults,
+          history,
+          dates,
+          settings
+        ]
+    limitations:
+      - Only logins and secure notes come out. Cards, identities, SSH keys and passkeys need the .json.
+      - "Custom fields come out as plain name: value text, so hidden and checkbox fields lose their type."
+      - It's never encrypted, so delete it once you've imported it.
+    docs: https://bitwarden.com/help/export-your-data/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/tools/export-vault-core/src/services/individual-vault-export.service.ts
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/tools/export-vault-core/src/services/base-vault-export.service.ts
+
+  - id: zip
+    name: Export your vault with attachments
+    method: file
+    formats: [bitwarden-zip]
+    steps:
+      - On the web, select Tools --> Export. In the browser extension, it's Settings --> Vault options --> Export vault.
+      - The desktop app has Export in its menu too.
+      - Pick .zip (with attachments) as the File format.
+      - Select Export and enter your master password.
+    data:
+      included:
+        [
+          logins,
+          passkeys,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          attachments,
+          groups,
+          history,
+          favourites,
+          dates
+        ]
+      excluded: [shared-vaults, settings]
+    limitations:
+      - The phone apps can't make one.
+      - Bitwarden only imports the data.json inside it, so you add each attachment back by hand.
+      - Nothing in it is encrypted.
+      - Attachments that won't download are left out, and Bitwarden tells you how many.
+    docs: https://bitwarden.com/help/export-your-data/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/tools/export-vault-core/src/services/individual-vault-export.service.ts
+
+  - id: organization
+    name: Export an organisation's vault
+    method: file
+    formats: [bitwarden-json]
+    requirements: [Owner or admin role]
+    steps:
+      - In the web app, open the Admin Console from the product switcher.
+      - Select Settings --> Export, pick .json as the File format and select Confirm format.
+      - Enter your master password and select Export.
+    data:
+      included:
+        [
+          logins,
+          passkeys,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          shared-vaults,
+          history,
+          dates
+        ]
+      excluded: [attachments, groups, settings]
+      unknown: [favourites]
+    limitations:
+      - It has the collections and what's in them, but not who can see each one.
+      - There's a .json (Encrypted) for a backup only Bitwarden opens, and a .csv with just logins and secure notes.
+      - Members with the Manage collection permission can export those collections from the normal export instead, under Export from.
+    docs: https://bitwarden.com/help/export-organization-items/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/tools/export-vault-core/src/services/org-vault-export.service.ts
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/common/src/models/export/collection.export.ts
+
+import:
+  - id: bitwarden-json
+    name: Import a Bitwarden .json export
+    method: file
+    formats: [bitwarden-json, bitwarden-encrypted-json]
+    steps:
+      - On the web, select Tools --> Import. In the browser extension, it's Settings --> Vault options --> Import items.
+      - Pick Bitwarden (json) as the File format and choose the file.
+      - Select Import, and enter the file's password if it's password protected.
+    data:
+      included:
+        [
+          logins,
+          passkeys,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          groups,
+          shared-vaults,
+          history,
+          favourites
+        ]
+      unknown: [dates]
+    limitations:
+      - It never checks for duplicates, so importing a file twice gives you two of everything.
+      - Each item keeps its five most recent old passwords and drops the rest.
+      - Collections only come back when you import into an organisation.
+      - The phone apps can't import a file, so use the web app in your phone's browser.
+      - Apps that support Credential Exchange can hand a vault straight over with no file. On iOS 26 you start in the other app, and on Android 14 it's Import from another app.
+    docs: https://bitwarden.com/help/import-data/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/bitwarden/bitwarden-json-importer.ts
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/bitwarden/bitwarden-password-protected-importer.ts
+
+  - id: bitwarden-csv
+    name: Import a Bitwarden .csv export
+    method: file
+    formats: [bitwarden-csv]
+    steps:
+      - On the web, select Tools --> Import. In the browser extension, it's Settings --> Vault options --> Import items.
+      - Pick Bitwarden (csv) as the File format, choose the file and select Import.
+    data:
+      included: [logins, secrets, secure-notes, custom-fields, groups, favourites]
+    limitations:
+      - Every custom field comes in as a plain text field.
+      - Into an organisation, folders become collections and favourites are dropped.
+    docs: https://bitwarden.com/help/condition-bitwarden-import/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/bitwarden/bitwarden-csv-importer.ts
+
+delete:
+  steps:
+    - In the web app, go to Settings --> My account.
+    - Scroll down to Danger zone and select Delete account.
+    - Enter your master password to confirm.
+  docs: https://bitwarden.com/help/delete-your-account/
+  notes:
+    - Everything goes straight away, since Bitwarden doesn't soft delete anything.
+    - It doesn't cancel a paid plan, so cancel that first.
+    - If you're an organisation's only owner, add another owner or delete the organisation first.
+    - Lost your master password? vault.bitwarden.com/#/recover-delete emails you a link to delete the account instead.
+
+verification:
+  status: documented
+  checked_at: 2026-11-24

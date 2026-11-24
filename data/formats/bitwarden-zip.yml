@@ -1,0 +1,6 @@
+name: Bitwarden export with attachments
+extensions: [.zip]
+standard: false
+owner: bitwarden
+based_on: zip
+description: Bitwarden's .zip export - the ordinary unencrypted .json export as data.json, plus an attachments folder with a subfolder of files for each item. Nothing in it is encrypted.
