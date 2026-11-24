@@ -296,7 +296,7 @@ import:
       - Links to other notes still point at Zoho Notebook, so they don't open anything.
       - Reminders, note colours and locations are dropped. Checklists come in as checklists, ticks and all.
       - Sketches come in as images.
-      - It only reads the ZNote export, not Zoho's HTML one.
+      - Attachments come in under Zoho's own coded file names rather than their original ones.
       - Attachments count towards your monthly storage, which is 50 MB on the free plan.
     docs: https://notesnook.com/help/importing-notes/import-notes-from-zoho-notebook
     sources:

@@ -17,12 +17,12 @@ export:
       - Zoho emails you a download link once it's ready, so grab the zip before the link expires.
     data:
       included: [text, formatting, attachments, drawings, structure, links, tags, properties, dates, todos]
-      unknown: [comments, history, sharing, canvases, settings]
+      unknown: [history, sharing, canvases, settings]
     limitations:
       - Sketches come out as PNG images.
       - Links between notes point at zohonotebook:// addresses, which only Zoho Notebook can open.
-      - There's no way to export a single notebook. It's everything, or one note at a time.
       - A big account takes a while, so don't start a second export before the first one's done.
+      - Without a Zoho account your notes only live on your device and the app doesn't offer Export, so sign up first.
     docs: https://help.zoho.com/portal/en/kb/notebook/import-export-backup/articles/export-options-in-zoho-notebook
     sources:
       - https://notesnook.com/help/importing-notes/import-notes-from-zoho-notebook
@@ -37,8 +37,8 @@ export:
       - Pick HTML and start the export.
       - Zoho emails you a download link once it's ready, so grab it before the link expires.
     data:
-      included: [text, formatting]
-      unknown: [attachments, drawings, structure, links, tags, properties, dates, todos]
+      included: [text]
+      unknown: [formatting, attachments, drawings, structure, links, tags, properties, dates, todos]
     limitations:
       - Zoho Notebook can't restore from it, so take a ZNote export as well if you might come back.
     docs: https://help.zoho.com/portal/en/kb/notebook/import-export-backup/articles/export-options-in-zoho-notebook
@@ -51,10 +51,11 @@ export:
     method: file
     formats: [markdown]
     steps:
-      - Open a text or checklist note and select Export As --> Markdown.
+      - Open a text or checklist note and select Export as Markdown.
       - Save the .md file. A note with images or attachments comes out as a zip of the .md and its files.
     data:
       included: [text, formatting, attachments, todos]
+      excluded: [structure, drawings]
       unknown: [links, tags, properties, dates]
     limitations:
       - It's one note at a time, and only text and checklist notes.
@@ -67,10 +68,11 @@ export:
     formats: [pdf]
     steps:
       - On a phone, open the note, tap Share and choose Export as PDF.
-      - On desktop or the web, open the note's More Options (...) menu, select Print and save it as a PDF from there.
+      - On desktop, open the note's More Options (...) menu and select Export As PDF. On the web, select Print and save it as a PDF.
     data:
       included: [text, formatting]
-      unknown: [attachments]
+      excluded: [structure]
+      unknown: [attachments, drawings]
     limitations:
       - It's one note at a time.
     docs: https://help.zoho.com/portal/en/kb/notebook/import-export-backup/articles/export-options-in-zoho-notebook
@@ -93,15 +95,17 @@ import:
     method: connect
     from: [evernote]
     steps:
-      - On the web, open Settings --> Import & Export and choose Migrate from Evernote.
+      - Go to Settings and choose Migrate from Evernote under Migration.
       - Sign in to Evernote and let Zoho Notebook in.
       - Pick the notebooks you want and start the migration.
     data:
       included: [text, formatting, attachments, structure, tags, todos]
-      unknown: [links, properties, dates]
+      unknown: [links, properties, dates, history, sharing]
     limitations:
       - Images can turn into photo cards or stay in the note, and files become file cards.
       - Fancier formatting and embedded content may come out differently.
+      - Zoho lists checklists, but says nothing about Evernote's reminders and tasks.
+      - Imported files count against your storage, which is 500 MB on the free plan, with each file up to 10 MB.
     docs: https://help.zoho.com/portal/en/kb/notebook/migrate-to-notebook/articles/migrate-from-evernote-to-zoho-notebook
 
   - id: enex
@@ -118,6 +122,7 @@ import:
     limitations:
       - Files can be up to 500 MB, so export a big account in smaller batches.
       - Importing the same file twice gives you duplicates.
+      - Imported files count against your storage, which is 500 MB on the free plan, with each file up to 10 MB.
     docs: https://help.zoho.com/portal/en/kb/notebook/migrate-to-notebook/articles/migrate-from-evernote-to-zoho-notebook
 
   - id: onenote
@@ -130,11 +135,13 @@ import:
       - Pick the notebooks you want and select Start Migration.
     data:
       included: [text, formatting, attachments, structure, todos]
-      unknown: [drawings, links, tags, dates]
+      unknown: [drawings, links, tags, dates, embeds, history, sharing]
     limitations:
+      - Zoho says it brings across most of the content people use, so check anything unusual afterwards.
       - Microsoft blocks notebooks with more than 5,000 sections, and OneDrive libraries with more than 5,000 folders.
       - Images, videos and files land inside text notes rather than as cards of their own.
       - Running it again makes duplicate notebooks rather than updating the old ones.
+      - Imported files count against your storage, which is 500 MB on the free plan, with each file up to 10 MB.
     docs: https://help.zoho.com/portal/en/kb/notebook/migrate-to-notebook/articles/migrate-from-onenote-to-zoho-notebook
 
   - id: google-keep
@@ -153,6 +160,7 @@ import:
       - Everything lands in one notebook called Google Keep.
       - Attachments become separate file cards, grouped with their note.
       - Files can be up to 500 MB, and running it twice gives you duplicates.
+      - Imported files count against your storage, which is 500 MB on the free plan, with each file up to 10 MB.
     docs: https://help.zoho.com/portal/en/kb/notebook/migrate-to-notebook/articles/migrate-from-google-keep-zoho
 
   - id: apple-notes
@@ -165,10 +173,11 @@ import:
       - Pick Import all Apple Notes or Import selected notes only, then select Import.
     data:
       included: [text, formatting, attachments, structure, todos]
-      unknown: [drawings, links, tags, dates]
+      unknown: [drawings, links, tags, dates, sharing]
     limitations:
       - Locked notes are left out, so unlock them in Apple Notes first.
       - Keep the app open until it's finished.
+      - Imported files count against your storage, which is 500 MB on the free plan, with each file up to 10 MB.
     docs: https://help.zoho.com/portal/en/kb/notebook/migrate-to-notebook/articles/migrate-from-apple-notes-to-zoho-notebook
 
   - id: markdown
@@ -182,7 +191,7 @@ import:
       included: [text, formatting, attachments, todos]
       unknown: [structure, links, tags, properties, dates]
     limitations:
-      - The desktop app takes one .md file at a time and puts the note in your default notebook.
+      - The Linux app takes one .md file at a time and puts the note in your default notebook.
     docs: https://help.zoho.com/portal/en/kb/notebook/import-export-backup/articles/markdown-import-export-in-zoho-notebook
     sources:
       - https://help.zoho.com/portal/en/kb/notebook/import-export-backup/articles/import-options-in-zoho-notebook
