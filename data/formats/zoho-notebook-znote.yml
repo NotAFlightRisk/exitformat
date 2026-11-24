@@ -1,0 +1,6 @@
+name: Zoho Notebook ZNote export
+extensions: [.zip, .znote]
+standard: false
+owner: zoho-notebook
+based_on: zip
+description: Zoho Notebook's own export, and the only one it can import back. The zip has a folder for each notebook, with one inside it for each collection, and a .znote file for each note. A .znote is a tar archive holding the note as XML (Note.znel) along with its images and files. The XML keeps the title, dates, tags, colour, location, reminders and checklists. Nothing in it is encrypted.

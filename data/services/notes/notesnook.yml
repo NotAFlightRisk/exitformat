@@ -279,6 +279,32 @@ import:
       - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/md/index.ts
       - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/html/index.ts
 
+  - id: zoho-notebook
+    name: Import from Zoho Notebook
+    method: file
+    formats: [zoho-notebook-znote]
+    requirements: [Web or desktop app]
+    steps:
+      - In Zoho Notebook, go to Settings --> Export under Migration, pick Znote and download the zip from Zoho's email.
+      - In Notesnook, go to Settings --> Import & export --> Notesnook Importer and pick Zoho Notebook.
+      - Drop in the zip and select Start importing.
+    data:
+      included: [text, formatting, attachments, drawings, tags, dates, todos]
+      excluded: [structure, links, properties]
+    limitations:
+      - Every note lands outside any notebook, as the importer doesn't find the notebook names in Zoho's zip.
+      - Links to other notes still point at Zoho Notebook, so they don't open anything.
+      - Reminders, note colours and locations are dropped. Checklists come in as checklists, ticks and all.
+      - Sketches come in as images.
+      - It only reads the ZNote export, not Zoho's HTML one.
+      - Attachments count towards your monthly storage, which is 50 MB on the free plan.
+    docs: https://notesnook.com/help/importing-notes/import-notes-from-zoho-notebook
+    sources:
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/zoho-notebook/index.ts
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/znel/src/content.ts
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/utils/archiver.ts
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/__tests__/__snapshots__/zohonotebook.snapshot.json
+
   - id: markdown
     name: Import Markdown files
     method: file
