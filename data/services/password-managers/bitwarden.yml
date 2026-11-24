@@ -356,6 +356,7 @@ import:
       excluded: [passkeys, attachments, tags, history, dates, settings]
     limitations:
       - A database over 10 MB won't open, and attachments count towards that.
+      - It only takes a password and a key file, so a database that needs a YubiKey won't open.
       - Every entry comes in as a login, dated the day you import it.
       - KeePassXC's passkeys aren't brought in as passkeys.
       - Importing a file twice gives you two of everything.
@@ -398,10 +399,12 @@ import:
       excluded: [dates]
     limitations:
       - Entries with no title are skipped without a word.
+      - Entries at the top of the database land in a folder called Root, and if you've renamed the top group, every folder ends up inside it.
       - Importing a file twice gives you two of everything.
     docs: https://bitwarden.com/help/import-from-keepass/
     sources:
       - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/keepassx-csv-importer.ts
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/format/CsvExporter.cpp
 
   - id: chrome
     name: Import from Chrome or another Chromium browser

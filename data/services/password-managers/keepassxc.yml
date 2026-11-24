@@ -1,0 +1,304 @@
+name: KeePassXC
+website: https://keepassxc.org/
+description: Free, open source password manager for Windows, macOS and Linux. Your vault is one encrypted .kdbx file, kept on your computer.
+deployment: local
+platforms: [windows, macos, linux]
+source: https://github.com/keepassxreboot/keepassxc
+
+export:
+  - id: database
+    name: Copy the database file
+    method: file
+    formats: [kdbx]
+    steps:
+      - Your vault is the .kdbx file you unlock in KeePassXC, so you can just copy it.
+      - Or, with it unlocked, select Database --> Save Database Backup... to save a copy somewhere else.
+      - Take its key file too if it uses one. The copy opens with the same password, key file or hardware key.
+    data:
+      included: [logins, passkeys, secrets, custom-fields, attachments, groups, tags, history, dates]
+      excluded: [settings]
+    limitations:
+      - Passkeys are kept as KPEX_PASSKEY_ attributes, so they only work as passkeys in apps that read those.
+      - If it unlocks with a hardware key like a YubiKey, the other app needs to support that too, or remove it under Database --> Database Security...
+      - Database --> Passkeys... can also save passkeys as .passkey files, one each, for importing into another KeePassXC database.
+    docs: https://keepassxc.org/docs/KeePassXC_UserGuide#_database_backup_options
+    sources:
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/gui/DatabaseWidget.cpp
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/gui/passkeys/PasskeyExporter.cpp
+
+  - id: xml
+    name: Export as KeePass XML
+    method: file
+    formats: [keepass-xml]
+    steps:
+      - With the database unlocked, select Database --> Export --> XML File...
+      - Select Yes when it warns the file won't be encrypted, then choose where to save it.
+    data:
+      included: [logins, passkeys, secrets, custom-fields, groups, tags, history, dates]
+      excluded: [attachments, settings]
+    limitations:
+      - Attachments are only listed by name, unless your database is still in the older KDBX 3.1 format.
+      - Entries in the Recycle Bin come out too.
+      - It's never encrypted, so delete it once you've imported it.
+      - keepassxc-cli export prints the same XML in a terminal.
+    docs: https://keepassxc.org/docs/KeePassXC_UserGuide#_exporting_databases
+    sources:
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/gui/DatabaseTabWidget.cpp
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/format/KdbxWriter.cpp
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/format/KdbxXmlWriter.cpp
+
+  - id: csv
+    name: Export as CSV
+    method: file
+    formats: [keepassxc-csv]
+    steps:
+      - With the database unlocked, select Database --> Export --> CSV File...
+      - Select Yes when it warns the file won't be encrypted, then choose where to save it.
+    data:
+      included: [logins, secrets, groups, dates]
+      excluded: [passkeys, custom-fields, attachments, tags, history, settings]
+    limitations:
+      - It only has the main fields, so tags, additional attributes, attachments, passkeys and old versions stay behind.
+      - Entries in the Recycle Bin come out too, in a Recycle Bin group.
+      - It's never encrypted, so delete it once you've imported it.
+      - keepassxc-cli export --format csv prints the same in a terminal.
+    docs: https://keepassxc.org/docs/KeePassXC_UserGuide#_exporting_databases
+    sources:
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/format/CsvExporter.cpp
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/cli/Export.cpp
+
+  - id: html
+    name: Export as HTML for printing
+    method: file
+    formats: [html]
+    steps:
+      - With the database unlocked, select Database --> Export --> HTML File...
+      - Pick an order under Sort entries by..., select OK and choose where to save it.
+    data:
+      included: [logins, passkeys, secrets, custom-fields, groups]
+      excluded: [attachments, tags, history, dates, settings]
+    limitations:
+      - It's a page to print as a paper backup, not something other apps import.
+      - One-time code secrets and passkey private keys are printed in plain text along with your passwords.
+      - The Recycle Bin is left out.
+    docs: https://keepassxc.org/docs/KeePassXC_UserGuide#_exporting_databases
+    sources:
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/format/HtmlExporter.cpp
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/gui/export/ExportDialog.cpp
+
+import:
+  - id: kdbx
+    name: Open a KeePass database
+    method: file
+    formats: [kdbx]
+    steps:
+      - Select Database --> Open Database... and choose the .kdbx file your other KeePass app saved.
+      - Enter its password, add its key file or hardware key if it uses one, and select Unlock.
+    data:
+      included:
+        [logins, passkeys, secrets, custom-fields, attachments, groups, tags, history, dates]
+    limitations:
+      - Passkeys only come across if the other app saved them as KPEX_PASSKEY_ attributes, the way KeePassXC does.
+      - To add it to a database you've already got, open that one and select Database --> Merge From Database... instead.
+    docs: https://keepassxc.org/docs/KeePassXC_UserGuide#_opening_an_existing_database
+    sources:
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/format/KdbxXmlReader.cpp
+
+  - id: csv
+    name: Import a CSV file
+    method: file
+    formats: [csv, keepassxc-csv]
+    steps:
+      - Select Database --> Import..., pick Comma Separated Values (.csv) and choose the file.
+      - Choose New Database or Existing Database under Import Into, then select Continue.
+      - Match the columns under Column Association, check the preview and select Done.
+    data:
+      included: [logins, secrets, groups, tags, dates]
+      excluded: [passkeys, custom-fields, attachments, history]
+    limitations:
+      - Columns can only go to Group, Title, Username, Password, URL, Tags, Notes, TOTP, Icon, Last Modified and Created. The rest are left out.
+      - Columns named like those, as in KeePassXC's own export, are matched for you.
+      - It isn't encrypted, so delete the file once it's in.
+    docs: https://keepassxc.org/docs/KeePassXC_UserGuide#_importing_csv_file
+    sources:
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/gui/csvImport/CsvImportWidget.cpp
+
+  - id: bitwarden
+    name: Import a Bitwarden export
+    method: file
+    formats: [bitwarden-json, bitwarden-encrypted-json]
+    steps:
+      - Export from Bitwarden as .json, or as .json (Encrypted) with Password protected.
+      - In KeePassXC, select Database --> Import..., pick Bitwarden (.json) and choose the file.
+      - Enter the file's password if it has one, choose where it goes under Import Into, then select Continue and Done.
+    data:
+      included:
+        [
+          logins,
+          passkeys,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          custom-fields,
+          groups,
+          shared-vaults,
+          history,
+          favourites,
+          dates
+        ]
+      excluded: [other-items, attachments]
+    limitations:
+      - An Account restricted encrypted export is turned away, so use Password protected.
+      - Secure notes, cards and identities become ordinary entries, with the card and identity details as additional attributes.
+      - SSH keys, bank accounts, driving licences and passports come in with just their name, notes and custom fields, so their details are lost.
+      - Favourites get a Favorite tag, and logins with a passkey get a Passkey tag. A login with more than one passkey keeps only the last.
+      - From an organisation's export, collections become groups, and an item in several only goes in the first.
+      - Importing into an existing database twice gives you two of everything.
+    docs: https://keepassxc.org/docs/KeePassXC_UserGuide#_bitwarden
+    sources:
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/format/BitwardenReader.cpp
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/gui/wizard/ImportWizardPageSelect.cpp
+
+  - id: 1password
+    name: Import a 1Password export
+    method: file
+    formats: [1password-1pux]
+    steps:
+      - Export from 1Password as a .1pux file.
+      - In KeePassXC, select Database --> Import..., pick 1Password Export (.1pux) and choose the file.
+      - Choose where it goes under Import Into, then select Continue and Done.
+    data:
+      included:
+        [
+          logins,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          attachments,
+          groups,
+          tags,
+          shared-vaults,
+          favourites,
+          dates
+        ]
+      excluded: [passkeys, history]
+    limitations:
+      - Only the first account in the file comes in.
+      - Each vault becomes a group, and items other than logins become entries with their details as additional attributes.
+      - Favourites and archived items get Favorite and Archived tags.
+      - Old passwords and passkeys are left behind.
+      - It isn't encrypted, so delete the file once it's in.
+    docs: https://keepassxc.org/docs/KeePassXC_UserGuide#_1password_export
+    sources:
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/format/OPUXReader.cpp
+
+  - id: 1password-opvault
+    name: Import a 1Password OPVault
+    method: folder
+    formats: [1password-opvault]
+    steps:
+      - Save your vault from 1Password as a local .opvault folder.
+      - In KeePassXC, select Database --> Import..., pick 1Password Vault (.opvault) and choose the folder (it's a file on a Mac).
+      - Enter the vault's password, choose where it goes under Import Into, then select Continue and Done.
+    data:
+      included:
+        [
+          logins,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          attachments,
+          tags,
+          dates
+        ]
+      excluded: [groups, favourites, history]
+    limitations:
+      - Entries are grouped by item type, like Login and Credit Card, instead of by your folders.
+      - Items in 1Password's trash land in the Recycle Bin.
+      - With a newer 1Password, use the .1pux export instead.
+    docs: https://keepassxc.org/docs/KeePassXC_UserGuide#_1password_opvault
+    sources:
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/format/OpVaultReader.cpp
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/format/OpVaultReaderBandEntry.cpp
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/format/OpVaultReaderSections.cpp
+
+  - id: proton-pass
+    name: Import a Proton Pass export
+    method: file
+    formats: [proton-pass-zip]
+    steps:
+      - Export from Proton Pass without encryption, then unzip it.
+      - In KeePassXC, select Database --> Import..., pick Proton Pass (.json) and choose the data.json in its Proton Pass folder.
+      - Choose where it goes under Import Into, then select Continue and Done.
+    data:
+      included:
+        [
+          logins,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          groups,
+          shared-vaults,
+          favourites,
+          dates
+        ]
+      excluded: [passkeys, attachments, history]
+    limitations:
+      - It reads the data.json, not the zip, and a PGP-encrypted export won't open.
+      - Each vault becomes a group. Cards come in with the number as the username and the security code as the password.
+      - Identities come in with a note saying the type's unknown, and their main details as additional attributes. Their extra personal, address and contact sections are lost.
+      - Aliases come in without the alias address, extra sections on custom, Wi-Fi and SSH key items are dropped, and date custom fields come in empty.
+      - Pinned items get a Favorite tag, and items in the trash come in marked as expired.
+      - It isn't encrypted, so delete the file once it's in.
+    docs: https://keepassxc.org/docs/KeePassXC_UserGuide#_proton_pass
+    sources:
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/format/ProtonPassReader.cpp
+
+  - id: keepass1
+    name: Import a KeePass 1 database
+    method: file
+    formats: [keepass1-kdb]
+    steps:
+      - Select Database --> Import..., pick KeePass 1 Database (.kdb) and choose the file.
+      - Enter its password, and its key file if it has one.
+      - Choose where it goes under Import Into, then select Continue and Done.
+    data:
+      included: [logins, attachments, groups, dates]
+    docs: https://keepassxc.org/docs/KeePassXC_UserGuide#_importing_keepass_1_database
+    sources:
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/format/KeePass1Reader.cpp
+
+  - id: keepass-xml
+    name: Import a KeePass XML export
+    method: file
+    formats: [keepass-xml]
+    requirements: [keepassxc-cli]
+    steps:
+      - Export the database from the other app as KeePass XML.
+      - In a terminal, run keepassxc-cli import --set-password export.xml new.kdbx and set a password when it asks.
+      - Open new.kdbx in KeePassXC with Database --> Open Database...
+    data:
+      included:
+        [logins, passkeys, secrets, custom-fields, attachments, groups, tags, history, dates]
+    limitations:
+      - It always makes a new database, and won't write over a file that's already there.
+      - Attachments only come in if the XML has them in it.
+      - It isn't encrypted, so delete the XML once it's in.
+    docs: https://github.com/keepassxreboot/keepassxc/blob/2.8.0/docs/man/keepassxc-cli.1.adoc
+    sources:
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/cli/Import.cpp
+      - https://github.com/keepassxreboot/keepassxc/blob/2.8.0/src/format/KdbxXmlReader.cpp
+
+verification:
+  status: documented
+  checked_at: 2026-11-24

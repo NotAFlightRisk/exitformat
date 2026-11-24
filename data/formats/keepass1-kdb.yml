@@ -1,0 +1,4 @@
+name: KeePass 1 database
+extensions: [.kdb]
+standard: false
+description: The encrypted database file KeePass 1 uses. It holds groups and entries with at most one attachment each, but has nowhere for extra fields, tags or old versions.
