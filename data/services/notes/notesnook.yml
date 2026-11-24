@@ -220,7 +220,7 @@ import:
       - In Notesnook, go to Settings --> Import & export --> Notesnook Importer and pick Google Keep.
       - Drop in the zip and select Start importing.
     data:
-      included: [text, attachments, tags, properties, dates, todos]
+      included: [text, attachments, drawings, tags, properties, dates, todos]
       excluded: [formatting, sharing]
     limitations:
       - It reads each note's plain text, so Keep's bold, italics and headings are dropped.

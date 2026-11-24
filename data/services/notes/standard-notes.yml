@@ -107,10 +107,11 @@ import:
       - In Standard Notes, open the account menu and choose Import, then Google Keep, and pick all the .html files in the Keep folder.
     data:
       included: [text, formatting, properties, dates, todos]
-      excluded: [attachments, tags, sharing]
+      excluded: [tags, sharing]
+      unknown: [attachments, drawings]
     limitations:
       - The .html files keep formatting, on a paid plan with Super. The .json files lose it but keep pinned, archived and trashed notes as they were.
-      - Labels and attachments are dropped.
+      - Labels are dropped, and attachments don't come in as files. Pictures embedded in the .html files, drawings included, may come across with Super.
     docs: https://standardnotes.com/help/35/how-can-i-import-my-notes-from-google-keep
     sources:
       - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.3/packages/ui-services/src/Import/GoogleKeepConverter/GoogleKeepConverter.ts
