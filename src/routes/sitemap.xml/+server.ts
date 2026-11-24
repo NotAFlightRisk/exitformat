@@ -17,7 +17,7 @@ export const prerender = true;
 const fixed = Object.keys(import.meta.glob('/src/routes/**/+page.svelte'))
   .map((file) => file.slice('/src/routes'.length, -'/+page.svelte'.length))
   .map((path) => path.replace(/\/\(.+?\)/g, '') || '/')
-  .filter((path) => !path.includes('[') && path !== '/404');
+  .filter((path) => !path.includes('[') && !['/404', '/search'].includes(path));
 
 // lastmod only where there's a real date behind it
 export const GET = () => {
@@ -25,6 +25,7 @@ export const GET = () => {
   const dated: Record<string, string | undefined> = {
     '/': newest,
     '/categories': newest,
+    '/apps': newest,
     '/formats': newest,
     '/migrate': newest,
     '/changelog': changelog()[0]?.date

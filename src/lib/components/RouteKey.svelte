@@ -1,22 +1,22 @@
 <script lang="ts">
   import PathBadge from '#lib/components/PathBadge.svelte';
   import StateMark from '#lib/components/StateMark.svelte';
-  import { pathKinds } from '#lib/data/types.ts';
+  import { matrixKinds, pathKinds, terms } from '#lib/data/types.ts';
 
-  let { marks = true, blank = false }: { marks?: boolean; blank?: boolean } = $props();
+  // matrix adds the cells only the category matrix draws: no way across, and an app to itself
+  let { marks = true, matrix = false }: { marks?: boolean; matrix?: boolean } = $props();
+
+  const kinds = $derived([...terms(pathKinds), ...(matrix ? terms(matrixKinds) : [])]);
 </script>
 
 <ul class="key" aria-label="Key">
-  {#each Object.entries(pathKinds) as [id, label] (id)}
-    <li><PathBadge kind={{ id, label }} /></li>
+  {#each kinds as kind (kind.id)}
+    <li><PathBadge {kind} /></li>
   {/each}
   {#if marks}
     <li><StateMark state="included" /> Carries over</li>
     <li><StateMark state="excluded" /> Lost</li>
     <li><StateMark state="unknown" /> Not sure</li>
-  {/if}
-  {#if blank}
-    <li><span class="blank"></span> No way that we know of</li>
   {/if}
 </ul>
 
@@ -35,12 +35,5 @@
       align-items: center;
       gap: var(--space-2);
     }
-  }
-
-  .blank {
-    inline-size: 1.25rem;
-    block-size: 1.25rem;
-    border: var(--hairline) solid var(--rule-strong);
-    background: var(--surface-raised);
   }
 </style>

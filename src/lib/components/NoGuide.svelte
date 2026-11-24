@@ -3,6 +3,7 @@
   import FormatChips from '#lib/components/FormatChips.svelte';
   import Section from '#lib/components/Section.svelte';
   import type { FormatLink, Link } from '#lib/data/types.ts';
+  import { markFor } from '#lib/format-icons.ts';
   import { sharedFormats } from '#lib/search.ts';
   import { searchIndex } from '#lib/search-index.ts';
   import { href } from '#lib/site.ts';
@@ -28,9 +29,12 @@
     move = {
       from: link(from),
       to: link(to),
+      // the index doesn't say whose a format is, so an app's own one goes without its icon
       formats: sharedFormats(index, from, to).map((format) => ({
         ...format,
-        href: href.format(format.id)
+        href: href.format(format.id),
+        mark: format.standard ? markFor(format.extensions) : null,
+        icon: null
       }))
     };
   });

@@ -12,10 +12,31 @@
   --text-muted: light-dark(#56585b, #a4a6a8);
   --rule: light-dark(#d0d0c9, #303232);
   --rule-strong: light-dark(#1c1d1f, #d9d9d5);
+  --rule-soft: light-dark(#e7e7e2, #242526);
   --control-edge: light-dark(#7a7c7f, #84868a);
   --accent: light-dark(#237f52, #4cc38a);
   --on-accent: light-dark(#ffffff, #0b1610);
   --accent-tint: light-dark(#d9ebe0, #173022);
+
+  /* the status hues, each at least 3:1 against every surface above */
+  --status-good: light-dark(#237f52, #4cc38a);
+  --status-fair: light-dark(#a17a00, #e3c04a);
+  --status-poor: light-dark(#d0620f, #ef8f45);
+  --status-bad: light-dark(#c8372d, #f0675d);
+  --status-neutral: light-dark(#7d7f82, #737579);
+
+  /* the move meter, one per kind in meterFill */
+  --path-direct: var(--status-good);
+  --path-file: var(--status-fair);
+  --path-convert: var(--status-poor);
+  --path-none: var(--status-bad);
+  --path-self: var(--status-neutral);
+
+  /* a plain StateMark, one per state */
+  --state-included: var(--status-good);
+  --state-excluded: var(--status-bad);
+  --state-unknown: var(--status-fair);
+  --state-warning: var(--status-poor);
 
   --font-text: 'Atkinson Hyperlegible Next Variable', system-ui, sans-serif;
   --font-data: 'Atkinson Hyperlegible Mono Variable', ui-monospace, monospace;

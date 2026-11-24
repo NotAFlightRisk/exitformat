@@ -2,12 +2,22 @@
   import PathBadge from '#lib/components/PathBadge.svelte';
   import ServiceLink from '#lib/components/ServiceLink.svelte';
   import Tile from '#lib/components/Tile.svelte';
-  import type { ServiceLink as Service, Term } from '#lib/data/types.ts';
+  import {
+    matrixKinds,
+    type MatrixKind,
+    type PathKind,
+    type ServiceLink as Service,
+    type Term
+  } from '#lib/data/types.ts';
 
   // via is the format a cell links to when there's no guide for the move
-  type Cell = { href: string; kind: Term; via?: string } | null;
+  type Cell = { href: string; kind: Term<PathKind>; via?: string } | null;
 
   let { services, rows }: { services: Service[]; rows: Cell[][] } = $props();
+
+  // the kinds for a cell with no path: none across, or an app to itself
+  const none: Term<MatrixKind> = { id: 'none', label: matrixKinds.none };
+  const self: Term<MatrixKind> = { id: 'self', label: matrixKinds.self };
 
   let lit = $state<{ row: number; col: number } | null>(null);
   const on = (row: number, col: number) => () => (lit = { row, col });
@@ -38,6 +48,7 @@
             <ServiceLink service={from} />
           </th>
           {#each row as cell, col (services[col])}
+            {@const to = services[col]}
             <td
               class:self={rowIndex === col}
               class:lit={lit !== null && (lit.row === rowIndex || lit.col === col)}
@@ -45,20 +56,23 @@
               onpointerenter={on(rowIndex, col)}
             >
               {#if cell}
-                <a href={cell.href} onfocus={on(rowIndex, col)} onblur={off}>
+                <a class="spot" href={cell.href} onfocus={on(rowIndex, col)} onblur={off}>
                   <span class="visually-hidden">
                     {#if cell.via}
-                      {from.name} to {services[col].name} through {cell.via}:
+                      {from.name} to {to.name} through {cell.via}:
                     {:else}
-                      Move from {from.name} to {services[col].name}:
+                      Move from {from.name} to {to.name}:
                     {/if}
                   </span>
                   <PathBadge kind={cell.kind} bare />
                 </a>
-              {:else if rowIndex !== col}
-                <span class="visually-hidden"
-                  >No way to move from {from.name} to {services[col].name} yet</span
-                >
+              {:else if rowIndex === col}
+                <span class="spot"><PathBadge kind={self} bare /></span>
+              {:else}
+                <span class="spot">
+                  <span class="visually-hidden">From {from.name} to {to.name}:</span>
+                  <PathBadge kind={none} bare />
+                </span>
               {/if}
             </td>
           {/each}
@@ -76,6 +90,8 @@
   }
 
   table {
+    --cell: 3.25rem;
+
     border-collapse: collapse;
     background: var(--surface-raised);
   }
@@ -88,9 +104,9 @@
 
   thead th,
   td {
-    inline-size: 3.25rem;
-    min-inline-size: 3.25rem;
-    block-size: 3.25rem;
+    inline-size: var(--cell);
+    min-inline-size: var(--cell);
+    block-size: var(--cell);
     padding: 0;
     text-align: center;
   }
@@ -131,11 +147,12 @@
     }
   }
 
-  td a {
+  /* every cell's meter sits in the middle, linked or not */
+  .spot {
     display: grid;
     place-items: center;
     inline-size: 100%;
-    block-size: 3.25rem;
+    block-size: var(--cell);
   }
 
   .self {

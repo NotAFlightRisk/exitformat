@@ -1,10 +1,11 @@
 <script lang="ts">
+  import CategorySymbol from '#lib/components/CategorySymbol.svelte';
   import Icon from '#lib/components/Icon.svelte';
   import PathBadge from '#lib/components/PathBadge.svelte';
   import StateMark from '#lib/components/StateMark.svelte';
   import Tile from '#lib/components/Tile.svelte';
   import type { SearchResult } from '#lib/search.ts';
-  import { initials, symbol } from '#lib/text.ts';
+  import { symbol } from '#lib/text.ts';
 
   let { result, tag = false }: { result: SearchResult; tag?: boolean } = $props();
 
@@ -12,9 +13,7 @@
   // a format wears its extension when it's short enough to fit the tile
   const extension = $derived(result.detail.split(', ')[0].slice(1));
   const short = $derived(result.kind === 'format' && extension.length > 0 && extension.length < 5);
-  const plate = $derived(
-    result.kind === 'category' ? initials(result.name) : short ? extension : symbol(result.name)
-  );
+  const plate = $derived(short ? extension : symbol(result.name));
 </script>
 
 {#if result.route}
@@ -38,7 +37,11 @@
     <Tile name={result.name} icon={result.icon} size="sm" />
   {:else}
     <span class="mark" class:extension={short} style:--length={plate.length} aria-hidden="true">
-      {plate}
+      {#if result.category}
+        <CategorySymbol id={result.category} name={result.name} />
+      {:else}
+        {plate}
+      {/if}
     </span>
   {/if}
   <span class="text">

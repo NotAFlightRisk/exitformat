@@ -2,11 +2,16 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { initWasm, Resvg } from '@resvg/resvg-wasm';
 import satori from 'satori';
+import { categoryIcon } from '#lib/category-icons.ts';
+import { formatMark, markFor, viewBox } from '#lib/format-icons.ts';
 import {
+  meterFill,
+  meterSteps,
   pathKinds,
   type Category,
   type Format,
   type Migration,
+  type PathKind,
   type Service
 } from '#lib/data/types.ts';
 import {
@@ -39,7 +44,12 @@ const colour = {
   ink: '#1c1d1f',
   muted: '#56585b',
   rule: '#d0d0c9',
-  accent: '#237f52'
+  accent: '#237f52',
+  path: {
+    direct: '#237f52',
+    file: '#a17a00',
+    convert: '#d0620f'
+  } satisfies Record<PathKind, string>
 };
 
 // the site's 1px hairline, doubled so it survives being shrunk into a feed
@@ -75,8 +85,8 @@ const svg = (body: string) =>
     'image/svg+xml',
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">${body}</svg>`
   );
-const stroke = (path: string, ink: string) =>
-  `<path d="${path}" fill="none" stroke="${ink}" stroke-width="1.75" stroke-linecap="square"/>`;
+const stroke = (path: string, ink: string, width = 1.75) =>
+  `<path d="${path}" fill="none" stroke="${ink}" stroke-width="${width}" stroke-linecap="square"/>`;
 const box = (dash = '') =>
   `<rect x=".75" y=".75" width="14.5" height="14.5" fill="none" stroke="${colour.ink}" stroke-width="1.5" ${dash}/>`;
 
@@ -158,7 +168,29 @@ const facts = (items: [label: string, value: Child][]) =>
 const openSquare = (size: number) =>
   div({ width: size, height: size, flexShrink: 0, background: colour.accent });
 
-const chip = ({ name, standard }: { name: string; standard: boolean }) =>
+// FormatMark.svelte as a picture: the app's icon, or an open format's green mark
+function markOf({ standard, owner, extensions }: Format) {
+  const app = owner && iconOf(owner);
+  if (app) return app;
+  const name = standard && markFor(extensions);
+  if (!name) return null;
+  const mark = formatMark(name);
+  const paint = mark.filled
+    ? `fill="${colour.accent}" fill-rule="evenodd"`
+    : `fill="none" stroke="${colour.accent}" stroke-width="1.75" stroke-linecap="square"`;
+  return dataUri(
+    'image/svg+xml',
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox(mark)}"><path d="${mark.d}" ${paint}/></svg>`
+  );
+}
+
+interface Chip {
+  name: string;
+  standard: boolean;
+  picture: string | null;
+}
+
+const chip = ({ name, standard, picture }: Chip) =>
   edged(
     colour.ink,
     hairline,
@@ -170,16 +202,18 @@ const chip = ({ name, standard }: { name: string; standard: boolean }) =>
       fontSize: 24,
       letterSpacing: '-0.04em'
     },
-    standard && openSquare(14),
+    picture ? img(picture, 30) : standard && openSquare(14),
     name
   );
 
 /** Chips for two lines of the title cell, leaving room on the second to count the rest */
 function chips(ids: string[]) {
   const [line, more] = [714, 150];
-  const formats = ids.map(formatLink);
-  // the frame, padding and gap, then about 14px a character of mono, plus any open square
-  const widths = formats.map(({ name, standard }) => 44 + name.length * 14.4 + (standard ? 24 : 0));
+  const formats = ids.map((id): Chip => ({ ...formatLink(id), picture: markOf(format(id)!) }));
+  // the frame, padding and gap, then about 14px a character of mono, plus any mark or square
+  const widths = formats.map(
+    ({ name, standard, picture }) => 44 + name.length * 14.4 + (picture ? 40 : standard ? 24 : 0)
+  );
   let [row, used, shown] = [0, 0, formats.length];
   for (const [index, width] of widths.entries()) {
     if (used + width > line) [row, used] = [row + 1, 0];
@@ -197,8 +231,8 @@ function chips(ids: string[]) {
   );
 }
 
-/** A big element tile: a number top left, the icon top right, the symbol, then a name */
-const element = (face: string, corner: Child, picture: string | null, ...foot: string[]) =>
+/** A big element tile: a number top left, the icon top right, a symbol or drawing, then a name */
+const element = (face: string | Node, corner: Child, picture: string | null, ...foot: string[]) =>
   cell(
     { width: 264, flexShrink: 0, flexDirection: 'column', padding: 24 },
     div(
@@ -211,7 +245,7 @@ const element = (face: string, corner: Child, picture: string | null, ...foot: s
         flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: face.length > 3 ? 88 : 132,
+        fontSize: typeof face === 'string' && face.length > 3 ? 88 : 132,
         fontWeight: 800,
         letterSpacing: '-0.04em',
         lineHeight: 1
@@ -261,16 +295,14 @@ function serviceRow(list: Service[], named: boolean) {
   );
 }
 
-// how smooth a move is, out of three, as in PathBadge
-const ease: Record<string, number> = { direct: 3, file: 2, convert: 1 };
-
-const meter = (kind: string) =>
+// how smooth a move is, as PathBadge draws it
+const meter = (kind: PathKind) =>
   div(
     { gap: 4 },
-    ...[1, 2, 3].map((step) =>
-      step <= ease[kind]
-        ? div({ width: 14, height: 26, background: colour.accent })
-        : edged(colour.accent, 3, { width: 8, height: 20 })
+    ...Array.from({ length: meterSteps }, (_, step) =>
+      step < meterFill[kind]
+        ? div({ width: 14, height: 26, background: colour.path[kind] })
+        : edged(colour.path[kind], 3, { width: 8, height: 20 })
     )
   );
 
@@ -364,9 +396,11 @@ function migrationImage({ source, destination, paths: [best] }: Migration) {
 function categoryImage(found: Category) {
   const members = servicesIn(found.id);
   const moves = members.reduce((total, { id }) => total + migrationsFrom(id).length, 0);
+  const drawn = categoryIcon(found.id);
+  const face = drawn ? img(svg(stroke(drawn, colour.ink, 1.5)), 160) : initials(found.name);
   return frame(
     row(
-      element(initials(found.name), String(members.length), null),
+      element(face, String(members.length), null),
       cell(
         { flexGrow: 1, flexDirection: 'column', justifyContent: 'center', gap: 16 },
         headline(found.name, fit(found.name, 720, 2, [68, 60, 52])),
@@ -387,8 +421,9 @@ function formatImage(found: Format) {
     row(
       element(
         found.extensions[0] ?? symbol(found.name),
-        found.standard && openSquare(22),
-        null,
+        // the mark's green already, so the square's only for an open format without one
+        found.standard && !markFor(found.extensions) && openSquare(22),
+        markOf(found),
         ...(found.extensions.length > 1 ? [found.extensions.join(' ')] : [])
       ),
       cell(

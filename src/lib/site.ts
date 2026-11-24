@@ -4,7 +4,7 @@ export const site = {
   repo: 'https://github.com/NotAFlightRisk/exitformat',
   tagline: 'Your data has an exit.',
   description:
-    'How to export your data from online services, what formats you get, and where it can go.'
+    "Exporting from an app rarely gets you everything. Find out what's in an export, what it leaves out, and which apps can open it."
 };
 
 // every page lives at its path with no trailing slash, and the home page at /
@@ -20,6 +20,9 @@ export const href = {
 
 export const ogSize = { width: 1200, height: 630 };
 export const defaultCard = '/og/default.png';
+
+// the square npm run icons saves every service icon at, big enough to fill an app page's figure
+export const iconSize = 128;
 
 // routes that draw their own share card, at /og/<path>.png, while the rest share one
 const carded = new Set([

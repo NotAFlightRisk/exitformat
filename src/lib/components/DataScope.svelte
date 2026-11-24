@@ -40,7 +40,7 @@
         {#if group.items}<data value={group.items.length}>{group.items.length}</data>{/if}
       </dt>
       {#each group.items ?? [] as item (item)}
-        <dd>{item.label}</dd>
+        <dd><span class="lead"><StateMark state={group.state} plain /></span>{item.label}</dd>
       {:else}
         <dd class="none">{group.empty}</dd>
       {/each}
@@ -50,6 +50,9 @@
 
 <style>
   .scope {
+    /* the width of the mark by each title, so every item's text starts under the title's */
+    --lead: calc(1.25rem * 0.875);
+
     display: flex;
     flex-wrap: wrap;
     gap: var(--hairline);
@@ -81,12 +84,22 @@
   }
 
   dd {
+    display: flex;
+    gap: var(--space-2);
     margin: 0;
-    padding-inline-start: calc(1.25rem * 0.875 + var(--space-2));
     font-size: var(--size-sm);
   }
 
+  .lead {
+    display: grid;
+    flex: none;
+    place-items: center;
+    inline-size: var(--lead);
+    block-size: 1lh;
+  }
+
   .none {
+    padding-inline-start: calc(var(--lead) + var(--space-2));
     color: var(--text-muted);
   }
 </style>

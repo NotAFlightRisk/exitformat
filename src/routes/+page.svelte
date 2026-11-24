@@ -12,7 +12,7 @@
   const tallies = $derived.by(() => {
     const { services, categories, formats, migrations } = data.counts;
     return [
-      { total: services, label: plural(services, 'service'), href: '/categories' },
+      { total: services, label: plural(services, 'service'), href: '/apps' },
       {
         total: categories,
         label: plural(categories, 'category', 'categories'),

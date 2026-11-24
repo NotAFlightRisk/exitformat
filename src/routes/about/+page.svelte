@@ -4,7 +4,7 @@
   import PathBadge from '#lib/components/PathBadge.svelte';
   import Section from '#lib/components/Section.svelte';
   import StateMark, { type State } from '#lib/components/StateMark.svelte';
-  import { pathKinds } from '#lib/data/types.ts';
+  import { pathKinds, terms } from '#lib/data/types.ts';
   import { site } from '#lib/site.ts';
   import { formatDate } from '#lib/text.ts';
 
@@ -13,9 +13,9 @@
   type Row = { state: State; label: string; means: string };
 
   const facts = $derived([
-    { label: 'Services', value: String(data.counts.services) },
-    { label: 'File formats', value: String(data.counts.formats) },
-    { label: 'Move guides', value: String(data.counts.migrations) },
+    { label: 'Services', value: data.counts.services, href: '/apps' },
+    { label: 'File formats', value: data.counts.formats, href: '/formats' },
+    { label: 'Move guides', value: data.counts.migrations, href: '/migrate' },
     { label: 'Last checked', value: formatDate(data.checked) },
     { label: 'Licence', value: 'MIT', href: `${site.repo}/blob/main/LICENSE` }
   ]);
@@ -135,10 +135,10 @@
     <div class="group">
       <h3>How easy a move is</h3>
       <dl class="key">
-        {#each Object.entries(pathKinds) as [id, label] (id)}
+        {#each terms(pathKinds) as kind (kind.id)}
           <div>
-            <dt><PathBadge kind={{ id, label }} /></dt>
-            <dd>{ease[id]}</dd>
+            <dt><PathBadge {kind} /></dt>
+            <dd>{ease[kind.id]}</dd>
           </div>
         {/each}
       </dl>
@@ -159,7 +159,9 @@
       <p>
         Exit Format is an open project by
         <a href="https://github.com/NotAFlightRisk" rel="external">@NotAFlightRisk</a> (from
-        <a href="https://peng.ly" rel="external">peng.ly</a>), and all of it lives on
+        <a href="https://peng.ly" rel="external">peng.ly</a>) and
+        <a href="https://github.com/lissy93" rel="external">@lissy93</a>
+        (<a href="https://aliciasykes.com" rel="external">aliciasykes.com</a>). All of it lives on
         <a href={site.repo} rel="external">GitHub</a>. Anyone can add a service or fix a mistake,
         and
         <a href="/contribute">here's how</a>.

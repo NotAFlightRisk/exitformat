@@ -1,10 +1,12 @@
 <script lang="ts">
+  import FormatMark from '#lib/components/FormatMark.svelte';
   import type { FormatLink } from '#lib/data/types.ts';
 
   let { format }: { format: FormatLink } = $props();
 </script>
 
-<a class="format" class:open={format.standard} href={format.href}>
+<a class="format" href={format.href}>
+  <FormatMark {format} />
   {format.name}{#if format.standard}<span class="visually-hidden">, an open format</span>{/if}
 </a>
 
@@ -26,14 +28,6 @@
     transition:
       background-color var(--quick) var(--ease),
       border-color var(--quick) var(--ease);
-
-    &.open::before {
-      content: '';
-      flex: none;
-      inline-size: 0.5rem;
-      block-size: 0.5rem;
-      background: var(--accent);
-    }
 
     &:hover {
       border-color: var(--accent);

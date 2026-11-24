@@ -5,7 +5,8 @@
 <script lang="ts">
   import Icon, { type IconName } from '#lib/components/Icon.svelte';
 
-  let { state }: { state: State } = $props();
+  // plain drops the box and takes the state's colour, to lead each item in a list
+  let { state, plain = false }: { state: State; plain?: boolean } = $props();
 
   const icons: Record<State, IconName> = {
     included: 'check',
@@ -15,7 +16,9 @@
   };
 </script>
 
-<span class="mark {state}" aria-hidden="true"><Icon name={icons[state]} /></span>
+<span class="mark {state}" class:plain style:--tone="var(--state-{state})" aria-hidden="true">
+  <Icon name={icons[state]} />
+</span>
 
 <style>
   .mark {
@@ -37,5 +40,11 @@
 
   .unknown {
     border-style: dashed;
+  }
+
+  .plain {
+    border: 0;
+    background: none;
+    color: var(--tone);
   }
 </style>

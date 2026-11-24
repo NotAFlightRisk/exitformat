@@ -13,8 +13,8 @@
   import Sources from '#lib/components/Sources.svelte';
   import Steps from '#lib/components/Steps.svelte';
   import { howTo } from '#lib/schema.ts';
-  import { absolute, fixUrl } from '#lib/site.ts';
-  import { count, formatDate, source, symbol } from '#lib/text.ts';
+  import { absolute, fixUrl, iconSize } from '#lib/site.ts';
+  import { formatDate, source, symbol } from '#lib/text.ts';
 
   let { data } = $props();
 
@@ -22,12 +22,13 @@
   const checked = $derived(service.verification);
 
   const facts = $derived([
-    { label: 'Ways out', value: String(service.export.length) },
-    { label: 'Formats you get', value: String(service.exports.length) },
-    { label: 'Can move to', value: count(data.reach.out, 'app') },
+    { label: 'Ways out', value: service.export.length, href: '#export' },
+    { label: 'Formats you get', value: service.exports.length, href: '#export' },
+    { label: 'Can move to', value: data.reach.out, unit: 'app', href: '#move' },
     {
       label: 'Checked',
-      value: formatDate(checked.checked) + (checked.stale ? ', over a year ago' : '')
+      value: formatDate(checked.checked) + (checked.stale ? ', over a year ago' : ''),
+      href: '#entry'
     },
     { label: 'Runs', value: service.deployment.label },
     { label: 'Works on', value: service.platforms.map(({ label }) => label).join(', ') },
@@ -66,13 +67,18 @@
 
 <PageHead title={data.meta.title} lede={service.description}>
   {#snippet figure()}
-    <div class="element" aria-hidden="true">
+    <div class="element" class:iconed={service.icon} aria-hidden="true">
       <span class="ways">{service.export.length}</span>
-      {#if service.icon}<img src={service.icon} alt="" width="64" height="64" />{/if}
+      {#if service.icon}
+        <img src={service.icon} alt="" width={iconSize} height={iconSize} />
+      {/if}
       <span class="symbol">{symbol(service.name)}</span>
       <span class="label">
         {service.name}
-        <span>{service.category.short ?? service.category.name}</span>
+        <!-- out of the tab order, as the breadcrumb has the same link for keyboards -->
+        <a href={service.category.href} tabindex="-1">
+          {service.category.short ?? service.category.name}
+        </a>
       </span>
     </div>
   {/snippet}
@@ -95,7 +101,9 @@
 
   <div class="sections">
     <Section id="export" title="{service.name} export options">
-      {#snippet aside()}<span class="open-key">Open format, so any app can read it</span>{/snippet}
+      {#snippet aside()}
+        <span class="open-key">Green marks an open format, so any app can read it</span>
+      {/snippet}
       {#each service.export as option (option)}
         <OptionPanel {option} kind="export" />
       {:else}
@@ -176,7 +184,7 @@
 <style>
   .element {
     display: grid;
-    grid-template-areas: 'ways icon' 'glyph glyph' 'label label';
+    grid-template-areas: 'ways corner' 'middle middle' 'label label';
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-rows: auto 1fr auto;
     block-size: 100%;
@@ -184,19 +192,24 @@
     padding: var(--space-4);
 
     img {
-      grid-area: icon;
-      inline-size: 1.75rem;
-      block-size: 1.75rem;
+      grid-area: middle;
+      align-self: center;
+      justify-self: center;
+      inline-size: 6rem;
     }
 
     @media (width < 40rem) {
-      grid-template-areas: 'glyph label icon';
+      grid-template-areas: 'middle label corner';
       grid-template-columns: auto minmax(0, 1fr) auto;
       grid-template-rows: auto;
       column-gap: var(--space-4);
       align-items: center;
       min-block-size: 0;
       padding-block: var(--space-2);
+
+      img {
+        inline-size: 2.75rem;
+      }
 
       .symbol {
         font-size: 2.25rem;
@@ -214,7 +227,7 @@
   }
 
   .symbol {
-    grid-area: glyph;
+    grid-area: middle;
     align-self: center;
     justify-self: center;
     font-size: clamp(3.5rem, 2.6rem + 3vw, 5.25rem);
@@ -223,13 +236,22 @@
     letter-spacing: -0.04em;
   }
 
+  /* the icon takes the middle when there is one, and the symbol moves up to the corner */
+  .iconed .symbol {
+    grid-area: corner;
+    justify-self: end;
+    font-size: var(--size-lg);
+    letter-spacing: -0.02em;
+  }
+
   .label {
     display: grid;
     grid-area: label;
     font-weight: 750;
     line-height: 1.25;
 
-    span {
+    a {
+      justify-self: start;
       color: var(--text-muted);
       font-size: var(--size-sm);
       font-weight: 400;

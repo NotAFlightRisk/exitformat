@@ -1,12 +1,11 @@
-import { categories, services } from '#lib/server/directory.ts';
-import { andList, categoryCard, crumbs } from '#lib/server/views.ts';
+import { categories } from '#lib/server/directory.ts';
+import { categoryCard, crumbs } from '#lib/server/views.ts';
 
 export const load = () => ({
   meta: {
     title: 'Every category',
-    description: `How to get your data out of ${services().length} services, sorted into ${andList(
-      categories().map(({ name }) => name.toLowerCase())
-    )}.`
+    description:
+      "Apps that do the same job can often read each other's exports. Each category shows which of its apps can, and in what format."
   },
   crumbs: crumbs({ name: 'Categories', href: '/categories' }),
   categories: categories().map(categoryCard)

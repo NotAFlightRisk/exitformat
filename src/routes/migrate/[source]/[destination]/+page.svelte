@@ -70,8 +70,12 @@
         <Tile name={destination.name} icon={destination.icon} />
       </span>
       <span class="names">
-        {source.name} to {destination.name}
-        <span>{count(data.paths.length, 'way across', 'ways across')}</span>
+        <!-- out of the tab order, as the sign-off has the same links for keyboards -->
+        <span>
+          <a href={source.href} tabindex="-1">{source.name}</a> to
+          <a href={destination.href} tabindex="-1">{destination.name}</a>
+        </span>
+        <span class="ways">{count(data.paths.length, 'way across', 'ways across')}</span>
       </span>
     </div>
   {/snippet}
@@ -80,7 +84,7 @@
 
 <Section id="how" title="How to move from {source.name} to {destination.name}">
   {#snippet aside()}
-    {#if open}<span class="open-key">Open format, so any app can read it</span>{/if}
+    {#if open}<span class="open-key">Green marks an open format, so any app can read it</span>{/if}
   {/snippet}
   <Journey path={best} {source} {destination} />
 </Section>
@@ -94,8 +98,9 @@
   <div class="signoff">
     <Checked verification={data.checked} long />
     <p>
-      We work this route out from the {source.name} and {destination.name} entries, so if something's
-      wrong, the fix goes in one of those.
+      We work this route out from the <a href={source.href}>{source.name}</a> and
+      <a href={destination.href}>{destination.name}</a> entries, so if something's wrong, the fix goes
+      in one of those.
     </p>
     <p class="actions">
       <a href={editUrl(source.category.id, source.id)} rel="external" target="_blank">
@@ -243,7 +248,7 @@
     font-weight: 750;
     line-height: 1.25;
 
-    span {
+    .ways {
       color: var(--text-muted);
       font-size: var(--size-sm);
       font-weight: 400;

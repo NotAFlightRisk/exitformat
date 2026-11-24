@@ -1,7 +1,8 @@
 import { error } from '@sveltejs/kit';
 import { better } from '#lib/data/compat.ts';
-import type { Migration, PathView, Service } from '#lib/data/types.ts';
+import type { Migration, PathView, Service, Term } from '#lib/data/types.ts';
 import {
+  lastChecked,
   migration,
   migrations,
   migrationsFrom,
@@ -19,6 +20,7 @@ import {
   serviceLink
 } from '#lib/server/views.ts';
 import { href } from '#lib/site.ts';
+import { count } from '#lib/text.ts';
 
 // the full lists live on the service pages, so every move page doesn't carry them all
 const few = 6;
@@ -32,11 +34,10 @@ export const entries = () =>
 /** One line on what the best route means, for under the heading */
 function meaning(path: PathView, { name: from }: Service, { name: to }: Service) {
   if (path.kind.id === 'direct') {
-    if (path.export)
-      return `${to} has an importer made just for ${from}, so it understands what ${from} hands over.`;
+    if (path.export) return `${to} has an importer made just for ${from}'s export.`;
     return path.import.method.id === 'connect'
       ? `${to} has an importer made just for ${from}. It signs in and pulls your data across, so there's nothing to export first.`
-      : `${to} has an importer made just for ${from}, which gets at the data itself.`;
+      : `${to} has an importer made just for ${from} that reads its data directly, so there's nothing to export first.`;
   }
   if (path.conversion) {
     const { from: was, to: becomes, tool } = path.conversion;
@@ -46,13 +47,20 @@ function meaning(path: PathView, { name: from }: Service, { name: to }: Service)
   return `${from} and ${to} both understand ${formats}, so you export a file from one and import it into the other.`;
 }
 
+function losses([first, ...rest]: Term[]) {
+  if (!first) return 'loses none that we know of';
+  const name = first.label.toLowerCase();
+  return rest.length ? `loses ${rest.length + 1}, including ${name}` : `loses ${name}`;
+}
+
 export const load = ({ params }) => {
   const found = migration(params.source, params.destination);
   if (!found) error(404, "We don't know a way between those two yet");
   const { source, destination } = found;
   const reverse = migration(destination.id, source.id);
   const paths = found.paths.map((path) => pathView(path, source, destination));
-  const carried = andList(paths[0].carried.map(({ label }) => label.toLowerCase()));
+  const [best] = paths;
+  const lede = meaning(best, source, destination);
   // a route's only as fresh as the older of its two entries
   const older = [source, destination].reduce((a, b) =>
     b.verification.checked_at < a.verification.checked_at ? b : a
@@ -67,11 +75,10 @@ export const load = ({ params }) => {
   return {
     meta: {
       title: `Move from ${source.name} to ${destination.name}`,
-      description: [
-        `How to move your data from ${source.name} to ${destination.name}`,
-        carried ? `, taking your ${carried},` : '',
-        ' and what gets left behind.'
-      ].join('')
+      description: best.carried.length
+        ? `${lede} The move carries over ${count(best.carried.length, 'kind')} of data and ${losses(best.lost)}.`
+        : lede,
+      modified: lastChecked([source, destination])
     },
     crumbs: crumbs(
       { name: 'Migrate', href: '/migrate' },
@@ -80,7 +87,7 @@ export const load = ({ params }) => {
         href: href.migration(source.id, destination.id)
       }
     ),
-    lede: meaning(paths[0], source, destination),
+    lede,
     source: serviceLink(source),
     destination: serviceLink(destination),
     paths,

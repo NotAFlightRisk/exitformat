@@ -3,12 +3,13 @@
   import Facts from '#lib/components/Facts.svelte';
   import FormatChip from '#lib/components/FormatChip.svelte';
   import FormatChips from '#lib/components/FormatChips.svelte';
+  import FormatMark from '#lib/components/FormatMark.svelte';
   import PageHead from '#lib/components/PageHead.svelte';
   import Section from '#lib/components/Section.svelte';
   import ServiceLink from '#lib/components/ServiceLink.svelte';
   import Steps from '#lib/components/Steps.svelte';
   import type { ConversionView, ServiceLink as Service } from '#lib/data/types.ts';
-  import { count, source, symbol } from '#lib/text.ts';
+  import { source, symbol } from '#lib/text.ts';
 
   let { data } = $props();
 
@@ -17,14 +18,16 @@
   const kind = $derived(format.standard ? 'Open format' : "One app's own");
 
   const facts = $derived([
-    { label: 'Type', value: kind },
+    { label: 'Type', value: kind, href: format.standard ? '/formats#open' : '/formats#own' },
     { label: 'Extensions', value: format.extensions.join(', ') || 'None' },
-    ...(format.basedOn ? [{ label: 'Built on', value: format.basedOn.name }] : []),
+    ...(format.basedOn
+      ? [{ label: 'Built on', value: format.basedOn.name, href: format.basedOn.href }]
+      : []),
     ...(format.spec
       ? [{ label: 'Spec', value: source(format.spec).place, href: format.spec }]
       : []),
-    { label: 'Exported by', value: count(format.exporters, 'app') },
-    { label: 'Imported by', value: count(format.importers, 'app') }
+    { label: 'Exported by', value: format.exporters, unit: 'app', href: '#exporters' },
+    { label: 'Imported by', value: format.importers, unit: 'app', href: '#importers' }
   ]);
 
   // the first section with format chips in it gets the key, if any of them are open
@@ -80,19 +83,29 @@
 {/snippet}
 
 {#snippet key()}
-  {#if open}<span class="open-key">Open format, so any app can read it</span>{/if}
+  {#if open}<span class="open-key">Green marks an open format, so any app can read it</span>{/if}
 {/snippet}
 
 <PageHead title={data.heading} lede={format.description}>
   {#snippet figure()}
     <div class="plate" aria-hidden="true">
-      <span class="kind" class:open={format.standard}>{kind}</span>
+      <!-- the mark is green already, so the kind only needs the square without one -->
+      <span class="kind" class:open={format.standard && !format.mark}>{kind}</span>
+      {#if format.icon || format.mark}
+        <span class="mark"><FormatMark {format} /></span>
+      {/if}
       <span class="face" class:extension={format.extensions.length} style:--length={face.length}>
         {face}
       </span>
       <span class="name">
         {format.name}
-        {#if format.basedOn}<span>{format.basedOn.name} underneath</span>{/if}
+        {#if format.basedOn}
+          <!-- out of the tab order, as Built on has the same link for keyboards -->
+          <span>
+            <a href={format.basedOn.href} tabindex="-1">{format.basedOn.name}</a>
+            underneath
+          </span>
+        {/if}
       </span>
     </div>
   {/snippet}
@@ -147,9 +160,11 @@
 {/if}
 
 <style>
+  /* laid out like an element in the periodic table, with the mark in the top corner */
   .plate {
     display: grid;
-    grid-template-areas: 'kind' 'face' 'name';
+    grid-template-areas: 'kind mark' 'face face' 'name name';
+    grid-template-columns: minmax(0, 1fr) auto;
     grid-template-rows: auto 1fr auto;
     gap: var(--space-3);
     block-size: 100%;
@@ -157,13 +172,20 @@
     padding: var(--space-4);
 
     @media (width < 40rem) {
-      grid-template-areas: 'face name' 'face kind';
-      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-areas: 'face name mark' 'face kind mark';
+      grid-template-columns: auto minmax(0, 1fr) auto;
       grid-template-rows: auto auto;
       gap: var(--space-1) var(--space-4);
       min-block-size: 0;
       padding-block: var(--space-3);
     }
+  }
+
+  .mark {
+    display: flex;
+    grid-area: mark;
+    align-self: start;
+    font-size: var(--size-md);
   }
 
   .kind {

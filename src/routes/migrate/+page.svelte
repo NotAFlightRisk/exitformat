@@ -6,7 +6,6 @@
   import ServiceLink from '#lib/components/ServiceLink.svelte';
   import Tile from '#lib/components/Tile.svelte';
   import type { MigrationCard, ServiceLink as Service } from '#lib/data/types.ts';
-  import { count } from '#lib/text.ts';
 
   let { data } = $props();
 
@@ -14,10 +13,9 @@
   let to = $state('');
 
   const all = $derived(data.groups.flatMap((group) => group.migrations));
-  const apps = (side: 'source' | 'destination') =>
-    String(new Set(all.map((move) => move[side].id)).size);
+  const apps = (side: 'source' | 'destination') => new Set(all.map((move) => move[side].id)).size;
   const facts = $derived([
-    { label: 'Move guides', value: String(all.length) },
+    { label: 'Move guides', value: all.length },
     { label: 'Apps you can leave', value: apps('source') },
     { label: 'Apps you can move to', value: apps('destination') }
   ]);
@@ -98,10 +96,7 @@
       <p class="heads" aria-hidden="true"><span>Move from</span><span>Move to</span></p>
       {#each group.rows as row (row.source)}
         <div class="row">
-          <div class="from">
-            <h3><ServiceLink service={row.source} size="md" /></h3>
-            <p>Moves to {count(row.moves.length, 'app')}</p>
-          </div>
+          <h3 class="from"><ServiceLink service={row.source} size="md" /></h3>
           <ul class="to">
             {#each row.moves as move (move)}
               <li>
@@ -178,7 +173,7 @@
   .board {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--hairline);
+    gap: var(--hairline) var(--rule-heavy);
     border: var(--hairline) solid var(--rule);
     background: var(--rule);
 
@@ -194,7 +189,6 @@
       display: grid;
       grid-column: 1 / -1;
       grid-template-columns: subgrid;
-      gap: var(--hairline);
     }
 
     span {
@@ -209,28 +203,12 @@
     display: grid;
     grid-column: 1 / -1;
     grid-template-columns: subgrid;
-    gap: var(--hairline);
-
-    @media (width < 48rem) {
-      gap: 0;
-    }
   }
 
   .from {
-    display: grid;
-    align-content: start;
-    gap: var(--space-1);
     padding: var(--space-4);
     background: var(--surface-raised);
-
-    h3 {
-      font-size: var(--size-md);
-    }
-
-    p {
-      color: var(--text-muted);
-      font-size: var(--size-sm);
-    }
+    font-size: var(--size-md);
 
     @media (width < 48rem) {
       padding-block-end: var(--space-2);
@@ -238,14 +216,17 @@
   }
 
   .to {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
     gap: var(--hairline);
+    overflow: clip;
     list-style: none;
+    background: var(--surface-raised);
 
+    /* each app draws its own soft edges, clipped at the list's so its outer lines stay solid */
     li {
       display: flex;
-      flex: 1 1 14rem;
+      outline: var(--hairline) solid var(--rule-soft);
     }
 
     a {
@@ -277,13 +258,16 @@
     }
 
     @media (width < 48rem) {
-      display: grid;
+      grid-template-columns: minmax(0, 1fr);
       gap: 0;
       padding: 0 0 var(--space-2) var(--space-4);
-      background: var(--surface-raised);
+
+      li {
+        outline: none;
+      }
 
       li + li {
-        border-block-start: var(--hairline) solid var(--rule);
+        border-block-start: var(--hairline) solid var(--rule-soft);
       }
 
       a {

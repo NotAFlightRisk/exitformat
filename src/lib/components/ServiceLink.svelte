@@ -2,16 +2,18 @@
   import Tile from '#lib/components/Tile.svelte';
   import type { ServiceLink } from '#lib/data/types.ts';
 
+  // unnamed, it shows just the icon, and keeps the name for screen readers and as a tooltip
   let {
     service,
     size = 'sm',
-    category = false
-  }: { service: ServiceLink; size?: 'sm' | 'md'; category?: boolean } = $props();
+    category = false,
+    named = true
+  }: { service: ServiceLink; size?: 'sm' | 'md'; category?: boolean; named?: boolean } = $props();
 </script>
 
-<a class="service" href={service.href}>
+<a class="service" class:bare={!named} href={service.href} title={named ? undefined : service.name}>
   <Tile name={service.name} icon={service.icon} {size} />
-  <span class="name">{service.name}</span>
+  <span class="name" class:visually-hidden={!named}>{service.name}</span>
   {#if category}
     <span class="category">{service.category.short ?? service.category.name}</span>
   {/if}
@@ -34,6 +36,20 @@
       :global(.tile) {
         border-color: var(--accent);
       }
+    }
+  }
+
+  /* with no name to underline, the line goes under the icon instead */
+  .bare {
+    position: relative;
+
+    &:hover::after {
+      content: '';
+      position: absolute;
+      inset-inline: 0;
+      inset-block-start: calc(100% + 0.22em);
+      block-size: 2px;
+      background: var(--accent);
     }
   }
 

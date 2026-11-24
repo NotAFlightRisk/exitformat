@@ -20,6 +20,17 @@ export const formatMonth = (iso: string) => month.format(new Date(`${iso.slice(0
 /** service or services, depending on the total */
 export const plural = (total: number, one: string, many = `${one}s`) => (total === 1 ? one : many);
 
+/** As many of the text's sentences as fit in so many characters, and always the first */
+export function firstSentences(text: string, room: number) {
+  const [first, ...rest] = text.split(/(?<=[.!?])\s+(?=[A-Z0-9])/);
+  let kept = first;
+  for (const next of rest) {
+    if (kept.length + 1 + next.length > room) break;
+    kept += ` ${next}`;
+  }
+  return kept;
+}
+
 /** 1 service, 3 services */
 export const count = (total: number, one: string, many?: string) =>
   `${total} ${plural(total, one, many)}`;

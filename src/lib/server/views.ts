@@ -34,6 +34,7 @@ import {
   type ServiceView,
   type Term
 } from '#lib/data/types.ts';
+import { markFor } from '#lib/format-icons.ts';
 import {
   category,
   exporters,
@@ -49,10 +50,10 @@ import { commitUrl, editUrl, historyUrl, href, pullUrl } from '#lib/site.ts';
 
 type Labeller = (id: string) => Term;
 
-export const term = <T extends Record<string, string>>(labels: T, id: keyof T & string): Term => ({
-  id,
-  label: labels[id]
-});
+export const term = <T extends Record<string, string>, Id extends keyof T & string>(
+  labels: T,
+  id: Id
+): Term<Id> => ({ id, label: labels[id] });
 
 export const andList = (items: string[]) =>
   new Intl.ListFormat('en-GB', { type: 'conjunction' }).format(items);
@@ -67,8 +68,16 @@ export const categoryLink = ({ id, name, short }: Category): CategoryLink => ({
 });
 
 export function formatLink(id: string): FormatLink {
-  const { name, standard } = format(id)!;
-  return { id, name, standard, href: href.format(id) };
+  const { name, standard, owner, extensions } = format(id)!;
+  return {
+    id,
+    name,
+    standard,
+    href: href.format(id),
+    // only open formats wear a mark, so one app's JSON doesn't pass for an open format
+    mark: standard ? markFor(extensions) : null,
+    icon: owner ? icon(owner) : null
+  };
 }
 
 export const serviceLink = ({ id, name, category: home }: Service): ServiceLink => ({
@@ -198,7 +207,7 @@ export const categoryCard = (found: Category): CategoryCard => ({
   description: found.description,
   services: servicesIn(found.id).length,
   migrations: servicesIn(found.id).reduce((total, { id }) => total + migrationsFrom(id).length, 0),
-  examples: busiest(servicesIn(found.id)).slice(0, 4).map(serviceLink)
+  examples: busiest(servicesIn(found.id)).slice(0, 12).map(serviceLink)
 });
 
 export const formatCard = ({ id, extensions, description }: Format): FormatCard => ({
