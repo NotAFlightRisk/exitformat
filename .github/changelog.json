@@ -1,6 +1,8 @@
 {
-  "commit": "cfd663210870ecaf6205d4e21e460a2e091bb8bd",
+  "commit": "f3219bd607a7350c3715595ab234910cbd700266",
   "entries": [
+    {"date":"2026-11-24","commit":"f3219bd","pr":47,"id":"bear","category":"notes","name":"Bear","kind":"updated","sections":["import"]},
+    {"date":"2026-11-24","commit":"f3219bd","pr":47,"id":"day-one","category":"notes","name":"Day One","kind":"added"},
     {"date":"2026-11-24","commit":"cfd6632","pr":46,"id":"apple-journal","category":"notes","name":"Apple Journal","kind":"added"},
     {"date":"2026-11-24","commit":"cfd6632","pr":46,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
     {"date":"2026-11-24","commit":"a181239","pr":45,"id":"craft","category":"notes","name":"Craft","kind":"updated","sections":["import"]},
