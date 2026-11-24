@@ -147,7 +147,10 @@ import:
       - It only works on a Mac, not on an iPhone or iPad.
       - Password-protected notes get skipped.
       - Attachments that haven't downloaded from iCloud get skipped, so open those notes in Apple Notes first.
+      - Drawings come in as pictures. Switch on Include handwriting text to get Notes' reading of any handwriting above each one.
     docs: https://help.obsidian.md/import/apple-notes
+    sources:
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/apple-notes/convert-note.ts
 
   - id: apple-journal
     name: Import from Apple Journal
