@@ -1,4 +1,4 @@
 name: Tomboy note
 extensions: [.note]
 standard: false
-description: Tomboy and Gnote keep each note as its own XML file with a .note extension.
+description: Tomboy and Gnote keep each note as its own XML file with a .note extension, holding its title, formatted text, links to other notes, created and changed dates, and its notebook as a tag. Not encrypted.

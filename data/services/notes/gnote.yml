@@ -1,0 +1,44 @@
+name: Gnote
+website: https://wiki.gnome.org/Apps/Gnote
+description: GNOME's free, open source notes app for Linux, which keeps every note as its own file on your computer.
+deployment: local
+platforms: [linux]
+source: https://gitlab.gnome.org/GNOME/gnote
+icon: https://dl.flathub.org/media/org/gnome/Gnote/173d692552ed2607a5c4eb773f1f0d5b/icons/128x128/org.gnome.Gnote.png
+
+export:
+  - id: notes-folder
+    name: Copy your notes folder
+    method: folder
+    formats: [tomboy-note]
+    steps:
+      - Close Gnote, then open ~/.local/share/gnote in your file manager.
+      - Copy the .note files, one for each note, somewhere safe.
+    data:
+      included: [text, formatting, links, structure, dates]
+    limitations:
+      - Each note's notebook is saved as a tag inside the file, so only an app that knows Gnote or Tomboy turns it back into a notebook.
+    sources:
+      - https://gitlab.gnome.org/GNOME/gnote/-/blob/51.0/src/ignote.cpp
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/tomboy/core.ts
+
+  - id: html
+    name: Export notes to HTML
+    method: file
+    formats: [html]
+    requirements: [Export to HTML plugin]
+    steps:
+      - Open a note and choose Export to HTML from the Note Actions menu.
+      - Tick Export Linked Notes to take the notes it links to as well, then select Save.
+    data:
+      included: [text, formatting, links]
+      unknown: [structure, dates]
+    limitations:
+      - You get one HTML file, with any linked notes inside it, rather than a file per note.
+    docs: https://gitlab.gnome.org/GNOME/gnote/-/blob/51.0/help/C/gnote-addin-html.page
+
+import: []
+
+verification:
+  status: documented
+  checked_at: 2026-11-24
