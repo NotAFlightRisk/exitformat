@@ -1,0 +1,6 @@
+name: Proton Pass CSV export
+extensions: [.csv]
+standard: false
+owner: proton-pass
+based_on: csv
+description: Proton Pass's CSV, with type, name, url, email, username, password, note, totp, createTime, modifyTime and vault columns, and autofillUrls in newer ones. Cards and identities are JSON in the note column. It isn't encrypted.

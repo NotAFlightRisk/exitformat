@@ -1,0 +1,6 @@
+name: Proton Pass PGP-encrypted export
+extensions: [.zip]
+standard: false
+owner: proton-pass
+based_on: zip
+description: The same zip as Proton Pass's plain export, but with Proton Pass/data.pgp, the JSON encrypted with your passphrase, in place of data.json. Attachments in its files folder aren't encrypted. GnuPG opens data.pgp with the passphrase.

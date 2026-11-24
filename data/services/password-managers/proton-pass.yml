@@ -1,0 +1,520 @@
+name: Proton Pass
+website: https://proton.me/pass
+description: Proton's end-to-end encrypted password manager, with hide-my-email aliases built in. Your vaults live in Proton's cloud and sync to all your devices.
+deployment: cloud
+platforms: [android, ios, windows, macos, linux, web, browser-extension]
+source: https://github.com/ProtonMail/WebClients
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/e9/5d/09/e95d0931-2c06-112d-c1b7-ccb6d6609b53/AppIcon-0-0-1x_U007epad-0-1-sRGB-85-220.png/128x128bb.png
+aliases: [proton password manager]
+
+export:
+  - id: zip
+    name: Export a ZIP file
+    method: file
+    formats: [proton-pass-zip]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - Open Settings --> Export. It's at the bottom left of the web app, and under ☰ in the desktop app and browser extension.
+      - Pick ZIP as the File format. Turn on Include file attachments if you want your files too.
+      - Select Export and confirm your Proton password.
+    data:
+      included:
+        [
+          logins,
+          passkeys,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          attachments,
+          groups,
+          favourites,
+          dates
+        ]
+      excluded: [shared-vaults, history, settings]
+    limitations:
+      - Only vaults you own go in. Vaults other people share with you are left out, and so is who you've shared yours with.
+      - Nothing in it is encrypted, and it has everything in your trash too.
+      - Attachments only go in when you turn on Include file attachments, which only shows once you've got some.
+      - Hide-my-email aliases come out as items with their address. Proton still does the forwarding, so another app gets the address but can't manage it.
+      - An organisation can turn exports off for everyone but its admins.
+      - The phone apps can't make a file. On iOS 26 or later, Profile --> Export data to another app hands your vaults straight to an app that supports Credential Exchange, and Proton Pass can take a vault that way too.
+    docs: https://proton.me/support/pass-export
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/components/Export/ExportForm.tsx
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/store/sagas/export/export.saga.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/store/selectors/export.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/export/archive.ts
+      - https://github.com/protonpass/ios-pass/blob/1.23.1/iOS/Scenes/Homepage/Profile%20Tab/ProfileTabView.swift
+      - https://github.com/protonpass/ios-pass/blob/1.23.1/LocalPackages/UseCases/Sources/UseCases/CXP/CxpExport.swift
+
+  - id: pgp
+    name: Export a PGP-encrypted ZIP file
+    method: file
+    formats: [proton-pass-pgp]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - Open Settings --> Export. It's at the bottom left of the web app, and under ☰ in the desktop app and browser extension.
+      - Leave the File format on PGP-encrypted (recommended) and set a Passphrase.
+      - Select Export and confirm your Proton password.
+    data:
+      included:
+        [
+          logins,
+          passkeys,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          attachments,
+          groups,
+          favourites,
+          dates
+        ]
+      excluded: [shared-vaults, history, settings]
+    limitations:
+      - Only Proton Pass opens it as it is. For anything else, decrypt Proton Pass/data.pgp with GnuPG and your passphrase, which gives you the same JSON as the ZIP export.
+      - Attachments, if you include them, aren't encrypted.
+      - Only vaults you own go in, with your trash, and none of the sharing.
+    docs: https://proton.me/support/pass-export
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/components/Export/ExportForm.tsx
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/export/archive.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/crypto/utils/export.ts
+
+  - id: csv
+    name: Export as CSV
+    method: file
+    formats: [proton-pass-csv]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - Open Settings --> Export. It's at the bottom left of the web app, and under ☰ in the desktop app and browser extension.
+      - Pick CSV as the File format.
+      - Select Export and confirm your Proton password.
+    data:
+      included: [logins, secrets, secure-notes, cards, identities, other-items, groups, dates]
+      excluded:
+        [
+          passkeys,
+          custom-fields,
+          attachments,
+          shared-vaults,
+          history,
+          favourites,
+          settings
+        ]
+    limitations:
+      - Each row says which vault it's in, but folders, custom fields, extra one-time codes, passkeys, attachments and pinned items are left out.
+      - Cards and identities go in the note column as JSON.
+      - SSH keys, Wi-Fi networks and custom items come out as just a name and note, plus the Wi-Fi password.
+      - Aliases come out as rows with their address in the email column.
+      - Your trash comes out too, with nothing to say it was trashed. It's never encrypted, so delete the file once you're done.
+    docs: https://proton.me/support/pass-export
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/export/csv.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/components/Export/ExportForm.tsx
+
+import:
+  - id: proton-pass
+    name: Import a Proton Pass ZIP export
+    method: file
+    formats: [proton-pass-zip, proton-pass-pgp]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - Open Settings --> Import and pick Proton Pass.
+      - Choose the .zip, and enter its passphrase if it's PGP-encrypted.
+      - Select Import, pick the vaults it goes into and select Confirm.
+    data:
+      included:
+        [
+          logins,
+          passkeys,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          attachments,
+          groups,
+          dates
+        ]
+      excluded: [favourites]
+    limitations:
+      - Aliases only come back into the Proton account that exported them, and any it already has are skipped.
+      - Pinned items come back unpinned, and vaults lose their icon and description.
+      - Attachments need a paid plan other than Pass Essentials, and folders need a paid plan. Without one, you get the items on their own.
+      - Everything comes in as new copies, so importing a file twice gives you two of everything.
+    docs: https://proton.me/support/pass-export
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/protonpass/protonpass.zip.reader.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/protonpass/protonpass.json.reader.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/store/sagas/import/import.saga.ts
+
+  - id: proton-pass-csv
+    name: Import a Proton Pass CSV export
+    method: file
+    formats: [proton-pass-csv]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - Open Settings --> Import and pick Proton Pass.
+      - Choose the .csv, select Import, then pick the vaults it goes into and select Confirm.
+    data:
+      included: [logins, secrets, secure-notes, cards, identities, groups, dates]
+    limitations:
+      - Aliases are skipped, and SSH keys, Wi-Fi networks and custom items come in as plain notes.
+      - Each vault in the vault column becomes a vault of its own.
+    docs: https://proton.me/support/pass-export
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/protonpass/protonpass.csv.reader.ts
+
+  - id: bitwarden
+    name: Import a Bitwarden export
+    method: file
+    formats: [bitwarden-json, bitwarden-zip]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - In Bitwarden, export your vault as .json, or as .zip (with attachments) to bring your files too.
+      - In Proton Pass, open Settings --> Import, pick Bitwarden and choose the file.
+      - Select Import, pick the vault it goes into and select Confirm.
+    data:
+      included:
+        [logins, secrets, secure-notes, cards, identities, other-items, custom-fields, attachments, groups]
+      excluded: [passkeys, shared-vaults, history, favourites, dates]
+    limitations:
+      - It can't open Bitwarden's encrypted export.
+      - Passkeys, password history, favourites and dates are dropped, and checkbox fields come in as text.
+      - Folders need a paid plan, or everything lands loose in the vault, and attachments need one other than Pass Essentials.
+      - An organisation export's collections become folders, shared with nobody.
+    docs: https://proton.me/support/pass-import-bitwarden
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/bitwarden/bitwarden.reader.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/bitwarden/bitwarden.archive.reader.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/bitwarden/bitwarden.utils.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/helpers/transformers.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/store/sagas/import/import.saga.ts
+
+  - id: 1password
+    name: Import from 1Password
+    method: file
+    formats: [1password-1pux]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - In 1Password 8, select File --> Export (☰ --> Export on Windows), pick your account and keep 1PUX as the format.
+      - In Proton Pass, open Settings --> Import, pick 1Password and choose the .1pux file.
+      - Select Import, pick the vaults it goes into and select Confirm.
+    data:
+      included:
+        [
+          logins,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          attachments,
+          dates
+        ]
+      excluded: [passkeys, tags, history, favourites]
+    limitations:
+      - Each 1Password vault becomes a vault of its own. If your plan can't make that many, everything goes into your first vault.
+      - Passkeys, tags, password history and favourites are dropped, and archived items land in the trash.
+      - Attachments need a paid plan other than Pass Essentials.
+    docs: https://proton.me/support/pass-import-1password
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/1password/1pux.reader.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/1password/1p.utils.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/components/Import/ImportVaultsPickerModal.tsx
+
+  - id: 1password-1pif
+    name: Import from 1Password 7
+    method: file
+    formats: [1password-1pif]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - Export a vault from 1Password 7 as 1PIF. To bring attachments, zip the folder it makes, as it is.
+      - In Proton Pass, open Settings --> Import, pick 1Password and choose the .1pif, or the .zip.
+      - Select Import, pick the vault it goes into and select Confirm.
+    data:
+      included: [logins, secrets, secure-notes, cards, identities, other-items, custom-fields, attachments, dates]
+    limitations:
+      - Everything goes into one vault.
+      - Attachments only come in from the zip, on a paid plan other than Pass Essentials.
+    docs: https://proton.me/support/pass-import-1password
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/1password/1pif.reader.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/1password/1pif.archive.reader.ts
+
+  - id: lastpass
+    name: Import from LastPass
+    method: file
+    formats: [lastpass-csv]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - In the LastPass browser extension, go to Account --> Fix a problem yourself --> Export vault items --> Export data for use anywhere.
+      - In Proton Pass, open Settings --> Import, pick LastPass and choose the .csv file.
+      - Select Import, pick the vault it goes into and select Confirm.
+    data:
+      included: [logins, secrets, secure-notes, cards, identities, other-items, groups]
+      excluded: [favourites]
+    limitations:
+      - Addresses become identities, and note types it doesn't know, like bank accounts, come in as custom items with their fields.
+      - LastPass writes a broken CSV when a field has stray commas, quotes or line breaks, and those rows can come in wrong.
+      - Favourites are dropped. Folders need a paid plan, or everything lands loose in the vault.
+    docs: https://proton.me/support/pass-import-lastpass
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/lastpass/lastpass.reader.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/lastpass/lastpass.utils.ts
+
+  - id: keepass
+    name: Import from KeePass or KeePassXC
+    method: file
+    formats: [keepass-xml]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - In KeePass, select File --> Export and pick KeePass XML. In KeePassXC, it's Database --> Export --> XML File.
+      - In Proton Pass, open Settings --> Import, pick KeePass and choose the .xml file.
+      - Select Import, pick the vault it goes into and select Confirm.
+    data:
+      included: [logins, secrets, custom-fields, groups]
+      excluded: [attachments, tags, history, dates]
+    limitations:
+      - It reads the XML export, not a .kdbx database.
+      - Every entry comes in as a login, and the recycle bin lands in the trash.
+      - Attachments, tags, entry history and dates are dropped. Groups need a paid plan, or everything lands loose in the vault.
+    docs: https://proton.me/support/pass-import-keepass
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/keepass/keepass.reader.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/types.ts
+
+  - id: chrome
+    name: Import from Chrome, Edge or Brave
+    method: file
+    formats: [chrome-csv]
+    requirements: ["Web app, desktop app, browser extension or iOS"]
+    steps:
+      - In Chrome, go to Google Password Manager --> Settings --> Export passwords. Edge and Brave export the same file.
+      - In Proton Pass, open Settings --> Import, pick Chrome, Edge or Brave, choose the .csv file and select Import.
+      - On iPhone, tap your profile --> Import to Proton Pass --> Import from Chrome, then export from Chrome and pick Import to Proton Pass.
+    data:
+      included: [logins]
+    limitations:
+      - It's logins only, each with its note.
+    docs: https://proton.me/support/pass-import-chrome
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/chromium/chromium.reader.ts
+      - https://github.com/protonpass/ios-pass/blob/1.23.1/LocalPackages/UseCases/Sources/UseCases/Items/ParseCsvLogins.swift
+      - https://github.com/protonpass/ios-pass/blob/1.23.1/LocalPackages/Screens/Sources/Screens/Importer/ImportFromChromeInstructions.swift
+      - https://proton.me/support/pass-import-edge
+      - https://proton.me/support/pass-import-brave
+
+  - id: firefox
+    name: Import from Firefox
+    method: file
+    formats: [firefox-csv]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - In Firefox, open Passwords from the ☰ menu, then select ⋯ --> Export Passwords.
+      - In Proton Pass, open Settings --> Import, pick Firefox and choose the .csv file.
+      - Select Import, pick the vault it goes into and select Confirm.
+    data:
+      included: [logins, dates]
+    limitations:
+      - It keeps when each login was made and when its password last changed.
+    docs: https://proton.me/support/pass-import-firefox
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/firefox/firefox.reader.ts
+
+  - id: apple-passwords
+    name: Import from Apple Passwords or Safari
+    method: file
+    formats: [apple-passwords-csv]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - In the Passwords app on a Mac, select File --> Export All Passwords to File and save the .csv.
+      - In Proton Pass, open Settings --> Import, pick Apple Passwords or Safari and choose the file.
+      - Select Import, pick the vault it goes into and select Confirm.
+    data:
+      included: [logins, secrets]
+    limitations:
+      - It's logins only, with their notes and one-time codes.
+      - An old Safari file, with a Url column rather than URL, comes in without its web addresses.
+    docs: https://proton.me/support/pass-import-safari
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/safari/safari.reader.ts
+
+  - id: dashlane
+    name: Import from Dashlane
+    method: file
+    formats: [dashlane-csv]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - In Dashlane, go to Settings --> Export data and select Export to CSV.
+      - In Proton Pass, open Settings --> Import, pick Dashlane and choose the .zip, or one .csv from inside it.
+      - Select Import, pick the vault it goes into and select Confirm.
+    data:
+      included: [logins, secrets, secure-notes, cards, identities]
+      excluded: [groups]
+    limitations:
+      - Everything lands in one vault, without Dashlane's categories.
+      - A single .csv brings only the one kind of item it holds.
+    docs: https://proton.me/support/pass-import-dashlane
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/dashlane/dashlane.zip.reader.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/dashlane/dashlane.csv.reader.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/dashlane/dashlane.utils.ts
+
+  - id: keeper
+    name: Import from Keeper
+    method: file
+    formats: [keeper-json]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - In Keeper's web vault, go to Settings --> Export --> Export File and pick JSON.
+      - In Proton Pass, open Settings --> Import, pick Keeper and choose the .json file.
+      - Select Import, pick the vault it goes into and select Confirm.
+    data:
+      included: [logins, secrets, secure-notes, cards, identities, other-items, custom-fields, groups]
+    limitations:
+      - Shared folders come in as ordinary folders, shared with nobody.
+      - Folders need a paid plan, or everything lands loose in the vault.
+    docs: https://proton.me/support/pass-import-keeper
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/keeper/keeper.reader.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/keeper/keeper.utils.ts
+
+  - id: nordpass
+    name: Import from NordPass
+    method: file
+    formats: [nordpass-csv]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - In NordPass, open Settings and select Export items under Import and Export.
+      - In Proton Pass, open Settings --> Import, pick NordPass and choose the .csv file.
+      - Select Import, pick the vault it goes into and select Confirm.
+    data:
+      included: [logins, secure-notes, cards, identities, custom-fields, groups]
+    limitations:
+      - Item types other than passwords, notes, cards and identities are skipped, and card PINs are dropped.
+      - Folders need a paid plan, or everything lands loose in the vault.
+    docs: https://proton.me/support/import-passwords-nordpass
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/nordpass/nordpass.reader.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/nordpass/nordpass.types.ts
+
+  - id: enpass
+    name: Import from Enpass
+    method: file
+    formats: [enpass-json]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - In the Enpass desktop app, go to File --> Export, pick the vault and choose .json as the format.
+      - In Proton Pass, open Settings --> Import, pick Enpass and choose the .json file.
+      - Select Import, pick the vault it goes into and select Confirm.
+    data:
+      included:
+        [logins, secrets, secure-notes, cards, identities, other-items, custom-fields, attachments, dates]
+      excluded: [groups, history, favourites]
+    limitations:
+      - Folders, password history and favourites are dropped, and trashed or archived items land in the trash.
+      - Identities and custom items come in without their dates, and out of the trash.
+      - Attachments need a paid plan other than Pass Essentials.
+    docs: https://proton.me/support/import-passwords-enpass
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/enpass/enpass.reader.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/enpass/enpass.types.ts
+
+  - id: roboform
+    name: Import from RoboForm
+    method: file
+    formats: [roboform-csv]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - In RoboForm's settings, go to Account & Data and select Export under Import & Export.
+      - In Proton Pass, open Settings --> Import, pick Roboform and choose the .csv file.
+      - Select Import, pick the vault it goes into and select Confirm.
+    data:
+      included: [logins, secrets, secure-notes, groups]
+      excluded: [custom-fields]
+    limitations:
+      - Bookmarks come in as logins without a password, and safenotes as notes. Any other fields are dropped.
+      - Folders need a paid plan, or everything lands loose in the vault.
+    docs: https://proton.me/support/import-passwords-roboform
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/roboform/roboform.reader.ts
+
+  - id: kaspersky
+    name: Import from Kaspersky Password Manager
+    method: file
+    formats: [kaspersky-txt]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - In your Kaspersky account online, select Passwords --> More actions and download your passwords as a TXT file.
+      - In Proton Pass, open Settings --> Import, pick Kaspersky and choose the .txt file.
+      - Select Import, pick the vault it goes into and select Confirm.
+    data:
+      included: [logins, secure-notes]
+    limitations:
+      - Website and app logins come in as logins, and notes as notes. Anything else in the file is skipped.
+    docs: https://proton.me/support/pass-import-kaspersky
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/kaspersky/kaspersky.reader.ts
+
+  - id: msecure
+    name: Import from mSecure
+    method: file
+    formats: [msecure-csv]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - Export your mSecure data as a CSV file.
+      - In Proton Pass, open Settings --> Import, pick mSecure and choose the .csv file.
+      - Select Import, pick the vault it goes into and select Confirm.
+    data:
+      included: [logins, secure-notes, cards, custom-fields, groups]
+    limitations:
+      - Each item's tag becomes a folder, which needs a paid plan.
+      - Anything that isn't a login or a card comes in as a note, with its fields.
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/msecure/msecure.reader.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/applications/pass/CHANGELOG.md
+
+  - id: csv
+    name: Import a CSV in Proton Pass's template
+    method: file
+    formats: [csv]
+    requirements: ["Web app, desktop app or browser extension"]
+    steps:
+      - Open Settings --> Import, pick Generic CSV and select Download this CSV template.
+      - Fill it in, or rename your own file's columns to name, url, email, username, password, note, totp and vault.
+      - Choose the file, select Import, then pick the vaults it goes into and select Confirm.
+    data:
+      included: [logins, secrets, groups]
+    limitations:
+      - Every row in the template comes in as a login, and columns with other names are ignored.
+      - Rows go into a vault per name in the vault column.
+    sources:
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/protonpass/protonpass.csv.reader.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/components/Import/ImportForm.tsx
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/applications/pass/public/assets/protonpass-import.csv
+      - https://proton.me/support/pass-import-dropbox-passwords
+
+delete:
+  steps:
+    - Sign in at account.proton.me and go to Settings --> All settings --> Account and password.
+    - Scroll to Delete account and select Delete your account, then give a reason and select Continue.
+    - Tick Yes, I want to permanently delete this account and all its data, select Delete account and enter your password and any 2FA code.
+  docs: https://proton.me/support/delete-account
+  notes:
+    - It deletes your whole Proton account, Mail, Drive, VPN and the rest included, and it can't be undone. You can only do it on the web or in a desktop app.
+    - To keep the Proton account and just clear Proton Pass, delete each vault in the app instead. It asks you to type the vault's name, and everything in it goes for good.
+    - Your hide-my-email aliases go with the account, so move any site that uses one to another address first.
+    - Proton keeps encrypted backups for up to 30 days.
+
+verification:
+  status: documented
+  checked_at: 2026-11-24
