@@ -12,18 +12,19 @@ export:
     method: file
     formats: [apple-journal-html]
     steps:
-      - On iPhone, open Settings --> Apps --> Journal, tap Export All Journal Entries, then tap Export.
+      - On iPhone, open Settings --> Apps --> Journal, tap Export All Journal Entries, then Export, and stay on that screen until it's done.
       - Or in Journal, choose a journal or All Entries, tap the More button, then Export, then Export. On a Mac, use File --> Export, then Export.
-      - Pick where to save it. You get a zip called AppleJournalEntries.
+      - Pick where to save it. The Settings way gives you a zip called AppleJournalEntries, the other a folder.
     data:
       included: [text, attachments, properties, dates]
       unknown: [formatting, drawings, structure]
     limitations:
-      - It's a zip of web pages, one per entry, so it's for reading or for another app's importer. Journal itself has no import.
-      - Journal entries aren't in iCloud backups of your iPhone, only in encrypted backups on a computer, and those only go back onto an iPhone.
+      - Journal entries aren't in iCloud backups of your iPhone, only in encrypted backups you make on a computer.
     docs: https://support.apple.com/en-us/121822
     sources:
       - https://support.apple.com/guide/iphone/print-and-export-entries-iph4cad323fe/ios
+      - https://help.obsidian.md/import/apple-journal
+      - https://dayoneapp.com/guides/tips-and-tutorials/importing-from-apple-journal/
       - https://support.apple.com/guide/journal/print-and-export-entries-dev883fc2329/mac
       - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/tests/journal/entry-with-assets.html
 
@@ -34,7 +35,7 @@ export:
     requirements: [iOS 18 or later]
     steps:
       - In Journal, tap the More button on an entry, or the one at the top right for several.
-      - Tap Print, choose All Entries or a Date Range, then tap Print again.
+      - Tap Print. For several, pick All Entries or a Date Range, then tap Print again.
       - Tap the Share button to save the PDFs to Files. On a Mac, use File --> Print, then PDF.
     data:
       included: [text]

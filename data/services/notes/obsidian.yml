@@ -154,17 +154,18 @@ import:
     method: file
     formats: [apple-journal-html]
     steps:
-      - Export your entries from Journal and unzip the AppleJournalEntries zip it saves.
+      - Export your entries from Journal, and unzip them if you got a zip.
       - In Obsidian, install the Importer plugin, open it and pick Apple Journal.
-      - Choose the AppleJournalEntries folder and select Import.
+      - Choose the AppleJournalEntries folder, select Import, check the preview, then select Import again.
     data:
-      included: [text, properties, dates]
-      excluded: [attachments, drawings]
-      unknown: [formatting]
+      included: [text, properties]
+      excluded: [attachments, drawings, structure]
+      unknown: [formatting, dates]
     limitations:
       - Photos, videos and other media aren't copied into the vault. The details on tiles like State of Mind, places and workouts become properties instead, as long as Add metadata as frontmatter stays on.
-      - Entry titles aren't put in the notes, and each note is named after its exported file.
-      - Each entry's date goes in a date property, without the time.
+      - Only the entry's paragraphs and any reflection prompt come in, so titles don't, and each note is named after its exported file.
+      - Each entry's date goes in a date property, but only if Journal wrote it like Sunday, 3 November 2024. Written any other way, the note gets no date.
+      - Every entry lands in one Journal folder, whichever journal it was in.
     docs: https://help.obsidian.md/import/apple-journal
     sources:
       - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/apple-journal.ts
