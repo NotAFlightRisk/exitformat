@@ -259,8 +259,9 @@ import:
       - The file picker looks for .zip files, so rename the backup from .bear2bk to .zip.
       - Select Import in the sidebar, then Bear (.bear2bk) (Experimental), and pick the file.
     data:
-      included: [text, formatting, attachments, structure, tags, dates, todos]
+      included: [text, formatting, attachments, structure, dates, todos]
       excluded: [links]
+      unknown: [tags]
     limitations:
       - "In the desktop app, any line starting with # and no space is read as a tag and taken out of the note. That catches ## headings too, so use the web app."
       - Tags become AFFiNE tags, and folders too, with nested tags as nested folders. The web app only picks up tags on the last few lines of a note, so tags anywhere else stay as text.
