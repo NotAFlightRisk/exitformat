@@ -1,0 +1,5 @@
+name: LastPass CSV export
+extensions: [.csv]
+standard: false
+based_on: csv
+description: The .csv LastPass exports, with url, username, password, totp, extra, name, grouping and fav columns. Secure notes and other item types are rows with http://sn as the url and their details in extra. It isn't encrypted.

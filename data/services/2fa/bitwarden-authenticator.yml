@@ -43,7 +43,7 @@ import:
       - Encrypted or password-protected files don't work, so export without a password first.
       - On Android, a single HOTP code in a 2FAS or Aegis file stops the whole import.
       - It can't read Bitwarden CSV files, even though it writes them - use JSON.
-      - On iOS, a .json from the password manager brings in every item in it, not just the ones with a code.
+      - On iOS, a .json from the password manager turns every item in it into an entry, secure notes and cards included, even the ones with no code.
     docs: https://bitwarden.com/help/authenticator-import-export/#import-data
     sources:
       - https://github.com/bitwarden/android/blob/v2026.11.0-bwa/authenticator/src/main/kotlin/com/bitwarden/authenticator/data/platform/manager/imports/model/ImportFileFormat.kt

@@ -1,0 +1,5 @@
+name: KeePass XML export
+extensions: [.xml]
+standard: false
+description: An unencrypted XML copy of a KeePass database - its groups, and each entry's fields, tags, times and old versions. KeePass 2 and KeePassXC can both write one.
+spec: https://keepass.info/help/base/importexport.html

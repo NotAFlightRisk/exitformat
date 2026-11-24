@@ -118,6 +118,8 @@ import:
     data:
       included: [secrets, issuers, token-settings, steam]
       excluded: [hotp, groups, notes, favourites]
+    limitations:
+      - Only codes saved as otpauth:// or steam:// links come across. A bare key, or a row with no code at all, shows up as an error.
     docs: https://proton.me/support/import-2fa-codes
     sources:
       - https://github.com/protonpass/proton-pass-common/blob/2.4.0/proton-authenticator/src/parser/bitwarden/csv.rs
