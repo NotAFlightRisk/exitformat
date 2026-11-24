@@ -114,6 +114,19 @@ import:
       - Inline #tags and tags listed in a note's YAML come across, but tags added by scripts or plugins don't.
     docs: https://bear.app/faq/migrate-from-obsidian/
 
+  - id: day-one
+    name: Import from Day One
+    method: file
+    formats: [day-one-json]
+    steps:
+      - Export your Day One journal as JSON and unzip it.
+      - On a Mac, use File --> Import From --> Day One and choose the folder.
+      - On iPhone or iPad, open Settings --> Import & Export, pick Day One under Import From and tap Import Notes.
+    data:
+      included: [text]
+      unknown: [formatting, attachments, tags, properties, dates, todos]
+    docs: https://bear.app/faq/migrate-from-day-one/
+
   - id: files
     name: Import Markdown, text, TextBundle or HTML files
     method: file
