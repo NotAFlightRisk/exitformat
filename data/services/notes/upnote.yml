@@ -1,0 +1,137 @@
+name: UpNote
+website: https://getupnote.com/
+description: Notes app for phones and computers that keeps your notes on each device and syncs them through UpNote's servers once you sign in.
+deployment: hybrid
+platforms: [ios, android, macos, windows, linux]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/f1/0c/70/f10c70e2-1b0e-6be8-acca-7187fcb8e4ae/AppIcon-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/128x128bb.png
+
+export:
+  - id: html
+    name: Export notes as HTML
+    method: file
+    formats: [upnote-html, html]
+    steps:
+      - For everything, use File --> Export all notes on a Mac, or Settings --> General --> Export all notes on Windows, and pick HTML.
+      - For a notebook, select the More (⋯) icon next to its title and choose Export. For notes, select them and use Export in the right panel.
+      - On a phone, open a note, tap the More (⋯) button, then Export, and pick the format.
+    data:
+      included: [text, formatting, attachments, structure, links, tags, todos]
+      unknown: [dates]
+    limitations:
+      - Phones only export one note at a time. Your whole library needs the Mac, Windows or Linux app.
+      - Selected notes can come out merged into one document, so pick separate files if another app's going to read them.
+    docs: https://help.getupnote.com/import-and-export/export-notes
+    sources:
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/__tests__/data/upnote/UpNote_2026-06-18_11-59-39.zip
+
+  - id: markdown
+    name: Export notes as Markdown
+    method: file
+    formats: [markdown]
+    steps:
+      - For everything, use File --> Export all notes on a Mac, or Settings --> General --> Export all notes on Windows, and pick Markdown.
+      - For a notebook, select the More (⋯) icon next to its title and choose Export. For notes, select them and use Export in the right panel.
+      - On a phone, open a note, tap the More (⋯) button, then Export, and pick the format.
+    data:
+      included: [text, formatting, attachments]
+      unknown: [structure, links, tags, todos, dates]
+    limitations:
+      - Attachments and images go in a Files folder inside the export folder.
+      - Phones only export one note at a time.
+      - The desktop apps can also write their daily backups as Markdown, under Settings --> Backup.
+    docs: https://help.getupnote.com/import-and-export/export-notes
+    sources:
+      - https://help.getupnote.com/safety-and-control/automatic-notes-backup
+
+  - id: documents
+    name: Export notes as PDF or text
+    method: file
+    formats: [pdf, txt]
+    steps:
+      - Open a note, select the More (⋯) icon and choose Export, or press Cmd + E on a Mac or Ctrl + E on Windows.
+      - Pick PDF or Text (.txt). Several selected notes can go out as one document or as separate files.
+    data:
+      included: [text]
+      unknown: [formatting, attachments, tags, dates]
+    limitations:
+      - A PDF keeps the note's formatting and images, but a text file is just the words.
+    docs: https://help.getupnote.com/import-and-export/export-notes
+
+import:
+  - id: evernote
+    name: Import from Evernote
+    method: file
+    formats: [enex]
+    requirements: [Desktop app]
+    steps:
+      - Export your notebooks from Evernote as .enex files, one per notebook.
+      - On a Mac, use File --> Import Notes --> Evernote. On Windows, go to Settings --> General --> Import from Evernote.
+      - Select .enex files, switch on Use file name as notebook, choose whether tags become hashtags or notebooks, then select Import Notes.
+    data:
+      included: [text, formatting, attachments, structure, tags]
+      excluded: [links]
+      unknown: [dates, todos]
+    limitations:
+      - Links between notes can't be converted, so they still open in Evernote.
+      - Text and highlight colours are dropped unless you switch on keeping them.
+      - Special characters in tags become a dash, since UpNote's hashtags can't hold them.
+      - Notes with an attachment over 20 MB, or over 300,000 characters, may not import. Settings --> Feedback --> Save Debug Log lists any that didn't.
+      - Notebooks come in side by side, so nest them again yourself afterwards.
+      - An import that would take you past 20,000 notes or 10 GB of attachments only goes in 50 notes at a time.
+    docs: https://help.getupnote.com/import-and-export/import-content-to-upnote/import-from-evernote
+
+  - id: simplenote
+    name: Import from Simplenote
+    method: file
+    formats: [simplenote-json]
+    requirements: [Desktop app]
+    steps:
+      - Export your notes from Simplenote and find the .json file.
+      - On a Mac, use File --> Import Notes --> Simplenote. On Windows, go to Settings --> General --> Import from Simplenote.
+      - Select .json files, pick a notebook if you like, then select Import Notes.
+    data:
+      included: [text]
+      unknown: [formatting, tags, dates, todos]
+    docs: https://help.getupnote.com/import-and-export/import-content-to-upnote/import-from-simplenote
+
+  - id: markdown
+    name: Import Markdown files
+    method: file
+    formats: [markdown]
+    requirements: [Desktop app]
+    steps:
+      - On a Mac, use File --> Import Notes --> Markdown. On Windows, go to Settings --> General --> Import from Markdown.
+      - Select .md files/Select folder, pick the files or folder, then select Import Notes.
+    data:
+      included: [text]
+      unknown: [formatting, attachments, structure, links, tags, properties, todos, dates]
+    limitations:
+      - UpNote's own guides send Apple Notes, Bear, Notion and Obsidian through this, after exporting them as Markdown.
+    docs: https://help.getupnote.com/import-and-export/import-content-to-upnote/import-from-markdown
+
+  - id: html
+    name: Import HTML files
+    method: file
+    formats: [html]
+    requirements: [Desktop app]
+    steps:
+      - On a Mac, use File --> Import Notes --> HTML. On Windows, go to Settings --> General --> Import from HTML.
+      - Select .html files/Select folder, pick the files or folder, then select Import Notes.
+    data:
+      included: [text]
+      unknown: [formatting, attachments, structure, links, tags, todos, dates]
+    limitations:
+      - UpNote's own guides send Google Keep's Takeout HTML through this.
+    docs: https://help.getupnote.com/import-and-export/import-content-to-upnote/import-from-html
+
+delete:
+  steps:
+    - Export your notes first, since this deletes them from UpNote's servers and your device straight away.
+    - Go to Settings --> My Account --> Delete Account, enter your email and password, and select Delete Account.
+  docs: https://help.getupnote.com/get-started/manage-your-account/delete-account
+  notes:
+    - There's no undo, but a desktop backup can be restored into a new account under the same email.
+
+verification:
+  status: documented
+  checked_at: 2026-11-24

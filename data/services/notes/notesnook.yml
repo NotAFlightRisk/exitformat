@@ -167,6 +167,25 @@ import:
       - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/colornote/index.ts
       - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/colornote/decrypt-backup.ts
 
+  - id: upnote
+    name: Import from UpNote
+    method: file
+    formats: [upnote-html]
+    requirements: [Web or desktop app]
+    steps:
+      - In UpNote's desktop app, use Export all notes and pick HTML, then zip the folder it makes.
+      - In Notesnook, go to Settings --> Import & export --> Notesnook Importer and pick UpNote.
+      - Drop in the zip and select Start importing.
+    data:
+      included: [text, formatting, attachments, structure, links, tags, todos]
+      unknown: [dates]
+    limitations:
+      - Each note's title comes from its file name, and its dates from the file's own dates in the zip.
+      - Highlights and text colours keep their colours, collapsible sections become callouts and checklists become task lists.
+    docs: https://notesnook.com/help/importing-notes/import-notes-from-upnote
+    sources:
+      - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/src/providers/upnote/index.ts
+
   - id: evernote
     name: Import from Evernote
     method: file
