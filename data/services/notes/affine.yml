@@ -17,8 +17,8 @@ export:
       - You get a .md file, or a zip with the Markdown and its images if the doc has any.
     data:
       included: [text, formatting, databases, todos]
-      excluded: [attachments, links, tags, properties, dates, history, sharing]
-      unknown: [embeds, canvases, comments]
+      excluded: [attachments, links, tags, properties, dates, history, sharing, canvases]
+      unknown: [embeds, comments]
     limitations:
       - It's one doc at a time. There's no Markdown or HTML export for a whole workspace.
       - Images come along in the zip, but other files attached to the doc are left out.
@@ -44,8 +44,8 @@ export:
       - You get an .html file, or a zip with an index.html and its images if the doc has any.
     data:
       included: [text, formatting, databases, todos]
-      excluded: [attachments, links, tags, properties, dates, history, sharing]
-      unknown: [embeds, canvases, comments]
+      excluded: [attachments, links, tags, properties, dates, history, sharing, canvases]
+      unknown: [embeds, comments]
     limitations:
       - It's one doc at a time.
       - Images come along in the zip, but other files attached to the doc are left out.
@@ -106,7 +106,11 @@ import:
       - Folders become folders in the sidebar, and links to other .md files in the zip become links between docs. Wikilinks don't.
       - From front matter it only reads the title, created and updated dates, favourite and trash. Tags and everything else are dropped.
       - The desktop app skips a file, with a warning, if it holds HTML the importer won't take.
+      - The web app turns away an import over 32 MB, with any file over 8 MB, over 1,000 files or 250 docs, or with a zip inside the zip.
+      - The desktop app skips any file over 10 MB.
     sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/web-limits.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/native-backend.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/modules/import/services/service.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/commit-service.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/widgets/linked-doc/src/transformers/markdown.ts
@@ -160,8 +164,10 @@ import:
     limitations:
       - Each page becomes a doc, and Notion's folders become folders in the sidebar. Page icons come along.
       - Databases become AFFiNE databases. Select, multi-select, number, checkbox, date and text columns keep their type, and the rest turn into text.
-      - The desktop app reads the same zip far less well, so use the web app for this one.
+      - The desktop app reads the same zip far less well, so use the web app for this one if your export fits.
+      - The web app turns away an import over 32 MB, with any file over 8 MB, over 1,000 files or 250 docs, or with a zip inside the zip.
     sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/web-limits.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/modules/import/services/service.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/widgets/linked-doc/src/transformers/notion-html.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/blocks/database/src/adapters/notion-html.ts
@@ -184,8 +190,10 @@ import:
       - The desktop app strips each page down to plain text and images, so headings, lists, tables, databases and links between pages are lost.
       - Images come across, but other files in the zip aren't linked from any doc.
       - Each page becomes a doc, and Notion's folders become folders in the sidebar. Page icons come along.
-      - The web app at app.affine.pro keeps a lot more, so use that instead if you can.
+      - The web app at app.affine.pro keeps a lot more, so use that instead if your export is small enough for it (32 MB and 250 pages at most).
+      - The desktop app skips any file over 10 MB.
     sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/web-limits.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/native-backend.ts
       - https://docs.rs/crate/affine_importer/0.1.2/source/src/planner/providers/notion/html.rs
       - https://docs.rs/crate/affine_importer/0.1.2/source/src/planner/html.rs
@@ -205,7 +213,11 @@ import:
       - AFFiNE only mentions HTML, but it spots the Markdown in the zip and reads that instead.
       - Databases don't become AFFiNE databases. The desktop app turns each CSV into a plain table in the page, and the web app keeps it as a file.
       - Folders become folders in the sidebar, and links between pages become links between docs.
+      - The web app turns away an import over 32 MB, with any file over 8 MB, over 1,000 files or 250 docs, or with a zip inside the zip.
+      - The desktop app skips any file over 10 MB.
     sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/web-limits.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/native-backend.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/modules/import/services/service.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/widgets/linked-doc/src/transformers/markdown.ts
       - https://docs.rs/crate/affine_importer/0.1.2/source/src/planner/providers/notion/markdown.rs
@@ -228,7 +240,11 @@ import:
       - From front matter it only reads the title, created and updated dates, favourite and trash.
       - Canvases don't come across, and the .obsidian folder with your plugins and settings is skipped.
       - In the desktop app, an embedded note turns into a link to it.
+      - The web app turns away an import over 32 MB, with any file over 8 MB, over 1,000 files or 250 docs, or with a zip inside the zip.
+      - The desktop app skips any file over 10 MB.
     sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/web-limits.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/native-backend.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/modules/import/services/service.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/commit-service.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/widgets/linked-doc/src/transformers/obsidian.ts
@@ -240,17 +256,21 @@ import:
     formats: [bear-backup]
     steps:
       - In Bear, make a backup of all your notes.
-      - The file picker only shows .zip files, so rename the backup from .bear2bk to .zip.
+      - The file picker looks for .zip files, so rename the backup from .bear2bk to .zip.
       - Select Import in the sidebar, then Bear (.bear2bk) (Experimental), and pick the file.
     data:
       included: [text, formatting, attachments, structure, tags, dates, todos]
       excluded: [links]
     limitations:
       - "In the desktop app, any line starting with # and no space is read as a tag and taken out of the note. That catches ## headings too, so use the web app."
-      - Tags become AFFiNE tags, and folders too, with nested tags as nested folders.
+      - Tags become AFFiNE tags, and folders too, with nested tags as nested folders. The web app only picks up tags on the last few lines of a note, so tags anywhere else stay as text.
       - Links between notes stay as text, and notes in the trash are skipped.
-      - The desktop app drops highlights, keeping just the text.
+      - The desktop app removes every == from the note, so highlights lose their colour, and any == in code goes too.
+      - The web app turns away an import over 32 MB, with any file over 8 MB, over 1,000 files or 250 docs, or with a zip inside the zip.
+      - The desktop app skips any file over 10 MB.
     sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/web-limits.ts
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/native-backend.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/modules/import/services/service.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/shared/src/utils/file/filesys.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/blocksuite/affine/widgets/linked-doc/src/transformers/bear.ts
@@ -272,8 +292,10 @@ import:
       - Ink and handwriting are skipped, with a warning.
       - OneNote tags, to-do boxes included, don't come across.
       - Sections and section groups become folders, with a doc for each page. Tables come in as plain tables.
-      - It takes one file at a time, not the zip OneNote for the web gives you.
+      - It takes one file at a time.
+      - The desktop app skips any file over 10 MB.
     sources:
+      - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/desktop/dialogs/import/native-backend.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/core/src/modules/import/services/service.ts
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/native/src/import/onenote/mod.rs
       - https://github.com/toeverything/AFFiNE/blob/v0.27.4/packages/frontend/native/src/import/onenote/content/mod.rs
