@@ -1,0 +1,120 @@
+name: Logseq
+website: https://logseq.com/
+description: Free, open source outliner for linked notes, kept on your device as a folder of Markdown files, or as a database in the newer 2.0 version.
+deployment: local
+platforms: [windows, macos, linux, android, ios, web]
+source: https://github.com/logseq/logseq
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/0a/4a/ff/0a4affb6-7f92-b2cf-4e94-9990bb7a5891/AppIcon-1x_U007emarketing-0-7-0-85-220.png/128x128bb.png
+
+export:
+  - id: graph-folder
+    name: Copy your graph folder
+    method: folder
+    formats: [logseq-graph]
+    requirements: [File-based graph]
+    steps:
+      - Find the folder you picked when you set the graph up. It has pages, journals and assets folders inside.
+      - Copy the whole folder somewhere safe.
+    data:
+      included: [text, formatting, attachments, structure, links, tags, properties, todos, embeds, canvases]
+      unknown: [dates]
+    limitations:
+      - "Properties, block references and queries are written Logseq's way, as lines like key:: value and ((block ids)), which other apps mostly show as plain text."
+      - Whiteboards sit in their own whiteboards folder, which other apps don't read.
+    sources:
+      - https://github.com/logseq/logseq/blob/0.10.15/src/resources/dicts/en.edn
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/logseq.ts
+
+  - id: markdown
+    name: Export as standard Markdown
+    method: file
+    formats: [markdown]
+    steps:
+      - Open the ⋯ menu at the top right and choose Export graph.
+      - Select Export as standard Markdown (no block properties) and save the zip.
+    data:
+      included: [text, formatting, links, todos]
+      excluded: [attachments, properties]
+      unknown: [structure, tags, dates]
+    limitations:
+      - Your images and files aren't in the zip, only links to them. On 2.0, Export both SQLite DB and assets gives you a zip with them in an assets folder.
+      - On 2.0's database graphs it's the only export another app can read. Its SQLite and EDN exports only go back into Logseq.
+      - Not in the iPhone and Android apps.
+    sources:
+      - https://github.com/logseq/logseq/blob/2.0.2/src/main/frontend/components/export.cljs
+      - https://github.com/logseq/logseq/blob/2.0.2/src/main/frontend/handler/export/text.cljs
+      - https://github.com/logseq/logseq/blob/0.10.15/src/main/frontend/handler/export/text.cljs
+
+  - id: opml
+    name: Export as OPML
+    method: file
+    formats: [opml]
+    requirements: [Logseq 0.10 or earlier]
+    steps:
+      - Open the ⋯ menu at the top right and choose Export graph.
+      - Select Export as OPML and save the file.
+    data:
+      included: [text, structure]
+      unknown: [formatting, links, tags, properties, todos, dates]
+    limitations:
+      - Not in the iPhone and Android apps.
+    sources:
+      - https://github.com/logseq/logseq/blob/0.10.15/src/main/frontend/handler/export/opml.cljs
+
+  - id: roam-json
+    name: Export as Roam JSON
+    method: file
+    formats: [roam-json]
+    requirements: [Logseq 0.10 or earlier]
+    steps:
+      - Open the ⋯ menu at the top right and choose Export graph.
+      - Select Export as Roam JSON and save the file.
+    data:
+      included: [text, structure, links, todos, embeds]
+      excluded: [attachments, dates]
+      unknown: [formatting, tags, properties]
+    limitations:
+      - Only each page's title and its blocks' text and nesting go in, with no dates.
+      - Block references become Roam's own ids. DONE becomes a ticked checkbox, and every other task marker, cancelled ones included, an open one.
+      - Not in the iPhone and Android apps.
+    sources:
+      - https://github.com/logseq/logseq/blob/0.10.15/src/main/frontend/external/roam_export.cljs
+      - https://github.com/logseq/logseq/blob/0.10.15/src/main/frontend/handler/export.cljs
+
+import:
+  - id: roam
+    name: Import from Roam Research
+    method: file
+    formats: [roam-json]
+    requirements: [Logseq 0.10 or earlier]
+    steps:
+      - Export your Roam graph as JSON.
+      - In Logseq, open the ⋯ menu at the top right and choose Import.
+      - Select RoamResearch and pick the .json file.
+    data:
+      included: [text, structure, links, properties, todos]
+      excluded: [attachments]
+      unknown: [formatting, tags, dates, comments, embeds, canvases]
+    limitations:
+      - Pages with the same name are merged into one, and Roam's checkboxes become TODO and DONE.
+      - Images and files stay as links to Roam's storage, which stop working once you delete your Roam account.
+    sources:
+      - https://github.com/logseq/logseq/blob/0.10.15/src/main/frontend/components/onboarding/setups.cljs
+      - https://github.com/logseq/logseq/blob/0.10.15/src/main/frontend/external/roam.cljs
+
+  - id: opml
+    name: Import OPML files
+    method: file
+    formats: [opml]
+    requirements: [Logseq 0.10 or earlier]
+    steps:
+      - Open the ⋯ menu at the top right and choose Import.
+      - Select OPML and pick the .opml file.
+    data:
+      included: [text, structure]
+    sources:
+      - https://github.com/logseq/logseq/blob/0.10.15/src/main/frontend/components/onboarding/setups.cljs
+
+verification:
+  status: documented
+  checked_at: 2026-11-24
