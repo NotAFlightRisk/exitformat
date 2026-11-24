@@ -1,0 +1,5 @@
+name: Diaro backup
+extensions: [.zip]
+standard: false
+based_on: zip
+description: The zip of your entries and photos that Diaro's backup makes.

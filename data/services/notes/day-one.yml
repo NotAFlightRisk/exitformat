@@ -1,0 +1,145 @@
+name: Day One
+website: https://dayoneapp.com/
+description: Journaling app for phones, Macs, Windows and the web. The free plan keeps entries on one device, and paid plans sync them through Day One's servers.
+deployment: hybrid
+platforms: [ios, macos, android, web, windows]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/23/d0/d6/23d0d6ab-f3ff-ef45-47ac-350995d21fd1/AppIcon-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/128x128bb.png
+aliases: [dayone, day one journal]
+
+export:
+  - id: json
+    name: Export as Day One JSON
+    method: file
+    formats: [day-one-json]
+    steps:
+      - On iPhone or iPad, open Settings --> Import/Export, pick the journal and dates, then choose JSON.
+      - On a Mac, use File --> Export and choose JSON. On Android, open Settings --> Export and choose JSON.
+      - On the web or Windows, open the journal, then Edit Journal --> Journal Settings --> Export Journal.
+      - Include media if it asks, then save the zip.
+    data:
+      included: [text, formatting, attachments, tags, properties, dates, todos]
+      unknown: [structure, comments, drawings]
+    limitations:
+      - Media is optional. Leave it out and you only get the text and details, with the photos, videos, audio and PDFs left behind.
+      - On Android, turn off Optimize Local Media Storage under Settings --> Sync and let sync finish first, or full-size photos can be missing. Save the file from the Export Complete notification, since dismissing it means exporting again.
+      - The web and Windows apps only export a whole journal, and Day One says their JSON export can fail or come out as an empty zip. Use the iPhone or Mac app if it does.
+    docs: https://dayoneapp.com/guides/tips-and-tutorials/exporting-entries/
+    sources:
+      - https://dayoneapp.com/guides/import-export/importing-data-from-json-files/
+
+  - id: pdf
+    name: Export as a PDF
+    method: file
+    formats: [pdf]
+    requirements: [iPhone, iPad, Mac or Android app]
+    steps:
+      - On iPhone or iPad, open Settings --> Import/Export, pick the journal and dates, then choose PDF.
+      - On a Mac, use File --> Export and choose PDF. On Android, open Settings --> Export and choose PDF.
+      - Pick what goes in, like photos, tags and locations, then save it.
+    data:
+      included: [text, formatting, attachments, tags, properties, dates]
+    limitations:
+      - Tables come out as a blank space in PDFs from iPhone and iPad.
+    docs: https://dayoneapp.com/guides/tips-and-tutorials/exporting-entries/
+
+  - id: text
+    name: Export as plain text or Markdown
+    method: file
+    formats: [markdown, txt]
+    requirements: [iPhone, iPad, Mac or Android app]
+    steps:
+      - On iPhone or iPad, open Settings --> Import/Export, pick the journal and dates, then choose Plain Text / Markdown.
+      - On a Mac, use File --> Export and choose Plain Text / Markdown. On Android, open Settings --> Export and choose Plain Text.
+    data:
+      included: [text, formatting, dates]
+      excluded: [attachments]
+      unknown: [tags, properties]
+    limitations:
+      - Every entry goes in one text file, so another app opens your whole journal as one long note.
+      - Photos aren't in it, not even links to them.
+      - Android's Plain Text drops all the formatting. The iPhone and Mac apps keep it as Markdown.
+    docs: https://dayoneapp.com/guides/tips-and-tutorials/exporting-entries/
+
+  - id: csv
+    name: Export as CSV
+    method: file
+    formats: [csv]
+    requirements: [iPhone, iPad or Android app]
+    steps:
+      - On iPhone or iPad, open Settings --> Import/Export, pick the journal and dates, then choose CSV.
+      - On Android, open Settings --> Export and choose CSV.
+    data:
+      included: [text, dates]
+      excluded: [attachments]
+      unknown: [formatting, tags, properties]
+    docs: https://dayoneapp.com/guides/tips-and-tutorials/exporting-entries/
+
+import:
+  - id: json
+    name: Import a Day One JSON export
+    method: file
+    formats: [day-one-json]
+    steps:
+      - On iPhone, iPad or Android, open Settings --> Import/Export and choose the JSON zip. Keep the file on the device itself.
+      - On a Mac, use File --> Import. On the web or Windows, open Settings --> Import and choose the zip.
+    docs: https://dayoneapp.com/guides/import-export/importing-data-from-json-files/
+
+  - id: journey
+    name: Import from Journey
+    method: file
+    formats: [journey-zip]
+    requirements: [Android app]
+    steps:
+      - Export your entries from Journey on Android as a .zip file.
+      - In Day One, open Settings --> Import/Export --> Import Journey .zip file and pick it.
+    data:
+      included: [text, attachments]
+    docs: https://dayoneapp.com/guides/day-one-for-android/importing-data-from-journey/
+
+  - id: diaro
+    name: Import from Diaro
+    method: file
+    formats: [diaro-zip]
+    requirements: [Android app]
+    steps:
+      - Back up your entries from Diaro on Android as a .zip file.
+      - In Day One, open Settings --> Import/Export --> Import Diaro .zip file and pick it.
+    data:
+      included: [text, attachments]
+    limitations:
+      - That's Diaro, not Diarium, which Day One can't import.
+    docs: https://dayoneapp.com/guides/day-one-for-android/importing-data-from-diaro/
+
+  - id: apple-journal
+    name: Import from Apple Journal
+    method: file
+    formats: [apple-journal-html]
+    requirements: [iPhone or Mac app]
+    steps:
+      - Export your entries from Apple Journal, and unzip them if you got a zip.
+      - On iPhone, open Settings --> Import/Export --> Import from Apple Journal.
+      - On a Mac, use File --> Import --> Import from Apple Journal.
+      - Name the new journal, then pick the exported folder.
+    data:
+      included: [text, attachments, properties, dates]
+      excluded: [structure]
+      unknown: [formatting, drawings]
+    limitations:
+      - Everything goes into one new journal, called Apple Journal unless you name it something else.
+      - The free plan only allows one photo per entry and no video or audio, and Day One doesn't say what happens to the rest on import.
+    docs: https://dayoneapp.com/guides/tips-and-tutorials/importing-from-apple-journal/
+
+delete:
+  steps:
+    - Export your entries first, since deleting the account removes them from every device.
+    - On iPhone or iPad, tap your profile picture, then your name again, then Advanced --> Delete Account.
+    - On Android, open Settings --> Account --> Delete Account. On a Mac or the web, sign in at dayone.me/settings and use Delete Account.
+  docs: https://dayoneapp.com/guides/troubleshooting/how-to-delete-a-day-one-sync-account/
+  notes:
+    - Deleting takes 14 days, and the email you get has a link to cancel it. After that your entries and media are gone from Day One's servers for good.
+    - Day One Support can skip the 14 days if you ask, but then there's no way back.
+    - It doesn't cancel a subscription you bought through the App Store or Google Play, so cancel that yourself.
+
+verification:
+  status: documented
+  checked_at: 2026-11-24
