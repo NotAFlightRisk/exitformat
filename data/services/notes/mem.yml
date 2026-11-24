@@ -18,11 +18,11 @@ export:
       - Back in Exports, select Download once the entry's ready, and keep the ZIP.
     data:
       included: [text, formatting, attachments, links, dates, todos]
-      unknown: [tags, history, sharing]
+      excluded: [history]
+      unknown: [tags, sharing]
     limitations:
-      - It works until Mem shuts down on 15 January 2027, and notes go read-only on 18 December 2026. Export again if you edit anything after your first copy.
+      - Notes go read-only on 18 December 2026 and Mem shuts down on 15 January 2027, so export before then, and again if you edit anything after your first copy.
       - Collections come out as an index note each in collections/, linking to their notes. Mem doesn't say whether the notes carry them as tags too.
-      - Meeting transcripts come along where Mem has them, but recordings only if you pick the audio option, and they make the download much bigger.
       - A finished export can still be missing an attachment or transcript. Open export-report.md first if anything seems to be missing.
       - Mem doesn't say where each note's dates go in the files. Craft and Recall read them, but other apps might not.
       - Pages you clipped with the Chrome extension come out without Mem's saved copy of the page.
@@ -49,9 +49,9 @@ export:
       - Back in Exports, select Download once the entry's ready to get the .enex file.
     data:
       included: [text, attachments, tags]
-      unknown: [formatting, links, dates, todos, history, sharing]
+      excluded: [history]
+      unknown: [formatting, links, dates, todos, sharing]
     limitations:
-      - It works until Mem shuts down on 15 January 2027, and notes go read-only on 18 December 2026.
       - Each collection's name becomes a tag. The collection index notes are only in the Markdown copy.
       - Links between notes can arrive as plain text, so keep the Markdown copy if they matter.
       - Mem only promises the embedded files it supports, so open a note with a PDF in it to check.
@@ -66,17 +66,15 @@ export:
     requirements: [A Mem API key]
     steps:
       - Make an API key in the API section of your Mem settings.
-      - Fetch your notes, collections and attachments with the API yourself, or hand the key to a tool that does it for you.
+      - Fetch your notes, collections and attachments with the API, and keep the key to yourself.
     data:
       included: [text, formatting, attachments, links, tags, dates, todos]
       excluded: [history]
       unknown: [sharing]
     limitations:
-      - It's the developer route, so you'll need some code or a tool built on it.
       - It's capped at 100 requests a minute and 4,000 a day.
       - Links between notes are mem://notes/ links in the Markdown, which you'd have to point at the new copies yourself.
-      - Each note lists its images and PDFs, which you fetch one download link at a time. Recordings come back as transcripts, without the audio.
-      - Like everything else, it stops when Mem shuts down on 15 January 2027.
+      - Only images and PDFs come with a note, each fetched from its own download link. Recordings come back as transcripts, without the audio.
     docs: https://docs.mem.ai/api-reference/overview/introduction
     sources:
       - https://docs.mem.ai/api-reference/overview/authentication
@@ -91,11 +89,10 @@ import: []
 delete:
   steps:
     - Export anything you want to keep first, since a deleted account can't be recovered.
-    - Select your profile picture, then Settings, and delete your account from there.
-    - If you can't find it, email support@mem.ai and ask for your account and data to be deleted.
+    - Email support@mem.ai and ask for your account and its data to be deleted.
   docs: https://get.mem.ai/pages/terms-of-service
   notes:
-    - Mem's terms say a deleted account goes from its servers straight away. Its privacy policy adds that it may keep some information to stop fraud or meet legal rules.
+    - Mem's privacy policy says a deleted account comes out of its active databases, with backups kept until they can be deleted, and some information kept to stop fraud or meet legal rules.
     - Notes you delete yourself are gone from Mem's systems after 90 days, but activity logs that can hold bits of them are kept for up to 400 days.
     - Mem shuts down on 15 January 2027 and you can't get in after that. Its shutdown notice doesn't say what happens to the data left on its servers.
     - Mem has paused all charging, so you won't be billed again.
