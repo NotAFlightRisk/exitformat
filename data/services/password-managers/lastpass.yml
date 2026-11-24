@@ -1,0 +1,132 @@
+name: LastPass
+website: https://www.lastpass.com/
+description: Subscription password manager with a free tier for one device type. Your vault's end-to-end encrypted and synced through LastPass's cloud.
+deployment: cloud
+platforms: [android, ios, windows, macos, web, browser-extension]
+aliases: [lastpass password manager, last pass]
+
+export:
+  - id: csv
+    name: Export your vault as CSV
+    method: file
+    formats: [lastpass-csv]
+    steps:
+      - In the web vault or LastPass for Desktop, select Advanced options --> Export, then Continue export in the Verify export email.
+      - Go back to Advanced options --> Export within 10 minutes, enter your master password and select Submit.
+      - In the browser extension, select the Account tab, then Fix a problem yourself --> Export vault items --> Export data for use anywhere.
+      - Save the .csv it downloads. If it only shows on the page, copy it into a text editor and save it as a .csv.
+    data:
+      included: [logins, secure-notes, cards, identities, other-items, groups, favourites]
+      excluded: [passkeys, secrets, custom-fields, attachments, history, dates, settings]
+      unknown: [shared-vaults]
+    limitations:
+      - One-time codes saved on your logins, attachments, custom fields and custom item types are all left behind.
+      - Download each attachment from the browser extension, desktop app or phone app before you go. The website can't open them.
+      - The phone apps can't export.
+      - Passkeys can't be exported at all, so add a password or a new passkey on each site before you go.
+      - Every password's in plain text, so delete the file once you've imported it.
+      - "The copy shown on the page can turn &, < and > in passwords into HTML codes like &amp;, so use the downloaded file or check those."
+      - With vault identities set up, pick All in the account menu first, or you only get the identity you're in.
+      - A Teams or Business admin can switch exports off with the Prohibit export policy.
+      - On the free plan, you can still export from a computer even if Mobile is your active device type.
+      - The extension's Export encrypted data for backup only goes back into LastPass, with a key you make up.
+    docs: https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Fexport-vault.html&_LANG=enus
+    sources:
+      - https://bitwarden.com/help/import-from-lastpass/
+      - https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Fexport-web-vault.html&_LANG=enus
+      - https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Fexport-generic-csv.html&_LANG=enus
+      - https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2FExport_Vault_Identities.html&_LANG=enus
+      - https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Fpasskey_faqs.html&_LANG=enus
+      - https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Ffaq_device_type_export_restricted.html&_LANG=enus
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/lastpass/lastpass-csv-importer.ts
+
+import:
+  - id: password-managers
+    name: Import another password manager's export
+    method: file
+    formats: [1password-csv, bitwarden-csv, dashlane-csv, apple-passwords-csv]
+    steps:
+      - Export a .csv from the other app. LastPass wants 1Password 8's CSV, not a 1PUX, and Bitwarden's .csv, not its .json.
+      - In the web vault, select Advanced options --> Import, then pick the app the file came from.
+      - Drag the .csv into Upload file, or select browse and pick it.
+      - Untick anything you don't want under Review and select items, then select Import selected or Import all.
+    data:
+      included: [logins]
+      excluded: [passkeys, attachments]
+      unknown:
+        [
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          groups,
+          tags,
+          shared-vaults,
+          history,
+          favourites,
+          dates
+        ]
+    limitations:
+      - Attachments never come in, and passkeys can't be imported at all.
+      - Items with the same username, password and URL as one you've already got are unticked for you.
+      - Keeper and KeePass are on the list too, from their CSV exports. Keeper's JSON and KeePass 1's XML are turned away.
+      - The Android and iOS apps can import a .csv too, logins only. On iOS 26 or later, they can take logins straight from an app that supports Credential Exchange.
+    docs: https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Fimport_another_password_manager.html&_LANG=enus
+    sources:
+      - https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Fimport-passwords.html&_LANG=enus
+      - https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Fios_import_credentials.html&_LANG=enus
+
+  - id: browsers
+    name: Import from a browser
+    method: file
+    formats: [chrome-csv, firefox-csv]
+    steps:
+      - Export your passwords as a .csv from Chrome, Edge, Firefox or Opera.
+      - In the web vault, select Advanced options --> Import, then pick the browser the file came from.
+      - Drag the .csv into Upload file, or select browse and pick it.
+      - Untick anything you don't want under Review and select items, then select Import selected or Import all.
+    data:
+      included: [logins]
+      excluded: [passkeys]
+    limitations:
+      - Items with the same username, password and URL as one you've already got are unticked for you.
+    docs: https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Fimport_from_browser.html&_LANG=enus
+
+  - id: lastpass-csv
+    name: Import a LastPass CSV
+    method: file
+    formats: [lastpass-csv]
+    steps:
+      - "Use a LastPass export, or give your own .csv LastPass's lowercase columns: url, username, password, extra, name, grouping, fav, totp."
+      - In the web vault, select Advanced options --> Import, then pick LastPass, or Spreadsheet for your own file.
+      - Drag the .csv into Upload file, or select browse and pick it.
+      - Untick anything you don't want under Review and select items, then select Import selected or Import all.
+    data:
+      included: [logins, secrets, secure-notes, groups, favourites]
+      excluded: [custom-fields]
+      unknown: [cards, identities, other-items]
+    limitations:
+      - Everything lands in ordinary folders, even items that were in a shared folder.
+      - Custom fields and custom item types are dropped, and a note over 45,000 characters won't go in.
+    docs: https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Fimport_lastpass_data_not_encrypted.html&_LANG=enus
+    sources:
+      - https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Fimport-generic-csv.html&_LANG=enus
+
+delete:
+  steps:
+    - Go to lastpass.com/my.php (Account settings --> My Account in the web vault) and select Delete or reset Account.
+    - Select Delete, then Yes, and enter your master password.
+    - Select Delete, then Yes --> Yes --> OK.
+  docs: https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Fdelete-account.html&_LANG=enus
+  notes:
+    - It's permanent and can't be undone, so export everything first.
+    - It doesn't cancel a Premium plan's auto-renewal, so turn that off first.
+    - Forgot your master password? Go to lastpass.com/delete_account.php, select Delete, then No, and LastPass emails you a link.
+    - Deleting the account doesn't touch the other data LastPass holds about you. Ask for that through its Individual Rights Management Portal.
+    - LastPass's deletion page doesn't say how long it keeps anything afterwards.
+
+verification:
+  status: documented
+  checked_at: 2026-11-24
