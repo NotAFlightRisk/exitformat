@@ -1,6 +1,8 @@
 {
-  "commit": "d392fad24bc6749dce54ac3244e3d12dda40e7b2",
+  "commit": "d7be1d8144ec1ae26c914f5b5b9a4e3c9406b178",
   "entries": [
+    {"date":"2026-11-24","commit":"d7be1d8","pr":60,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
+    {"date":"2026-11-24","commit":"d7be1d8","pr":60,"id":"keepassxc","category":"password-managers","name":"KeePassXC","kind":"added"},
     {"date":"2026-11-24","commit":"d392fad","pr":59,"id":"proton-pass","category":"password-managers","name":"Proton Pass","kind":"added"},
     {"date":"2026-11-24","commit":"8dc4808","pr":57,"id":"aegis","category":"2fa","name":"Aegis Authenticator","kind":"updated","sections":["import"]},
     {"date":"2026-11-24","commit":"8dc4808","pr":57,"id":"gnome-authenticator","category":"2fa","name":"Authenticator","kind":"updated","sections":["import"]},
