@@ -1,5 +1,6 @@
 name: Apple Journal export
 extensions: [.html]
 standard: false
+owner: apple-journal
 based_on: html
-description: Apple's Journal app exports your entries as an AppleJournalEntries folder, with an HTML file for each one.
+description: What Apple's Journal app exports, a zip called AppleJournalEntries with a web page for each entry and the photos, locations and other media you added to it. Each page has the entry's date, title, text and tiles like State of Mind. Unzip it before another app reads it.

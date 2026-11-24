@@ -1,0 +1,58 @@
+name: Apple Journal
+website: https://apps.apple.com/app/journal/id6447391597
+description: Apple's journaling app for iPhone, iPad and Mac, with your entries on the device and synced through iCloud, end-to-end encrypted.
+deployment: hybrid
+platforms: [ios, macos]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/21/ac/78/21ac7835-8a35-8137-b912-890e3d7f1043/journalCalistoga-0-0-1x_U007epad-0-1-85-220.png/128x128bb.png
+aliases: [journal, journal app]
+
+export:
+  - id: entries
+    name: Export all your entries
+    method: file
+    formats: [apple-journal-html]
+    steps:
+      - On iPhone, open Settings --> Apps --> Journal, tap Export All Journal Entries, then tap Export.
+      - Or in Journal, choose a journal or All Entries, tap the More button, then Export, then Export. On a Mac, use File --> Export, then Export.
+      - Pick where to save it. You get a zip called AppleJournalEntries.
+    data:
+      included: [text, attachments, properties, dates]
+      unknown: [formatting, drawings, structure]
+    limitations:
+      - It's a zip of web pages, one per entry, so it's for reading or for another app's importer. Journal itself has no import.
+      - Journal entries aren't in iCloud backups of your iPhone, only in encrypted backups on a computer, and those only go back onto an iPhone.
+    docs: https://support.apple.com/en-us/121822
+    sources:
+      - https://support.apple.com/guide/iphone/print-and-export-entries-iph4cad323fe/ios
+      - https://support.apple.com/guide/journal/print-and-export-entries-dev883fc2329/mac
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/tests/journal/entry-with-assets.html
+
+  - id: pdf
+    name: Save entries as PDFs
+    method: file
+    formats: [pdf]
+    requirements: [iOS 18 or later]
+    steps:
+      - In Journal, tap the More button on an entry, or the one at the top right for several.
+      - Tap Print, choose All Entries or a Date Range, then tap Print again.
+      - Tap the Share button to save the PDFs to Files. On a Mac, use File --> Print, then PDF.
+    data:
+      included: [text]
+      unknown: [formatting, attachments, drawings, properties, dates]
+    docs: https://support.apple.com/en-us/121822
+    sources:
+      - https://support.apple.com/guide/journal/print-and-export-entries-dev883fc2329/mac
+
+import: []
+
+delete:
+  steps:
+    - In Journal, choose a journal or All Entries, then swipe left on an entry and tap the bin.
+    - To delete several, tap the More button, then Select Entries, pick them and tap the bin.
+  docs: https://support.apple.com/guide/iphone/edit-or-delete-an-entry-iph1607b2f45/ios
+  notes:
+    - Deleted entries can be brought back from Recently Deleted for 30 days.
+
+verification:
+  status: documented
+  checked_at: 2026-11-24
