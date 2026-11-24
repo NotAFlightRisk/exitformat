@@ -20,10 +20,11 @@ export:
       - Super notes are saved as Super's own JSON, not Markdown, so only Standard Notes can read their formatting.
       - Attachments aren't in it, only their details. Download the files themselves from Files, which needs a paid plan.
       - Pick Encrypted instead and you get a single .txt that only Standard Notes can open, with your password.
-      - The desktop app's daily automatic backups and the daily email backups on paid plans are always encrypted, so they're no use outside Standard Notes.
+      - The email backups on paid plans are encrypted, and so are the desktop app's automatic ones (every 12 hours) once you've an account or a passcode. Only Standard Notes or its offline decryption tool opens them.
     docs: https://standardnotes.com/help/14/how-do-i-create-and-import-backups-of-my-standard-notes-data
     sources:
       - https://standardnotes.com/help/28/how-do-i-enable-daily-email-backups
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.3/packages/web/src/javascripts/Application/Device/DesktopManager.ts
       - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.3/packages/web/src/javascripts/Components/Preferences/Panes/Backups/DataBackups.tsx
       - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.3/packages/ui-services/src/Archive/ArchiveManager.ts
 
