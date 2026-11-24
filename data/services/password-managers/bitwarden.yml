@@ -304,7 +304,7 @@ import:
       - Other item types, like SSH keys, Wi-Fi and software licences, come in as plain secure notes with their details as text.
       - Shared folders become ordinary folders, and favourites are dropped going into an organisation.
       - LastPass's on-screen export can turn &, < and > in passwords into HTML codes like &amp;, so check any with those in.
-      - The desktop app and browser extension can also sign in to LastPass and pull everything straight across.
+      - The desktop app and browser extension can also sign in to LastPass and pull it straight across, though attachments and the trash still need adding by hand.
       - Importing a file twice gives you two of everything.
     docs: https://bitwarden.com/help/import-from-lastpass/
     sources:
