@@ -16,10 +16,12 @@ export:
       - On a phone, open a note, tap the More (⋯) button, then Export, and pick the format.
     data:
       included: [text, formatting, attachments, structure, links, tags, todos]
-      unknown: [dates]
+      excluded: [history]
+      unknown: [dates, sharing]
     limitations:
       - Phones only export one note at a time. Your whole library needs the Mac, Windows or Linux app.
       - Selected notes can come out merged into one document, so pick separate files if another app's going to read them.
+      - The notebooks folder only holds links back to the notes, so an app reading it as plain HTML should skip that folder.
     docs: https://help.getupnote.com/import-and-export/export-notes
     sources:
       - https://github.com/streetwriters/notesnook-importer/blob/d06d53d2dce4d3cd6e3e4ca32cba649bacbc9480/packages/core/__tests__/data/upnote/UpNote_2026-06-18_11-59-39.zip
@@ -34,7 +36,7 @@ export:
       - On a phone, open a note, tap the More (⋯) button, then Export, and pick the format.
     data:
       included: [text, formatting, attachments]
-      unknown: [structure, links, tags, todos, dates]
+      unknown: [structure, links, tags, todos, dates, history, sharing]
     limitations:
       - Attachments and images go in a Files folder inside the export folder.
       - Phones only export one note at a time.
@@ -43,18 +45,28 @@ export:
     sources:
       - https://help.getupnote.com/safety-and-control/automatic-notes-backup
 
-  - id: documents
-    name: Export notes as PDF or text
+  - id: pdf
+    name: Export notes as PDF
     method: file
-    formats: [pdf, txt]
+    formats: [pdf]
     steps:
       - Open a note, select the More (⋯) icon and choose Export, or press Cmd + E on a Mac or Ctrl + E on Windows.
-      - Pick PDF or Text (.txt). Several selected notes can go out as one document or as separate files.
+      - Pick PDF. Several selected notes can go out as one document or as separate files.
+    data:
+      included: [text, formatting, attachments]
+      unknown: [tags, dates]
+    docs: https://help.getupnote.com/import-and-export/export-notes
+
+  - id: text
+    name: Export notes as text
+    method: file
+    formats: [txt]
+    steps:
+      - Open a note, select the More (⋯) icon and choose Export, or press Cmd + E on a Mac or Ctrl + E on Windows.
+      - Pick Text (.txt). Several selected notes can go out as one document or as separate files.
     data:
       included: [text]
       unknown: [formatting, attachments, tags, dates]
-    limitations:
-      - A PDF keeps the note's formatting and images, but a text file is just the words.
     docs: https://help.getupnote.com/import-and-export/export-notes
 
 import:
@@ -70,7 +82,7 @@ import:
     data:
       included: [text, formatting, attachments, structure, tags]
       excluded: [links]
-      unknown: [dates, todos]
+      unknown: [properties, dates, todos]
     limitations:
       - Links between notes can't be converted, so they still open in Evernote.
       - Text and highlight colours are dropped unless you switch on keeping them.
@@ -91,7 +103,9 @@ import:
       - Select .json files, pick a notebook if you like, then select Import Notes.
     data:
       included: [text]
-      unknown: [formatting, tags, dates, todos]
+      unknown: [formatting, links, tags, properties, dates, todos, sharing]
+    limitations:
+      - An import that would take you past 20,000 notes or 10 GB of attachments only goes in 50 notes at a time.
     docs: https://help.getupnote.com/import-and-export/import-content-to-upnote/import-from-simplenote
 
   - id: markdown
@@ -106,7 +120,7 @@ import:
       included: [text]
       unknown: [formatting, attachments, structure, links, tags, properties, todos, dates]
     limitations:
-      - UpNote's own guides send Apple Notes, Bear, Notion and Obsidian through this, after exporting them as Markdown.
+      - An import that would take you past 20,000 notes or 10 GB of attachments only goes in 50 notes at a time.
     docs: https://help.getupnote.com/import-and-export/import-content-to-upnote/import-from-markdown
 
   - id: html
@@ -121,7 +135,7 @@ import:
       included: [text]
       unknown: [formatting, attachments, structure, links, tags, todos, dates]
     limitations:
-      - UpNote's own guides send Google Keep's Takeout HTML through this.
+      - An import that would take you past 20,000 notes or 10 GB of attachments only goes in 50 notes at a time.
     docs: https://help.getupnote.com/import-and-export/import-content-to-upnote/import-from-html
 
 delete:
