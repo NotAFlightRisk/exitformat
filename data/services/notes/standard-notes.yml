@@ -20,10 +20,12 @@ export:
       - Super notes are saved as Super's own JSON, not Markdown, so only Standard Notes can read their formatting.
       - Attachments aren't in it, only their details. Download the files themselves from Files, which needs a paid plan.
       - Pick Encrypted instead and you get a single .txt that only Standard Notes can open, with your password.
+      - The desktop app's daily automatic backups and the daily email backups on paid plans are always encrypted, so they're no use outside Standard Notes.
     docs: https://standardnotes.com/help/14/how-do-i-create-and-import-backups-of-my-standard-notes-data
     sources:
-      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/web/src/javascripts/Components/Preferences/Panes/Backups/DataBackups.tsx
-      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/ui-services/src/Archive/ArchiveManager.ts
+      - https://standardnotes.com/help/28/how-do-i-enable-daily-email-backups
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.3/packages/web/src/javascripts/Components/Preferences/Panes/Backups/DataBackups.tsx
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.3/packages/ui-services/src/Archive/ArchiveManager.ts
 
   - id: export
     name: Export notes
@@ -44,8 +46,8 @@ export:
       - Super's own warning says Markdown isn't lossless, and things like collapsible blocks don't make it.
       - Once a paid plan runs out, Files can't be downloaded any more, so export before it ends.
     sources:
-      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/web/src/javascripts/Components/NotesOptions/SuperExportModal.tsx
-      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/web/src/javascripts/Utils/NoteExportUtils.ts
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.3/packages/web/src/javascripts/Components/NotesOptions/SuperExportModal.tsx
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.3/packages/web/src/javascripts/Utils/NoteExportUtils.ts
 
   - id: plaintext-backups
     name: Keep plain text backups on your computer
@@ -64,8 +66,8 @@ export:
       - Super notes are written as Markdown, but still with a .txt name.
       - Trashed and archived notes are included too.
     sources:
-      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/services/src/Domain/Backups/FilesBackupService.ts
-      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/desktop/app/javascripts/Main/FileBackups/FileBackupsManager.ts
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.3/packages/services/src/Domain/Backups/FilesBackupService.ts
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.3/packages/desktop/app/javascripts/Main/FileBackups/FileBackupsManager.ts
 
 import:
   - id: backup
@@ -93,7 +95,7 @@ import:
       - Each .enex file can be up to 50 MB.
     docs: https://standardnotes.com/help/10/how-can-i-import-my-notes-from-evernote
     sources:
-      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/ui-services/src/Import/EvernoteConverter/EvernoteConverter.ts
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.3/packages/ui-services/src/Import/EvernoteConverter/EvernoteConverter.ts
 
   - id: google-keep
     name: Import from Google Keep
@@ -110,7 +112,7 @@ import:
       - Labels and attachments are dropped.
     docs: https://standardnotes.com/help/35/how-can-i-import-my-notes-from-google-keep
     sources:
-      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/ui-services/src/Import/GoogleKeepConverter/GoogleKeepConverter.ts
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.3/packages/ui-services/src/Import/GoogleKeepConverter/GoogleKeepConverter.ts
 
   - id: simplenote
     name: Import from Simplenote
@@ -128,7 +130,7 @@ import:
       - On the free plan notes come in as plain text, Markdown and all. Super, which is paid, formats them.
     docs: https://standardnotes.com/help/30/how-can-i-import-my-notes-from-simplenote
     sources:
-      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/ui-services/src/Import/SimplenoteConverter/SimplenoteConverter.ts
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.3/packages/ui-services/src/Import/SimplenoteConverter/SimplenoteConverter.ts
 
   - id: files
     name: Import Markdown, text or HTML files
@@ -147,7 +149,7 @@ import:
       - Each file can be up to 50 MB, and each note up to 3 MB.
     docs: https://standardnotes.com/help/11/how-can-i-import-notes-from-a-bunch-of-text-files
     sources:
-      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.2/packages/ui-services/src/Import/PlaintextConverter/PlaintextConverter.ts
+      - https://github.com/standardnotes/app/blob/%40standardnotes/desktop%403.203.3/packages/ui-services/src/Import/PlaintextConverter/PlaintextConverter.ts
 
 delete:
   steps:
@@ -161,4 +163,4 @@ delete:
 
 verification:
   status: documented
-  checked_at: 2026-11-21
+  checked_at: 2026-11-24
