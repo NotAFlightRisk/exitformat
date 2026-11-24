@@ -180,6 +180,24 @@ import:
       - Drop the folder, not the Markdown files inside it, or your images and attachments are left behind.
     docs: https://support.craft.do/en/import-and-export/import/apple-notes
 
+  - id: mem
+    name: Import from Mem
+    method: file
+    formats: [mem-export]
+    steps:
+      - Keep the ZIP from Mem's My Computer export as it is, without unzipping it.
+      - Go to Craft's Mem import page and drop the ZIP onto the upload area.
+      - Choose the Space and, if you like, a folder, then select Import Mem Export. Keep the page open until the upload's done.
+    data:
+      included: [text, attachments, links, dates]
+      unknown: [formatting, tags, todos]
+    limitations:
+      - It only takes the ZIP exactly as Mem gave it. If you've unpacked or changed it, download a fresh export.
+      - One ZIP at a time, up to 5 GB. Mem's audio recordings make the export much bigger, so leave them out if they'd push it over.
+      - Collections become link lists in a Collections folder, and transcripts go in a Transcripts folder, linked from their notes. Recordings come in as .wav files.
+      - Tables come in, but anything in their cells beyond plain text gets simplified.
+    docs: https://support.craft.do/en/import-and-export/import/mem
+
   - id: word
     name: Import Word documents
     method: file

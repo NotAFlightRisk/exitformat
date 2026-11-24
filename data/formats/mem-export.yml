@@ -1,0 +1,6 @@
+name: Mem Markdown export
+extensions: [.zip]
+standard: false
+owner: mem
+based_on: zip
+description: The ZIP Mem's My Computer export gives you. Inside, notes/ has a Markdown file per note, collections/ has an index note per collection linking to its notes, attachments/ has the files your notes use (Mem warns one can still go missing), and export-report.md (when there is one) lists anything Mem couldn't include. Meeting transcripts come along where Mem has them, and recordings if you tick the audio option. They're ordinary files, so nothing's encrypted.

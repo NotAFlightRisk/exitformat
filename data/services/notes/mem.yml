@@ -1,0 +1,102 @@
+name: Mem
+website: https://get.mem.ai/
+description: An AI notes app with your notes in Mem's cloud. It's shutting down - notes go read-only on 18 December 2026 and Mem closes on 15 January 2027.
+deployment: cloud
+platforms: [macos, windows, ios, web]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/00/c9/c9/00c9c97f-cd04-1429-3374-93d4e5047aee/AppIcon-0-0-1x_U007epad-0-1-85-220.png/128x128bb.png
+aliases: [mem.ai, mem ai]
+
+export:
+  - id: markdown
+    name: Download a Markdown copy
+    method: file
+    formats: [mem-export, markdown]
+    requirements: [A computer]
+    steps:
+      - Open Settings --> Exports in Mem and select Start new export. Your first export skips straight to the next bit.
+      - Choose My Computer --> Next, select the audio recordings option if you want the sound, then select Start export.
+      - Back in Exports, select Download once the entry's ready, and keep the ZIP.
+    data:
+      included: [text, formatting, attachments, links, dates, todos]
+      excluded: [history]
+      unknown: [tags, sharing]
+    limitations:
+      - Notes go read-only on 18 December 2026 and Mem shuts down on 15 January 2027, so export before then, and again if you edit anything after your first copy.
+      - Collections come out as an index note each in collections/, linking to their notes. Mem doesn't say whether the notes carry them as tags too.
+      - A finished export can still be missing an attachment or transcript. Open export-report.md first if anything seems to be missing.
+      - Mem doesn't say where each note's dates go in the files. Craft and Recall read them, but other apps might not.
+      - Pages you clipped with the Chrome extension come out without Mem's saved copy of the page.
+      - The same wizard can also send your notes straight into Notion, Google Docs or OneNote once you connect that account.
+    docs: https://help.mem.ai/migration/save-a-copy
+    sources:
+      - https://help.mem.ai/migration
+      - https://help.mem.ai/migration/obsidian
+      - https://help.mem.ai/migration/check-your-move
+      - https://help.mem.ai/migration/notion
+      - https://help.mem.ai/migration/google
+      - https://help.mem.ai/migration/onenote
+      - https://support.craft.do/en/import-and-export/import/mem
+      - https://docs.recall.it/supported-content/mem-imports
+
+  - id: enex
+    name: Download an ENEX file
+    method: file
+    formats: [enex]
+    requirements: [A computer]
+    steps:
+      - Open Settings --> Exports in Mem and select Start new export. Your first export skips straight to the next bit.
+      - Choose Apple Notes, Bear or Evernote --> Next, review the meeting options, then select Start export.
+      - Back in Exports, select Download once the entry's ready to get the .enex file.
+    data:
+      included: [text, attachments, tags]
+      excluded: [history]
+      unknown: [formatting, links, dates, todos, sharing]
+    limitations:
+      - Each collection's name becomes a tag. The collection index notes are only in the Markdown copy.
+      - Links between notes can arrive as plain text, so keep the Markdown copy if they matter.
+      - Mem only promises the embedded files it supports, so open a note with a PDF in it to check.
+    docs: https://help.mem.ai/migration/bear-evernote
+    sources:
+      - https://help.mem.ai/migration/apple-notes
+
+  - id: api
+    name: Read it through the Mem API
+    method: api
+    formats: [json]
+    requirements: [A Mem API key]
+    steps:
+      - Make an API key in the API section of your Mem settings.
+      - Fetch your notes, collections and attachments with the API, and keep the key to yourself.
+    data:
+      included: [text, formatting, attachments, links, tags, dates, todos]
+      excluded: [history]
+      unknown: [sharing]
+    limitations:
+      - It's capped at 100 requests a minute and 4,000 a day.
+      - Links between notes are mem://notes/ links in the Markdown, which you'd have to point at the new copies yourself.
+      - Only images and PDFs come with a note, each fetched from its own download link. Recordings come back as transcripts, without the audio.
+    docs: https://docs.mem.ai/api-reference/overview/introduction
+    sources:
+      - https://docs.mem.ai/api-reference/overview/authentication
+      - https://docs.mem.ai/api-reference/notes/list-notes
+      - https://docs.mem.ai/api-reference/notes/read-note
+      - https://docs.mem.ai/api-reference/overview/rate-limits
+      - https://docs.mem.ai/guides/reference/content-format
+      - https://docs.mem.ai/api-reference/openapi.json
+
+import: []
+
+delete:
+  steps:
+    - Export anything you want to keep first, since a deleted account can't be recovered.
+    - Email support@mem.ai and ask for your account and its data to be deleted.
+  docs: https://get.mem.ai/pages/terms-of-service
+  notes:
+    - Mem's privacy policy says a deleted account comes out of its active databases, with backups kept until they can be deleted, and some information kept to stop fraud or meet legal rules.
+    - Notes you delete yourself are gone from Mem's systems after 90 days, but activity logs that can hold bits of them are kept for up to 400 days.
+    - Mem shuts down on 15 January 2027 and you can't get in after that. Its shutdown notice doesn't say what happens to the data left on its servers.
+    - Mem has paused all charging, so you won't be billed again.
+
+verification:
+  status: documented
+  checked_at: 2026-11-24
