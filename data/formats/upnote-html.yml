@@ -1,0 +1,6 @@
+name: UpNote HTML export
+extensions: [.html]
+standard: false
+owner: upnote
+based_on: html
+description: What UpNote's HTML export writes, a folder per space with a web page for each note and its images and files in a Files folder. A notebooks folder holds links back to the notes, one folder per notebook. Tags, checklists and links to other notes are marked up in each page, so an importer that knows UpNote can keep them. Not encrypted.
