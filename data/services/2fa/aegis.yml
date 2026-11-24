@@ -115,6 +115,8 @@ import:
       excluded: [icons, groups, notes, favourites]
     limitations:
       - Bitwarden files have to be unencrypted.
+      - From Bitwarden's password manager, use the .csv. A .json with a secure note, card or identity in it brings in nothing.
+      - Bitwarden codes saved as a bare key, rather than an otpauth:// link, fail to import.
       - FreeOTP 2 backups can be corrupt, in which case Aegis saves what it can.
       - Your old icons don't come across, though if you've got an icon pack installed Aegis offers to fill them in.
     docs: https://github.com/beemdevelopment/Aegis/blob/v3.4.3/README.md#features
@@ -122,6 +124,7 @@ import:
       - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/DatabaseImporter.java
       - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/TwoFASImporter.java
       - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/java/com/beemdevelopment/aegis/importers/BitwardenImporter.java
+      - https://github.com/beemdevelopment/Aegis/issues/1674
       - https://github.com/beemdevelopment/Aegis/blob/v3.4.3/app/src/main/res/values/strings.xml
 
   - id: stratum

@@ -103,6 +103,7 @@ import:
       excluded: [hotp, groups, favourites]
     limitations:
       - An encrypted Bitwarden export won't open.
+      - A .json from Bitwarden's password manager with a secure note, card or identity in it won't open at all, so use the .csv.
     docs: https://proton.me/support/import-2fa-codes
     sources:
       - https://github.com/protonpass/proton-pass-common/blob/2.4.0/proton-authenticator/src/parser/bitwarden/json.rs
