@@ -1,6 +1,8 @@
 {
-  "commit": "d8100b74028b9d29a54a1fa4e05a11304106738a",
+  "commit": "8c6bb255dca1101dfb0c13aa298c5ef5753e1f20",
   "entries": [
+    {"date":"2026-11-24","commit":"8c6bb25","pr":52,"id":"notesnook","category":"notes","name":"Notesnook","kind":"updated","sections":["import"]},
+    {"date":"2026-11-24","commit":"8c6bb25","pr":52,"id":"upnote","category":"notes","name":"UpNote","kind":"added"},
     {"date":"2026-11-24","commit":"dce989d","pr":51,"id":"logseq","category":"notes","name":"Logseq","kind":"added"},
     {"date":"2026-11-24","commit":"dce989d","pr":51,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
     {"date":"2026-11-24","commit":"90c4252","pr":50,"id":"gnote","category":"notes","name":"Gnote","kind":"added"},
