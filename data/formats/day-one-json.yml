@@ -4,4 +4,3 @@ standard: false
 owner: day-one
 based_on: zip
 description: Day One's own export, a zip with a JSON file for the journal holding every entry's text (as Markdown and as rich text), tags, dates, location, weather and stars, plus photos, videos, audio and PDFs in their own folders if you include media. Not encrypted.
-spec: https://dayoneapp.com/guides/import-export/importing-data-from-json-files/

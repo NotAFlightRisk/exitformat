@@ -1,0 +1,5 @@
+name: Journey export
+extensions: [.zip]
+standard: false
+based_on: zip
+description: The zip of your entries and photos that Journey's archive option makes.
