@@ -22,7 +22,7 @@ import {
 import { href } from '#lib/site.ts';
 import { count } from '#lib/text.ts';
 
-const matrixLimit = 20;
+const matrixLimit = 40;
 
 const present = (labels: Record<string, string>, ids: string[]) =>
   Object.keys(labels)

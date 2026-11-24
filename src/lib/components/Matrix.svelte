@@ -84,22 +84,37 @@
 
 <style>
   .scroller {
+    --cell: 3.25rem;
+    --window: 80svh;
+
     position: relative;
-    overflow-x: auto;
+    overflow: auto;
     max-inline-size: 100%;
+    max-block-size: var(--window);
+    scroll-padding-block-start: var(--cell);
   }
 
   table {
-    --cell: 3.25rem;
-
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     background: var(--surface-raised);
   }
 
+  /* every cell owns its lines, pinned ones included */
   th,
   td {
-    border: var(--hairline) solid var(--rule);
+    border: 0 solid var(--rule);
+    border-inline-end-width: var(--hairline);
+    border-block-end-width: var(--hairline);
     transition: background-color var(--quick) var(--ease);
+  }
+
+  thead :is(th, td) {
+    border-block-start-width: var(--hairline);
+  }
+
+  :is(th, td):first-child {
+    border-inline-start-width: var(--hairline);
   }
 
   thead th,
@@ -115,15 +130,26 @@
     margin: auto;
   }
 
+  thead th,
   .corner,
   tbody th {
     position: sticky;
-    inset-inline-start: 0;
     z-index: 1;
     background: var(--surface-raised);
   }
 
+  thead th,
   .corner {
+    inset-block-start: 0;
+  }
+
+  .corner,
+  tbody th {
+    inset-inline-start: 0;
+  }
+
+  .corner {
+    z-index: 2;
     padding-inline: var(--space-3);
     color: var(--text-muted);
     font-size: var(--size-xs);
