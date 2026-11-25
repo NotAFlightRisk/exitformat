@@ -1,0 +1,95 @@
+name: RoboForm
+website: https://www.roboform.com/
+description: Long-running password manager and form filler for Windows, Mac, phones and browser extensions, synced through RoboForm's cloud.
+deployment: cloud
+platforms: [windows, macos, android, ios, browser-extension]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/27/07/b7/2707b785-9be3-606a-b001-67888700f9e3/RFIcon-0-0-1x_U007epad-0-1-0-85-220.png/128x128bb.png
+
+export:
+  - id: csv
+    name: Export logins and safenotes as CSV
+    method: file
+    formats: [roboform-csv]
+    steps:
+      - In the browser extension, select the 3 dots --> Settings --> Account & Data, then Export under Export data from RoboForm.
+      - Enter your Passkey or Master Password, select Confirm, then Export in the next window.
+      - In the Windows or Mac app, it's Account & Data --> Export (Export to... on a Mac). Pick folders, CSV file and the item types.
+    data:
+      included: [logins, secrets, passkeys, secure-notes, custom-fields, groups]
+      excluded: [cards, identities, other-items, settings]
+      unknown: [shared-vaults, history, dates]
+    limitations:
+      - It isn't encrypted, so delete it once you've imported it.
+      - Only Logins, Bookmarks and Safenotes come out. Identities, with the cards, addresses, passports and bank accounts in them, stay behind.
+      - Passkeys and the TOTP keys behind RoboForm's codes come out too, but RoboForm says only another RoboForm account can use the passkeys.
+      - Each login's extra form fields come along, with their names and values.
+    docs: https://help.roboform.com/hc/en-us/articles/230425008
+    sources:
+      - https://help.roboform.com/hc/en-us/articles/49807281668877
+      - https://help.roboform.com/hc/en-us/articles/115005691107
+
+import:
+  - id: managers
+    name: Import another password manager's or browser's CSV
+    method: file
+    formats:
+      [
+        1password-csv,
+        apple-passwords-csv,
+        bitwarden-csv,
+        chrome-csv,
+        dashlane-csv,
+        firefox-csv,
+        keeper-csv,
+        lastpass-csv,
+        nordpass-csv,
+        proton-pass-csv
+      ]
+    steps:
+      - Open the RoboForm Start Page, select your account's email in the top right, then Import.
+      - Pick the app your file came from, then select Import from File and choose it.
+      - In the Windows app, it's RoboForm icon --> Tools --> Import. Safari's file goes in through Account & Data --> Import from... --> Browsers.
+    data:
+      included: [logins]
+      unknown:
+        [
+          secrets,
+          passkeys,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          attachments,
+          groups,
+          tags,
+          shared-vaults,
+          history,
+          favourites,
+          dates
+        ]
+    limitations:
+      - From Dashlane, only the credentials.csv goes in, so it's just logins. From 1Password, it's the CSV (Logins and Passwords only).
+      - KeePass (Windows only), Kaspersky, Zoho Vault, LogMeOnce and Password Boss are on the list too.
+      - On Android, the Authenticator tab can scan Google Authenticator's transfer QR codes from screenshots.
+    docs: https://help.roboform.com/hc/en-us/articles/4420176122253
+    sources:
+      - https://help.roboform.com/hc/en-us/articles/4423045755661
+      - https://help.roboform.com/hc/en-us/articles/4421911004685
+      - https://help.roboform.com/hc/en-us/articles/4423293380877
+      - https://help.roboform.com/hc/en-us/articles/4423023074957
+      - https://help.roboform.com/hc/en-us/articles/30196757542797
+      - https://help.roboform.com/hc/en-us/articles/21975663494029
+
+delete:
+  steps:
+    - In the browser extension, select the 3 dots --> Settings --> Account & Data, then Delete My RoboForm Account at the bottom.
+    - Enter your Passkey or Master Password and select Yes, Delete my RoboForm Account.
+    - Pick a reason and confirm again. On a phone, it's Settings --> Account --> Delete my RoboForm Account.
+  docs: https://help.roboform.com/hc/en-us/articles/360004469652
+  notes:
+    - It can't be undone, and RoboForm can't get your data back afterwards.
+
+verification:
+  status: documented
+  checked_at: 2026-11-25

@@ -1,5 +1,6 @@
 name: RoboForm CSV export
 extensions: [.csv]
 standard: false
+owner: roboform
 based_on: csv
 description: RoboForm's CSV export, with Name, Url, MatchUrl, Login, Pwd, Note and Folder columns for logins, bookmarks and safenotes alike, and any other fields (one-time code keys included) in RfFieldsV2. It isn't encrypted.
