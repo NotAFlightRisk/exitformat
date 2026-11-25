@@ -1,0 +1,122 @@
+name: Dashlane
+website: https://www.dashlane.com/
+description: Password manager for the web, browser extensions and phones, with free and paid plans. Your vault is end-to-end encrypted and synced through Dashlane's cloud.
+deployment: cloud
+platforms: [android, ios, macos, web, browser-extension]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/5b/97/82/5b978291-1cc1-69bd-cce5-1b08b7b82a15/AppIcon-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/128x128bb.png
+
+export:
+  - id: csv
+    name: Export your vault as CSV
+    method: file
+    formats: [dashlane-csv]
+    steps:
+      - On the web, open the Vault menu in the top left, select Settings, then Export data --> Export to CSV, and unlock if asked.
+      - On Android, select Settings --> General --> Export data to CSV, then Export & download, and enter your Master Password.
+      - On iPhone, tap Settings --> General --> Export data --> Export data to CSV --> Export data now, then Save. iPad and Mac start at the gear.
+      - Keep the .csv files together. The web gives you a .zip, and the apps a folder.
+    data:
+      included: [logins, secrets, secure-notes, cards, identities, other-items]
+      excluded: [passkeys, attachments, shared-vaults, settings]
+      unknown: [groups, custom-fields]
+    limitations:
+      - It isn't encrypted, so delete the files once you've imported them.
+      - Passkeys don't come out, and neither do files attached to Secure Notes, so download those first.
+      - Dashlane's Secrets items aren't exported, so copy any you need into a Secure Note first.
+      - Each login's one-time code is in the credentials file. There's one category column, though an item can be in several collections, so they may not all come across.
+      - Logins someone shared with you with the Can autofill permission are left out, and nothing in the files says what's shared with whom.
+      - Only the iPhone, iPad and Mac apps add a file of Wi-Fi networks, and Bitwarden and Proton Pass don't read it.
+      - On a business plan, your admin can stop you exporting what's in your Business Space.
+      - If your paid plan runs out, you can still sign in and export your passwords, but not much else.
+      - A DASH file (web or Android) is an encrypted copy that only Dashlane can open, so it's no use for moving elsewhere.
+      - On iOS 26 and macOS 26 or later, Settings --> General --> Export data --> Export data to another app hands logins, passkeys and codes to an app that supports Credential Exchange. On Android, you start in the other app.
+    docs: https://support.dashlane.com/hc/en-us/articles/32905278138002
+    sources:
+      - https://support.dashlane.com/hc/en-us/articles/202625092
+      - https://support.dashlane.com/hc/en-us/articles/7874554196626
+      - https://support.dashlane.com/hc/en-us/articles/32907864739474
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/dashlane/dashlane-csv-importer.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/dashlane/dashlane.types.ts
+
+import:
+  - id: csv
+    name: Import another app's CSV
+    method: file
+    formats:
+      [1password-csv, bitwarden-csv, lastpass-csv, chrome-csv, firefox-csv, apple-passwords-csv, roboform-csv]
+    requirements: [Web app or Android app]
+    steps:
+      - On the web, select Import data at the top (or Settings --> Import data), pick the app in the Import source menu and select Get Started.
+      - Drag the .csv in, select Next, check the preview and select Import items.
+      - On Android, open the Vault, select + Add new --> Logins --> Import multiple items --> From a CSV file, then Select file.
+      - Match the columns if it asks (Start matching), check what's coming in and select Import.
+    data:
+      included: [logins, secure-notes, groups]
+      excluded: [secrets]
+      unknown: [cards]
+    limitations:
+      - Anything Dashlane can't match to a field goes in the login's note, one-time codes included, so you'll have to turn 2FA on again for each login, using that setup key.
+      - Folders and categories become collections with the same name, and in the preview you can turn an item into a payment method.
+      - The iPhone, iPad and Mac apps can't import a CSV.
+      - Edge's export goes in as Chrome's, and Keeper and KeePass are on the list too, from their CSV exports. Other apps' own formats, like 1Password's 1PUX, are turned away.
+      - On iOS 26 and macOS 26 or later, apps that support Credential Exchange can hand logins, passkeys and codes straight to Dashlane. On Android, you start in Dashlane.
+    docs: https://support.dashlane.com/hc/en-us/articles/33050358427666
+    sources:
+      - https://support.dashlane.com/hc/en-us/articles/360004101920
+      - https://support.dashlane.com/hc/en-us/articles/12827048814610
+      - https://support.dashlane.com/hc/en-us/articles/32779418812050
+
+  - id: lastpass
+    name: Import straight from LastPass
+    method: connect
+    from: [lastpass]
+    requirements: [Web app]
+    steps:
+      - On the web, select Import data, pick LastPass in the Import source menu, then Directly from LastPass and Go to LastPass.
+      - Sign in to LastPass, then enter your LastPass details again back in Dashlane and select Unlock data.
+      - Check the preview and select Import items.
+    data:
+      included: [logins, secure-notes, cards, groups]
+    limitations:
+      - Anything Dashlane can't match to a field goes in the item's note.
+      - LastPass folders become collections.
+      - If it fails, select Import from CSV and use LastPass's .csv instead.
+    docs: https://support.dashlane.com/hc/en-us/articles/7865163497618
+    sources:
+      - https://support.dashlane.com/hc/en-us/articles/12827156146194
+
+  - id: template
+    name: Import any CSV using Dashlane's template
+    method: file
+    formats: [csv]
+    requirements: [Web app or Android app]
+    steps:
+      - Download Dashlane's CSV template and paste each column of your file into the matching one. Extra columns go after collections.
+      - On the web, select Import data, pick Other CSV in the Import source menu and select Get Started, then drag the file in.
+      - Check the preview and select Import items. On Android, From a CSV file may ask you to match the columns instead.
+    data:
+      included: [logins, secure-notes, groups]
+      excluded: [secrets]
+    limitations:
+      - Every row needs Login or Secure Note in its Type column.
+      - Extra columns end up in each login's note, and so do one-time codes.
+    docs: https://support.dashlane.com/hc/en-us/articles/12843960410898
+    sources:
+      - https://support.dashlane.com/hc/en-us/articles/33050358427666
+
+delete:
+  steps:
+    - Cancel any paid plan first. On a computer, install the Dashlane browser extension if you haven't, and log out of it.
+    - Go to universal.dashlane.com/delete-account, enter your login email, then the code Dashlane emails you or a 2FA code.
+    - Select Delete my account and confirm.
+    - On iPhone, iPad or Mac, go to Settings --> Help --> Delete my account, enter your Master Password and follow the security check.
+  docs: https://support.dashlane.com/hc/en-us/articles/202907531
+  notes:
+    - It erases everything in the account, and Dashlane can't get it back.
+    - You've got 15 minutes to enter the code, or you start again.
+    - You can't delete it from the Android app, or from the iPhone app on a Free plan.
+    - Cancel a paid plan before you delete, or you'll have to ask Dashlane's support chat to stop it.
+
+verification:
+  status: documented
+  checked_at: 2026-11-25
