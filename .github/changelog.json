@@ -1,6 +1,7 @@
 {
-  "commit": "34b7e86000b36773e534add46bb514027cb686ce",
+  "commit": "26515b5abae67893f0656f8583f6b81d19a6ddf3",
   "entries": [
+    {"date":"2026-11-25","commit":"26515b5","pr":68,"id":"firefox-password-manager","category":"password-managers","name":"Firefox Password Manager","kind":"added"},
     {"date":"2026-11-25","commit":"34b7e86","pr":67,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
     {"date":"2026-11-25","commit":"34b7e86","pr":67,"id":"dashlane","category":"password-managers","name":"Dashlane","kind":"updated","sections":["import"]},
     {"date":"2026-11-25","commit":"34b7e86","pr":67,"id":"keeper","category":"password-managers","name":"Keeper","kind":"added"},
