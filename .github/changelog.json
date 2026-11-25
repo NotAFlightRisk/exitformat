@@ -1,6 +1,7 @@
 {
-  "commit": "6aee7bcd36cefae8a7a1dd02099c58fd708e4f23",
+  "commit": "f7bbba4d23a46b40d93927cbdb3fbe7c608565ba",
   "entries": [
+    {"date":"2026-11-25","commit":"f7bbba4","pr":64,"id":"apple-passwords","category":"password-managers","name":"Apple Passwords","kind":"added"},
     {"date":"2026-11-24","commit":"6aee7bc","pr":63,"id":"1password","category":"password-managers","name":"1Password","kind":"updated","sections":["import"]},
     {"date":"2026-11-24","commit":"6aee7bc","pr":63,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
     {"date":"2026-11-24","commit":"6aee7bc","pr":63,"id":"lastpass","category":"password-managers","name":"LastPass","kind":"added"},
