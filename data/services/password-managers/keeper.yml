@@ -1,0 +1,222 @@
+name: Keeper
+website: https://www.keepersecurity.com/
+description: Password manager for people and businesses on phones, computers and browsers. Your vault is encrypted on your device and synced through Keeper's cloud.
+deployment: cloud
+platforms: [android, ios, windows, macos, linux, web, browser-extension]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/20/69/c0/2069c038-b6aa-7dac-6885-f2b8129deb74/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/128x128bb.png
+aliases: [Keeper Security, Keeper Password Manager]
+
+export:
+  - id: json
+    name: Export everything as Keeper JSON
+    method: file
+    formats: [keeper-json]
+    requirements: [Web Vault or Desktop App]
+    steps:
+      - In the Web Vault or Desktop App, open the Account Dropdown Menu and select Settings --> Export.
+      - Select JSON and select Export. If it asks, enter your Master Password and select Export Now.
+    data:
+      included:
+        [
+          logins,
+          secrets,
+          passkeys,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          groups,
+          shared-vaults
+        ]
+      excluded: [attachments, settings]
+      unknown: [history, favourites, dates]
+    limitations:
+      - It isn't encrypted, so delete it once you've imported it. That goes double here, since passkeys come out with their private keys.
+      - File attachments stay behind. A file record comes out with its title and notes but not the file.
+      - Shared folders come out with who they're shared with and what each person can do.
+      - On a business account, your role has to allow exporting.
+    docs: https://docs.keeper.io/user-guides/import-records-1/import-json
+    sources:
+      - https://docs.keeper.io/user-guides/export-and-reports/vault-export
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/spec-data/keeper-json/testdata.json.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/keeper/mocks/keeper.json
+
+  - id: csv
+    name: Export logins as CSV
+    method: file
+    formats: [keeper-csv]
+    requirements: [Web Vault or Desktop App]
+    steps:
+      - In the Web Vault or Desktop App, open the Account Dropdown Menu and select Settings --> Export.
+      - Select CSV and select Export. If it asks, enter your Master Password and select Export Now.
+    data:
+      included: [logins, secrets, other-items, custom-fields, groups, shared-vaults]
+      excluded: [attachments, history, favourites, settings]
+      unknown: [passkeys, secure-notes, cards, identities, dates]
+    limitations:
+      - It isn't encrypted, so delete it once you've imported it.
+      - There's no header row. Every record is a row of folder, title, login, password, website, notes and shared folder, then its other fields as name and value pairs.
+      - One-time codes come out as otpauth links among those fields, and bank accounts, passports and licences as plain fields.
+      - It names each record's shared folder, but not who it's shared with.
+      - There's a PDF export too, but it's only for printing.
+    docs: https://docs.keeper.io/user-guides/export-and-reports/vault-export
+    sources:
+      - https://docs.keeper.io/user-guides/import-records-1/import-a-.csv-file
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/spec-data/keeper-csv/testdata.csv.ts
+
+  - id: kdbx
+    name: Export an encrypted KeePass database
+    method: file
+    formats: [kdbx]
+    requirements: [Web Vault or Desktop App]
+    steps:
+      - In the Web Vault or Desktop App, open the Account Dropdown Menu and select Settings --> Export, then select KDBX.
+      - Set a password for the KeePass file, and add a key file if you want one.
+      - Export it and keep that password safe. It isn't your Keeper Master Password.
+    data:
+      included: [logins]
+      excluded: [settings]
+      unknown:
+        [
+          secrets,
+          passkeys,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          attachments,
+          groups,
+          shared-vaults,
+          history,
+          favourites,
+          dates
+        ]
+    limitations:
+      - Keeper Commander, Keeper's command-line tool, can export one too.
+    docs: https://docs.keeper.io/user-guides/export-and-reports/vault-export
+
+import:
+  - id: managers
+    name: Import another password manager's export
+    method: file
+    formats: [1password-1pux, 1password-csv, bitwarden-csv, dashlane-csv, proton-pass-zip, enpass-json, keepass-xml, roboform-csv]
+    requirements: [Web Vault or Desktop App]
+    steps:
+      - In the Web Vault or Desktop App, open the Account Dropdown Menu, select Settings --> Import, then Import next to Use Another Source.
+      - Pick the app in the dropdown and drop the file on Drop a File Here.
+      - Select any column that's mapped wrong to change it and select Next, then look over the folders and select Confirm Import.
+    data:
+      included: [logins, groups]
+      unknown:
+        [
+          secrets,
+          passkeys,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          attachments,
+          tags,
+          shared-vaults,
+          history,
+          favourites,
+          dates
+        ]
+    limitations:
+      - Keeper's help says it reads Dashlane's encrypted DASH backup too, though Dashlane says only it can open one.
+      - The Proton Pass zip has to be the unencrypted one, and the 1Password export can be the 1PUX or the CSV.
+      - Kaspersky, mSecure, Passpack, Sticky Password, True Key, Zoho Vault and more are on the list too.
+    docs: https://docs.keeper.io/user-guides/import-records-1/import-overview
+    sources:
+      - https://docs.keeper.io/user-guides/import-records-1/import-from-1password
+      - https://docs.keeper.io/user-guides/import-records-1/import-from-bitwarden
+      - https://docs.keeper.io/user-guides/import-records-1/import-from-dashlane
+      - https://docs.keeper.io/user-guides/import-records-1/import-from-proton-pass
+      - https://docs.keeper.io/user-guides/import-records-1/import-from-enpass
+      - https://docs.keeper.io/user-guides/import-records-1/import-from-keepass
+      - https://docs.keeper.io/user-guides/import-records-1/import-from-roboform
+
+  - id: kdbx
+    name: Import a KeePass database
+    method: file
+    formats: [kdbx]
+    requirements: [Web Vault or Desktop App]
+    steps:
+      - In the Web Vault or Desktop App, open Settings --> Import, select Import next to Use Another Source and pick KeePass (.kdbx).
+      - Enter your KeePass password, and select Add Key File if you use one.
+      - Drop the .kdbx on Drop a File Here, check the mapping, then select Next and Confirm Import.
+    data:
+      included: [logins, custom-fields, attachments, groups]
+      unknown: [secrets, passkeys, tags, history, dates]
+    limitations:
+      - Attachments only come in with the Secure File Storage add-on.
+      - If it won't open, save the database in a newer format from KeePass first.
+    docs: https://docs.keeper.io/user-guides/import-records-1/import-from-keepass-kdbx
+
+  - id: csv
+    name: Import a text file (.csv, .xls or .tsv)
+    method: file
+    formats: [csv, keeper-csv, apple-passwords-csv, chrome-csv]
+    requirements: [Web Vault or Desktop App]
+    steps:
+      - In the Web Vault or Desktop App, open Settings --> Import, then select Import next to Use Another Source.
+      - Pick Text File (.csv, .xls, and .tsv), drop the file on Drop a File Here and tick the box if it has a header row.
+      - Map each column to a field and select Next, then look over the folders and select Confirm Import.
+    data:
+      included: [logins, custom-fields, groups, shared-vaults]
+      unknown: [secrets, passkeys, secure-notes, cards, identities, other-items, attachments, tags, history, favourites, dates]
+    limitations:
+      - Keeper's own CSV layout can add folders, shared folders with #edit and #reshare permissions, and any number of custom fields, a one-time code included as $oneTimeCode.
+      - It's how Keeper takes Safari's and Chrome's exports, and the Keeper Import Tool can also pull passwords straight from Chrome, Firefox, Edge and Safari on the same computer.
+      - On iOS 26 or later, Apple's Passwords app can hand logins, passkeys and codes straight to Keeper, with no file.
+    docs: https://docs.keeper.io/user-guides/import-records-1/import-a-.csv-file
+    sources:
+      - https://docs.keeper.io/user-guides/import-records-1/import-from-safari
+      - https://docs.keeper.io/user-guides/import-records-1/import-from-chrome-via-export
+      - https://docs.keeper.io/user-guides/import-records-1/import-from-chrome-firefox-ie-edge-and-opera
+      - https://docs.keeper.io/user-guides/import-records-1/import-from-mobile-apps
+
+  - id: google-android
+    name: Import from Google on Android
+    method: file
+    formats: [chrome-csv]
+    requirements: [Android app]
+    steps:
+      - In the Android app, tap the menu in the top left, then Import Passwords.
+      - Tap Import from Google to export from passwords.google.com, then open the download with Keeper.
+      - If you've already got the .csv, tap Upload CSV File and pick it instead.
+    data:
+      included: [logins]
+    limitations:
+      - Keeper says only Google's export is sure to work. Other apps' .csv files may or may not.
+    docs: https://docs.keeper.io/user-guides/import-records-1/import-from-mobile-apps
+
+  - id: lastpass
+    name: Import straight from LastPass
+    method: connect
+    from: [lastpass]
+    requirements: [Desktop App]
+    steps:
+      - In the Desktop App, open Settings --> Import, select Import next to Use Another Source and pick LastPass.
+      - Enter your LastPass login details and select Next.
+      - Look over the summary, tick the box if you want top-level folders shared, then select Confirm Import.
+    data:
+      included: [logins, secrets, custom-fields, attachments, groups, shared-vaults]
+    limitations:
+      - LastPass's templates come in as Keeper record types.
+      - If you sign in to LastPass with a security key, switch to a code from an authenticator app first.
+      - Keeper Commander's LastPass import also brings each shared folder's users and teams.
+    docs: https://docs.keeper.io/user-guides/import-records-1/import-from-lastpass
+
+delete:
+  steps:
+    - Export anything you want to keep first.
+    - Email deleteme@keepersecurity.com with the email address your Keeper account uses, and ask for it to be deleted.
+  docs: https://www.keepersecurity.com/GDPR.html
+
+verification:
+  status: documented
+  checked_at: 2026-11-25

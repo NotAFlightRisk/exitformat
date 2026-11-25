@@ -1,5 +1,6 @@
 name: Keeper JSON export
 extensions: [.json]
 standard: false
+owner: keeper
 based_on: json
 description: Keeper's JSON export, with every record's type, title, login, password, URL, notes and custom fields (one-time codes, cards, key pairs and the rest), and the folders and shared folders it sits in. It isn't encrypted.

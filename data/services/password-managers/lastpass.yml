@@ -44,7 +44,7 @@ import:
   - id: password-managers
     name: Import another password manager's export
     method: file
-    formats: [1password-csv, bitwarden-csv, dashlane-csv, apple-passwords-csv]
+    formats: [1password-csv, bitwarden-csv, dashlane-csv, apple-passwords-csv, keeper-csv]
     steps:
       - Export a .csv from the other app. LastPass wants 1Password 8's CSV, not a 1PUX, and Bitwarden's .csv, not its .json.
       - In the web vault, select Advanced options --> Import, then pick the app the file came from.
@@ -71,7 +71,7 @@ import:
     limitations:
       - Attachments never come in, and passkeys can't be imported at all.
       - Items with the same username, password and URL as one you've already got are unticked for you.
-      - Keeper and KeePass are on the list too, from their CSV exports. Keeper's JSON and KeePass 1's XML are turned away.
+      - KeePass is on the list too, from its CSV export. Keeper's JSON and KeePass 1's XML are turned away.
       - The Android and iOS apps can import a .csv too, logins only. On iOS 26 or later, they can take logins straight from an app that supports Credential Exchange.
     docs: https://support.lastpass.com/s/document-item?language=en_US&bundleId=lastpass&topicId=LastPass%2Fimport_another_password_manager.html&_LANG=enus
     sources:
