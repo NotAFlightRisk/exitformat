@@ -1,6 +1,8 @@
 {
-  "commit": "88c1f2031882d43a8f933b42c1f5b2b5b18fe6ae",
+  "commit": "c96b75812337e7a741833dbaafebcc917bbd811c",
   "entries": [
+    {"date":"2026-11-25","commit":"c96b758","pr":70,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
+    {"date":"2026-11-25","commit":"c96b758","pr":70,"id":"roboform","category":"password-managers","name":"RoboForm","kind":"added"},
     {"date":"2026-11-25","commit":"88c1f20","pr":69,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
     {"date":"2026-11-25","commit":"88c1f20","pr":69,"id":"nordpass","category":"password-managers","name":"NordPass","kind":"added"},
     {"date":"2026-11-25","commit":"26515b5","pr":68,"id":"firefox-password-manager","category":"password-managers","name":"Firefox Password Manager","kind":"added"},
