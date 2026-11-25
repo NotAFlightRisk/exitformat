@@ -1,6 +1,8 @@
 {
-  "commit": "26515b5abae67893f0656f8583f6b81d19a6ddf3",
+  "commit": "88c1f2031882d43a8f933b42c1f5b2b5b18fe6ae",
   "entries": [
+    {"date":"2026-11-25","commit":"88c1f20","pr":69,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
+    {"date":"2026-11-25","commit":"88c1f20","pr":69,"id":"nordpass","category":"password-managers","name":"NordPass","kind":"added"},
     {"date":"2026-11-25","commit":"26515b5","pr":68,"id":"firefox-password-manager","category":"password-managers","name":"Firefox Password Manager","kind":"added"},
     {"date":"2026-11-25","commit":"34b7e86","pr":67,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
     {"date":"2026-11-25","commit":"34b7e86","pr":67,"id":"dashlane","category":"password-managers","name":"Dashlane","kind":"updated","sections":["import"]},
