@@ -43,7 +43,7 @@ import:
     name: Import another app's CSV
     method: file
     formats:
-      [1password-csv, bitwarden-csv, lastpass-csv, chrome-csv, firefox-csv, apple-passwords-csv, roboform-csv]
+      [1password-csv, bitwarden-csv, lastpass-csv, chrome-csv, firefox-csv, apple-passwords-csv, roboform-csv, keeper-csv]
     requirements: [Web app or Android app]
     steps:
       - On the web, select Import data at the top (or Settings --> Import data), pick the app in the Import source menu and select Get Started.
@@ -58,7 +58,7 @@ import:
       - Anything Dashlane can't match to a field goes in the login's note, one-time codes included, so you'll have to turn 2FA on again for each login, using that setup key.
       - Folders and categories become collections with the same name, and in the preview you can turn an item into a payment method.
       - The iPhone, iPad and Mac apps can't import a CSV.
-      - Edge's export goes in as Chrome's, and Keeper and KeePass are on the list too, from their CSV exports. Other apps' own formats, like 1Password's 1PUX, are turned away.
+      - Edge's export goes in as Chrome's, and KeePass is on the list too, from its CSV export. Other apps' own formats, like 1Password's 1PUX, are turned away.
       - On iOS 26 and macOS 26 or later, apps that support Credential Exchange can hand logins, passkeys and codes straight to Dashlane. On Android, you start in Dashlane.
     docs: https://support.dashlane.com/hc/en-us/articles/33050358427666
     sources:

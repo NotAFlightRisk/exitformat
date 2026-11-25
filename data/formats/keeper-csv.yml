@@ -1,0 +1,6 @@
+name: Keeper CSV export
+extensions: [.csv]
+standard: false
+owner: keeper
+based_on: csv
+description: Keeper's CSV export, with no header row. Each record is a row of folder, title, login, password, website address, notes and shared folder, then any other fields as name and value pairs, a one-time code included as an otpauth link under TFC:Keeper. It isn't encrypted.
