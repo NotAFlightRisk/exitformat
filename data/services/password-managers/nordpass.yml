@@ -17,13 +17,14 @@ export:
       - Enter your Master Password, select Continue and save the .csv.
     data:
       included: [logins, secure-notes, cards, identities, custom-fields, groups]
-      excluded: [passkeys, attachments, settings]
-      unknown: [secrets, other-items, shared-vaults, history]
+      excluded: [passkeys, secrets, other-items, attachments, shared-vaults, history, settings]
     limitations:
       - It isn't encrypted, so delete it once you've imported it.
       - NordPass says passkeys can't be exported at all.
-      - File attachments aren't in it, so download them from each item first.
-      - In a business account, your admin can turn exporting off under Item exporting.
+      - There are only columns for logins, notes, cards and personal info, so two-factor codes, password history and documents stay behind. Set 2FA up again in the new app.
+      - File attachments aren't in it either, so download them from each item first.
+      - Nothing in it says what's shared with whom.
+      - In a business account, your organisation's Item exporting policy decides whether you can export.
     docs: https://support.nordpass.com/hc/en-us/articles/360007646477
     sources:
       - https://support.nordpass.com/hc/en-us/articles/12984678202641
@@ -49,11 +50,10 @@ import:
         proton-pass-zip,
         roboform-csv
       ]
-    requirements: [Desktop app, web vault or browser extension]
+    requirements: [Desktop app or browser extension]
     steps:
-      - Open Settings with the cog icon, scroll down to Import and Export and select Import Items.
-      - Pick the password manager your file came from and upload it.
-      - Look over the items that are coming in and select Import.
+      - Open Settings with the cog icon, scroll down and select Import items.
+      - Pick the password manager your file came from and upload the file you exported.
     data:
       included: [logins]
       excluded: [passkeys]
@@ -91,7 +91,7 @@ import:
     data:
       included: [logins, secure-notes, cards, identities, custom-fields, groups]
     limitations:
-      - The template's shared folder column only works on business plans.
+      - Shared folders in the template only work on Business and Enterprise plans.
       - Delete the .csv once it's in, since it isn't encrypted.
     docs: https://support.nordpass.com/hc/en-us/articles/360002377217
     sources:

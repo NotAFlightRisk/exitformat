@@ -511,7 +511,7 @@ import:
     data:
       included: [logins, secure-notes, cards, identities, custom-fields, groups]
     limitations:
-      - Rows of any other item type are skipped, and card PINs are dropped.
+      - Rows of any other item type are skipped, empty folders don't come across, and card PINs are dropped.
       - Importing a file twice gives you two of everything.
     docs: https://bitwarden.com/help/import-data/
     sources:
