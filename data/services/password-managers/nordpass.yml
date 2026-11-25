@@ -1,0 +1,113 @@
+name: NordPass
+website: https://nordpass.com/
+description: Nord Security's password manager, with apps for computers, phones and browsers. Your vault is encrypted and synced through Nord's cloud.
+deployment: cloud
+platforms: [windows, macos, linux, android, ios, web, browser-extension]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/cc/ef/3d/ccef3d3b-1fe8-28a7-b2e3-0e0ddb7c4f85/NordPass-0-0-1x_U007epad-0-1-0-85-220.png/128x128bb.png
+
+export:
+  - id: csv
+    name: Export your vault as CSV
+    method: file
+    formats: [nordpass-csv]
+    requirements: [Desktop app or web vault]
+    steps:
+      - In the desktop app or web vault, open Settings with the cog icon in the top left.
+      - Scroll down to Import and Export and select Export.
+      - Enter your Master Password, select Continue and save the .csv.
+    data:
+      included: [logins, secure-notes, cards, identities, custom-fields, groups]
+      excluded: [passkeys, secrets, other-items, attachments, shared-vaults, history, settings]
+    limitations:
+      - It isn't encrypted, so delete it once you've imported it.
+      - NordPass says passkeys can't be exported at all.
+      - There are only columns for logins, notes, cards and personal info, so two-factor codes, password history and documents stay behind. Set 2FA up again in the new app.
+      - File attachments aren't in it either, so download them from each item first.
+      - Nothing in it says what's shared with whom.
+      - In a business account, your organisation's Item exporting policy decides whether you can export.
+    docs: https://support.nordpass.com/hc/en-us/articles/360007646477
+    sources:
+      - https://support.nordpass.com/hc/en-us/articles/12984678202641
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/nordpass/mocks/nordpass.csv
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/spec-data/nordpass-csv/nordpass.login.csv.ts
+
+import:
+  - id: managers
+    name: Import another password manager's export
+    method: file
+    formats:
+      [
+        1password-1pux,
+        1password-csv,
+        bitwarden-csv,
+        bitwarden-json,
+        dashlane-csv,
+        keeper-csv,
+        keeper-json,
+        keepassxc-csv,
+        keepass-xml,
+        lastpass-csv,
+        proton-pass-zip,
+        roboform-csv
+      ]
+    requirements: [Desktop app or browser extension]
+    steps:
+      - Open Settings with the cog icon, scroll down and select Import items.
+      - Pick the password manager your file came from and upload the file you exported.
+    data:
+      included: [logins]
+      excluded: [passkeys]
+      unknown:
+        [
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          attachments,
+          groups,
+          tags,
+          shared-vaults,
+          history,
+          favourites,
+          dates
+        ]
+    limitations:
+      - If an app's own option won't take your .csv, try Spreadsheet instead, laid out like NordPass's template.
+      - Passkeys can't be imported.
+      - On Android, the app can bring passwords in from Google Chrome. On iOS, it can take them straight from Apple's Passwords app and other apps that support Credential Exchange.
+    docs: https://support.nordpass.com/hc/en-us/articles/360002377197
+
+  - id: spreadsheet
+    name: Import a CSV laid out like NordPass's template
+    method: file
+    formats: [nordpass-csv, csv]
+    requirements: [Desktop app, web vault or browser extension]
+    steps:
+      - Download NordPass's CSV template and fill it in, or move your file's columns into it.
+      - Open Settings with the cog icon, select Import Items under Import and Export, then Spreadsheet at the bottom.
+      - Drop the .csv in, check the items and select Import.
+    data:
+      included: [logins, secure-notes, cards, identities, custom-fields, groups]
+    limitations:
+      - Shared folders in the template only work on Business and Enterprise plans.
+      - Delete the .csv once it's in, since it isn't encrypted.
+    docs: https://support.nordpass.com/hc/en-us/articles/360002377217
+    sources:
+      - https://support.nordpass.com/hc/en-us/articles/11914061921425
+
+delete:
+  steps:
+    - To delete only NordPass, open the phone app, tap the Profile icon --> Settings --> Delete account, then Submit a request.
+    - To delete your whole Nord Account, NordVPN included, sign in to Nord Account and select your email --> Account settings --> Delete Account.
+    - Enter the code Nord emails you and follow the next steps.
+  docs: https://support.nordpass.com/hc/en-us/articles/360006668297
+  notes:
+    - Deleting only NordPass keeps your email in Nord's database if you've got NordVPN or NordLocker.
+    - Nord may keep things like billing details for legal reasons.
+    - A free account nobody's signed in to for 36 months is deleted on its own, after three warning emails.
+
+verification:
+  status: documented
+  checked_at: 2026-11-25
