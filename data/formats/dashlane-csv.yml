@@ -1,6 +1,6 @@
 name: Dashlane CSV export
-extensions: [.zip, .csv]
+extensions: [.csv, .zip]
 standard: false
 owner: dashlane
-based_on: zip
-description: Dashlane's CSV export, separate .csv files for logins (with each one's collection and one-time code key), Secure Notes, payments, IDs and personal info, zipped up when it comes from the web. None of it is encrypted.
+based_on: csv
+description: Dashlane's CSV export, separate .csv files for logins (with a category column and each one's one-time code), Secure Notes, payments, IDs and personal info, plus Wi-Fi networks from the Apple apps. It's zipped up when it comes from the web. None of it is encrypted.
