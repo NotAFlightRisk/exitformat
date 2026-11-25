@@ -1,6 +1,11 @@
 {
-  "commit": "06e6fdea0e4f62e45b0d1658cd001b0a4fc339fd",
+  "commit": "34b7e86000b36773e534add46bb514027cb686ce",
   "entries": [
+    {"date":"2026-11-25","commit":"34b7e86","pr":67,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
+    {"date":"2026-11-25","commit":"34b7e86","pr":67,"id":"dashlane","category":"password-managers","name":"Dashlane","kind":"updated","sections":["import"]},
+    {"date":"2026-11-25","commit":"34b7e86","pr":67,"id":"keeper","category":"password-managers","name":"Keeper","kind":"added"},
+    {"date":"2026-11-25","commit":"34b7e86","pr":67,"id":"lastpass","category":"password-managers","name":"LastPass","kind":"updated","sections":["import"]},
+    {"date":"2026-11-25","commit":"34b7e86","pr":67,"id":"proton-pass","category":"password-managers","name":"Proton Pass","kind":"updated","sections":["import"]},
     {"date":"2026-11-25","commit":"06e6fde","pr":66,"id":"1password","category":"password-managers","name":"1Password","kind":"updated","sections":["import"]},
     {"date":"2026-11-25","commit":"06e6fde","pr":66,"id":"dashlane","category":"password-managers","name":"Dashlane","kind":"added"},
     {"date":"2026-11-25","commit":"f7bbba4","pr":64,"id":"apple-passwords","category":"password-managers","name":"Apple Passwords","kind":"added"},
