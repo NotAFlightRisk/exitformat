@@ -381,7 +381,8 @@ import:
     data:
       included: [logins, secrets, secure-notes, cards, identities, other-items, custom-fields, groups]
     limitations:
-      - Shared folders come in as ordinary folders, shared with nobody.
+      - Shared folders come in as ordinary folders, shared with nobody. A record that's in a private folder too only lands in the private one, and empty folders are skipped.
+      - A card's linked address isn't brought along.
       - Folders need a paid plan, or everything lands loose in the vault.
     docs: https://proton.me/support/pass-import-keeper
     sources:

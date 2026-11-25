@@ -1,6 +1,6 @@
 name: Keeper
 website: https://www.keepersecurity.com/
-description: Password manager for people and businesses on every platform. Your vault is end-to-end encrypted and synced through Keeper's cloud.
+description: Password manager for people and businesses on phones, computers and browsers. Your vault is encrypted on your device and synced through Keeper's cloud.
 deployment: cloud
 platforms: [android, ios, windows, macos, linux, web, browser-extension]
 icon: https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/20/69/c0/2069c038-b6aa-7dac-6885-f2b8129deb74/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/128x128bb.png
@@ -29,14 +29,13 @@ export:
           groups,
           shared-vaults
         ]
-      excluded: [attachments, history, favourites, settings]
-      unknown: [dates]
+      excluded: [attachments, settings]
+      unknown: [history, favourites, dates]
     limitations:
       - It isn't encrypted, so delete it once you've imported it. That goes double here, since passkeys come out with their private keys.
       - File attachments stay behind. A file record comes out with its title and notes but not the file.
       - Shared folders come out with who they're shared with and what each person can do.
       - On a business account, your role has to allow exporting.
-      - The phone apps can't export.
     docs: https://docs.keeper.io/user-guides/import-records-1/import-json
     sources:
       - https://docs.keeper.io/user-guides/export-and-reports/vault-export
@@ -50,7 +49,7 @@ export:
     requirements: [Web Vault or Desktop App]
     steps:
       - In the Web Vault or Desktop App, open the Account Dropdown Menu and select Settings --> Export.
-      - Select CSV and select Export, entering your Master Password if it asks.
+      - Select CSV and select Export. If it asks, enter your Master Password and select Export Now.
     data:
       included: [logins, secrets, other-items, custom-fields, groups, shared-vaults]
       excluded: [attachments, history, favourites, settings]
@@ -58,9 +57,9 @@ export:
     limitations:
       - It isn't encrypted, so delete it once you've imported it.
       - There's no header row. Every record is a row of folder, title, login, password, website, notes and shared folder, then its other fields as name and value pairs.
-      - One-time codes come out as an otpauth link in a TFC:Keeper field, and bank accounts, passports and licences as plain fields.
+      - One-time codes come out as otpauth links among those fields, and bank accounts, passports and licences as plain fields.
       - It names each record's shared folder, but not who it's shared with.
-      - There's a PDF export too, for printing, which nothing here can import.
+      - There's a PDF export too, but it's only for printing.
     docs: https://docs.keeper.io/user-guides/export-and-reports/vault-export
     sources:
       - https://docs.keeper.io/user-guides/import-records-1/import-a-.csv-file
@@ -107,7 +106,7 @@ import:
     steps:
       - In the Web Vault or Desktop App, open the Account Dropdown Menu, select Settings --> Import, then Import next to Use Another Source.
       - Pick the app in the dropdown and drop the file on Drop a File Here.
-      - Check the field mapping and select Next, then look over the folders and select Confirm Import.
+      - Select any column that's mapped wrong to change it and select Next, then look over the folders and select Confirm Import.
     data:
       included: [logins, groups]
       unknown:
@@ -163,8 +162,8 @@ import:
     formats: [csv, keeper-csv, apple-passwords-csv, chrome-csv]
     requirements: [Web Vault or Desktop App]
     steps:
-      - In the Web Vault or Desktop App, open Settings --> Import, select Import next to Use Another Source and pick Text File.
-      - Drop the file on Drop a File Here, and tick the box if it has a header row.
+      - In the Web Vault or Desktop App, open Settings --> Import, then select Import next to Use Another Source.
+      - Pick Text File (.csv, .xls, and .tsv), drop the file on Drop a File Here and tick the box if it has a header row.
       - Map each column to a field and select Next, then look over the folders and select Confirm Import.
     data:
       included: [logins, custom-fields, groups, shared-vaults]
@@ -217,8 +216,6 @@ delete:
     - Export anything you want to keep first.
     - Email deleteme@keepersecurity.com with the email address your Keeper account uses, and ask for it to be deleted.
   docs: https://www.keepersecurity.com/GDPR.html
-  notes:
-    - Keeper doesn't say how long it takes.
 
 verification:
   status: documented
