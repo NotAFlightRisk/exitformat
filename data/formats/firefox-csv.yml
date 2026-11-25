@@ -1,5 +1,6 @@
 name: Firefox passwords CSV
 extensions: [.csv]
 standard: false
+owner: firefox-password-manager
 based_on: csv
 description: The .csv Firefox exports from about:logins, with url, username, password, httpRealm, formActionOrigin, guid, timeCreated, timeLastUsed and timePasswordChanged columns. It isn't encrypted.
