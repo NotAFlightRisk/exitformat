@@ -17,13 +17,13 @@ export:
       - On Windows, open All Items, then select the gear icon --> Backups --> Export Data to CSV File.
     data:
       included: [logins, secure-notes, cards, identities, other-items, custom-fields, tags]
-      excluded: [attachments, shared-vaults, history, favourites, dates, settings]
-      unknown: [secrets, passkeys]
+      excluded: [attachments, shared-vaults, settings]
+      unknown: [secrets, passkeys, history, favourites, dates]
     limitations:
       - It isn't encrypted, so delete it once you've imported it.
-      - Each row holds a record's title, template, tags and note, then every field as label, type and value. Attachments, vaults, favourites and password history aren't in it.
+      - Each row holds a record's title, template, tags and note, then every field as label, type and value. Attachments and which vault a record's in don't come with it.
       - The Windows app exports whatever's in the current view, or just the records you've selected.
-      - Backups from File --> Backup are encrypted .msib files for restoring into mSecure.
+      - Backups from File --> Backup are password-protected .msib files for restoring into mSecure.
     docs: https://support.msecure.com/en/support/solutions/articles/36000176914-export-data-to-a-csv-file
     sources:
       - https://support.msecure.com/en/support/solutions/articles/36000370010-importing-a-csv-file
@@ -70,13 +70,11 @@ import:
     requirements: [iPhone, iPad or Mac]
     steps:
       - Start the file with the line mSecure6 CSV export file, then one row per record in mSecure's layout.
-      - Create any templates and tags the rows use in mSecure first.
+      - Create any record types and tags the rows use in mSecure first.
       - On a Mac, select File --> Import --> CSV. On an iPhone or iPad, tap the menu icon, then Settings --> Import --> CSV.
-    data:
-      included: [logins, secure-notes, cards, identities, other-items, custom-fields, tags]
     limitations:
       - Another app's CSV needs its columns rearranged by hand into mSecure's layout first.
-      - Rows that name a template or tag mSecure doesn't have yet fail.
+      - Rows that name a record type or tag mSecure doesn't have yet fail.
       - Everything it brings in also gets a CSV Import tag with the date, so you can find it or undo it.
     docs: https://support.msecure.com/en/support/solutions/articles/36000370010-importing-a-csv-file
     sources:
@@ -86,11 +84,11 @@ delete:
   steps:
     - If you share vaults, delete every user and shared vault in the Sharing Center first.
     - On a Mac, open mSecure --> Preferences --> Sync and set Sync via to Don't Sync.
-    - If you synced through Dropbox or iCloud instead, delete the data.mssb file in the mSecure folder there.
+    - If you synced with Dropbox or iCloud, delete data.mssb in Dropbox's Apps --> mSecure 5 folder or iCloud Drive --> mSecure.
   docs: https://support.msecure.com/en/support/solutions/articles/36000064312-does-msecure-store-data-on-its-servers-if-cloud-sync-is-disabled-
   notes:
-    - mSecure says turning sync off deletes your data from its servers for good, bar a few settings like whether sync is on.
-    - Your mSecure account stays, so cancel the subscription where you bought it, at msecure.com or in your app store.
+    - mSecure says turning sync off deletes your data from its servers for good, bar a few settings like whether sync is on. Copies on your devices and backups stay.
+    - Your mSecure account stays, so cancel the subscription where you bought it, whether that's msecure.com, the App Store, Google Play or the Microsoft Store.
 
 verification:
   status: documented

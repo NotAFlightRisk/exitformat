@@ -624,10 +624,11 @@ import:
       - On the web, select Tools --> Import, or Import on desktop. In the extension, it's Settings --> Vault options --> Import items.
       - Pick mSecure (csv) as the File format, choose the file and select Import (Import data outside the web app).
     data:
-      included: [logins, secure-notes, cards]
+      included: [logins, secure-notes, cards, groups]
       excluded: [custom-fields, tags]
     limitations:
-      - A login takes its first three fields as website, user name and password, in that order, and drops the rest.
+      - A login takes its first three fields as website, user name and password, whatever they're called, and drops the rest.
+      - A card's PIN, phone number and billing address go into its note, its issuing bank becomes the brand, and any fields you added are dropped.
       - Anything that isn't a login or a card comes in as a secure note, with its fields pasted into the note as mSecure wrote them.
       - A record's tags become one folder named after all of them, so Travel and Work land in a folder called Travel,Work.
       - Importing a file twice gives you two of everything.

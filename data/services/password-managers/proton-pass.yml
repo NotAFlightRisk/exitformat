@@ -478,7 +478,7 @@ import:
       - In Proton Pass, open Settings --> Import, pick mSecure and choose the .csv file.
       - Select Import, pick the vault it goes into and select Confirm.
     data:
-      included: [logins, secure-notes, cards, custom-fields]
+      included: [logins, secure-notes, cards, custom-fields, groups]
       excluded: [tags]
     limitations:
       - A record's tags become one folder named after all of them, so Travel and Work land in a folder called Travel,Work. Folders need a paid plan.
