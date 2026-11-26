@@ -1,6 +1,9 @@
 {
-  "commit": "39350e8f188e333219b4a3c89e30c736a029d3bc",
+  "commit": "7a46a53991123f9c5d5f619a3588f2bc6adebc41",
   "entries": [
+    {"date":"2026-11-26","commit":"7a46a53","pr":83,"id":"day-one","category":"notes","name":"Day One","kind":"updated","sections":["import"]},
+    {"date":"2026-11-26","commit":"7a46a53","pr":83,"id":"diaro","category":"notes","name":"Diaro","kind":"added"},
+    {"date":"2026-11-26","commit":"7a46a53","pr":83,"id":"journey","category":"notes","name":"Journey","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"39350e8","pr":82,"id":"enpass","category":"password-managers","name":"Enpass","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"39350e8","pr":82,"id":"keepass","category":"password-managers","name":"KeePass","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"39350e8","pr":82,"id":"keeper","category":"password-managers","name":"Keeper","kind":"updated","sections":["import"]},
