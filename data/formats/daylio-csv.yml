@@ -1,0 +1,5 @@
+name: Daylio CSV
+extensions: [.csv]
+standard: false
+based_on: csv
+description: Daylio's CSV (table) export, a row for each entry with its date and time, mood, activities and note.
