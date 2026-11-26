@@ -1,0 +1,48 @@
+name: Samsung Pass
+website: https://www.samsung.com/uk/apps/samsung-pass/
+description: Samsung's password manager on Galaxy phones, synced via your Samsung account. There's no export for other apps, just an encrypted .spass backup.
+deployment: hybrid
+platforms: [android, windows]
+icon: https://img.samsungapps.com/productNew/000005295090/ENG/IconImage_20261022015118523_NEW_WAP_ICON_512_512.png
+aliases: [Samsung Wallet passwords, Samsung passwords, Samsung Internet passwords, spass]
+
+export: []
+
+import:
+  - id: chrome-csv
+    name: Import a Chrome or Edge passwords .csv
+    method: file
+    formats: [chrome-csv]
+    steps:
+      - Export your passwords from Chrome or Edge as a .csv and copy it to your phone.
+      - In Samsung Wallet, open Settings and tap the option to import and export Samsung Pass data.
+      - Choose to import, pick the .csv and confirm.
+    data:
+      included: [logins]
+    limitations:
+      - Samsung's staff have named .csv files from Chrome, Edge and Whale, plus Samsung Pass's own .spass. An older answer says other apps' files won't import.
+      - You can only import on a phone, not on a PC.
+      - It's a one-off copy. Samsung Pass doesn't stay in sync with Google Password Manager or any other app.
+      - Where Samsung Pass isn't part of Samsung Wallet, you'll find it in Settings --> Security and privacy --> Samsung Pass.
+      - Delete the .csv once it's in, since it isn't encrypted.
+    docs: https://community.samsung.com/kr/conversations/samsung-wallet/%EC%82%BC%EC%84%B1%ED%8C%A8%EC%8A%A4-%ED%83%80-%EC%95%B1-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%97%B0%EB%8F%99-%EB%90%98%EB%82%98%EC%9A%94/r1_27156150
+    sources:
+      - https://community.samsung.com/kr/conversations/f850e6/%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0-%EC%A7%88%EB%AC%B8/r1_21494792
+      - https://web.archive.org/web/20260730003859/https://www.samsungsvc.co.kr/solution/4238546
+      - https://galaxystore.samsung.com/detail/com.samsung.android.samsungpass
+
+delete:
+  steps:
+    - Open Samsung Pass and confirm it's you with your biometrics.
+    - Tap Menu (the three dots) --> Settings --> Delete data.
+    - To delete one login instead, tap it in the list and delete it there.
+  docs: https://www.samsung.com/uk/support/mobile-devices/what-is-samsung-pass/
+  notes:
+    - Delete data removes your saved sign-ins and biometric data from Samsung Pass, but your Samsung account stays.
+    - To close the whole Samsung account, go to Settings, tap your account name, then Profile Information, then the three dots --> Delete account. It erases what's tied to the account and can't be undone.
+    - Samsung suggests saving a copy first with Samsung Cloud --> the three dots --> Settings --> Download personal data, though it doesn't say your Samsung Pass logins are in it.
+    - Sign out of your devices before you delete the account, since deleting it doesn't, and afterwards you can't sign in to reset or erase them.
+
+verification:
+  status: documented
+  checked_at: 2026-11-26
