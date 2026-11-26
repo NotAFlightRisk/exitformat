@@ -428,6 +428,7 @@ import:
     name: Import from Chrome or another Chromium browser
     method: file
     formats: [chrome-csv]
+    from: [google-password-manager, microsoft-password-manager]
     steps:
       - Export your passwords as a .csv from the browser's password settings.
       - On the web, select Tools --> Import, or Import on desktop. In the extension, it's Settings --> Vault options --> Import items.

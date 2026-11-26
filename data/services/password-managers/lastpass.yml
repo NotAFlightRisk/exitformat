@@ -82,6 +82,7 @@ import:
     name: Import from a browser
     method: file
     formats: [chrome-csv, firefox-csv]
+    from: [google-password-manager, microsoft-password-manager, firefox-password-manager]
     steps:
       - Export your passwords as a .csv from Chrome, Edge, Firefox or Opera.
       - In the web vault, select Advanced options --> Import, then pick the browser the file came from.
