@@ -226,6 +226,24 @@ import:
     sources:
       - https://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.62/KeePass-2.62-Source.zip
 
+  - id: sticky-password
+    name: Import a Sticky Password export
+    method: file
+    formats: [sticky-password-xml]
+    steps:
+      - Export from Sticky Password without encryption, as Sticky Password 6 XML.
+      - In KeePass, open or create a database, select File --> Import... and pick Sticky Password XML under Format.
+      - Choose the file under Source and select OK.
+    data:
+      included: [logins, secure-notes, groups, dates]
+    limitations:
+      - Each login becomes an entry with its account's name, link and comments, and an account with several logins becomes several entries.
+      - Secure memos come in as an attached .rtf file rather than as the entry's notes. It only reads accounts, secure memos and their groups.
+      - It isn't encrypted, so delete the file once it's in.
+    docs: https://keepass.info/help/base/importexport.html
+    sources:
+      - https://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.62/KeePass-2.62-Source.zip
+
   - id: chrome
     name: Import from Chrome
     method: file

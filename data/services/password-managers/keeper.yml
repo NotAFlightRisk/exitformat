@@ -101,7 +101,7 @@ import:
   - id: managers
     name: Import another password manager's export
     method: file
-    formats: [1password-1pux, 1password-csv, bitwarden-csv, dashlane-csv, proton-pass-zip, enpass-json, keepass-xml, msecure-csv, roboform-csv]
+    formats: [1password-1pux, 1password-csv, bitwarden-csv, dashlane-csv, proton-pass-zip, enpass-json, keepass-xml, msecure-csv, roboform-csv, sticky-password-xml]
     requirements: [Web Vault or Desktop App]
     steps:
       - In the Web Vault or Desktop App, open the Account Dropdown Menu, select Settings --> Import, then Import next to Use Another Source.
@@ -128,7 +128,7 @@ import:
     limitations:
       - Keeper's help says it reads Dashlane's encrypted DASH backup too, though Dashlane says only it can open one.
       - The Proton Pass zip has to be the unencrypted one, and the 1Password export can be the 1PUX or the CSV.
-      - Kaspersky, Passpack, Sticky Password, True Key, Zoho Vault and more are on the list too.
+      - Kaspersky, Passpack, True Key, Zoho Vault and more are on the list too.
     docs: https://docs.keeper.io/user-guides/import-records-1/import-overview
     sources:
       - https://docs.keeper.io/user-guides/import-records-1/import-from-1password
@@ -138,6 +138,7 @@ import:
       - https://docs.keeper.io/user-guides/import-records-1/import-from-enpass
       - https://docs.keeper.io/user-guides/import-records-1/import-from-keepass
       - https://docs.keeper.io/user-guides/import-records-1/import-from-msecure
+      - https://docs.keeper.io/user-guides/import-records-1/import-from-sticky-password
       - https://docs.keeper.io/user-guides/import-records-1/import-from-roboform
 
   - id: kdbx
