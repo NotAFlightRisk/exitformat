@@ -1,6 +1,6 @@
 name: SafeInCloud
 website: https://www.safe-in-cloud.com/
-description: Password manager for phones and computers, now called Safe. Your vault stays on your devices, synced through your own cloud account if you like.
+description: Password manager for phones and computers. Its current app is Safe, after SafeInCloud 1. Your vault syncs through your own cloud account if you like.
 deployment: hybrid
 platforms: [android, ios, windows, macos, browser-extension]
 icon: https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/59/de/6d/59de6d51-68a2-62bc-a1bc-62a12572c6ac/AppIcon-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/128x128bb.png
@@ -13,39 +13,27 @@ export:
     formats: [safeincloud-xml]
     requirements: [Windows or Mac app]
     steps:
-      - In the Safe app on your computer, select File --> Export --> As XML.
+      - In the desktop app, select File --> Export --> As XML.
       - Pick where it goes and save it.
     data:
-      included: [logins, secrets, secure-notes, cards, custom-fields, favourites]
-      unknown: [passkeys, identities, other-items, attachments, tags, shared-vaults, history, dates]
+      included: [logins, secrets, secure-notes, cards, custom-fields, tags, favourites]
+      unknown: [passkeys, identities, other-items, attachments, shared-vaults, history, dates]
     limitations:
       - It isn't encrypted, so delete it once you've imported it.
       - The phone apps can't export at all.
-      - Safe can export CSV and plain text too, and recommends the CSV, but the importers here read the XML.
+      - It can export CSV and plain text too, and recommends the CSV, but the apps that import from it want the XML.
     docs: https://kb.safe-in-cloud.com/en/troubleshooting/import-export-issues.html
     sources:
-      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/safeincloud-xml-importer.ts
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/spec-data/safeincloud/test-data.xml.ts
       - https://help.enpass.io/personal/latest/all/import-from-safeincloud
 
 import:
   - id: managers
     name: Import another password manager's or browser's export
     method: file
-    formats:
-      [
-        1password-csv,
-        apple-passwords-csv,
-        bitwarden-csv,
-        chrome-csv,
-        csv,
-        dashlane-csv,
-        firefox-csv,
-        keeper-csv,
-        lastpass-csv,
-        roboform-csv
-      ]
+    formats: [csv]
     steps:
-      - On a computer, select File --> Import... and pick the app or browser your file came from.
+      - On a computer, select File --> Import… and pick the app or browser your file came from.
       - On a phone, open Tools --> Import passwords and pick where it came from.
       - Follow the steps to choose the file.
     data:
@@ -68,20 +56,20 @@ import:
           dates
         ]
     limitations:
-      - The computer apps take Chrome, Firefox, Safari, LastPass, 1Password, Bitwarden, Dashlane, Keeper, RoboForm and a CSV from almost anything else. The phone apps take fewer.
+      - The computer apps list Chrome, Firefox, Safari, LastPass, 1Password, Bitwarden, Dashlane, Keeper and RoboForm, and take a CSV from almost anything else. The phone apps take fewer.
     docs: https://kb.safe-in-cloud.com/en/getting-started/import-passwords.html
     sources:
       - https://kb.safe-in-cloud.com/en/troubleshooting/import-export-issues.html
 
 delete:
   steps:
-    - Google Drive keeps it hidden, so open Drive's Settings --> Manage Apps, find Safe and select Delete hidden app data.
-    - On Dropbox, delete the /Apps/Safe In Cloud folder. On OneDrive, delete /Apps/SafeInCloud.
-    - "For iCloud, open your name --> iCloud --> Manage in your Mac's or iPhone's Settings, pick SafeInCloud and select Delete data."
-    - Then uninstall Safe from each device.
+    - Uninstall the app from every device you synced.
+    - "Google Drive: Settings --> Manage Apps, find Safe and select Delete hidden app data, or delete SafeInCloud.db if it's in Drive's root."
+    - "Dropbox: delete /Apps/Safe In Cloud. OneDrive: delete /Apps/SafeInCloud. WebDAV: delete it from the folder you set up."
+    - "iCloud: Settings --> your name --> iCloud --> Manage (Manage Account Storage on iPhone), pick SafeInCloud and Delete data."
   docs: https://kb.safe-in-cloud.com/en/faq/cloud-database-location.html
   notes:
-    - Safe keeps your vault in your own cloud account, not on its servers. On Android, uninstalling it deletes its auto backups too.
+    - The synced vault is an encrypted SafeInCloud.db file in your own cloud account, plus SafeInCloud(name).db for each extra database. On Android, uninstalling also deletes the app's local auto backups.
 
 verification:
   status: documented

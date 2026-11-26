@@ -2,4 +2,4 @@ name: SafeInCloud XML export
 extensions: [.xml]
 standard: false
 owner: safeincloud
-description: SafeInCloud's XML export, a database of cards, each with its title, its fields (login, password, website, one-time code, card number and so on), notes and whether it's starred. Templates and deleted cards are in it too, marked as such. It isn't encrypted.
+description: SafeInCloud's XML export, with your labels and then a card for each item, holding its title, fields (login, password, website, one-time code, card number and so on), notes, labels and whether it's starred. Templates and deleted cards are in it too, marked as such. It isn't encrypted.
