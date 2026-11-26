@@ -1,6 +1,9 @@
 {
-  "commit": "6ea1a3b3eb5c9189e2867d1ea56f7a70feea5c1f",
+  "commit": "b607ffa252e10f7237d734928f00b74455d18f18",
   "entries": [
+    {"date":"2026-11-26","commit":"b607ffa","pr":77,"id":"enpass","category":"password-managers","name":"Enpass","kind":"updated","sections":["import"]},
+    {"date":"2026-11-26","commit":"b607ffa","pr":77,"id":"norton-password-manager","category":"password-managers","name":"Norton Password Manager","kind":"added"},
+    {"date":"2026-11-26","commit":"b607ffa","pr":77,"id":"roboform","category":"password-managers","name":"RoboForm","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"6ea1a3b","pr":76,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"6ea1a3b","pr":76,"id":"enpass","category":"password-managers","name":"Enpass","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"6ea1a3b","pr":76,"id":"roboform","category":"password-managers","name":"RoboForm","kind":"updated","sections":["import"]},
