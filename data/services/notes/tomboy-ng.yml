@@ -17,7 +17,8 @@ export:
     data:
       included: [text, formatting, links, structure, dates]
     limitations:
-      - Each note's notebook is saved as a tag inside the file, so only an app that knows Tomboy turns it back into a notebook.
+      - Each note's notebook is saved as a tag inside the file, so the app you move to has to understand Tomboy's notebook tags to put notes back in notebooks.
+      - Links to files on your computer only point at them, so the files themselves don't come along.
     docs: https://github.com/tomboy-notes/tomboy-ng/wiki
     sources:
       - https://github.com/tomboy-notes/tomboy-ng/blob/v0.42/source/settings.pas
@@ -34,7 +35,8 @@ export:
       included: [text]
       unknown: [formatting, links, dates]
     limitations:
-      - It's one note at a time. Export RTF is on the same menu too.
+      - It's one note at a time, and plain text drops all the formatting. Export RTF is on the same menu too.
+      - For a whole notebook or folder at once, tomboy-ng's wiki points at TomboyTools, a separate app.
     sources:
       - https://github.com/tomboy-notes/tomboy-ng/blob/v0.42/source/editbox.lfm
 
@@ -44,8 +46,8 @@ import:
     method: folder
     formats: [tomboy-note]
     steps:
-      - Copy the .note files from your Tomboy or Gnote notes folder into tomboy-ng's, or point Settings at the folder they're already in.
-      - In the Search window, select Refresh so it finds them.
+      - Close tomboy-ng, copy the .note files from your Tomboy or Gnote notes folder into tomboy-ng's, then open it again.
+      - Or point Settings at the folder they're already in.
     data:
       included: [text, formatting, links, structure, dates]
     docs: https://github.com/tomboy-notes/tomboy-ng/wiki
@@ -61,9 +63,11 @@ import:
       included: [text]
       unknown: [formatting, links]
     limitations:
-      - It's one file at a time.
+      - It's one file at a time, and a text or Markdown file gets its first line as the title and today's date.
+      - Markdown only keeps headings, * bullets, bold, italic, monospace and strikeout.
     sources:
       - https://github.com/tomboy-notes/tomboy-ng/blob/v0.42/source/searchunit.pas
+      - https://github.com/tomboy-notes/tomboy-ng/blob/v0.42/source/import_notes.pas
 
 verification:
   status: documented
