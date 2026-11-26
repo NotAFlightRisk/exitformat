@@ -1,5 +1,6 @@
 name: Journey export
 extensions: [.zip]
 standard: false
+owner: journey
 based_on: zip
-description: The zip of your entries and photos that Journey's archive option makes.
+description: The zip Journey's Export/Backup makes, with a JSON file for each entry next to its photos and other media.

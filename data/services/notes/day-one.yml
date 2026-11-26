@@ -94,6 +94,9 @@ import:
       - In Day One, open Settings --> Import/Export --> Import Journey .zip file and pick it.
     data:
       included: [text, attachments]
+      unknown: [formatting, tags, properties, dates]
+    limitations:
+      - Without an Android device, Day One points you to journey2dayone, a community tool on GitHub that turns the zip into Day One JSON.
     docs: https://dayoneapp.com/guides/day-one-for-android/importing-data-from-journey/
 
   - id: diaro
