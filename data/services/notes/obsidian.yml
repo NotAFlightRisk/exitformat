@@ -346,9 +346,9 @@ import:
     name: Import from Tomboy or Gnote
     method: file
     formats: [tomboy-note]
-    from: [gnote]
+    from: [gnote, tomboy-ng]
     steps:
-      - Find your notes folder, usually ~/.local/share/tomboy or ~/.local/share/gnote on Linux.
+      - Find your notes folder, usually ~/.local/share/tomboy, ~/.local/share/tomboy-ng or ~/.local/share/gnote on Linux.
       - In Obsidian, install the Importer plugin, open it and pick Tomboy/Gnote (.note).
       - Choose the .note files or their folder and select Import.
     data:

@@ -1,0 +1,70 @@
+name: tomboy-ng
+website: https://github.com/tomboy-notes/tomboy-ng/wiki
+description: Free, open source rewrite of Tomboy for Linux, Windows and Mac, which keeps every note as its own file on your computer.
+deployment: local
+platforms: [linux, windows, macos]
+source: https://github.com/tomboy-notes/tomboy-ng
+icon: https://raw.githubusercontent.com/tomboy-notes/tomboy-ng/v0.42/glyphs/icons/hicolor/256x256/apps/tomboy-ng.png
+
+export:
+  - id: notes-folder
+    name: Copy your notes folder
+    method: folder
+    formats: [tomboy-note]
+    steps:
+      - Open Settings, where Notes will be looked for and saved in shows your notes folder. On Linux it's ~/.local/share/tomboy-ng to start with.
+      - Close tomboy-ng and copy the .note files, one for each note, somewhere safe.
+    data:
+      included: [text, formatting, links, structure, dates]
+    limitations:
+      - Each note's notebook is saved as a tag inside the file, so only an app that knows Tomboy turns it back into a notebook.
+    docs: https://github.com/tomboy-notes/tomboy-ng/wiki
+    sources:
+      - https://github.com/tomboy-notes/tomboy-ng/blob/v0.42/source/settings.pas
+      - https://github.com/obsidianmd/obsidian-importer/blob/3.2.0/src/formats/tomboy/core.ts
+
+  - id: note
+    name: Export a note to Markdown, text or PDF
+    method: file
+    formats: [markdown, txt, pdf]
+    steps:
+      - Open the note and select the Tools button in its toolbar.
+      - Choose Export, then Export Markdown, Export Plain Text or Export PDF, and pick where it goes.
+    data:
+      included: [text]
+      unknown: [formatting, links, dates]
+    limitations:
+      - It's one note at a time. Export RTF is on the same menu too.
+    sources:
+      - https://github.com/tomboy-notes/tomboy-ng/blob/v0.42/source/editbox.lfm
+
+import:
+  - id: tomboy
+    name: Bring in Tomboy or Gnote notes
+    method: folder
+    formats: [tomboy-note]
+    steps:
+      - Copy the .note files from your Tomboy or Gnote notes folder into tomboy-ng's, or point Settings at the folder they're already in.
+      - In the Search window, select Refresh so it finds them.
+    data:
+      included: [text, formatting, links, structure, dates]
+    docs: https://github.com/tomboy-notes/tomboy-ng/wiki
+
+  - id: file
+    name: Import a text, Markdown or note file
+    method: file
+    formats: [txt, markdown, tomboy-note]
+    steps:
+      - In the Search window, open the search options menu and select Import File.
+      - Pick a .txt, .md or .note file.
+    data:
+      included: [text]
+      unknown: [formatting, links]
+    limitations:
+      - It's one file at a time.
+    sources:
+      - https://github.com/tomboy-notes/tomboy-ng/blob/v0.42/source/searchunit.pas
+
+verification:
+  status: documented
+  checked_at: 2026-11-26
