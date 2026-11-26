@@ -1,6 +1,10 @@
 {
-  "commit": "3183fce629b99f1e5c3fa3ba25cdcbc0fb86f18f",
+  "commit": "6ea1a3b3eb5c9189e2867d1ea56f7a70feea5c1f",
   "entries": [
+    {"date":"2026-11-26","commit":"6ea1a3b","pr":76,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
+    {"date":"2026-11-26","commit":"6ea1a3b","pr":76,"id":"enpass","category":"password-managers","name":"Enpass","kind":"updated","sections":["import"]},
+    {"date":"2026-11-26","commit":"6ea1a3b","pr":76,"id":"roboform","category":"password-managers","name":"RoboForm","kind":"updated","sections":["import"]},
+    {"date":"2026-11-26","commit":"6ea1a3b","pr":76,"id":"zoho-vault","category":"password-managers","name":"Zoho Vault","kind":"added"},
     {"date":"2026-11-26","commit":"3183fce","pr":75,"id":"samsung-pass","category":"password-managers","name":"Samsung Pass","kind":"added"},
     {"date":"2026-11-26","commit":"9cf4e61","pr":74,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"9cf4e61","pr":74,"id":"enpass","category":"password-managers","name":"Enpass","kind":"added"},
