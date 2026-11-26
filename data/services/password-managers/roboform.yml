@@ -70,7 +70,7 @@ import:
         ]
     limitations:
       - From Dashlane, only the credentials.csv goes in, so it's just logins. From 1Password, it's the CSV (Logins and Passwords only), and LastPass's cards come in as Safenotes.
-      - KeePass (Windows only), Kaspersky, Zoho Vault, LogMeOnce and Password Boss are on the list too.
+      - Kaspersky, Zoho Vault, LogMeOnce and Password Boss are on the list too.
       - On Android, the Authenticator tab can scan Google Authenticator's transfer QR codes from screenshots.
     docs: https://help.roboform.com/hc/en-us/articles/4420176122253
     sources:
@@ -80,8 +80,23 @@ import:
       - https://help.roboform.com/hc/en-us/articles/4423023074957
       - https://help.roboform.com/hc/en-us/articles/30196757542797
       - https://help.roboform.com/hc/en-us/articles/4421721070861
-      - https://help.roboform.com/hc/en-us/articles/4421927394061
       - https://help.roboform.com/hc/en-us/articles/21975663494029
+
+  - id: keepass
+    name: Import a KeePass CSV export
+    method: file
+    formats: [keepass-csv]
+    requirements: [Windows app]
+    steps:
+      - In KeePass, select File --> Export..., pick KeePass CSV (1.x) and save it.
+      - Select the RoboForm icon among the taskbar's hidden icons, then Tools --> Import, and pick KeePass on the left.
+      - Select Import from File, choose the .csv and select Open.
+    data:
+      included: [logins]
+    limitations:
+      - It goes in your Home folder unless you pick another with the folder icon first.
+      - It isn't encrypted, so delete the file once it's in.
+    docs: https://help.roboform.com/hc/en-us/articles/4421927394061
 
 delete:
   steps:

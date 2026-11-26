@@ -1,0 +1,7 @@
+name: KeePass CSV export
+extensions: [.csv]
+standard: false
+owner: keepass
+based_on: csv
+description: The .csv KeePass exports as KeePass CSV (1.x), with Account, Login Name, Password, Web Site and Comments columns and every value in quotes. Groups, extra fields, codes, attachments and old versions don't go in, and it isn't encrypted.
+spec: https://keepass.info/help/base/importexport.html#csv

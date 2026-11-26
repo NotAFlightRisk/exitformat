@@ -286,6 +286,7 @@ import:
     limitations:
       - It reads the XML export, not a .kdbx database.
       - Every entry comes in as a login, and the recycle bin lands in the trash.
+      - It reads KeePassXC's one-time codes, but KeePass 2's own TimeOtp fields come in as plain custom fields.
       - Attachments, tags, entry history and dates are dropped. Groups need a paid plan, or everything lands loose in the vault.
     docs: https://proton.me/support/pass-import-keepass
     sources:

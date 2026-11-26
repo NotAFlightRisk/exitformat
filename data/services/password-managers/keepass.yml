@@ -1,0 +1,267 @@
+name: KeePass
+website: https://keepass.info/
+description: Free, open source password manager for Windows that also runs on Linux and macOS with Mono. Your vault is one encrypted .kdbx file on your computer.
+deployment: local
+platforms: [windows, macos, linux]
+source: https://sourceforge.net/p/keepass/code/HEAD/tree/trunk/
+icon: https://keepass.info/images/icons/keepass_256x256.png
+aliases: [KeePass Password Safe, KeePass 2]
+
+export:
+  - id: database
+    name: Copy the database file
+    method: file
+    formats: [kdbx]
+    steps:
+      - Your vault is the .kdbx file you open in KeePass, and the unlock window shows where it is, so you can just copy it.
+      - Or, with it open, select File --> Save As --> Save Copy to File... to save a copy somewhere else.
+      - Take its key file too if it uses one. The copy opens with the same master key.
+    data:
+      included: [logins, secrets, custom-fields, attachments, groups, tags, history, dates]
+      excluded: [settings]
+    limitations:
+      - If your master key includes your Windows user account, the file only opens on that account, so change it under File --> Change Master Key... before you move.
+      - One-time codes are kept in TimeOtp fields, KeePass's own way of storing them, which not every app reads.
+      - KeePass's settings live in its own KeePass.config.xml, not in the database.
+    docs: https://sourceforge.net/p/keepass/wiki/Backup/
+    sources:
+      - https://keepass.info/help/base/placeholders.html#otp
+      - https://keepass.info/help/base/configuration.html
+
+  - id: xml
+    name: Export as KeePass XML
+    method: file
+    formats: [keepass-xml]
+    steps:
+      - With the database open, select File --> Export..., then pick KeePass XML (2.x) under Format.
+      - Choose where to save it under Destination and select OK.
+      - Enter your master key again when it asks.
+    data:
+      included: [logins, secrets, custom-fields, attachments, groups, tags, history, dates]
+      excluded: [settings]
+    limitations:
+      - It isn't encrypted, attachments included, so delete it once you've imported it.
+      - The Recycle Bin comes out too, as a group of its own.
+    docs: https://keepass.info/help/base/importexport.html
+    sources:
+      - https://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.62/KeePass-2.62-Source.zip
+
+  - id: csv
+    name: Export as CSV
+    method: file
+    formats: [keepass-csv]
+    steps:
+      - With the database open, select File --> Export..., then pick KeePass CSV (1.x) under Format.
+      - Choose where to save it under Destination and select OK.
+      - Enter your master key again when it asks.
+    data:
+      included: [logins]
+      excluded: [secrets, custom-fields, attachments, groups, tags, history, dates, settings]
+    limitations:
+      - It only has the title, user name, password, URL and notes, so groups, extra fields, codes, attachments and old versions stay behind.
+      - It isn't encrypted, so delete it once you've imported it.
+    docs: https://keepass.info/help/base/importexport.html#csv
+    sources:
+      - https://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.62/KeePass-2.62-Source.zip
+
+import:
+  - id: kdbx
+    name: Open a KeePass database
+    method: file
+    formats: [kdbx]
+    steps:
+      - Select File --> Open --> Open File... and choose the .kdbx file your other KeePass app saved.
+      - Enter its master password, add its key file if it uses one, and select OK.
+    data:
+      included: [logins, custom-fields, attachments, groups, tags, history, dates]
+      excluded: [passkeys, secrets]
+    limitations:
+      - KeePass only makes one-time codes from its own TimeOtp fields. KeePassXC's otp field comes in as plain text, so set each code up again with Entry --> OTP Generator Settings...
+      - KeePassXC's passkeys come in as KPEX_PASSKEY_ fields, but KeePass can't sign in with them.
+      - To add it to a database that's already open, select File --> Import..., pick KeePass KDBX (2.x) and choose how to merge it.
+    docs: https://keepass.info/help/base/firststeps.html
+    sources:
+      - https://keepass.info/help/base/placeholders.html#otp
+
+  - id: keepass-xml
+    name: Import a KeePass XML export
+    method: file
+    formats: [keepass-xml]
+    steps:
+      - Open or create a database, select File --> Import..., then pick KeePass XML (2.x) under Format.
+      - Choose the .xml under Source and select OK.
+      - Pick how it goes in, Create new IDs for a fresh copy, and select OK.
+    data:
+      included: [logins, custom-fields, attachments, groups, tags, history, dates]
+      excluded: [passkeys, secrets]
+    limitations:
+      - KeePassXC's one-time codes and passkeys come in as plain fields, so set each code up again with Entry --> OTP Generator Settings...
+      - KeePassXC's XML only lists attachments by name, so take the .kdbx across instead if you've got files in it.
+      - It isn't encrypted, so delete the file once it's in.
+    docs: https://keepass.info/help/base/importexport.html
+    sources:
+      - https://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.62/KeePass-2.62-Source.zip
+
+  - id: bitwarden
+    name: Import a Bitwarden export
+    method: file
+    formats: [bitwarden-json]
+    steps:
+      - Export from Bitwarden as .json, not .json (Encrypted).
+      - In KeePass, open or create a database, select File --> Import... and pick Bitwarden JSON under Format.
+      - Choose the file under Source and select OK.
+    data:
+      included:
+        [
+          logins,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          custom-fields,
+          groups,
+          shared-vaults,
+          favourites
+        ]
+      excluded: [passkeys, other-items, history, dates]
+    limitations:
+      - An encrypted export is turned away.
+      - Cards come in with the number as the user name, the security code as the password and the expiry date as the entry's expiry. Identities' details become fields.
+      - Favourites get a Favorite tag, and an organisation's collections become tags.
+      - SSH keys come in with just their name, notes and custom fields, and passkeys, old passwords and dates are left behind.
+      - It isn't encrypted, so delete the file once it's in.
+    docs: https://keepass.info/help/base/importexport.html
+    sources:
+      - https://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.62/KeePass-2.62-Source.zip
+
+  - id: 1password
+    name: Import a 1Password export
+    method: file
+    formats: [1password-1pux]
+    steps:
+      - Export from 1Password as a .1pux file.
+      - In KeePass, open or create a database, select File --> Import... and pick 1Password 1PUX under Format.
+      - Choose the file under Source and select OK.
+    data:
+      included:
+        [
+          logins,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          attachments,
+          tags,
+          shared-vaults,
+          favourites,
+          dates
+        ]
+      excluded: [passkeys, history]
+    limitations:
+      - Each vault becomes a group, from every account in the file.
+      - Items other than logins come in as entries with their details as fields. Links to other items are dropped.
+      - Favourites get a Favorite tag. Archived items come in alongside the rest, with nothing to mark them.
+      - Old passwords are left behind.
+      - It isn't encrypted, so delete the file once it's in.
+    docs: https://keepass.info/help/base/importexport.html
+    sources:
+      - https://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.62/KeePass-2.62-Source.zip
+
+  - id: lastpass
+    name: Import a LastPass export
+    method: file
+    formats: [lastpass-csv]
+    steps:
+      - Export your vault from LastPass as a .csv.
+      - In KeePass, open or create a database, select File --> Import... and pick LastPass CSV under Format.
+      - Choose the file under Source and select OK.
+    data:
+      included: [logins, secure-notes, cards, identities, other-items, groups, favourites]
+      excluded: [secrets]
+    limitations:
+      - Secure notes, cards, addresses and LastPass's other note types come in as entries with their details as fields.
+      - Folders become groups, and favourites get a Favorite tag.
+      - It isn't encrypted, so delete the file once it's in.
+    docs: https://keepass.info/help/base/importexport.html
+    sources:
+      - https://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.62/KeePass-2.62-Source.zip
+
+  - id: keeper
+    name: Import a Keeper JSON export
+    method: file
+    formats: [keeper-json]
+    steps:
+      - Export from Keeper as JSON.
+      - In KeePass, open or create a database, select File --> Import... and pick Keeper JSON under Format.
+      - Choose the file under Source and select OK.
+    data:
+      included: [logins, secure-notes, custom-fields, groups]
+      excluded: [secrets, passkeys, cards, identities, other-items, shared-vaults]
+    limitations:
+      - It was written for Keeper's older JSON. One-time codes from today's export come in as plain fields, so set each code up again with Entry --> OTP Generator Settings...
+      - Fields that hold more than one value, like card details, names, addresses, key pairs and passkeys, are dropped, so cards, identities and SSH keys lose their details.
+      - Each record goes in its first folder only, and anything in a shared folder lands at the top of the database.
+      - It isn't encrypted, so delete the file once it's in.
+    docs: https://keepass.info/help/base/importexport.html
+    sources:
+      - https://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.62/KeePass-2.62-Source.zip
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/spec-data/keeper-json/testdata.json.ts
+
+  - id: chrome
+    name: Import from Chrome
+    method: file
+    formats: [chrome-csv]
+    steps:
+      - Export your passwords from Chrome or Google Password Manager as a .csv.
+      - In KeePass, open or create a database, select File --> Import... and pick Google Chrome Passwords CSV under Format.
+      - Choose the file under Source and select OK.
+    data:
+      included: [logins]
+    limitations:
+      - Everything lands at the top of the database.
+      - It isn't encrypted, so delete the file once it's in.
+    docs: https://keepass.info/help/base/importexport.html
+    sources:
+      - https://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.62/KeePass-2.62-Source.zip
+
+  - id: firefox
+    name: Import from Firefox
+    method: file
+    formats: [firefox-csv]
+    steps:
+      - Export your passwords from Firefox as a .csv.
+      - In KeePass, open or create a database, select File --> Import... and pick Mozilla Firefox Passwords CSV under Format.
+      - Choose the file under Source and select OK.
+    data:
+      included: [logins, dates]
+    limitations:
+      - Each entry's title is its web address without the http:// or https://, and everything lands at the top of the database.
+      - It isn't encrypted, so delete the file once it's in.
+    docs: https://keepass.info/help/base/importexport.html
+    sources:
+      - https://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.62/KeePass-2.62-Source.zip
+
+  - id: csv
+    name: Import any CSV file
+    method: file
+    formats: [csv]
+    steps:
+      - Open or create a database, select File --> Import..., then pick Generic CSV Importer under Format and choose the file.
+      - Check the text looks right on the Encoding tab, then under Structure list the file's columns in order, using Ignore for any you don't want.
+      - Check the Preview and select Finish.
+    data:
+      included: [logins, custom-fields, groups, tags, dates]
+      excluded: [secrets, passkeys, attachments, history]
+    limitations:
+      - Columns can go to Group, Title, User Name, Password, URL, Notes, a custom field, Tags, and the created, modified and expiry dates.
+      - The layout has to list every column in the file, in order, or the import comes out wrong.
+      - It isn't encrypted, so delete the file once it's in.
+    docs: https://keepass.info/help/kb/imp_csv.html
+    sources:
+      - https://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.62/KeePass-2.62-Source.zip
+
+verification:
+  status: documented
+  checked_at: 2026-11-26
