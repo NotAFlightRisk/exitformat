@@ -1,0 +1,65 @@
+name: KeePassDX
+website: https://www.keepassdx.com/
+description: Free, open source KeePass app for Android. Your vault is one encrypted .kdbx file, kept wherever you choose to store it.
+deployment: local
+platforms: [android]
+source: https://github.com/Kunzisoft/KeePassDX
+icon: https://raw.githubusercontent.com/Kunzisoft/KeePassDX/4.5.9/src/libre/fastlane/metadata/android/en-US/images/icon.png
+
+export:
+  - id: database
+    name: Copy the database file
+    method: file
+    formats: [kdbx]
+    steps:
+      - Your vault is the .kdbx file you open in KeePassDX, so you can just copy it from wherever it's stored.
+      - Or, with it open, select Save a copy to … from the menu and pick where it goes.
+      - Take its key file too if it uses one. The copy opens with the same password or key file.
+    data:
+      included: [logins, passkeys, secrets, custom-fields, attachments, groups, tags, history, dates]
+      excluded: [settings]
+    limitations:
+      - One-time codes are saved as an otp field holding an otpauth link, the way KeePassXC does it, so apps that only read KeePass's TimeOtp fields won't see them as codes.
+      - Passkeys are kept as KPEX_PASSKEY_ fields, so they only work as passkeys in apps that read those, like KeePassXC.
+      - If it unlocks with a hardware key like a YubiKey, the other app needs to support that too.
+      - There's no CSV or other plain text export, on purpose.
+    docs: https://github.com/Kunzisoft/KeePassDX/wiki/File-Manager-and-Sync
+    sources:
+      - https://github.com/Kunzisoft/KeePassDX/wiki/Import-and-Export
+      - https://github.com/Kunzisoft/KeePassDX/blob/4.5.9/app/src/main/res/values/strings.xml
+      - https://github.com/Kunzisoft/KeePassDX/blob/4.5.9/database/src/main/java/com/kunzisoft/keepass/otp/OtpEntryFields.kt
+      - https://github.com/Kunzisoft/KeePassDX/blob/4.5.9/database/src/main/java/com/kunzisoft/keepass/model/PasskeyEntryFields.kt
+
+import:
+  - id: database
+    name: Open a KeePass database
+    method: file
+    formats: [kdbx, keepass1-kdb]
+    steps:
+      - Copy the .kdbx or .kdb file to your phone or a cloud drive it can reach.
+      - In KeePassDX, open it and unlock it with its password or key file.
+    data:
+      included: [logins, passkeys, secrets, custom-fields, attachments, groups, tags, history, dates]
+    limitations:
+      - It reads one-time codes in both KeePassXC's otp field and KeePass's TimeOtp fields.
+      - It won't import a CSV or other plain text file. Its wiki says to turn one into a .kdbx with KeePass or KeePassXC on a computer first.
+    docs: https://github.com/Kunzisoft/KeePassDX/wiki/Import-and-Export
+    sources:
+      - https://github.com/Kunzisoft/KeePassDX/blob/4.5.9/database/src/main/java/com/kunzisoft/keepass/otp/OtpEntryFields.kt
+
+  - id: merge
+    name: Merge another database in
+    method: file
+    formats: [kdbx, keepass1-kdb]
+    steps:
+      - With your database open, select Merge from … in the menu.
+      - Pick the other .kdbx file and unlock it.
+    data:
+      included: [logins, passkeys, secrets, custom-fields, attachments, groups, tags, history, dates]
+    docs: https://github.com/Kunzisoft/KeePassDX/wiki/File-Manager-and-Sync
+    sources:
+      - https://github.com/Kunzisoft/KeePassDX/blob/4.5.9/app/src/main/res/values/strings.xml
+
+verification:
+  status: documented
+  checked_at: 2026-11-26
