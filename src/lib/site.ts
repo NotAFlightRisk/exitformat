@@ -52,7 +52,7 @@ export const fixUrl = (name: string, path: string) =>
   })}`;
 export const commitUrl = (commit: string) => `${site.repo}/commit/${commit}`;
 
-// the about page's other projects, with their logos in static/apps
+// the about page's other projects
 export const relatedApps = [
   {
     slug: 'fineprint',
