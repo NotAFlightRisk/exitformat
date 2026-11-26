@@ -1,6 +1,9 @@
 {
-  "commit": "eade70ea2c9af61a036c3fb680e3ecb7a2d0816a",
+  "commit": "9cf4e614c91af4d716ca19412cf4e32a334c843b",
   "entries": [
+    {"date":"2026-11-26","commit":"9cf4e61","pr":74,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
+    {"date":"2026-11-26","commit":"9cf4e61","pr":74,"id":"enpass","category":"password-managers","name":"Enpass","kind":"added"},
+    {"date":"2026-11-26","commit":"9cf4e61","pr":74,"id":"proton-pass","category":"password-managers","name":"Proton Pass","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"eade70e","pr":73,"id":"dashlane","category":"password-managers","name":"Dashlane","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"eade70e","pr":73,"id":"keepass","category":"password-managers","name":"KeePass","kind":"added"},
     {"date":"2026-11-26","commit":"eade70e","pr":73,"id":"proton-pass","category":"password-managers","name":"Proton Pass","kind":"updated","sections":["import"]},
