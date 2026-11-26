@@ -84,7 +84,7 @@ delete:
   steps:
     - If you share vaults, delete every user and shared vault in the Sharing Center first.
     - On a Mac, open mSecure --> Preferences --> Sync and set Sync via to Don't Sync.
-    - If you synced with Dropbox or iCloud, delete data.mssb from your account ID's folder in Dropbox's Apps --> mSecure 5 or iCloud Drive --> mSecure.
+    - For Dropbox or iCloud sync, delete data.mssb from your account ID's folder in Dropbox's Apps --> mSecure 5 or iCloud Drive --> mSecure.
   docs: https://support.msecure.com/en/support/solutions/articles/36000064312-does-msecure-store-data-on-its-servers-if-cloud-sync-is-disabled-
   notes:
     - mSecure says turning sync off deletes your data from its servers for good, bar a few settings like whether sync is on. Copies on your devices and backups stay.
