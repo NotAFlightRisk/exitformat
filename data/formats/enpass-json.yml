@@ -1,5 +1,6 @@
 name: Enpass JSON export
 extensions: [.json]
 standard: false
+owner: enpass
 based_on: json
-description: Enpass's JSON export, with every item's category, fields, notes, dates and trash state, your folders, and attachments embedded in the file. It isn't encrypted.
+description: Enpass's export of one vault, with every item's category, fields, field history, notes, dates, favourite, archive and trash state, your tags (called folders in the file), and attachments embedded in it. It isn't encrypted.

@@ -1,0 +1,157 @@
+name: Enpass
+website: https://www.enpass.io/
+description: Password manager for computers, phones and browsers. Your vault stays on your devices, synced through your own cloud account or Wi-Fi if you like.
+deployment: hybrid
+platforms: [windows, macos, linux, android, ios, browser-extension]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/5e/d9/2f/5ed92f4f-40cf-64a0-64fc-5ac2ecef00ea/AppIcon-0-0-1x_U007epad-0-11-0-0-85-220.png/128x128bb.png
+
+export:
+  - id: json
+    name: Export a vault as JSON
+    method: file
+    formats: [enpass-json]
+    requirements: [Desktop app]
+    steps:
+      - In the Enpass desktop app, select File --> Export.
+      - Pick the vault under Select Vault, choose .json as the file format, and tick Include Trashed or Include Archived if you want those too.
+      - Choose where it goes with the folder icon under Choose Location, then select Export.
+    data:
+      included:
+        [
+          logins,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          attachments,
+          tags,
+          history,
+          favourites,
+          dates
+        ]
+      excluded: [passkeys, shared-vaults, settings]
+    limitations:
+      - It isn't encrypted, so delete it once you've imported it.
+      - It's one vault per file, so export each vault on its own. Nothing in it says who a shared vault is shared with.
+      - Trashed and archived items are left out unless you tick them.
+      - Enpass says passkeys can't be moved to another password manager at all.
+      - Backups from File --> Backup or Settings --> Backup are for restoring into Enpass.
+    docs: https://help.enpass.io/personal/latest/all/importing-from-enpass
+    sources:
+      - https://help.enpass.io/personal/latest/all/backing-up
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/enpass/enpass.types.ts
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/enpass/types/enpass-json-type.ts
+
+import:
+  - id: managers
+    name: Import another password manager's or browser's export
+    method: file
+    formats:
+      [
+        1password-1pux,
+        1password-1pif,
+        apple-passwords-csv,
+        bitwarden-csv,
+        bitwarden-json,
+        chrome-csv,
+        dashlane-csv,
+        firefox-csv,
+        keepass-xml,
+        keeper-csv,
+        lastpass-csv,
+        nordpass-csv,
+        roboform-csv
+      ]
+    requirements: [Desktop app]
+    steps:
+      - In the Enpass desktop app, select File --> Import and pick the app your file came from. Chrome is under Browsers.
+      - Pick the file's format if there's a drop-down, then select the folder icon under Select File and choose it.
+      - Select Continue, pick the vault it goes into, then Continue and Done.
+    data:
+      included: [logins]
+      excluded: [passkeys]
+      unknown:
+        [
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          attachments,
+          groups,
+          tags,
+          shared-vaults,
+          history,
+          favourites,
+          dates
+        ]
+    limitations:
+      - Passkeys can't be imported.
+      - Anything Enpass can't sort lands in Categories --> Uncategorized.
+      - Dashlane's export is several .csv files, so you import each one and pick what's in it.
+      - KeePassX, ESET, mSecure, Norton, Password Boss, Password Safe, SafeInCloud, Sticky Password, True Key, Zoho Vault and more are on the list too.
+    docs: https://help.enpass.io/personal/latest/all/importing-passwords
+    sources:
+      - https://help.enpass.io/personal/latest/all/import-from-1password
+      - https://help.enpass.io/personal/latest/all/importing-from-bitwarden
+      - https://help.enpass.io/personal/latest/all/import-from-chrome
+      - https://help.enpass.io/personal/latest/all/import-from-dashlane
+      - https://help.enpass.io/personal/latest/all/import-from-firefox
+      - https://help.enpass.io/personal/latest/all/import-from-keepass
+      - https://help.enpass.io/personal/latest/all/import-from-keeper
+      - https://help.enpass.io/personal/latest/all/import-from-lastpass
+      - https://help.enpass.io/personal/latest/all/import-from-macos-passwords
+      - https://help.enpass.io/personal/latest/all/import-from-nordpass
+      - https://help.enpass.io/personal/latest/all/import-from-safari
+      - https://help.enpass.io/personal/latest/all/import-from-safari-1
+
+  - id: csv
+    name: Import a CSV laid out like Enpass's templates
+    method: file
+    formats: [csv]
+    requirements: [Desktop app]
+    steps:
+      - Download Enpass's CSV template for Logins, Credit Cards, Notes or Miscellaneous and move your data into it.
+      - In the Enpass desktop app, select File --> Import --> CSV and pick which of those the file holds.
+      - Attach the file and select Continue, pick the vault it goes into, then Continue and Done.
+    data:
+      included: [logins, secrets, secure-notes, cards, custom-fields, tags]
+    limitations:
+      - It's one item type per file, so repeat it for each template you've filled in.
+      - Only the Logins template has a Tags column, with | between tags.
+      - Delete the .csv once it's in, since it isn't encrypted.
+    docs: https://help.enpass.io/personal/latest/all/import-from-a-csv-file
+    sources:
+      - https://dl.enpass.io/docs/import-samples/CSV_Templates_Logins.csv
+      - https://dl.enpass.io/docs/import-samples/CSV_Templates_Credit_Cards.csv
+
+  - id: enpass
+    name: Import an Enpass export
+    method: file
+    formats: [enpass-json]
+    requirements: [Desktop app]
+    steps:
+      - In the Enpass desktop app, select File --> Import, then Enpass.
+      - Select the folder icon under Select File, choose the .json and select Continue.
+      - Pick the vault it goes into, then select Continue and Done.
+    data:
+      excluded: [passkeys]
+    docs: https://help.enpass.io/personal/latest/all/importing-from-enpass
+
+delete:
+  steps:
+    - On a phone, go to Settings, tap your email address, then Delete Account, Delete Account again and Delete.
+    - In the Mac App Store app, go to Settings --> General, select View Details next to your email, then Delete Account twice and Delete.
+    - For any other version, ask Enpass Support to delete it.
+  docs: https://help.enpass.io/personal/latest/all/deleting-an-enpass-account-duplicate
+  notes:
+    - Enpass only holds what you gave it when you registered, like your name, email and licence, and that's what goes.
+    - Your vaults on your devices and in your cloud account stay put, so delete those yourself.
+    - It doesn't cancel your subscription.
+
+verification:
+  status: documented
+  checked_at: 2026-11-26
