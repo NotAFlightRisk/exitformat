@@ -297,6 +297,7 @@ import:
     name: Import from Chrome, Edge or Brave
     method: file
     formats: [chrome-csv]
+    from: [google-password-manager, microsoft-password-manager]
     requirements: ["Web app, desktop app, browser extension or iOS"]
     steps:
       - In Chrome, go to Google Password Manager --> Settings --> Export passwords. Edge and Brave export the same file.
