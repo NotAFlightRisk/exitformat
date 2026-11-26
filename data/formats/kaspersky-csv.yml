@@ -1,0 +1,6 @@
+name: Kaspersky Password Manager CSV export
+extensions: [.csv]
+standard: false
+owner: kaspersky-password-manager
+based_on: csv
+description: The .csv My Kaspersky exports from your password vault online. Kaspersky only says it holds your passwords, and it isn't encrypted.
