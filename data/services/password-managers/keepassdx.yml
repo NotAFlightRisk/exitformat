@@ -34,9 +34,9 @@ import:
   - id: database
     name: Open a KeePass database
     method: file
-    formats: [kdbx, keepass1-kdb]
+    formats: [kdbx]
     steps:
-      - Copy the .kdbx or .kdb file to your phone or a cloud drive it can reach.
+      - Copy the .kdbx file to your phone or a cloud drive it can reach.
       - In KeePassDX, open it and unlock it with its password or key file.
     data:
       included: [logins, passkeys, secrets, custom-fields, attachments, groups, tags, history, dates]
@@ -47,15 +47,27 @@ import:
     sources:
       - https://github.com/Kunzisoft/KeePassDX/blob/4.5.9/database/src/main/java/com/kunzisoft/keepass/otp/OtpEntryFields.kt
 
+  - id: kdb
+    name: Open a KeePass 1 database
+    method: file
+    formats: [keepass1-kdb]
+    steps:
+      - Copy the .kdb file to your phone or a cloud drive it can reach.
+      - In KeePassDX, open it and unlock it with its password or key file.
+    data:
+      included: [logins, attachments, groups, dates]
+    sources:
+      - https://github.com/Kunzisoft/KeePassDX/wiki/File-Manager-and-Sync
+
   - id: merge
     name: Merge another database in
     method: file
-    formats: [kdbx, keepass1-kdb]
+    formats: [kdbx]
     steps:
       - With your database open, select Merge from … in the menu.
       - Pick the other .kdbx file and unlock it.
     data:
-      included: [logins, passkeys, secrets, custom-fields, attachments, groups, tags, history, dates]
+      unknown: [logins, passkeys, secrets, custom-fields, attachments, groups, tags, history, dates]
     docs: https://github.com/Kunzisoft/KeePassDX/wiki/File-Manager-and-Sync
     sources:
       - https://github.com/Kunzisoft/KeePassDX/blob/4.5.9/app/src/main/res/values/strings.xml
