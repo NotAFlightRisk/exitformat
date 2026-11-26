@@ -51,3 +51,31 @@ export const fixUrl = (name: string, path: string) =>
     page: absolute(path)
   })}`;
 export const commitUrl = (commit: string) => `${site.repo}/commit/${commit}`;
+
+// the about page's other projects, with their logos in static/apps
+export const relatedApps = [
+  {
+    slug: 'fineprint',
+    name: 'fineprint',
+    about: 'A VPN comparison with no affiliate links and a source for every claim',
+    url: 'https://fineprint.peng.ly'
+  },
+  {
+    slug: 'android-rom-compat',
+    name: 'Android ROM Compat',
+    about: 'Which custom ROMs run on your Android phone, and how well',
+    url: 'https://android-rom-compat.peng.ly'
+  },
+  {
+    slug: 'enshittification',
+    name: 'The Enshittification Index',
+    about: 'A dated, sourced record of big tech making things worse',
+    url: 'https://enshittification.peng.ly'
+  },
+  {
+    slug: 'haveibeentrainedon',
+    name: 'Have I Been Trained On?',
+    about: 'Find out if your writing ended up in AI training data',
+    url: 'https://haveibeentrainedon.peng.ly'
+  }
+];

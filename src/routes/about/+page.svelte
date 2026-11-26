@@ -5,7 +5,7 @@
   import Section from '#lib/components/Section.svelte';
   import StateMark, { type State } from '#lib/components/StateMark.svelte';
   import { pathKinds, terms } from '#lib/data/types.ts';
-  import { site } from '#lib/site.ts';
+  import { relatedApps, site } from '#lib/site.ts';
   import { formatDate } from '#lib/text.ts';
 
   let { data } = $props();
@@ -181,6 +181,18 @@
   </Section>
 </div>
 
+<Section id="related" title="More from us">
+  <ul class="related">
+    {#each relatedApps as app (app.slug)}
+      <li>
+        <img src="/apps/{app.slug}.svg" alt="" width="28" height="28" loading="lazy" />
+        <a href={app.url} rel="external">{app.name}</a>
+        <p>{app.about}</p>
+      </li>
+    {/each}
+  </ul>
+</Section>
+
 <style>
   .pair,
   .split {
@@ -239,6 +251,36 @@
 
     dd {
       color: var(--text-muted);
+    }
+  }
+
+  .related {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+    gap: 0 var(--space-6);
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-content: start;
+      gap: 0 var(--space-3);
+      padding-block: var(--space-3);
+      border-block-start: var(--hairline) solid var(--rule);
+    }
+
+    img {
+      grid-row: span 2;
+    }
+
+    a {
+      font-weight: 650;
+    }
+
+    p {
+      color: var(--text-muted);
+      font-size: var(--size-sm);
     }
   }
 
