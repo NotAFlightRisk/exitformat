@@ -1,6 +1,7 @@
 {
-  "commit": "9cf4e614c91af4d716ca19412cf4e32a334c843b",
+  "commit": "3183fce629b99f1e5c3fa3ba25cdcbc0fb86f18f",
   "entries": [
+    {"date":"2026-11-26","commit":"3183fce","pr":75,"id":"samsung-pass","category":"password-managers","name":"Samsung Pass","kind":"added"},
     {"date":"2026-11-26","commit":"9cf4e61","pr":74,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"9cf4e61","pr":74,"id":"enpass","category":"password-managers","name":"Enpass","kind":"added"},
     {"date":"2026-11-26","commit":"9cf4e61","pr":74,"id":"proton-pass","category":"password-managers","name":"Proton Pass","kind":"updated","sections":["import"]},
