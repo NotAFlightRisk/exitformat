@@ -1,6 +1,8 @@
 {
-  "commit": "b607ffa252e10f7237d734928f00b74455d18f18",
+  "commit": "22eeae6b3819431e8e87b941908856d0f345876b",
   "entries": [
+    {"date":"2026-11-26","commit":"22eeae6","pr":78,"id":"kaspersky-password-manager","category":"password-managers","name":"Kaspersky Password Manager","kind":"added"},
+    {"date":"2026-11-26","commit":"22eeae6","pr":78,"id":"keepass","category":"password-managers","name":"KeePass","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"b607ffa","pr":77,"id":"enpass","category":"password-managers","name":"Enpass","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"b607ffa","pr":77,"id":"norton-password-manager","category":"password-managers","name":"Norton Password Manager","kind":"added"},
     {"date":"2026-11-26","commit":"b607ffa","pr":77,"id":"roboform","category":"password-managers","name":"RoboForm","kind":"updated","sections":["import"]},
