@@ -1,5 +1,6 @@
 name: KeePass XML export
 extensions: [.xml]
 standard: false
-description: An unencrypted XML copy of a KeePass database - its groups, and each entry's fields, tags, times and old versions. KeePass 2 and KeePassXC can both write one.
+owner: keepass
+description: An unencrypted XML copy of a KeePass database - its groups, and each entry's fields, tags, times and old versions. KeePass 2 puts attachments in it too, while KeePassXC only lists their names. KeePass keeps one-time codes in TimeOtp fields and KeePassXC in an otp field, and most importers only read one of the two.
 spec: https://keepass.info/help/base/importexport.html
