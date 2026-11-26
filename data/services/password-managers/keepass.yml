@@ -209,6 +209,23 @@ import:
       - https://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.62/KeePass-2.62-Source.zip
       - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/spec-data/keeper-json/testdata.json.ts
 
+  - id: kaspersky
+    name: Import a Kaspersky Password Manager export
+    method: file
+    formats: [kaspersky-txt]
+    steps:
+      - Export from Kaspersky Password Manager to a text file.
+      - In KeePass, open or create a database, select File --> Import... and pick Kaspersky Password Manager TXT under Format.
+      - Choose the file under Source and select OK.
+    data:
+      included: [logins, secure-notes]
+    limitations:
+      - Each section of the file, like Websites, Applications and Notes, becomes a group. A website account's name is added to its title, but other accounts come in untitled, with their account name in the user name.
+      - It isn't encrypted, so delete the file once it's in.
+    docs: https://keepass.info/help/base/importexport.html
+    sources:
+      - https://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.62/KeePass-2.62-Source.zip
+
   - id: chrome
     name: Import from Chrome
     method: file
