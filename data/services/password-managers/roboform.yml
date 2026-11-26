@@ -129,6 +129,24 @@ import:
       - It isn't encrypted, so delete the file once it's in.
     docs: https://help.roboform.com/hc/en-us/articles/4422767147021
 
+  - id: norton
+    name: Import a Norton Password Manager export
+    method: file
+    formats: [norton-csv]
+    requirements: [Windows app]
+    steps:
+      - Export your vault from Norton Password Manager's web app as a .csv.
+      - Select the RoboForm icon among the taskbar's hidden icons, then Tools --> Import, and pick NIS on the left.
+      - Select Import from File, choose the .csv and select Open.
+    data:
+      included: [logins]
+      unknown:
+        [secrets, passkeys, secure-notes, cards, identities, other-items, custom-fields, groups, favourites, dates]
+    limitations:
+      - It goes in your Home folder unless you pick another with the folder icon first.
+      - It isn't encrypted, so delete the file once it's in.
+    docs: https://help.roboform.com/hc/en-us/articles/4420122098189
+
 delete:
   steps:
     - In the browser extension, select the 3 dots --> Settings --> Account & Data, then Delete My RoboForm Account at the bottom.

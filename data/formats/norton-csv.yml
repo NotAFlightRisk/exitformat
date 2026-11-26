@@ -1,0 +1,6 @@
+name: Norton Password Manager CSV export
+extensions: [.csv]
+standard: false
+owner: norton-password-manager
+based_on: csv
+description: The .csv Norton Password Manager exports from its web app, named NortonPasswordManager_ with the date and time. Norton only says it holds your logins, and it isn't encrypted.
