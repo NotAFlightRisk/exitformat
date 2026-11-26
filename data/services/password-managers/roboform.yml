@@ -70,7 +70,7 @@ import:
         ]
     limitations:
       - From Dashlane, only the credentials.csv goes in, so it's just logins. From 1Password, it's the CSV (Logins and Passwords only), and LastPass's cards come in as Safenotes.
-      - Kaspersky, Zoho Vault, LogMeOnce and Password Boss are on the list too.
+      - Kaspersky, LogMeOnce and Password Boss are on the list too.
       - On Android, the Authenticator tab can scan Google Authenticator's transfer QR codes from screenshots.
     docs: https://help.roboform.com/hc/en-us/articles/4420176122253
     sources:
@@ -97,6 +97,37 @@ import:
       - It goes in your Home folder unless you pick another with the folder icon first.
       - It isn't encrypted, so delete the file once it's in.
     docs: https://help.roboform.com/hc/en-us/articles/4421927394061
+
+  - id: zoho-vault
+    name: Import a Zoho Vault export
+    method: file
+    formats: [zoho-vault-csv]
+    requirements: [Desktop app]
+    steps:
+      - Export from Zoho Vault with All Passwords, All Folders and Zoho Vault CSV selected.
+      - On Windows, select the RoboForm icon among the taskbar's hidden icons, then Tools --> Import.
+      - On a Mac, open the extension's 3 dots --> Settings --> Advanced and select Open, then Account & Data --> Import from...
+      - Pick Zoho on the left, select Import from File and choose the .csv.
+    data:
+      included: [logins]
+      unknown:
+        [
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          groups,
+          tags,
+          history,
+          favourites,
+          dates
+        ]
+    limitations:
+      - It goes in your Home folder unless you pick another with the folder icon first.
+      - It isn't encrypted, so delete the file once it's in.
+    docs: https://help.roboform.com/hc/en-us/articles/4422767147021
 
 delete:
   steps:

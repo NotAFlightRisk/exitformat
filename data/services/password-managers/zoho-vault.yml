@@ -1,0 +1,105 @@
+name: Zoho Vault
+website: https://www.zoho.com/vault/
+description: Zoho's password manager for people and teams, on the web, phones and browsers. Your passwords sit on Zoho's servers, encrypted with your master password.
+deployment: cloud
+platforms: [web, android, ios, browser-extension]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/d1/30/88/d1308867-75c7-cd44-d616-94ee6287094f/AppIcon-iOS-0-0-1x_U007emarketing-0-8-0-sRGB-85-220.png/128x128bb.png
+
+export:
+  - id: csv
+    name: Export as Zoho Vault CSV
+    method: file
+    formats: [zoho-vault-csv]
+    steps:
+      - On the web, select Settings, then Export passwords under Password Management.
+      - Pick the password categories and folders to export (All Passwords and All Folders for everything), then Zoho Vault CSV.
+      - Select Export. It downloads as ZohoVault_export.csv, and the same text shows on screen to copy.
+    data:
+      included: [logins, secrets, custom-fields, groups, tags, favourites]
+      excluded: [attachments, shared-vaults, settings]
+      unknown: [secure-notes, cards, identities, other-items, history, dates]
+    limitations:
+      - It isn't encrypted, so delete it once you've imported it.
+      - Each password's type and details go in one SecretData column, as lines like User Name:you@example.com, so apps without a Zoho importer can't split them up.
+      - It says whether a password is personal or enterprise, but not who it's shared with, and your documents stay behind.
+      - General CSV is the other choice. Zoho doesn't say how it differs, and Bitwarden, Enpass and RoboForm want this one.
+      - Admins can stop you exporting. Offline access saves an encrypted HTML copy instead, for keeping rather than moving.
+    docs: https://help.zoho.com/portal/en/kb/vault/user-guide/import-and-export-passwords/articles/vault-export-passwords
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/spec-data/zohovault/sample-zohovault-data.csv.ts
+      - https://help.roboform.com/hc/en-us/articles/4422767147021
+
+import:
+  - id: managers
+    name: Import another password manager's or browser's export
+    method: file
+    formats:
+      [
+        bitwarden-json,
+        chrome-csv,
+        firefox-csv,
+        keeper-csv,
+        keepass-xml,
+        lastpass-csv,
+        nordpass-csv,
+        roboform-csv,
+        zoho-vault-csv
+      ]
+    requirements: [Web app]
+    steps:
+      - On the web, select Settings, then Import Passwords under Password Management.
+      - Pick the app or browser your file came from and select Proceed, then attach the file or paste its contents.
+      - Mark the passwords Enterprise or Personal and select Verify. Double-click any entry to fix it, then select Import.
+    data:
+      included: [logins]
+      unknown:
+        [
+          secrets,
+          passkeys,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          attachments,
+          groups,
+          tags,
+          shared-vaults,
+          history,
+          favourites,
+          dates
+        ]
+    limitations:
+      - Only Enterprise passwords can be shared with others afterwards.
+      - Passwords with empty fields or unusual characters in their names or URLs are filtered out, and ones named like a password you've already got are flagged so you can keep both or overwrite.
+      - 1Password, Dashlane, Enpass, Edge, Brave and more are on the list too, though some only in formats those apps no longer export.
+    docs: https://help.zoho.com/portal/en/kb/vault/user-guide/import-and-export-passwords/articles/vault-import-passwords
+
+  - id: csv
+    name: Import any CSV file
+    method: file
+    formats: [csv]
+    requirements: [Web app]
+    steps:
+      - Lay the file out with one password per line and the same fields on every line.
+      - On the web, select Settings, then Import Passwords, and set the delimiter and category for your file.
+      - Match its columns to Zoho Vault's fields, select Verify to check the preview, then Import.
+    data:
+      included: [logins]
+    limitations:
+      - Import each password category from a file of its own, and tick Mark all imported passwords as personal if they're just yours.
+      - Passwords with empty fields or unusual characters in their names or URLs are filtered out.
+    docs: https://help.zoho.com/portal/en/kb/vault/user-guide/import-and-export-passwords/articles/vault-import-passwords
+
+delete:
+  steps:
+    - Export your passwords first, then move your plan to the free edition under Admin --> Subscription --> Modify.
+    - Delete the organisation your Vault sits in.
+    - Sign in at accounts.zoho.com, go to Preferences and select Close Account.
+  docs: https://www.zoho.com/vault/help/faq.html
+  notes:
+    - Deleting the organisation deletes its data in most other Zoho apps connected to it too. Zoho's FAQ lists the few that keep theirs.
+
+verification:
+  status: documented
+  checked_at: 2026-11-26

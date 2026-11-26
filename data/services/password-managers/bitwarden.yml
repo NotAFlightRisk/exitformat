@@ -535,6 +535,25 @@ import:
     sources:
       - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/nordpass-csv-importer.ts
 
+  - id: zoho-vault
+    name: Import a Zoho Vault export
+    method: file
+    formats: [zoho-vault-csv]
+    steps:
+      - Export from Zoho Vault as Zoho Vault CSV.
+      - On the web, select Tools --> Import, or Import on desktop. In the extension, it's Settings --> Vault options --> Import items.
+      - Pick Zoho Vault (csv) as the File format, choose the file and select Import (Import data outside the web app).
+    data:
+      included: [logins, secrets, secure-notes, custom-fields, groups, favourites]
+      excluded: [tags]
+    limitations:
+      - The first fields that look like a user name and password fill the login, and the rest become custom fields. One with neither and no URL comes in as a secure note.
+      - Tags, descriptions and whether it was personal or enterprise are dropped.
+      - Importing a file twice gives you two of everything.
+    docs: https://bitwarden.com/help/import-data/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/zohovault-csv-importer.ts
+
   - id: dashlane
     name: Import a Dashlane export
     method: file
