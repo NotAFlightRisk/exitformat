@@ -1,6 +1,10 @@
 {
-  "commit": "c96b75812337e7a741833dbaafebcc917bbd811c",
+  "commit": "eade70ea2c9af61a036c3fb680e3ecb7a2d0816a",
   "entries": [
+    {"date":"2026-11-26","commit":"eade70e","pr":73,"id":"dashlane","category":"password-managers","name":"Dashlane","kind":"updated","sections":["import"]},
+    {"date":"2026-11-26","commit":"eade70e","pr":73,"id":"keepass","category":"password-managers","name":"KeePass","kind":"added"},
+    {"date":"2026-11-26","commit":"eade70e","pr":73,"id":"proton-pass","category":"password-managers","name":"Proton Pass","kind":"updated","sections":["import"]},
+    {"date":"2026-11-26","commit":"eade70e","pr":73,"id":"roboform","category":"password-managers","name":"RoboForm","kind":"updated","sections":["import"]},
     {"date":"2026-11-25","commit":"c96b758","pr":70,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
     {"date":"2026-11-25","commit":"c96b758","pr":70,"id":"roboform","category":"password-managers","name":"RoboForm","kind":"added"},
     {"date":"2026-11-25","commit":"88c1f20","pr":69,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
