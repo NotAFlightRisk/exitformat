@@ -1,6 +1,9 @@
 {
-  "commit": "bd329ecdeb68372aae3003737429ad1f533cde5b",
+  "commit": "f578fde6638cba1396d0d7b60407983b5b339e7d",
   "entries": [
+    {"date":"2026-11-26","commit":"f578fde","pr":85,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
+    {"date":"2026-11-26","commit":"f578fde","pr":85,"id":"enpass","category":"password-managers","name":"Enpass","kind":"updated","sections":["import"]},
+    {"date":"2026-11-26","commit":"f578fde","pr":85,"id":"safeincloud","category":"password-managers","name":"SafeInCloud","kind":"added"},
     {"date":"2026-11-26","commit":"bd329ec","pr":84,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"bd329ec","pr":84,"id":"tomboy-ng","category":"notes","name":"tomboy-ng","kind":"added"},
     {"date":"2026-11-26","commit":"7a46a53","pr":83,"id":"day-one","category":"notes","name":"Day One","kind":"updated","sections":["import"]},
