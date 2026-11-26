@@ -109,6 +109,7 @@ import:
       - In Day One, open Settings --> Import/Export --> Import Diaro .zip file and pick it.
     data:
       included: [text, attachments]
+      unknown: [structure, tags, properties, dates]
     limitations:
       - That's Diaro, not Diarium, which Day One can't import.
     docs: https://dayoneapp.com/guides/day-one-for-android/importing-data-from-diaro/

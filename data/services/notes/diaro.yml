@@ -1,0 +1,90 @@
+name: Diaro
+website: https://diaroapp.com/
+description: Diary app for Android, iPhone and the web. Your entries live on your phone, and in your own Dropbox if you turn on sync.
+deployment: local
+platforms: [android, ios, web]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/23/77/be/2377beae-9307-acd3-7fcf-6950ba0e3057/AppIcon-0-0-1x_U007emarketing-0-10-0-sRGB-85-220.png/128x128bb.png
+
+export:
+  - id: backup
+    name: Back up to a zip
+    method: file
+    formats: [diaro-zip]
+    requirements: [Android app]
+    steps:
+      - Open Settings --> Data --> Backup & restore and tap the + icon.
+      - Leave Encrypt entries in backup file and Do not backup attachments unticked, then tap Backup.
+      - The zip lands in the Diaro/backup folder on your phone's storage. To keep a copy, tap the three dots next to it, then Upload to Dropbox.
+    data:
+      included: [text, attachments, structure, tags, properties]
+      unknown: [dates]
+    limitations:
+      - Journey says to leave encryption off for a backup you're going to import into it.
+      - Ticking Do not backup attachments leaves your photos out.
+      - Each entry has its date in the backup, but nothing says whether when it was last edited goes too.
+    docs: https://diaroapp.com/faq/how-do-i-backup-my-data/
+    sources:
+      - https://diaroapp.com/faq/how-do-i-encrypt-diaro-backup/
+      - https://github.com/marph91/jimmy/blob/v1.1.31/src/jimmy/formats/diaro.py
+
+  - id: documents
+    name: Export to PDF, Word or text
+    method: file
+    formats: [pdf, docx, txt]
+    requirements: [Diaro Premium]
+    steps:
+      - On Android, open Settings --> Data --> Export to PDF and pick all entries, or filter by mood, place, tags or dates.
+      - On Diaro Online, select the three dots at the top right, then Export / Import, pick the format and select Export.
+    data:
+      included: [text]
+      unknown: [attachments, structure, tags, properties, dates]
+    limitations:
+      - The Android app only makes PDFs. Word and text files come from Diaro Online.
+      - With Currently filtered picked on Diaro Online, only the entries you've filtered go out.
+    docs: https://diaroapp.com/faq/how-do-i-export-my-entries-to-a-pdf-docx-file/
+    sources:
+      - https://diaroapp.com/faq/how-to-export-pdf-on-android/
+      - https://diaroapp.com/faq/what-will-diaro-pro-add-to-my-experience/
+
+import:
+  - id: evernote
+    name: Import from Evernote
+    method: file
+    formats: [enex]
+    requirements: [Diaro Online]
+    steps:
+      - Export the notebook from Evernote as an .enex file.
+      - On Diaro Online, select the three dots at the top right, then Export / Import and the Import tab.
+      - Pick Evernote (.enex file), choose the file and select Import.
+    data:
+      included: [text]
+      unknown: [formatting, attachments, structure, tags, properties, dates, links, todos]
+    docs: https://diaroapp.com/faq/how-do-i-import-data-from-a-backup-file-evernote-dayone/
+
+  - id: diarium
+    name: Import from Diarium
+    method: file
+    formats: [diarium-backup]
+    requirements: [Android app]
+    steps:
+      - Back up your diary in Diarium.
+      - In Diaro, open Settings --> Data, scroll down to Import entries from Diarium and pick the .diary file.
+    data:
+      included: [text]
+      unknown: [formatting, attachments, structure, tags, properties, dates]
+    limitations:
+      - Diaro's Play Store listing says it imports Journey, Google Keep, Day One, Momento, Memorize and Universum too, though its help doesn't say how.
+    docs: https://diaroapp.com/faq/how-to-import-data-from-diarium-on-android-settings/
+
+delete:
+  steps:
+    - Make a backup first, then uninstall Diaro and delete the Diaro folder from your phone's storage.
+    - If you used Dropbox sync, delete the Apps/Diaro folder from your Dropbox.
+    - To close your Diaro account as well, email support@diaroapp.com. That doesn't delete the copies above.
+  docs: https://diaroapp.com/faq/how-do-i-delete-my-diaro-account/
+  notes:
+    - Diaro says it doesn't keep your entries on its own servers, only on your phone and in your Dropbox. Deleting them can't be undone.
+
+verification:
+  status: documented
+  checked_at: 2026-11-26
