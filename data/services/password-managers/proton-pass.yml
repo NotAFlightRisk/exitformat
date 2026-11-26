@@ -421,9 +421,9 @@ import:
     data:
       included:
         [logins, secrets, secure-notes, cards, identities, other-items, custom-fields, attachments, dates]
-      excluded: [groups, history, favourites]
+      excluded: [tags, history, favourites]
     limitations:
-      - Folders, password history and favourites are dropped, and trashed or archived items land in the trash.
+      - Tags, password history and favourites are dropped, and trashed or archived items land in the trash.
       - Identities and custom items come in without their dates, and out of the trash.
       - Attachments need a paid plan other than Pass Essentials.
     docs: https://proton.me/support/import-passwords-enpass
