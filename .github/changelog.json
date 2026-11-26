@@ -1,6 +1,8 @@
 {
-  "commit": "d16650599ba08e6a50123a199a5ce3b8d5ec4c65",
+  "commit": "6fe81945fcbf4d11bd302ce8143732d9ba114a59",
   "entries": [
+    {"date":"2026-11-26","commit":"6fe8194","pr":81,"id":"day-one","category":"notes","name":"Day One","kind":"updated","sections":["import"]},
+    {"date":"2026-11-26","commit":"6fe8194","pr":81,"id":"journey","category":"notes","name":"Journey","kind":"added"},
     {"date":"2026-11-26","commit":"d166505","pr":80,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"d166505","pr":80,"id":"enpass","category":"password-managers","name":"Enpass","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"d166505","pr":80,"id":"keeper","category":"password-managers","name":"Keeper","kind":"updated","sections":["import"]},
