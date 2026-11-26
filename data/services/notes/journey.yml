@@ -17,13 +17,12 @@ export:
       - On the web, open Settings --> Cloud, select a Journey Cloud Sync drive, then Backup --> New Backup.
       - To save one entry, open it, select the Share button, then Export to ZIP.
     data:
-      included: [text, formatting, attachments, tags, properties, dates]
-      excluded: [settings]
-      unknown: [links, todos, structure]
+      included: [text, attachments]
+      unknown: [formatting, tags, properties, dates, links, todos, structure]
     limitations:
       - Journey Cloud Sync and Google Drive keep separate entries, so export each cloud service you use.
+      - Entries kept only on the device (Local) go if you clear the app's data or uninstall it, so export them or move them to a cloud service first.
       - The web app only backs up Journey Cloud Sync drives, and New Backup there needs a paid plan.
-      - A backup of an end-to-end encrypted drive can stay encrypted, and only Journey opens it.
     docs: https://support.journey.cloud/en/categories/import-export-publish/articles/export-journal-entries-to-zip-format
 
   - id: documents
@@ -31,7 +30,7 @@ export:
     method: file
     formats: [docx, epub]
     steps:
-      - Open Settings --> Data & Cloud Services (Preferences on iPhone, iPad and Mac Catalyst, Settings --> Cloud on the web).
+      - Open Settings --> Data & Cloud Services (Preferences on iPhone, iPad and Mac, Settings --> Data on desktop, Settings --> Cloud on the web).
       - For a Journey Cloud Sync drive, select it, then Export to... and pick DOCX or ePub as the Export Type.
       - For Google Drive, select it, then Data --> DOCX on Android and iPhone, or Export to DOCX on the desktop app and Mac Catalyst.
     data:
@@ -40,7 +39,7 @@ export:
     limitations:
       - Export to... on Journey Cloud Sync needs a Membership.
       - ePub only works on Journey Cloud Sync drives, and Google Drive journals can't export to Word on the web.
-      - Videos come out as a still thumbnail in Word files.
+      - In Word files, videos come out as a still thumbnail.
     docs: https://support.journey.cloud/en/categories/import-export-publish/articles/export-journal-entries-to-word-docx
     sources:
       - https://support.journey.cloud/en/categories/import-export-publish/articles/export-journal-entries-to-e-pub-e-pub
@@ -50,9 +49,9 @@ export:
     method: file
     formats: [pdf]
     steps:
-      - For Google Drive, open Settings --> Data & Cloud Services (Preferences on iPhone), select Google Drive, then Print or Export to PDF.
+      - For Google Drive, open Settings --> Data & Cloud Services (Settings --> Data on desktop), pick Google Drive, then Print or Export to PDF.
       - For a Journey Cloud Sync drive, select it there, then Cloud Print. That one works on the web too.
-      - Pick the dates, page order and tags to include.
+      - Pick the dates and tags to include.
     data:
       included: [text]
       unknown: [formatting, attachments, tags, properties, dates]
@@ -69,8 +68,8 @@ import:
     method: file
     formats: [journey-zip]
     steps:
-      - Save the zip in Downloads on Android, or in a local folder anywhere else.
-      - Open Settings --> Data & Cloud Services (Preferences on iPhone, iPad and Mac Catalyst), select the cloud service, then Import.
+      - Save the zip in Downloads on Android, in Files --> On My iPhone --> Journey for Google Drive on iPhone, or in a local folder elsewhere.
+      - Open Settings --> Data & Cloud Services (Preferences on iPhone, iPad and Mac Catalyst, Settings --> Data on desktop), pick it, then Import.
       - On the web, open Settings --> Cloud, select a Journey Cloud Sync drive, then Import.
     limitations:
       - Importing the same backup twice gives you duplicates, and Journey warns it can overwrite existing entries.
@@ -83,15 +82,14 @@ import:
     formats: [day-one-json]
     steps:
       - Export the journal from Day One as JSON, then rename the zip to 1 Entries - Export.zip.
-      - Open Settings --> Data & Cloud Services (Preferences on iPhone, iPad and Mac Catalyst), select the cloud service, then Import.
+      - Open Settings --> Data & Cloud Services (Preferences on iPhone, iPad and Mac Catalyst, Settings --> Data on desktop), pick it, then Import.
       - On the web, open Settings --> Cloud, select a Journey Cloud Sync drive, then Import.
     data:
-      included: [text, formatting, attachments, tags, properties, dates]
-      unknown: [todos]
+      included: [text, attachments]
+      unknown: [formatting, tags, properties, dates, todos]
     limitations:
-      - Only photos come across. Video, audio and PDFs are left behind.
-      - Each entry keeps its date, place, tags and star, but not its weather or when it was last edited.
-      - The web app only reads the first journal in a zip, so export one journal at a time.
+      - Video and audio files can't be imported.
+      - On the web, each entry keeps its date, place, tags and star but not its weather or edit date, and only the first JSON file in the zip is read.
     docs: https://support.journey.cloud/en/categories/import-export-publish/articles/import-day-one
 
   - id: evernote
@@ -100,14 +98,13 @@ import:
     formats: [enex]
     steps:
       - Export the notebook from Evernote as an .enex file.
-      - Open Settings --> Data & Cloud Services (Preferences on iPhone, iPad and Mac Catalyst), select the cloud service, then Import.
+      - Open Settings --> Data & Cloud Services (Preferences on iPhone, iPad and Mac Catalyst, Settings --> Data on desktop), pick it, then Import.
       - On the web, open Settings --> Cloud, select a Journey Cloud Sync drive, then Import.
     data:
-      included: [text, formatting, attachments, dates]
-      excluded: [tags, properties]
-      unknown: [links, todos]
+      included: [text]
+      unknown: [formatting, attachments, tags, properties, dates, links, todos]
     limitations:
-      - Each note becomes an entry dated when the note was made, with its title as a heading.
+      - On the web, each note becomes an entry dated when it was made, with its title as a heading, and its tags and place are dropped.
     docs: https://support.journey.cloud/en/categories/import-export-publish/articles/import-journal-entries
 
   - id: apple-journal
@@ -129,7 +126,7 @@ import:
     requirements: [Android, iPhone, iPad or Mac Catalyst app]
     steps:
       - Back up your entries in Diaro with encryption turned off.
-      - Open Settings --> Data & Cloud Services (Preferences on iPhone, iPad and Mac Catalyst), select the cloud service, then Import.
+      - Open Settings --> Data & Cloud Services (Preferences on iPhone, iPad and Mac Catalyst), pick the cloud service, then Import.
     limitations:
       - Google Drive journals only take a Diaro backup on Android.
     docs: https://support.journey.cloud/en/categories/import-export-publish/articles/import-journal-entries
@@ -141,7 +138,7 @@ import:
     steps:
       - In Daylio, tap More --> Export Entries and choose CSV (table).
       - Rename any moods of your own in the file to rad, good, meh, bad or awful.
-      - Open Settings --> Data & Cloud Services (Preferences on iPhone, iPad and Mac Catalyst), select the cloud service, then Import.
+      - Open Settings --> Data & Cloud Services (Preferences on iPhone, iPad and Mac Catalyst, Settings --> Data on desktop), pick it, then Import.
     limitations:
       - On the web, activities are left behind, and a note with a comma or line break in it gets cut short.
     docs: https://support.journey.cloud/en/categories/import-export-publish/articles/import-daylio
@@ -153,7 +150,7 @@ delete:
     - Select Delete Account, tick I have read & understood, then select Delete Account again.
   docs: https://support.journey.cloud/en/categories/journey-basics/articles/delete-journey-account
   notes:
-    - Journey holds deleted accounts for 30 days in case you want your entries back.
+    - There's a 30-day recovery window after you delete, and Journey may keep logs, device, usage and location details for a few months.
     - If deleting fails, cancel your Membership and wait for it to run out first.
     - Google Drive entries live in your own Drive. Remove them from Google Drive's Settings --> Manage Apps --> Journey --> Options --> Delete Hidden App Data.
 
