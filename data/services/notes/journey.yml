@@ -127,6 +127,9 @@ import:
     steps:
       - Back up your entries in Diaro with encryption turned off.
       - Open Settings --> Data & Cloud Services (Preferences on iPhone, iPad and Mac Catalyst), pick the cloud service, then Import.
+    data:
+      included: [text]
+      unknown: [formatting, attachments, structure, tags, properties, dates]
     limitations:
       - Google Drive journals only take a Diaro backup on Android.
     docs: https://support.journey.cloud/en/categories/import-export-publish/articles/import-journal-entries

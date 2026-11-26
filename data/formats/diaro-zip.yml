@@ -1,5 +1,6 @@
 name: Diaro backup
 extensions: [.zip]
 standard: false
+owner: diaro
 based_on: zip
-description: The zip of your entries and photos that Diaro's backup makes.
+description: The zip Diaro's backup makes, with a DiaroBackup.xml of your entries, folders, tags, moods and places next to a media folder of photos. Diaro can encrypt the XML inside with AES-256.

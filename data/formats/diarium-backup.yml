@@ -1,0 +1,4 @@
+name: Diarium backup
+extensions: [.diary]
+standard: false
+description: The .diary backup file Diarium makes, which Diaro's Android app imports.
