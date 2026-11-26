@@ -1,0 +1,97 @@
+name: mSecure
+website: https://www.msecure.com/
+description: Password manager for phones and computers. Your vault stays on your devices, synced through mSecure Cloud, Dropbox, iCloud or Wi-Fi if you like.
+deployment: hybrid
+platforms: [ios, android, macos, windows, browser-extension]
+icon: https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/70/c2/ee/70c2eeaf-86cb-2034-64b7-43c71ec00c6f/AppIcon-0-0-85-220-0-0-6-0-2x.png/128x128bb.png
+
+export:
+  - id: csv
+    name: Export to a CSV file
+    method: file
+    formats: [msecure-csv]
+    requirements: [Mac or Windows app]
+    steps:
+      - On a Mac, select File --> Export --> CSV.
+      - Name the file, keep Export all records picked, leave Only export field data unticked and select Export.
+      - On Windows, open All Items, then select the gear icon --> Backups --> Export Data to CSV File.
+    data:
+      included: [logins, secure-notes, cards, identities, other-items, custom-fields, tags]
+      excluded: [attachments, shared-vaults, history, favourites, dates, settings]
+      unknown: [secrets, passkeys]
+    limitations:
+      - It isn't encrypted, so delete it once you've imported it.
+      - Each row holds a record's title, template, tags and note, then every field as label, type and value. Attachments, vaults, favourites and password history aren't in it.
+      - The Windows app exports whatever's in the current view, or just the records you've selected.
+      - Backups from File --> Backup are encrypted .msib files for restoring into mSecure.
+    docs: https://support.msecure.com/en/support/solutions/articles/36000176914-export-data-to-a-csv-file
+    sources:
+      - https://support.msecure.com/en/support/solutions/articles/36000370010-importing-a-csv-file
+      - https://support.msecure.com/en/support/solutions/articles/36000064294-backup-and-restore-mac
+
+import:
+  - id: 1password
+    name: Import from 1Password
+    method: file
+    formats: [1password-1pux, 1password-1pif]
+    requirements: [iPhone, iPad or Mac]
+    steps:
+      - On a Mac, select File --> Import. On an iPhone or iPad, tap the menu icon, then Settings --> Import under Sync & Backup.
+      - Pick 1Password 1PUX for a .1pux file or 1Password 1PIF for a .1pif, then choose the file.
+    data:
+      unknown:
+        [
+          logins,
+          passkeys,
+          secrets,
+          secure-notes,
+          cards,
+          identities,
+          other-items,
+          custom-fields,
+          attachments,
+          groups,
+          tags,
+          shared-vaults,
+          history,
+          favourites,
+          dates
+        ]
+    limitations:
+      - Keychain CSV, SplashID VID and DataViz Passwords Plus CSV are on the list too.
+    docs: https://support.msecure.com/en/support/solutions/articles/36000071081-importing-1password-files
+    sources:
+      - https://support.msecure.com/en/support/solutions/articles/36000615190-import-data-into-msecure
+
+  - id: csv
+    name: Import a CSV in mSecure's layout
+    method: file
+    formats: [msecure-csv]
+    requirements: [iPhone, iPad or Mac]
+    steps:
+      - Start the file with the line mSecure6 CSV export file, then one row per record in mSecure's layout.
+      - Create any templates and tags the rows use in mSecure first.
+      - On a Mac, select File --> Import --> CSV. On an iPhone or iPad, tap the menu icon, then Settings --> Import --> CSV.
+    data:
+      included: [logins, secure-notes, cards, identities, other-items, custom-fields, tags]
+    limitations:
+      - Another app's CSV needs its columns rearranged by hand into mSecure's layout first.
+      - Rows that name a template or tag mSecure doesn't have yet fail.
+      - Everything it brings in also gets a CSV Import tag with the date, so you can find it or undo it.
+    docs: https://support.msecure.com/en/support/solutions/articles/36000370010-importing-a-csv-file
+    sources:
+      - https://support.msecure.com/en/support/solutions/articles/36000615190-import-data-into-msecure
+
+delete:
+  steps:
+    - If you share vaults, delete every user and shared vault in the Sharing Center first.
+    - On a Mac, open mSecure --> Preferences --> Sync and set Sync via to Don't Sync.
+    - If you synced through Dropbox or iCloud instead, delete the data.mssb file in the mSecure folder there.
+  docs: https://support.msecure.com/en/support/solutions/articles/36000064312-does-msecure-store-data-on-its-servers-if-cloud-sync-is-disabled-
+  notes:
+    - mSecure says turning sync off deletes your data from its servers for good, bar a few settings like whether sync is on.
+    - Your mSecure account stays, so cancel the subscription where you bought it, at msecure.com or in your app store.
+
+verification:
+  status: documented
+  checked_at: 2026-11-26

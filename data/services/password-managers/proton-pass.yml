@@ -478,12 +478,14 @@ import:
       - In Proton Pass, open Settings --> Import, pick mSecure and choose the .csv file.
       - Select Import, pick the vault it goes into and select Confirm.
     data:
-      included: [logins, secure-notes, cards, custom-fields, groups]
+      included: [logins, secure-notes, cards, custom-fields]
+      excluded: [tags]
     limitations:
-      - Each item's tag becomes a folder, which needs a paid plan.
+      - A record's tags become one folder named after all of them, so Travel and Work land in a folder called Travel,Work. Folders need a paid plan.
       - Anything that isn't a login or a card comes in as a note, with its fields.
     sources:
       - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/providers/msecure/msecure.reader.ts
+      - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/packages/pass/lib/import/helpers/folders.ts
       - https://github.com/ProtonMail/WebClients/blob/proton-pass@1.44.1/applications/pass/CHANGELOG.md
 
   - id: csv
