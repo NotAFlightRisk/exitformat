@@ -620,7 +620,7 @@ import:
     method: file
     formats: [msecure-csv]
     steps:
-      - Export from the mSecure desktop app with File --> Export --> CSV.
+      - Export a CSV from the mSecure Mac or Windows app.
       - On the web, select Tools --> Import, or Import on desktop. In the extension, it's Settings --> Vault options --> Import items.
       - Pick mSecure (csv) as the File format, choose the file and select Import (Import data outside the web app).
     data:
