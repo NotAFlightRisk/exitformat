@@ -615,6 +615,27 @@ import:
       - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/enpass/enpass-json-importer.ts
       - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/enpass/types/enpass-json-type.ts
 
+  - id: msecure
+    name: Import an mSecure export
+    method: file
+    formats: [msecure-csv]
+    steps:
+      - Export a CSV from the mSecure Mac or Windows app.
+      - On the web, select Tools --> Import, or Import on desktop. In the extension, it's Settings --> Vault options --> Import items.
+      - Pick mSecure (csv) as the File format, choose the file and select Import (Import data outside the web app).
+    data:
+      included: [logins, secure-notes, cards, groups]
+      excluded: [custom-fields, tags]
+    limitations:
+      - A login takes its first three fields as website, user name and password, whatever they're called, and drops the rest.
+      - A card's PIN, phone number and billing address go into its note, its issuing bank becomes the brand, and any fields you added are dropped.
+      - Anything that isn't a login or a card comes in as a secure note, with its fields pasted into the note as mSecure wrote them.
+      - A record's tags become one folder named after all of them, so Travel and Work land in a folder called Travel,Work.
+      - Importing a file twice gives you two of everything.
+    docs: https://bitwarden.com/help/import-data/
+    sources:
+      - https://github.com/bitwarden/clients/blob/web-v2026.11.0/libs/importer/src/importers/msecure-csv-importer.ts
+
 delete:
   steps:
     - In the web app, go to Settings --> My account, scroll to Danger zone and select Delete account.

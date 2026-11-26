@@ -61,6 +61,7 @@ import:
         keepass-xml,
         keeper-csv,
         lastpass-csv,
+        msecure-csv,
         nordpass-csv,
         norton-csv,
         roboform-csv,
@@ -94,7 +95,7 @@ import:
       - Passkeys can't be imported.
       - Anything Enpass can't sort lands in Categories --> Uncategorized.
       - Dashlane's export is several .csv files, so you import each one and pick what's in it.
-      - KeePassX, ESET, mSecure, Password Boss, Password Safe, SafeInCloud, Sticky Password, True Key and more are on the list too.
+      - KeePassX, ESET, Password Boss, Password Safe, SafeInCloud, Sticky Password, True Key and more are on the list too.
     docs: https://help.enpass.io/personal/latest/all/importing-passwords
     sources:
       - https://help.enpass.io/personal/latest/all/import-from-1password
@@ -106,6 +107,7 @@ import:
       - https://help.enpass.io/personal/latest/all/import-from-keeper
       - https://help.enpass.io/personal/latest/all/import-from-lastpass
       - https://help.enpass.io/personal/latest/all/import-from-macos-passwords
+      - https://help.enpass.io/personal/latest/all/import-from-msecure
       - https://help.enpass.io/personal/latest/all/import-from-nordpass
       - https://help.enpass.io/personal/latest/all/import-from-norton-password-manager
       - https://help.enpass.io/personal/latest/all/import-from-safari
