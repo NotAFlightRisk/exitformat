@@ -1,6 +1,11 @@
 {
-  "commit": "036f0d597d7f0cd2ea11c0640205ee816dd5eff2",
+  "commit": "d16650599ba08e6a50123a199a5ce3b8d5ec4c65",
   "entries": [
+    {"date":"2026-11-26","commit":"d166505","pr":80,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
+    {"date":"2026-11-26","commit":"d166505","pr":80,"id":"enpass","category":"password-managers","name":"Enpass","kind":"updated","sections":["import"]},
+    {"date":"2026-11-26","commit":"d166505","pr":80,"id":"keeper","category":"password-managers","name":"Keeper","kind":"updated","sections":["import"]},
+    {"date":"2026-11-26","commit":"d166505","pr":80,"id":"msecure","category":"password-managers","name":"mSecure","kind":"added"},
+    {"date":"2026-11-26","commit":"d166505","pr":80,"id":"proton-pass","category":"password-managers","name":"Proton Pass","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"036f0d5","pr":79,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"036f0d5","pr":79,"id":"lastpass","category":"password-managers","name":"LastPass","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"036f0d5","pr":79,"id":"microsoft-password-manager","category":"password-managers","name":"Microsoft Password Manager","kind":"added"},
