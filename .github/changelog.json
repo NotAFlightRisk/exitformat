@@ -1,6 +1,7 @@
 {
-  "commit": "f578fde6638cba1396d0d7b60407983b5b339e7d",
+  "commit": "e655bf03f0cbaaaa40a181ccdeec6ed4633b8625",
   "entries": [
+    {"date":"2026-11-26","commit":"e655bf0","pr":86,"id":"keepassdx","category":"password-managers","name":"KeePassDX","kind":"added"},
     {"date":"2026-11-26","commit":"f578fde","pr":85,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"f578fde","pr":85,"id":"enpass","category":"password-managers","name":"Enpass","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"f578fde","pr":85,"id":"safeincloud","category":"password-managers","name":"SafeInCloud","kind":"added"},
