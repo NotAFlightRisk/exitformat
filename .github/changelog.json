@@ -1,6 +1,8 @@
 {
-  "commit": "7a46a53991123f9c5d5f619a3588f2bc6adebc41",
+  "commit": "bd329ecdeb68372aae3003737429ad1f533cde5b",
   "entries": [
+    {"date":"2026-11-26","commit":"bd329ec","pr":84,"id":"obsidian","category":"notes","name":"Obsidian","kind":"updated","sections":["import"]},
+    {"date":"2026-11-26","commit":"bd329ec","pr":84,"id":"tomboy-ng","category":"notes","name":"tomboy-ng","kind":"added"},
     {"date":"2026-11-26","commit":"7a46a53","pr":83,"id":"day-one","category":"notes","name":"Day One","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"7a46a53","pr":83,"id":"diaro","category":"notes","name":"Diaro","kind":"added"},
     {"date":"2026-11-26","commit":"7a46a53","pr":83,"id":"journey","category":"notes","name":"Journey","kind":"updated","sections":["import"]},
