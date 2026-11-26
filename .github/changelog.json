@@ -1,6 +1,10 @@
 {
-  "commit": "22eeae6b3819431e8e87b941908856d0f345876b",
+  "commit": "036f0d597d7f0cd2ea11c0640205ee816dd5eff2",
   "entries": [
+    {"date":"2026-11-26","commit":"036f0d5","pr":79,"id":"bitwarden","category":"password-managers","name":"Bitwarden","kind":"updated","sections":["import"]},
+    {"date":"2026-11-26","commit":"036f0d5","pr":79,"id":"lastpass","category":"password-managers","name":"LastPass","kind":"updated","sections":["import"]},
+    {"date":"2026-11-26","commit":"036f0d5","pr":79,"id":"microsoft-password-manager","category":"password-managers","name":"Microsoft Password Manager","kind":"added"},
+    {"date":"2026-11-26","commit":"036f0d5","pr":79,"id":"proton-pass","category":"password-managers","name":"Proton Pass","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"22eeae6","pr":78,"id":"kaspersky-password-manager","category":"password-managers","name":"Kaspersky Password Manager","kind":"added"},
     {"date":"2026-11-26","commit":"22eeae6","pr":78,"id":"keepass","category":"password-managers","name":"KeePass","kind":"updated","sections":["import"]},
     {"date":"2026-11-26","commit":"b607ffa","pr":77,"id":"enpass","category":"password-managers","name":"Enpass","kind":"updated","sections":["import"]},
