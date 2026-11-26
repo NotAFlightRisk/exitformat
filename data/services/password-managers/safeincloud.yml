@@ -63,8 +63,7 @@ import:
 
 delete:
   steps:
-    - Uninstall the app from every device you synced.
-    - "Google Drive: Settings --> Manage Apps, find Safe and select Delete hidden app data, or delete SafeInCloud.db if it's in Drive's root."
+    - "Google Drive: Settings --> Manage Apps, find Safe and select Delete hidden app data, or delete the SafeInCloud .db files in Drive's root."
     - "Dropbox: delete /Apps/Safe In Cloud. OneDrive: delete /Apps/SafeInCloud. WebDAV: delete it from the folder you set up."
     - "iCloud: Settings --> your name --> iCloud --> Manage (Manage Account Storage on iPhone), pick SafeInCloud and Delete data."
   docs: https://kb.safe-in-cloud.com/en/faq/cloud-database-location.html
