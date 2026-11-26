@@ -1,0 +1,6 @@
+name: Zoho Vault CSV export
+extensions: [.csv]
+standard: false
+owner: zoho-vault
+based_on: csv
+description: The .csv Zoho Vault exports as Zoho Vault CSV. Each password gets its name, description, URL, notes, tags, folder, favourite flag, one-time code and whether it's personal or enterprise, with its type and details packed into one SecretData column and custom fields into another. It isn't encrypted.
