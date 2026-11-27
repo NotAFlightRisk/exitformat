@@ -70,9 +70,9 @@
         <a class="option" href="{source.href}#export-{path.export.id}">{path.export.name}</a>
         {@render facts(path.export, path.conversion ? [path.conversion.from] : path.formats)}
       {:else}
-        <svelte:element this={title} class="title"
-          >Nothing to export from {source.name}</svelte:element
-        >
+        <svelte:element this={title} class="title">
+          Nothing to export from {source.name}
+        </svelte:element>
       {/if}
     </div>
     <div class="cell">

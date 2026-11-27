@@ -13,9 +13,9 @@
 >
   {#each steps as step, index (index)}
     <li>
-      <span
-        >{#if typeof step === 'string'}<MenuText text={step} />{:else}{@render step()}{/if}</span
-      >
+      <span>
+        {#if typeof step === 'string'}<MenuText text={step} />{:else}{@render step()}{/if}
+      </span>
     </li>
   {/each}
 </ol>
