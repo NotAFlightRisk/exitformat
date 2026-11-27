@@ -7,9 +7,9 @@
   const parts = $derived(text.split(' --> '));
 </script>
 
-{#each parts as part, index (index)}{#if index}<span class="then"
-      ><Icon name="arrow" /><span class="visually-hidden">, then </span></span
-    >{/if}{part}{/each}
+{#each parts as part, index (index)}{#if index}<span class="then">
+      <Icon name="arrow" /><span class="visually-hidden">, then </span>
+    </span>{/if}{part}{/each}
 
 <style>
   .then {

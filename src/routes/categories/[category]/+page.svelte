@@ -50,13 +50,13 @@
 </script>
 
 <svelte:head>
-  <noscript
-    ><style>
+  <noscript>
+    <style>
       .needs-js {
         display: none !important;
       }
-    </style></noscript
-  >
+    </style>
+  </noscript>
 </svelte:head>
 
 <PageHead title={category.name} lede={category.description}>
@@ -71,8 +71,9 @@
 
 <Section id="services" title="{category.name} apps">
   {#snippet aside()}
-    <span class="needs-js" aria-live="polite">Showing {shown.length} of {data.services.length}</span
-    >
+    <span class="needs-js" aria-live="polite">
+      Showing {shown.length} of {data.services.length}
+    </span>
   {/snippet}
 
   <form

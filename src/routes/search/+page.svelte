@@ -86,13 +86,13 @@
 </script>
 
 <svelte:head>
-  <noscript
-    ><style>
+  <noscript>
+    <style>
       .needs-js {
         display: none !important;
       }
-    </style></noscript
-  >
+    </style>
+  </noscript>
 </svelte:head>
 
 <PageHead title={data.meta.title} lede={data.meta.description}>
